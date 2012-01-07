@@ -1,0 +1,13 @@
+L-OCaml is a tool to manipulate and interpret L-system.
+
+L-system are a kind of formal grammar defined by Lindermayer (see http://en.wikipedia.org/wiki/L-system).
+
+This project has two parts :
+	- mini-calc, a very small library to use arithmetic expression
+	- L-sytem, the core engine
+
+The actual implementation depends of BatEnum from Batteries and OCamlMakefile
+The graphical interface depends of the ocaml binding of cairo. This may change in the futur.
+
+
+The whole project is highly WIP, sorry for the lack of documentation for now !
