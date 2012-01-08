@@ -10,4 +10,4 @@ The actual implementation depends of BatEnum from Batteries and OCamlMakefile
 The graphical interface depends of the ocaml binding of cairo. This may change in the futur.
 
 
-The whole project is highly WIP, sorry for the lack of documentation for now !
+The whole project is highly WIP, sorry for the lack of documentation !
