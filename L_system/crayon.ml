@@ -8,27 +8,24 @@ let pi = 4. *. atan 1.
 
 
 (** Type of Cairo contexte *)
+(* This may be extend to implement new type of visualisation *)
 type context =
-	Picture of int * int
+	  Picture of int * int
 	| Gtk of GMisc.drawing_area
 
 let get_coord = function Picture(x,y) -> (x,y) | Gtk w -> let { Gtk.width = x ; Gtk.height = y } = w#misc#allocation in (x,y)
 
 (** initialize cairo context *)
-let init_context draw_ctx = match draw_ctx with
+let init_context = function
 	  Picture (x,y) -> (
 		let surface = Cairo.Image.create Cairo.Image.ARGB32 x y in
 		let ctx = Cairo.create surface in
-(*		subpixel antialias is currently not suported by Cairo.PNG *)
-(*		Cairo.set_antialias ctx Cairo.ANTIALIAS_SUBPIXEL ;*)
 		Cairo.set_line_width ctx 1. ;
 		ctx,x,y,surface
 		)
-	| Gtk w-> (
+	| Gtk w -> (
 		let ctx = Cairo_gtk.create w#misc#window in
 		let { Gtk.width = x ; Gtk.height = y } = w#misc#allocation in
-(*		subpixel antialias is currently not suported by Cairo.PNG *)
-(*		Cairo.set_antialias ctx Cairo.ANTIALIAS_SUBPIXEL ;*)
 		Cairo.set_line_width ctx 1. ;
 		ctx,x,y,(Cairo.get_target ctx)
 		)
@@ -72,6 +69,7 @@ class turtle ctx =
 		trace <- b
 
 	(** Move the turtle by d *)
+	(* We do the scaling and the rounding by ourself here because cairo do it to slowly *)
 	method move d =
 		x <- x +. (d *. cos direction) ;
 		y <- y +. (d *. sin direction) ;
@@ -87,7 +85,7 @@ class turtle ctx =
 	method restore_position () = match stack with
 		  [] -> raise Empty_stack
 		| (new_x,new_y,new_dir,new_trace)::t -> (
-			Cairo.move_to context new_x new_y ;
+			Cairo.move_to context (floor (size_x *. new_x)) (floor (size_y *. new_y)) ;
 			stack <- t ;
 			x <- new_x ; y <- new_y ; direction <- new_dir ; trace <- new_trace
 			)
@@ -104,7 +102,6 @@ class turtle ctx =
 	(** Draw to a png, raise *)
 	method write file =
 		Cairo.PNG.write surface file ;
-		Cairo.Surface.finish (Cairo.get_target context) ;
 
 
 end
