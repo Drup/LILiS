@@ -1,4 +1,4 @@
-L-OCaml is a tool to manipulate and interpret L-system.
+OCamL-system is a tool to manipulate and interpret L-system.
 
 L-system are a kind of formal grammar defined by Lindermayer (see http://en.wikipedia.org/wiki/L-system).
 

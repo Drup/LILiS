@@ -66,7 +66,7 @@ class turtle ctx = object
 	method move d =
 		x <- x +. (d *. cos direction) ;
 		y <- y +. (d *. sin direction) ;
-		if trace then Cairo.line_to context x y else Cairo.move_to context x y
+		if trace then Cairo.line_to context x y else Cairo.move_to context x y ;
 
 	(** Save the position of the turtle in the stack *)
 	method save_position () =
@@ -89,7 +89,7 @@ class turtle ctx = object
 		Cairo.set_source_rgba context 0. 0. 0. 1. ;
 
 	(** Apply drawing on the surface *)
-	method draw () = Cairo.stroke context
+	method draw () = Cairo.stroke context ; Cairo.move_to context x y ;
 
 	(** Draw to a png, raise *)
 	method write file =

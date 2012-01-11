@@ -2,24 +2,18 @@
 
 set -e
 
-#OCAMLBLDFLAGS := lablgtk.cma gtkInit.cmo
-#OCAMLNLDFLAGS := lablgtk.cmxa gtkInit.cmx
-
-#BFLAGS="-lflag gtkInit.cmo"
-#NFLAGS="-lflag gtkInit.cmx"
 FLAGS="-use-ocamlfind"
-#LIBS="-libs batteries,calc,cairo"
 
 OCAMLBUILD="ocamlbuild "
 
 ocbn()
 {
-  $OCAMLBUILD $LIBS $FLAGS $NFLAGS $*
+  $OCAMLBUILD $FLAGS $*
 }
 
 ocbb()
 {
-  $OCAMLBUILD $LIBS $FLAGS $BFLAGS $*
+  $OCAMLBUILD $FLAGS $*
 }
 
 rule() {
