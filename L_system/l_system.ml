@@ -42,7 +42,7 @@ print_endline "I'm drawing !" ;
 (*print_float (Unix.gettimeofday () -. !time) ; print_newline();*)
 (*GMain.main () ;*)
 
-let turtle = new Crayon.turtle (Crayon.Picture (400.,400.)) in
+let turtle = new Crayon.turtle (Crayon.Picture (1000,1000)) in
 turtle#fill() ;
 draw_enum turtle lstream ;
 turtle#draw ();

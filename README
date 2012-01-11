@@ -8,6 +8,7 @@ This project has two parts :
 
 The actual implementation depends of BatEnum from Batteries and OCamlMakefile
 The graphical interface depends of the ocaml binding of cairo. This may change in the futur.
+You can find it here : https://forge.ocamlcore.org/projects/cairo/
 
 
 The whole project is highly WIP, sorry for the lack of documentation !
