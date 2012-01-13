@@ -1,6 +1,5 @@
 open Graphic_order ;;
 open Lsys_engine
-open Type ;;
 open Syntaxe ;;
 
 
@@ -16,7 +15,6 @@ print_endline "Generating graphic_order list" ;
 let lstream = eval_lsys 10 lsys in
 
 print_endline "Executing graphic orders" ;
-(*let graphiclist = lstream_to_graphiclist lstream in*)
 print_float (Unix.gettimeofday () -. !time) ; print_newline();
 
 
@@ -44,8 +42,8 @@ print_endline "I'm drawing !" ;
 
 let turtle = new Crayon.turtle (Crayon.Picture (1000,1000)) in
 turtle#fill() ;
-draw_enum turtle lstream ;
-turtle#draw ();
+draw turtle lstream ;
+turtle#draw () ;
 turtle#write "test.png" ;
 print_endline "Draw finished !" ;
 print_float (Unix.gettimeofday () -. !time) ; print_newline();
