@@ -74,8 +74,11 @@ class turtle ctx =
 		x <- x +. (d *. cos direction) ;
 		y <- y +. (d *. sin direction) ;
 		if trace
-			then Cairo.line_to context (floor (size_x *. x)) (floor (size_y *. y))
-			else Cairo.move_to context (floor (size_x *. x)) (floor (size_y *. y))
+			then (
+				Cairo.line_to context (floor (size_x *. x)) (floor (size_y *. y)) ;
+				Cairo.stroke context
+			) ;
+		Cairo.move_to context (floor (size_x *. x)) (floor (size_y *. y))
 
 	(** Save the position of the turtle in the stack *)
 	method save_position () =

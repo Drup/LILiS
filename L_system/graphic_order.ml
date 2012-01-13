@@ -34,11 +34,11 @@ let draw_enum turtle graphic_enum =
 	let f  = function
 		  ("+",l) -> let x = (get_value_arg l 90.) in turtle#turn (-.x)
 		| ("-",l) -> let x = (get_value_arg l 90.) in turtle#turn x
-		| ("F",l) -> let x = (get_value_arg l 1.) in turtle#move x ; turtle#draw ()
-		| ("B",l) -> let x = (get_value_arg l 1.) in turtle#move (-. x) ; turtle#draw ()
+		| ("F",l) -> let x = (get_value_arg l 1.) in turtle#move x
+		| ("B",l) -> let x = (get_value_arg l 1.) in turtle#move (-. x)
 		| ("[",_) -> turtle#save_position ()
-		| ("]",_) -> turtle#restore_position () ; turtle#draw ()
-		| ("f",l) -> let x = (get_value_arg l 1.) in turtle#set_trace false ; turtle#move x ; turtle#set_trace true ; turtle#draw ()
+		| ("]",_) -> turtle#restore_position ()
+		| ("f",l) -> let x = (get_value_arg l 1.) in turtle#set_trace false ; turtle#move x ; turtle#set_trace true
 		| _ -> ()
 	in BatEnum.iter f graphic_enum
 
