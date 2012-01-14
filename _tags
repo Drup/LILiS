@@ -6,7 +6,7 @@
 <L_system/ls_parser.mly> : package(str)
 "L_system/crayon.ml" : package(lablgtk2), package(cairo2), package(cairo2.lablgtk2)
 "L_system/graphic_order.ml" or "L_system/Lsys_engine.ml" : package(batteries), thread
-"L_system/l_system.ml" : package(lablgtk2)
+"L_system/l_system.ml" : package(lablgtk2), package(batteries), thread
 
 "L_system/l_system.native" or "L_system/l_system.byte" : package(lablgtk2), package(cairo2) , package(cairo2.lablgtk2) , package(batteries), thread, package(str)
 

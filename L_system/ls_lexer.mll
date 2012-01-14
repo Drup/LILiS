@@ -2,7 +2,7 @@
 open Ls_parser
 }
 
-let alpha = ['A'-'Z' 'a'-'z']
+let alpha = ['A'-'Z' 'a'-'z' '_' ]
 let ws = [ ' ' '\t' ]
 
 rule token = parse

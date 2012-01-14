@@ -1,49 +1,51 @@
 open Graphic_order ;;
 open Lsys_engine
 open Syntaxe ;;
+open Type ;;
+
+let get_lsystem file =
+	let bank_ls = lsystem_from_chanel (open_in file) in
+	BatList.iteri (fun i lsys -> Printf.printf "%N: %s\n" (i+1) (lsys.name)) bank_ls ;
+	print_string "Which lsys do you choose ?" ;
+	List.nth bank_ls (read_int()-1)
 
 
-let bank_ls = lsystem_from_chanel (open_in "L_system/bank_lsystem") in
-print_int (List.length bank_ls) ; print_newline() ;
-let lsys = List.hd bank_ls in
+let print_time =
+	let time = ref (Unix.gettimeofday ()) in
+	fun () -> print_float (Unix.gettimeofday () -. !time) ; time := Unix.gettimeofday () ; print_newline()
+
+let bench lsys f =
+	print_time () ;
+	print_endline "Evaluating L-system" ;
+	let lstream = eval_lsys 10 lsys in
+	print_time () ;
+	print_endline "I'm drawing !" ;
+	f lstream ;
+	print_endline "I'm done !" ; print_time ()
 
 
-let time = ref (Unix.gettimeofday ()) in
+let gtk_main lstream =
+	let expose area ev =
+		let turtle = new Crayon.turtle (Crayon.Gtk area) in
+		draw turtle lstream ;
+		turtle#draw () ;
+		print_time () ;
+		true
+	and window = GWindow.window ~width:500 ~height:500 ~title:"L-system" () in
+	ignore (window#connect#destroy GMain.quit);
+	let	area = GMisc.drawing_area ~packing:window#add () in
+	area#misc#set_double_buffered false;
+	ignore(area#event#connect#expose (expose area));
+	window#show ();
+	GMain.main ()
 
 
-print_endline "Generating graphic_order list" ;
-let lstream = eval_lsys 10 lsys in
+let png_main lstream =
+	let turtle = new Crayon.turtle (Crayon.Picture (1000,1000)) in
+	turtle#fill() ;
+	draw turtle lstream ;
+	turtle#draw () ;
+	turtle#write "test.png"
 
-print_endline "Executing graphic orders" ;
-print_float (Unix.gettimeofday () -. !time) ; print_newline();
 
-
-print_endline "I'm drawing !" ;
-
-(*let expose area ev =*)
-(*	let time = ref (Unix.gettimeofday ()) in*)
-(*	let turtle = new Crayon.turtle (Crayon.Gtk area) in*)
-(*	let n = draw_list turtle graphiclist in*)
-(*	turtle#draw () ;*)
-(*	print_string "Draw finished : " ; print_int n ; print_endline " element" ;*)
-(*	print_float (Unix.gettimeofday () -. !time) ; print_newline();*)
-(*	true*)
-(*in*)
-
-(*let window = GWindow.window ~width:500 ~height:500 ~title:"L-system" () in*)
-(*ignore (window#connect#destroy GMain.quit);*)
-(*let area = GMisc.drawing_area ~packing:window#add () in*)
-(*area#misc#set_double_buffered false;*)
-(*ignore(area#event#connect#expose (expose area));*)
-
-(*window#show ();*)
-(*print_float (Unix.gettimeofday () -. !time) ; print_newline();*)
-(*GMain.main () ;*)
-
-let turtle = new Crayon.turtle (Crayon.Picture (1000,1000)) in
-turtle#fill() ;
-draw turtle lstream ;
-turtle#draw () ;
-turtle#write "test.png" ;
-print_endline "Draw finished !" ;
-print_float (Unix.gettimeofday () -. !time) ; print_newline();
+let _ = bench (get_lsystem "L_system/bank_lsystem") png_main ;;
