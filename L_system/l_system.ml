@@ -31,8 +31,11 @@ let gtk_main lstream =
 		turtle#draw () ;
 		print_time () ;
 		true
-	and window = GWindow.window ~width:500 ~height:500 ~title:"L-system" () in
+	in
+	ignore(GMain.init());
+	let window = GWindow.window ~width:500 ~height:500 ~title:"L-system" () in
 	ignore (window#connect#destroy GMain.quit);
+
 	let	area = GMisc.drawing_area ~packing:window#add () in
 	area#misc#set_double_buffered false;
 	ignore(area#event#connect#expose (expose area));
@@ -48,4 +51,4 @@ let png_main lstream =
 	turtle#write "test.png"
 
 
-let _ = bench (get_lsystem "L_system/bank_lsystem") png_main ;;
+let _ = bench (get_lsystem "L_system/bank_lsystem") gtk_main ;;
