@@ -6,18 +6,17 @@ open Type ;;
 let get_lsystem file =
 	let bank_ls = lsystem_from_chanel (open_in file) in
 	BatList.iteri (fun i lsys -> Printf.printf "%N: %s\n" (i+1) (lsys.name)) bank_ls ;
-	print_string "Which lsys do you choose ?" ;
-	List.nth bank_ls (read_int()-1)
+	print_string "Which L-system do you choose ? " ;
+	let lsys = List.nth bank_ls (read_int()-1) in
+	print_string "Which generation ? " ;
+	eval_lsys (read_int()) lsys
 
 
 let print_time =
 	let time = ref (Unix.gettimeofday ()) in
 	fun () -> print_float (Unix.gettimeofday () -. !time) ; time := Unix.gettimeofday () ; print_newline()
 
-let bench lsys f =
-	print_time () ;
-	print_endline "Evaluating L-system" ;
-	let lstream = eval_lsys 10 lsys in
+let bench lstream f =
 	print_time () ;
 	print_endline "I'm drawing !" ;
 	f lstream ;
@@ -33,7 +32,7 @@ let gtk_main lstream =
 		true
 	in
 	ignore(GMain.init());
-	let window = GWindow.window ~width:500 ~height:500 ~title:"L-system" () in
+	let window = GWindow.window ~width:700 ~height:700 ~title:"L-system" () in
 	ignore (window#connect#destroy GMain.quit);
 
 	let	area = GMisc.drawing_area ~packing:window#add () in
