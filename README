@@ -1,4 +1,4 @@
-OCamL-system is a tool to manipulate and interpret L-system.
+LILiS is Library to Interpret Lindenmayer System.
 
 L-system are a kind of formal grammar defined by Lindermayer (see http://en.wikipedia.org/wiki/L-system).
 
