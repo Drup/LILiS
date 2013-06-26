@@ -1,6 +1,4 @@
 open Calc_type
-open Calc_pars
-open Calc_lex
 open Calc_eval
 
 (** Put together all other things *)
@@ -12,14 +10,18 @@ let string_to_tree s =
 	;;
 
 (** Print a tree, can be usefull sometimes .. *)
-let rec print_tree t = match t with
-	  Float x -> print_float x 
-	| Op2 (t1,o,t2) -> print_op2 o ; print_string "( " ; print_tree t1 ; print_string ", " ; print_tree t2 ; print_string " )"
-	| Op1 (o,t) -> print_op1 o ; print_string "( " ; print_tree t ; print_string " )"
-	| Id s -> print_string s
+let rec tree_to_string t = match t with
+    Float x -> Printf.sprintf "%f" x 
+  | Op2 (t1,o,t2) -> 
+      Printf.sprintf "( %s %s %s )" (tree_to_string t1) (op2_to_string o) (tree_to_string t2)
+  | Op1 (o,t) -> 
+      Printf.sprintf "( %s %s )" (op1_to_string o) (tree_to_string t)
+  | Id s -> s
 
 (** Eval an arithmetic expression in the given environment *)
-let eval env s = let t = (string_to_tree s) in eval_tree (env@usual_env) t ;;
+let eval env s = 
+  let t = (string_to_tree s) in 
+  eval_tree (Env.fold Env.add env usual_env) t ;;
 
 (** Return the closure of an arithmetic expression (and compress it in the usual env by the way*)
 let closure s = let t = compress_tree usual_env (string_to_tree s) in (function env -> eval_tree env t)

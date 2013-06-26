@@ -39,7 +39,7 @@ expr:
 	| ordre	{ [ $1 ] }
 
 
-axiom: LACCO expr RACCO { List.map (fun (name,l) -> (name,List.map (fun f -> f []) l) ) $2 }
+axiom: LACCO expr RACCO { List.map (fun (name,l) -> (name,List.map (fun f -> f Env.empty) l) ) $2 }
 
 ordre:
 	  NOM ARIT { ($1, List.map Calc.closure (separate_args $2)) }

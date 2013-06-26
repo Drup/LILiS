@@ -7,21 +7,14 @@ let get_lsystem file =
 	let bank_ls = lsystem_from_chanel (open_in file) in
 	BatList.iteri (fun i lsys -> Printf.printf "%N: %s\n" (i+1) (lsys.name)) bank_ls ;
 	print_string "Which L-system do you choose ? " ;
-	let lsys = List.nth bank_ls (read_int()-1) in
+	let lsys = List.nth bank_ls 0 in
 	print_string "Which generation ? " ;
-	eval_lsys (read_int()) lsys
+	lsys, 10
 
 
 let print_time =
 	let time = ref (Unix.gettimeofday ()) in
 	fun () -> print_float (Unix.gettimeofday () -. !time) ; time := Unix.gettimeofday () ; print_newline()
-
-let bench lstream f =
-	print_time () ;
-	print_endline "I'm drawing !" ;
-	f lstream ;
-	print_endline "I'm done !" ; print_time ()
-
 
 let gtk_main lstream =
 	let expose area ev =
@@ -50,4 +43,14 @@ let png_main lstream =
 	turtle#write "test.png"
 
 
-let _ = bench (get_lsystem "L_system/bank_lsystem") gtk_main ;;
+let _ = 
+  print_time () ;
+  let lsys, i = get_lsystem "L_system/bank_lsystem" in
+  print_time () ;
+  print_endline "I'm computing !" ;
+  let lstream = eval_lsys i lsys in
+  print_time () ;
+  print_endline "I'm drawing !" ;
+  png_main lstream ;
+  print_endline "I'm done !" ; 
+  print_time ()

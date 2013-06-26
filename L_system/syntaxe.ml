@@ -1,4 +1,3 @@
-(*pp camlp4o *)
 open Ls_lexer ;;
 open Ls_parser ;;
 open Type ;;
