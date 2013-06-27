@@ -12,11 +12,12 @@ LILiS is *Library to Interpret Lindenmayer System*.
 ## Architecture of the project
 
 This project has two parts :
-	- mini-calc, a very small library to use arithmetic expression
-	- L-sytem, the core engine
+	- mini_calc, a very small library to use arithmetic expression
+	- lilis, the core engine
+	- glilis, the graphical stuff
 
-The actual implementation depends of Batteries included and ocamlbuild.
-The graphical interface depends of the [ocaml binding of cairo][ocaml-cairo]. This may change in the futur.
+The actual implementation depends on batteries.
+The graphical interface depends of the [ocaml binding of cairo][ocaml-cairo]. This may change in the future.
 
 [ocaml-cairo]: https://forge.ocamlcore.org/projects/cairo/
 
@@ -31,16 +32,24 @@ This project is partly inspired by [Lpy][].
 
 To build, just do :
 
-	$ sh make.sh
+	$ make
 
-it will produce an executable l_system.native.
+it will produce an executable glilis.native.
 It will ask you the l-system (Von Koch curve is the only avaible curently, feel free to extend the l-system bank !) and the generation then will show you the result in a GTK window.
 
+To produce the documentation (very partial for now) :
 
-Curent way of investigation :
+	$ make doc
+
+You can also install mini_calc an lilis as libraries with :
+
+	$ make install
+
+Current way of investigations :
 
 - Separate the drawing from the evaluating library
 - Try other drawing library or maybe pur openGL
+- Implement a svg export with tyxml.
 - Make a pretty GUI
 - improve the core engine a bit more
 - extend the grammar, implement interpretation rules and do a bit of formal verification
