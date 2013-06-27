@@ -1,9 +1,9 @@
 (** Contient les types des objets qui seront ensuite manipulés *)
 
-module Env = BatMap.Make(BatString)
+module Env = Mini_calc.Env
 
 (** type des expressions arithmetiques *)
-type arit_expr = float Env.t -> float
+type arit_expr = Mini_calc.arit_env -> float
 
 type rule = {
 	left_mem : string ;
