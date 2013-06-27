@@ -1,7 +1,7 @@
-open Graphic_order ;;
-open Lsys_engine
-open Syntaxe ;;
-open Type ;;
+open Graphic_order
+open Ls_engine
+open Ls_syntax
+open Ls_type
 
 let get_lsystem file =
 	let bank_ls = lsystem_from_chanel (open_in file) in
@@ -45,7 +45,7 @@ let png_main lstream =
 
 let _ = 
   print_time () ;
-  let lsys, i = get_lsystem "L_system/bank_lsystem" in
+  let lsys, i = get_lsystem "bank_lsystem" in
   print_time () ;
   print_endline "I'm computing !" ;
   let lstream = eval_lsys i lsys in

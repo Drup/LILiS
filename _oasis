@@ -1,0 +1,52 @@
+OASISFormat: 0.3
+Name:        ojwidgets
+Version:     0.1
+Synopsis:    Widgets for browser applications written in OCaml.
+Authors:     Gabriel Radanne
+License:     MIT
+Plugins:     META (0.3), DevFiles (0.3)
+
+Library mini_calc
+  Path: mini_calc
+  BuildTools: ocamlbuild
+  Modules:         
+    Mini_calc
+  InternalModules: 
+    Calc_type, Calc_eval, Calc_lexer, Calc_parser
+  BuildDepends:
+    batteries
+
+Library lilis
+  Path: lilis
+  BuildTools: ocamlbuild
+  Modules:         
+    Lilis
+  InternalModules: 
+    Ls_type, Ls_engine, Ls_lexer, Ls_syntax, Ls_parser
+  BuildDepends:
+    batteries, mini_calc
+
+Executable glilis
+  Path: glilis
+  BuildTools: ocamlbuild
+  MainIs: glilis.ml
+  BuildDepends: lilis, cairo2, cairo2.lablgtk2
+  CompiledObject: best
+
+Document mini_calc
+  Install:		true
+  InstallDir:		$htmldir/mini_calc/
+  Title:		API reference for mini_calc
+  Type:			ocamlbuild (0.3)
+  BuildTools:		ocamldoc, ocamlbuild
+  XOCamlbuildPath:	mini_calc
+  XOCamlbuildLibraries:	mini_calc
+
+Document lilis
+  Install:		true
+  InstallDir:		$htmldir/lilis/
+  Title:		API reference for LILiS
+  Type:			ocamlbuild (0.3)
+  BuildTools:		ocamldoc, ocamlbuild
+  XOCamlbuildPath:	lilis
+  XOCamlbuildLibraries:	lilis

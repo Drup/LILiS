@@ -1,4 +1,4 @@
-open Type ;;
+open Ls_type ;;
 open BatEnum ;;
 
 let print_stream f stream =
@@ -8,16 +8,16 @@ let print_stream f stream =
     print_string ") "
   ) (clone stream)
 
-(** Get the rule that match the given order *)
+(** Get the rule that match the given symbol *)
 let rec get_rule ordre rules = match rules with
-    [] -> None (* No rule match the order *)
-  | t::q when t.left_mem = ordre -> Some t (* Found the rule matching the order *)
+    [] -> None (* No rule match the symbol *)
+  | t::q when t.left_mem = ordre -> Some t (* Found the rule matching the symbol *)
   | _::q -> get_rule ordre q
 
 (** Eval l_stream in the environement env *)
 let eval_stream env l_stream =
-  let revapply env f = f env in
-  let f_eval_stream (ordre,ordre_args) = (ordre,List.map (revapply env) ordre_args)
+  let f_eval_stream (ordre,ordre_args) = 
+    ordre, List.map (fun f -> f env) ordre_args
   in map f_eval_stream l_stream
 
 (** Evalue les expressions arithmetiques d'une regle avec l'argument donne et renvoie un L_flux *)

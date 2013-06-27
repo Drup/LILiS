@@ -1,0 +1,12 @@
+# OASIS_START
+# DO NOT EDIT (digest: 1fdad70783646c3a6182e161753a657a)
+version = "0.1"
+description = "Widgets for browser applications written in OCaml."
+requires = "batteries mini_calc"
+archive(byte) = "lilis.cma"
+archive(byte, plugin) = "lilis.cma"
+archive(native) = "lilis.cmxa"
+archive(native, plugin) = "lilis.cmxs"
+exists_if = "lilis.cma"
+# OASIS_STOP
+

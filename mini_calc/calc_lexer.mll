@@ -1,6 +1,6 @@
 {
 open Calc_type
-open Calc_pars        (* The type token is defined in parser.mli *)
+open Calc_parser        (* The type token is defined in parser.mli *)
 }
 rule token = parse
 	  [' ' '\t']     { token lexbuf }     (* skip blanks *)

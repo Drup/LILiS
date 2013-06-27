@@ -1,6 +1,5 @@
 %{
-open Type
-open Calc
+open Ls_type
 
 let separate_args = Str.split (Str.regexp "[ \t]*,[ \t]*")
 
@@ -10,10 +9,12 @@ let separate_args = Str.split (Str.regexp "[ \t]*,[ \t]*")
 %token <string> ARIT 
 %token <string> ARGS
 %token EQUAL
+%token COMMA
 %token <string> NOM
 %token LACCO RACCO
+%token LPAR RPAR
 %start main
-%type <Type.lsystem list> main
+%type <Ls_type.lsystem list> main
 %%
 
 main:
@@ -42,6 +43,6 @@ expr:
 axiom: LACCO expr RACCO { List.map (fun (name,l) -> (name,List.map (fun f -> f Env.empty) l) ) $2 }
 
 ordre:
-	  NOM ARIT { ($1, List.map Calc.closure (separate_args $2)) }
+	  NOM ARIT { ($1, List.map Mini_calc.closure (separate_args $2)) }
 	| NOM { ($1,[]) }
 

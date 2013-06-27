@@ -1,19 +1,38 @@
 
 <**/*.ml> : annot
-<**/*> : profile
 <*.annot> : not_hygienic
 
-<mini-calc> : include
-"mini-calc/calc_eval.ml" : package(batteries)
-
-"calc.cmxa" : not_hygienic
-
-<L_system/ls_parser.mly> : package(str)
-"L_system/type.ml" : package(batteries)
-"L_system/crayon.ml" : package(lablgtk2), package(cairo2), package(cairo2.lablgtk2)
-"L_system/graphic_order.ml" or "L_system/Lsys_engine.ml" : package(batteries), thread
-"L_system/l_system.ml" : package(lablgtk2), package(batteries), thread
-
-"L_system/l_system.native" or "L_system/l_system.byte" : package(lablgtk2), package(cairo2) , package(cairo2.lablgtk2) , package(batteries), thread, package(str)
-
-"L_system/l_system.native" : gtkInit.cmx
+# OASIS_START
+# DO NOT EDIT (digest: 558c2f2f948d97e5289a677cb1707912)
+# Ignore VCS directories, you can use the same kind of rule outside 
+# OASIS_START/STOP if you want to exclude directories that contains 
+# useless stuff for the build process
+<**/.svn>: -traverse
+<**/.svn>: not_hygienic
+".bzr": -traverse
+".bzr": not_hygienic
+".hg": -traverse
+".hg": not_hygienic
+".git": -traverse
+".git": not_hygienic
+"_darcs": -traverse
+"_darcs": not_hygienic
+# Library mini_calc
+"mini_calc/mini_calc.cmxs": use_mini_calc
+<mini_calc/*.ml{,i}>: pkg_batteries
+# Library lilis
+"lilis/lilis.cmxs": use_lilis
+<lilis/*.ml{,i}>: use_mini_calc
+<lilis/*.ml{,i}>: pkg_batteries
+# Executable glilis
+<glilis/glilis.{native,byte}>: use_lilis
+<glilis/glilis.{native,byte}>: use_mini_calc
+<glilis/glilis.{native,byte}>: pkg_cairo2
+<glilis/glilis.{native,byte}>: pkg_cairo2.lablgtk2
+<glilis/glilis.{native,byte}>: pkg_batteries
+<glilis/*.ml{,i}>: use_lilis
+<glilis/*.ml{,i}>: use_mini_calc
+<glilis/*.ml{,i}>: pkg_cairo2
+<glilis/*.ml{,i}>: pkg_cairo2.lablgtk2
+<glilis/*.ml{,i}>: pkg_batteries
+# OASIS_STOP

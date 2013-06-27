@@ -1,6 +1,3 @@
-open Ls_lexer ;;
-open Ls_parser ;;
-open Type ;;
 
 let lsystem_from_chanel chanel =
 	let lexbuf = Lexing.from_channel chanel in
