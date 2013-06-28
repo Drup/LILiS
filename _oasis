@@ -31,7 +31,7 @@ Executable glilis
   Path: glilis
   BuildTools: ocamlbuild
   MainIs: glilis.ml
-  BuildDepends: lilis, cairo2, cairo2.lablgtk2
+  BuildDepends: cmdliner, lilis, cairo2, cairo2.lablgtk2
   CompiledObject: best
 
 Document doc
