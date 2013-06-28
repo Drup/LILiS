@@ -2,6 +2,8 @@
 <**/*.ml> : annot
 <*.annot> : not_hygienic
 
+#<**/*> : profile
+
 # OASIS_START
 # DO NOT EDIT (digest: 07a9c0917d1d4eee0fe3f9cb26b8b617)
 # Ignore VCS directories, you can use the same kind of rule outside 
