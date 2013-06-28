@@ -33,20 +33,11 @@ Executable glilis
   BuildDepends: lilis, cairo2, cairo2.lablgtk2
   CompiledObject: best
 
-Document mini_calc
+Document doc
   Install:		true
-  InstallDir:		$htmldir/mini_calc/
-  Title:		API reference for mini_calc
-  Type:			ocamlbuild (0.3)
-  BuildTools:		ocamldoc, ocamlbuild
-  XOCamlbuildPath:	mini_calc
-  XOCamlbuildLibraries:	mini_calc
-
-Document lilis
-  Install:		true
-  InstallDir:		$htmldir/lilis/
+  InstallDir:		$htmldir
   Title:		API reference for LILiS
   Type:			ocamlbuild (0.3)
   BuildTools:		ocamldoc, ocamlbuild
-  XOCamlbuildPath:	lilis
-  XOCamlbuildLibraries:	lilis
+  XOCamlbuildPath:	.
+  XOCamlbuildLibraries:	mini_calc,lilis
