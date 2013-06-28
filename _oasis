@@ -36,7 +36,6 @@ Executable glilis
 
 Document doc
   Install:		false
-  InstallDir:		$htmldir
   Title:		API reference for LILiS
   Type:			ocamlbuild (0.3)
   BuildTools:		ocamldoc, ocamlbuild
