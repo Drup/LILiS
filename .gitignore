@@ -8,10 +8,12 @@
 *.cmxs
 *.cmxa
 
+# ocamlbuild
 _build
-
 .depend
-.typerex
-
 *.native
 *.byte
+
+# oasis
+setup.data
+setup.log
