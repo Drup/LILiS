@@ -1,12 +1,4 @@
-open Ls_type ;;
-open BatEnum ;;
-
-let print_stream f stream =
-  iter (fun (s,l) ->
-    print_string (" " ^ s ^ " (") ;
-    List.iter (fun x -> f x; print_string " ") l ;
-    print_string ") "
-  ) (clone stream)
+open Ls_type
 
 (** Get the rule that match the given symbol *)
 let rec get_rule ordre rules = match rules with
@@ -18,7 +10,7 @@ let rec get_rule ordre rules = match rules with
 let eval_stream env l_stream =
   let f_eval_stream (ordre,ordre_args) = 
     ordre, List.map (fun f -> f env) ordre_args
-  in map f_eval_stream l_stream
+  in BatEnum.map f_eval_stream l_stream
 
 (** Evalue les expressions arithmetiques d'une regle avec l'argument donne et renvoie un L_flux *)
 let exec_rule arg rule =
@@ -36,7 +28,7 @@ let get_transformation lsys =
 (** Creation d'une courbe recursive de generation m, de premier element germe et de fonction transformation *)
 let courbe_recursive m germe transformation =
   let developement lstream =
-    concat (map (function (ordre,args) -> transformation ordre args) lstream)
+    BatEnum.concat (BatEnum.map (function (ordre,args) -> transformation ordre args) lstream)
   in
   let rec generation n l = match n with
       0 -> l
