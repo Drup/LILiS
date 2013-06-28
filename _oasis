@@ -27,6 +27,7 @@ Library lilis
     batteries, mini_calc
 
 Executable glilis
+  Install: false
   Path: glilis
   BuildTools: ocamlbuild
   MainIs: glilis.ml
@@ -34,7 +35,7 @@ Executable glilis
   CompiledObject: best
 
 Document doc
-  Install:		true
+  Install:		false
   InstallDir:		$htmldir
   Title:		API reference for LILiS
   Type:			ocamlbuild (0.3)
