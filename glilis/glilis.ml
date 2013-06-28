@@ -14,10 +14,12 @@ let init_time, print_time =
   init, print
 
 let to_gtk (width, height) lstream =
+  let lstream = BatList.of_enum lstream in
+
   let expose area ev =
-    let turtle = new Crayon.turtle (Crayon.Gtk area) in
+    let turtle = new Ls_cairo.gtk_turtle area in
     turtle#fill () ;
-    draw turtle (BatEnum.clone lstream) ;
+    draw_list turtle lstream ;
     turtle#draw () ;
     true
   in
@@ -26,15 +28,15 @@ let to_gtk (width, height) lstream =
   ignore (window#connect#destroy GMain.quit);
 
   let area = GMisc.drawing_area ~packing:window#add () in
-  area#misc#set_double_buffered false;
+  area#misc#set_double_buffered true;
   ignore(area#event#connect#expose (expose area));
   window#show ();
   GMain.main ()
 
 let to_png (width, height) lstream file =
-  let turtle = new Crayon.turtle (Crayon.Picture (width, height)) in
-  turtle#fill() ;
-  draw turtle lstream ;
+  let turtle = new Ls_cairo.png_turtle width height in
+  turtle#fill () ;
+  draw_enum turtle lstream ;
   turtle#draw () ;
   turtle#write file
 
