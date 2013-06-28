@@ -1,26 +1,26 @@
 # LILiS
 
-LILiS is *Library to Interpret Lindenmayer System*.
+LILiS is *Library to Interpret Lindenmayer Systems*.
 
 ## L-system
 
-[L-system][] are a kind of formal grammar defined by Lindermayer.
+[L-systems][] are a kind of formal grammar defined by Lindermayer.
 
-[L-system]: http://en.wikipedia.org/wiki/L-system
+[L-systems]: http://en.wikipedia.org/wiki/L-system
 
 ## Description of LILiS
 
-The goal of this project is to implement a library to evaluate L-system and to visualise them (in 2D only).
-The emphasis is put on speed and low memory occupation with the use of lazy evaluation (in fact, constant memory occupation).
+The goal of this project is to implement a library to evaluate L-systems and to visualise them (in 2D only).
+The emphasis is put on speed and low memory occupation with the use of lazy evaluation.
 
-This project is partly inspired by [Lpy][].
+This project is partially inspired by [Lpy][].
 
 [Lpy]: http://openalea.gforge.inria.fr/dokuwiki/doku.php?id=packages:vplants:lpy:main
 
 The engine implementation depends on batteries.
 The graphical interface depends of the [ocaml binding of cairo][ocaml-cairo]. This may change in the future.
 
-To install everything you need, just do
+To install everything you need :
 
 	$ opam install batteries cairo lablgtk
 
@@ -36,7 +36,9 @@ It will produce an executable glilis.native.
 
 This executable will ask you the L-system (Von Koch curve is the only avaible curently, feel free to extend the l-system bank !) and the generation then will show you the result in a GTK window.
 
-To produce the documentation (very partial for now) :
+To see some examples of L-systems, look at the [
+
+To produce the documentation :
 
 	$ make doc
 
@@ -47,15 +49,16 @@ You can also install mini_calc and lilis as libraries with :
 ## Architecture of the project
 
 This project has three parts :
-- mini_calc, a very small library to use arithmetic expression
-- lilis, the core engine
-- glilis, the graphical stuff
+- mini_calc, a very small library to evaluate arithmetic expression;
+- lilis, the core engine;
+- glilis, the graphical stuff.
 
 ## TODO
 
 Current ways of investigations :
 
-- Separate the drawing from the evaluating library.
+- Rewrite the L-system parser. Oh god, did I really write something this hideous ?
+- Separate the drawing from the executable.
 - Try other drawing library or maybe pur openGL.
 - Implement an svg export with tyxml.
 - Make a pretty GUI.
