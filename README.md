@@ -32,11 +32,11 @@ To build, just do :
 
 	$ make
 
-It will produce an executable glilis.native.
+It will produce an executable `glilis.native`.
 
 This executable will ask you the L-system (Von Koch curve is the only avaible curently, feel free to extend the l-system bank !) and the generation then will show you the result in a GTK window.
 
-To see some examples of L-systems, look at the [
+To see some examples of L-systems, look at [bank_lsystem](bank_lsystem).
 
 To produce the documentation :
 
