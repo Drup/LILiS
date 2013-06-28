@@ -42,7 +42,7 @@ let to_png (width, height) lstream file =
 
 let bank = 
   let doc = "Charge the $(docv) file as a Lsystem library" in
-  Arg.(required & pos 0 (some string) None & info [] ~docv:"BANK" ~doc)
+  Arg.(required & pos 0 (some file) None & info [] ~docv:"BANK" ~doc)
 
 let generation = 
   let doc = "Generate the Lsystem at the n-th generation" in
