@@ -19,10 +19,11 @@ This project is partially inspired by [Lpy][].
 
 The engine implementation depends on batteries.
 The graphical interface depends of the [ocaml binding of cairo][ocaml-cairo]. This may change in the future.
+Cmdliner is used by the executable `glilis`.
 
 To install everything you need :
 
-	$ opam install batteries cairo lablgtk
+	$ opam install batteries cairo lablgtk cmdliner
 
 [ocaml-cairo]: https://forge.ocamlcore.org/projects/cairo/
 
@@ -32,9 +33,7 @@ To build, just do :
 
 	$ make
 
-It will produce an executable `glilis.native`.
-
-This executable will ask you the L-system (Von Koch curve is the only avaible curently, feel free to extend the l-system bank !) and the generation then will show you the result in a GTK window.
+It will produce an executable `glilis.native`. Just do `./glilis.native --help` for more informations.
 
 To see some examples of L-systems, look at [bank_lsystem](bank_lsystem).
 
