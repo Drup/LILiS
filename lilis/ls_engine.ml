@@ -34,7 +34,7 @@ let generate_lstream m axiom transformation =
       0 -> l
     | n -> generation (n-1) (map_transform l)
   in
-  generation m germe
+  generation m axiom
 
 (** Generate the n-th generation of the given Lsystem. *)
 let eval_lsys n lsys = generate_lstream n (BatList.enum lsys.axiom) (get_transformation lsys)

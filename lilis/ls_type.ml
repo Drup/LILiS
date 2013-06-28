@@ -2,6 +2,9 @@
 
 module Env = Mini_calc.Env
 
+(** Stream of token with arguments. *)
+type lstream = (string * float list) BatEnum.t
+
 (** Arithmetic expressions. *)
 type arit_expr = Mini_calc.arit_env -> float
 
