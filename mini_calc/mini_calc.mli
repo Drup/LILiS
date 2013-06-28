@@ -1,13 +1,16 @@
-(** Small library to evaluate simple arithmetic expressions. *)
+(** Small library to evaluate simple arithmetic expressions. 
+
+    @author Gabriel Radanne
+*)
 
 (** 
-   This library evaluate simple arithmetic expression over floats. 
-
+   This library evaluates simple arithmetic expression over floats.
    Regular operators (+,-,*,/,^) and some regular functions (sin, cos, tan, asin, acos, atan, log, log10, exp, sqrt) are implemented.
-
-   Arithmetics expressions can contains variables. Of course, their values must be specified by a given environment.
+   Arithmetic expressions can contains variables.
    
-   Here is an example of expression : [3*x+sin(2)].
+   Here is an example of expression : [ 3*x+sin(2) ].
+
+   This library was designed to be used by {{:https://github.com/Drup/LILiS} LILiS}.
 
 *)
 
@@ -32,19 +35,19 @@ module Env : sig
 end
 (** Variable environment.
     
-    [ Env.usual ] contains [pi] and [e] .
+    [ Env.usual ] contains [ pi ] and [ e ] .
 *)
 
 exception Unknown_variable of string
 
 val eval_tree : arit_env -> arit_tree -> float
 (** Evaluate a tree in the given environment.
-    Will raise {! Unkown_variable } if a variable is not define in the environment.
+    @raise Unkown_variable if a variable is not define in the environment.
  *)
   
 val eval : arit_env -> string -> float
 (** Evaluate the arithmetic expression in the given environment and the usual environment.
-    Will raise {! Unkown_variable } if a variable is not define in the environment.
+    @raise Unkown_variable if a variable is not define in the environment.
  *)
 
 val compress_tree : arit_env -> arit_tree -> arit_tree

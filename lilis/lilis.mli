@@ -1,4 +1,33 @@
-(** Library to Interpret Lindenmayer Systems. *)
+(** Library to Interpret Lindenmayer Systems. 
+
+    @author Gabriel Radanne
+*)
+
+(** This library is available {{:https://github.com/Drup/LILiS} here}. *)
+
+(** A L-system is described by a name, an axiom and a bunch of rules. Each symbols can have some arithmetic expressions as arguments.
+
+An axiom is a list of symbols. A rule is composed of a left-hand side with a single symbol, potentially some variables and a right-hand side which is a list of symbols where arithmetic expressions can contains those variables.
+
+Some symbols have a graphical meanings : 
+- [ F ] : Forward, takes a length as argument.
+- [ B ] : Backward, takes a length as argument.
+- [ f ] : forward without drawing.
+- [ + ] : turn clockwise, takes an angle in degree as argument.
+- [ - ] : turn counter-clockwise, takes an angle in degree as argument.
+- [ \[ ] : save the current position on the stack.
+- [ \] ] : restore the last saved position.
+
+For exemple here is the Von Koch curve :
+{[
+Von_koch
+\{ F(1) \}
+\{
+F(l) = F(l/3) -(60) F(l/3) +(120) F(l/3) -(60) F(l/3)
+\}
+]}
+
+*)
 
 (** {2 Lsystem evaluation library} *)
 
