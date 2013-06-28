@@ -7,9 +7,9 @@ type arit_expr = Mini_calc.arit_env -> float
 
 (** A rule of rewriting *)
 type rule = {
-  left_mem : string ;
-  var : string list ;
-  right_mem : (string * (arit_expr list)) list ;
+  lhs : string ;
+  vars : string list ;
+  rhs : (string * (arit_expr list)) list ;
 }
 
 (** A complete Lsystem. *)

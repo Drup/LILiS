@@ -33,8 +33,8 @@ rules:
 	
 
 rule: 
-    NOM ARGS EQUAL expr	{ { left_mem = $1 ; var = separate_args $2 ; right_mem = $4 } }
-  | NOM EQUAL expr      { { left_mem = $1 ; var = [] ; right_mem = $3 } }
+    NOM ARGS EQUAL expr	{ { lhs = $1 ; vars = separate_args $2 ; rhs = $4 } }
+  | NOM EQUAL expr      { { lhs = $1 ; vars = [] ; rhs = $3 } }
 
 expr:
     ordre expr { $1 :: $2 }
