@@ -17,3 +17,6 @@ _build
 # oasis
 setup.data
 setup.log
+
+# ocamld
+*.docdir
