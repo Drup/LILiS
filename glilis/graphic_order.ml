@@ -6,8 +6,6 @@ let get_value_arg l default = match l with
     [] -> default
   | x::_ -> x
 
-exception Empty_stack
-
 (** Class representing a turtle *)
 class turtle =
   object
@@ -22,7 +20,7 @@ class turtle =
     val mutable direction = 0.
 
     (** Positions remenbered by the turtle *)
-    val mutable stack = []
+    val stack = Stack.create ()
 
     (** Turn the turtle by angle in degrees *)
     method turn angle =
@@ -35,15 +33,14 @@ class turtle =
 
     (** Save the position of the turtle in the stack *)
     method save_position () =
-      stack <- (x,y,direction)::stack
+      Stack.push (x,y,direction) stack
 
     (** Restore the position of the turtle from the stack. 
 	@raise Empty_Stack if the stack is empty. *)
-    method restore_position () = match stack with
-      | [] -> raise Empty_stack
-      | (new_x,new_y,new_dir)::t -> (
-	  x <- new_x ; y <- new_y ; direction <- new_dir
-	)
+    method restore_position () = 
+      let (new_x,new_y,new_dir) = Stack.pop stack in
+      x <- new_x ; y <- new_y ; direction <- new_dir
+      
   end
 
 (** Translate some usual symbol of L-system into drawing order.
