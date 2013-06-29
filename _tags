@@ -5,7 +5,7 @@
 #<**/*> : profile
 
 # OASIS_START
-# DO NOT EDIT (digest: 07a9c0917d1d4eee0fe3f9cb26b8b617)
+# DO NOT EDIT (digest: 4b071740f83d853dcdb85f6a53c343c6)
 # Ignore VCS directories, you can use the same kind of rule outside 
 # OASIS_START/STOP if you want to exclude directories that contains 
 # useless stuff for the build process
@@ -32,11 +32,13 @@
 <glilis/glilis.{native,byte}>: pkg_cmdliner
 <glilis/glilis.{native,byte}>: pkg_cairo2
 <glilis/glilis.{native,byte}>: pkg_cairo2.lablgtk2
+<glilis/glilis.{native,byte}>: pkg_tyxml
 <glilis/glilis.{native,byte}>: pkg_batteries
 <glilis/*.ml{,i}>: use_lilis
 <glilis/*.ml{,i}>: use_mini_calc
 <glilis/*.ml{,i}>: pkg_cmdliner
 <glilis/*.ml{,i}>: pkg_cairo2
 <glilis/*.ml{,i}>: pkg_cairo2.lablgtk2
+<glilis/*.ml{,i}>: pkg_tyxml
 <glilis/*.ml{,i}>: pkg_batteries
 # OASIS_STOP
