@@ -37,8 +37,13 @@ let to_png (width, height) lstream file =
   let turtle = new Ls_cairo.png_turtle width height in
   turtle#fill () ;
   draw_enum turtle lstream ;
-  turtle#draw () ;
-  turtle#write file
+  turtle#finish file
+
+let to_svg_cairo (width, height) lstream file =
+  let turtle = new Ls_cairo.svg_turtle file width height in
+  turtle#fill () ;
+  draw_enum turtle lstream ;
+  turtle#finish ()
 
 let to_svg size lstream file =
   let turtle = new Ls_svg.svg_turtle in
@@ -82,19 +87,29 @@ let svg =
   let doc = "Write a svg instead of opening a window." in
   Arg.(value & flag & info ["svg"] ~doc)
 
-let main n bank size bench verbose png svg output =
+let svg_cairo = 
+  let doc = "Write a svg with the cairo backend instead of opening a window." in
+  Arg.(value & flag & info ["svg-cairo"] ~doc)
+
+let main n bank size bench verbose png svg svg_cairo output =
   let lsys = get_lsystem bank in
   if bench then init_time () ;
   let lstream = eval_lsys n lsys in
   if verbose then print_endline "I'm computing and drawing !" ;
   if png then to_png size (BatEnum.clone lstream) output ;
   if svg then to_svg size (BatEnum.clone lstream) output ;
-  if not svg && not png then to_gtk size lstream ;
+  if svg_cairo then to_svg_cairo size (BatEnum.clone lstream) output ;
+  if not (svg || png || svg_cairo) then to_gtk size lstream ;
   if verbose then print_endline "I'm done !" ; 
   if bench then print_time () ;
   print_endline "Bye !"
   
-let main_t = Term.(pure main $ generation $ bank $ size $ bench $ verbose $ png $ svg $ output)
+let main_t = 
+  let open Term in
+  pure main $ generation $ bank 
+  $ size $ bench $ verbose 
+  $ png $ svg $ svg_cairo
+  $ output
 
 let () = 
   match Term.eval (main_t, Term.info "glilis") with 

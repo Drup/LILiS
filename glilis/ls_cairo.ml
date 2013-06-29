@@ -24,8 +24,7 @@ class cairo_turtle size_x size_y context surface =
 
     (** Apply drawing on the surface *)
     method draw () = 
-      Cairo.stroke context ; 
-      Cairo.move_to context (floor (size_x *. x)) (floor (size_y *. y))
+      Cairo.stroke context
 
   end
   
@@ -39,9 +38,32 @@ class png_turtle size_x size_y =
   object inherit cairo_turtle (float size_x) (float size_y) ctx surface
 	
     (** Draw to a png *)
-    method write file =
+    method finish file =
+      Cairo.stroke ctx ; 
       Cairo.PNG.write surface file
+  end
 
+(** A turtle that write to a svg file *)
+class svg_turtle outfile size_x size_y = 
+  
+  let width, height = (float size_x), (float size_y) in
+  let buffer = open_out outfile in
+  let surface = Cairo.SVG.create_for_stream ~output:(output_string buffer) ~width ~height in
+  let ctx = Cairo.create surface in
+  let _ = Cairo.set_line_width ctx 1. in
+  
+  object inherit cairo_turtle width height ctx surface as super
+
+    method move  ?(trace=true) d =
+      super#move ~trace d ;
+      Cairo.stroke ctx ;
+      Cairo.move_to ctx (floor (width *. x)) (floor (height *. y))
+
+    method finish () = 
+      Cairo.stroke ctx ; 
+      Cairo.Surface.flush surface ;
+      flush buffer ;
+      close_out buffer ;
   end
 
 (** A turtle that write on a gtk surface *)
