@@ -40,6 +40,14 @@ let to_png (width, height) lstream file =
   turtle#draw () ;
   turtle#write file
 
+let to_svg size lstream file =
+  let turtle = new Ls_svg.svg_turtle in
+  draw_enum turtle lstream ;
+  let lsvg = Ls_svg.template size (turtle#to_string ()) in  
+  let buffer = open_out file in
+  Svg.P.print ~output:(output_string buffer) lsvg ;
+  close_out buffer
+
 (** Go go Cmdliner ! *)
 
 let bank = 
@@ -62,24 +70,31 @@ let verbose =
   let doc = "Be verbose" in
   Arg.(value & flag & info ["v"] ~doc)
 
-let png = 
-  let doc = "Write a png in $(docv) instead of opening a window" in
-  Arg.(value & opt (some string) None & info ["png"] ~docv:"FILE" ~doc)
+let output = 
+  let doc = "Output the svg or the png to $(docv) if necessary." in
+  Arg.(value & opt (string) "a.out" & info ["o"] ~docv:"FILE" ~doc)
 
-let main n bank size bench verbose png =
+let png = 
+  let doc = "Write a png instead of opening a window." in
+  Arg.(value & flag & info ["png"] ~doc)
+
+let svg = 
+  let doc = "Write a svg instead of opening a window." in
+  Arg.(value & flag & info ["svg"] ~doc)
+
+let main n bank size bench verbose png svg output =
   let lsys = get_lsystem bank in
   if bench then init_time () ;
   let lstream = eval_lsys n lsys in
   if verbose then print_endline "I'm computing and drawing !" ;
-  begin match png with 
-    | Some file -> to_png size lstream file 
-    | None -> to_gtk size lstream
-  end ;
+  if png then to_png size (BatEnum.clone lstream) output ;
+  if svg then to_svg size (BatEnum.clone lstream) output ;
+  if not svg && not png then to_gtk size lstream ;
   if verbose then print_endline "I'm done !" ; 
   if bench then print_time () ;
   print_endline "Bye !"
   
-let main_t = Term.(pure main $ generation $ bank $ size $ bench $ verbose $ png)
+let main_t = Term.(pure main $ generation $ bank $ size $ bench $ verbose $ png $ svg $ output)
 
 let () = 
   match Term.eval (main_t, Term.info "glilis") with 
