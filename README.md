@@ -68,12 +68,13 @@ This project has three parts :
 
 ## TODO
 
-Current ways of investigations :
+Current potential goals:
 
-- Rewrite the L-system parser. Oh god, did I really write something this hideous ?
+- Rewrite the L-system parser.  
+  Oh god, did I really write something this hideous ?
 - Separate the drawing from the executable.
 - Try other drawing library or maybe pur openGL.
-- Implement an svg export with tyxml.
+- Implement an SVG export with `tyxml`.
 - Make a pretty GUI.
-- Improve the core engine a bit more.
+- Improve the core engine.
 - Extend the grammar, implement interpretation rules and do a bit of verification on the rules.
