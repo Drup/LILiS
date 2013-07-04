@@ -23,7 +23,7 @@ Cmdliner is used by the executable `glilis`.
 
 To install everything you need :
 
-	$ opam install batteries cairo lablgtk cmdliner
+	$ opam install batteries cairo lablgtk cmdliner tyxml
 
 [ocaml-cairo]: https://forge.ocamlcore.org/projects/cairo/
 
