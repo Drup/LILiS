@@ -16,16 +16,16 @@ The emphasis is put on speed and low memory occupation with the use of lazy eval
 This project is partially inspired by [Lpy][].
 
 [Lpy]: http://openalea.gforge.inria.fr/dokuwiki/doku.php?id=packages:vplants:lpy:main
+## Dependencies
 
-The engine implementation depends on batteries.
-The graphical interface depends of the [ocaml binding of cairo][ocaml-cairo]. This may change in the future.
-Cmdliner is used by the executable `glilis`.
+- The engine implementation depends on batteries.
+- The graphical interface depends of the [cairo's ocaml binding](https://forge.ocamlcore.org/projects/cairo/).
+  This may change in the future.
+- `Cmdliner` is used by the executable `glilis`.
 
 To install everything you need :
 
 	$ opam install batteries cairo lablgtk cmdliner tyxml
-
-[ocaml-cairo]: https://forge.ocamlcore.org/projects/cairo/
 
 ## How to
 
