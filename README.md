@@ -16,7 +16,7 @@ This project is partially inspired by [Lpy](http://openalea.gforge.inria.fr/doku
 
 ## Dependencies
 
-- The engine implementation depends on batteries.
+- The engine implementation depends on [Batteries Included](https://github.com/ocaml-batteries-team/batteries-included).
 - The graphical interface depends of the [cairo's ocaml binding](https://forge.ocamlcore.org/projects/cairo/).
   This may change in the future.
 - `Cmdliner` is used by the executable `glilis`.
