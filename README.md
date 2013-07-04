@@ -29,6 +29,8 @@ To install everything you need :
 
 ## How to
 
+### Build instructions
+
 To build, just do :
 
 	$ make
@@ -44,7 +46,21 @@ To produce the documentation :
 You can also install mini_calc and lilis as libraries with :
 
 	$ make install
-	
+
+### Building `lablgtk` and `cairo` on OS X
+
+[Homebrew](http://mxcl.github.io/homebrew/) users may fail to build `lablgtk`.
+
+This is due to broken location of some `pkg-config` files.  
+See <https://github.com/mxcl/homebrew/issues/14123>
+
+To build `lablgtk`, do:
+
+	brew install cairo
+	export PKG_CONFIG_PATH="$(brew --prefix cairo)/lib/pkgconfig:/usr/local/opt/pixman/lib/pkgconfig:/usr/local/opt/fontconfig/lib/pkgconfig:/usr/local/opt/freetype/lib/pkgconfig:/usr/local/opt/libpng/lib/pkgconfig:/usr/X11/lib/pkgconfig"
+	brew install gtk+
+	opam install lablgtk cairo
+
 ## Architecture of the project
 
 This project has three parts :
