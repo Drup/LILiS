@@ -37,13 +37,13 @@ To build, just do :
 
 It will produce an executable `glilis.native`. Just do `./glilis.native --help` for more informations.
 
-To see some examples of L-systems, look at [bank_lsystem](bank_lsystem).
+To see some examples of L-systems, look at [`bank_lsystem`](bank_lsystem).
 
 To produce the documentation :
 
 	$ make doc
 
-You can also install mini_calc and lilis as libraries with :
+You can also install `mini_calc` and `lilis` as libraries with :
 
 	$ make install
 
@@ -64,9 +64,9 @@ To build `lablgtk`, do:
 ## Architecture of the project
 
 This project has three parts :
-- mini_calc, a very small library to evaluate arithmetic expression;
-- lilis, the core engine;
-- glilis, the graphical stuff.
+- `mini_calc`, a very small library to evaluate arithmetic expression;
+- `lilis`, the core engine;
+- `glilis`, the graphical stuff.
 
 ## TODO
 
