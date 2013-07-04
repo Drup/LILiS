@@ -4,18 +4,16 @@ LILiS is *Library to Interpret Lindenmayer Systems*.
 
 ## L-system
 
-[L-systems][] are a kind of formal grammar defined by Lindermayer.
+[L-systems](http://en.wikipedia.org/wiki/L-system) are a kind of formal grammar defined by Lindermayer.
 
-[L-systems]: http://en.wikipedia.org/wiki/L-system
 
 ## Description of LILiS
 
 The goal of this project is to implement a library to evaluate L-systems and to visualise them (in 2D only).
 The emphasis is put on speed and low memory occupation with the use of lazy evaluation.
 
-This project is partially inspired by [Lpy][].
+This project is partially inspired by [Lpy](http://openalea.gforge.inria.fr/dokuwiki/doku.php?id=packages:vplants:lpy:main).
 
-[Lpy]: http://openalea.gforge.inria.fr/dokuwiki/doku.php?id=packages:vplants:lpy:main
 ## Dependencies
 
 - The engine implementation depends on batteries.
