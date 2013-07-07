@@ -75,41 +75,44 @@ let verbose =
   let doc = "Be verbose" in
   Arg.(value & flag & info ["v"] ~doc)
 
-let output = 
-  let doc = "Output the svg or the png to $(docv) if necessary." in
-  Arg.(value & opt (string) "a.out" & info ["o"] ~docv:"FILE" ~doc)
+let gtk = 
+  let doc = "Open a GTK window and draw the lsystem." in
+  Arg.(value & flag & info ["gtk"] ~doc)
 
 let png = 
-  let doc = "Write a png instead of opening a window." in
-  Arg.(value & flag & info ["png"] ~doc)
+  let doc = "Write a png to $(docv)." in
+  Arg.(value & opt (some string) None & info ["png"] ~docv:"FILE" ~doc)
 
 let svg = 
-  let doc = "Write a svg instead of opening a window." in
-  Arg.(value & flag & info ["svg"] ~doc)
+  let doc = "Write a svg to $(docv)." in
+  Arg.(value & opt (some string) None & info ["svg"] ~docv:"FILE" ~doc)
 
 let svg_cairo = 
-  let doc = "Write a svg with the cairo backend instead of opening a window." in
-  Arg.(value & flag & info ["svg-cairo"] ~doc)
+  let doc = "Write a svg to $(docv) with the cairo backend." in
+  Arg.(value & opt (some string) None & info ["svg-cairo"] ~docv:"FILE" ~doc)
 
-let main n bank size bench verbose png svg svg_cairo output =
+
+let main n bank size bench verbose png svg svg_cairo gtk =
   let lsys = get_lsystem bank in
   if bench then init_time () ;
   let lstream = eval_lsys n lsys in
   if verbose then print_endline "I'm computing and drawing !" ;
-  if png then to_png size (Lstream.clone lstream) output ;
-  if svg then to_svg size (Lstream.clone lstream) output ;
-  if svg_cairo then to_svg_cairo size (Lstream.clone lstream) output ;
-  if not (svg || png || svg_cairo) then to_gtk size lstream ;
+
+  List.iter 
+    (fun (x,f) -> match x with Some x -> (f size (Lstream.clone lstream)) x | None -> ())
+    [ png, to_png ;
+      svg, to_svg ;
+      svg_cairo, to_svg_cairo ] ;
+
+  if gtk then to_gtk size lstream else Lstream.force lstream ;
   if verbose then print_endline "I'm done !" ; 
-  if bench then print_time () ;
-  print_endline "Bye !"
+  if bench then print_time ()
   
 let main_t = 
   let open Term in
   pure main $ generation $ bank 
   $ size $ bench $ verbose 
-  $ png $ svg $ svg_cairo
-  $ output
+  $ png $ svg $ svg_cairo $ gtk
 
 let () = 
   match Term.eval (main_t, Term.info "glilis") with 
