@@ -14,7 +14,7 @@ open Calc_type
 %nonassoc FUNC
 %nonassoc UMINUS        /* highest precedence */
 %start main             /* the entry point */
-%type <Calc_type.arit_tree> main
+%type <string Calc_type.arit_tree> main
 %%
 main :
 	arit EOL { $1 }

@@ -26,11 +26,11 @@ let func_list =
   ] 
 
 (** Type of tree which represent an arithmetic expression *)
-type arit_tree =
+type 'a arit_tree =
   | Float of float
-  | Op2 of arit_tree * op2 * arit_tree
-  | Op1 of op1 * arit_tree
-  | Id of string
+  | Op2 of ('a arit_tree) * op2 * ('a arit_tree)
+  | Op1 of op1 * ('a arit_tree)
+  | Id of 'a
 
 (** Print a tree, can be usefull sometimes .. *)
 let rec tree_to_string t = match t with

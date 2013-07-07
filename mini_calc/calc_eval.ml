@@ -15,30 +15,40 @@ let op1_to_fun op = match op with
     MinusUn -> (~-.)
   | Func func -> List.assoc func func_list
 
-(** eval a tree in the given env *)
-let rec eval_tree env = function
+(** Eval a tree with a custom f function to translated variables. *)
+let rec eval_tree_custom f = function
     Float a -> a
-  | Op2 (a1,op,a2) -> (op2_to_fun op) (eval_tree env a1) (eval_tree env a2)
-  | Op1 (op , a) -> (op1_to_fun op) (eval_tree env a)
-  | Id x -> Env.find_arit x env
+  | Op2 (a1,op,a2) -> (op2_to_fun op) (eval_tree_custom f a1) (eval_tree_custom f a2)
+  | Op1 (op , a) -> (op1_to_fun op) (eval_tree_custom f a)
+  | Id x -> f x
+
+(** Eval a tree in the given environment. *)
+let eval_tree env t = 
+  let f x = Env.find_arit x env in
+  eval_tree_custom f t
+
+let rec map_tree f t = match t with
+  | Float a -> Float a
+  | Op1 (op,t) -> Op1 (op,map_tree f t)
+  | Op2 (t1,op,t2) -> Op2 (map_tree f t1,op,map_tree f t2)
+  | Id x -> Id (f x)
 
 (** Compress a tree (aka eval part than can be evaluated) in the given env *)
-let compress_tree env t = 
-  (* aux function explore the tree and try to compress the place where there is no Id *)
-  (* return a tuple (b,t) where b is true when the subtree t has been compressed and is just a Float node *)
-  let rec aux t = match t with
-      Float a -> (true,t)
-    | Id x -> begin match Env.Exceptionless.find x env with
-	| None -> (false, t)
-	| Some f -> (true, Float f)
-      end
-    | Op1 (op,a) -> (
-	let (b,t) = aux a in
-	if b then (b,Float (eval_tree Env.usual (Op1 (op,t)) ) ) else (b,Op1 (op,t))
-      )
-    | Op2 (a1,op,a2) -> (
-	let (b1,t1) = aux a1 and (b2,t2) = aux a2 in
-	if b1 && b2 then (true,Float (eval_tree Env.usual (Op2(t1,op,t2)) ) ) else (false,Op2 (t1,op,t2))
-      )
-  in snd (aux t)
+let rec compress_tree_custom f t = match t with
+  | Float a -> Float a
+  | Id x -> begin match f x with
+      | None -> Id x
+      | Some f -> Float f
+    end
+  | Op1 (op,a) -> begin match compress_tree_custom f a with
+      | Float x -> Float (op1_to_fun op x)
+      | t -> Op1 (op,t)
+    end
+  | Op2 (a1,op,a2) -> begin match compress_tree_custom f a1, compress_tree_custom f a2 with
+      | Float x1, Float x2 -> Float (op2_to_fun op x1 x2)
+      | t1, t2 -> Op2 (t1,op,t2)
+    end
 
+let compress_tree env t = 
+  let f x = Env.Exceptionless.find x env in
+  compress_tree_custom f t
