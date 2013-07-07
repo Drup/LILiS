@@ -31,9 +31,29 @@ module LsSeq = (struct
   let expand f l = concat (map f l)
   let fold = fold_left
   let force l = iter (fun x -> ()) l
-  let clone = (fun x -> x)
+  let clone l = l
   let of_list l = List.fold_right cons l nil
   let to_list l = BatList.of_enum (enum l)
+  let singleton x = cons x nil
+end : LSTREAM)
+
+module LsStream = (struct 
+  include BatStream
+  let expand_map f g l = map g (concat (map f l))
+  let expand f l = concat (map f l)
+  let fold f z l = foldl (fun x y -> (f x y, None)) z l
+  let force l = iter (fun x -> ()) l
+  let clone l = l (* Noooo *)
+  let singleton x = cons x (of_list [])
+end : LSTREAM)
+
+module LsLazyList = (struct 
+  include BatLazyList
+  let expand_map f g l = map g (concat (map f l))
+  let expand f l = concat (map f l)
+  let fold = fold_left
+  let force l = iter (fun x -> ()) l
+  let clone l = l
   let singleton x = cons x nil
 end : LSTREAM)
 
