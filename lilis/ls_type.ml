@@ -25,7 +25,19 @@ module LsEnum = (struct
   let to_list = BatList.of_enum
 end : LSTREAM)
 
-module Lstream = LsEnum
+module LsSeq = (struct
+  include BatSeq
+  let expand_map f g l = map g (concat (map f l))
+  let expand f l = concat (map f l)
+  let fold = fold_left
+  let force l = iter (fun x -> ()) l
+  let clone = (fun x -> x)
+  let of_list l = List.fold_right cons l nil
+  let to_list l = BatList.of_enum (enum l)
+  let singleton x = cons x nil
+end : LSTREAM)
+
+module Lstream = LsSeq
 
 type lstream = (string * float list) Lstream.t
 
