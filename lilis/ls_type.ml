@@ -27,7 +27,8 @@ end : LSTREAM)
 
 module LsSeq = (struct
   include BatSeq
-  let expand_map f g s =
+  (* Modified version of BatSeq.concat in batteries *)
+  let expand_map f g s = 
     let rec aux current rest () = match current () with
       | Cons(e, s) ->
           Cons(g e, aux s rest)
