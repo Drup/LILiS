@@ -27,8 +27,19 @@ end : LSTREAM)
 
 module LsSeq = (struct
   include BatSeq
-  let expand_map f g l = map g (concat (map f l))
-  let expand f l = concat (map f l)
+  let expand_map f g s =
+    let rec aux current rest () = match current () with
+      | Cons(e, s) ->
+          Cons(g e, aux s rest)
+      | Nil ->
+          match rest () with
+            | Cons(e, s) ->
+                aux (f e) s ()
+            | Nil ->
+                Nil
+    in
+    aux nil s
+  let expand f s = expand_map f (fun x -> x) s
   let fold = fold_left
   let force l = iter (fun x -> ()) l
   let clone l = l
