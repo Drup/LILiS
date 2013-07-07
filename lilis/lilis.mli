@@ -34,7 +34,23 @@ F(l) = F(l/3) -(60) F(l/3) +(120) F(l/3) -(60) F(l/3)
 type arit_expr = Mini_calc.arit_env -> float
 (** Arithmetic expressions used as arguments in rules. *)
 
-type lstream = (string * float list) BatEnum.t
+module type LSTREAM = sig
+  type 'a t 
+  val singleton : 'a -> 'a t
+  val map : ('a -> 'b) -> 'a t -> 'b t
+  val expand : ('a -> 'b t) -> 'a t -> 'b t
+  val expand_map : ('a -> 'b t) -> ('b -> 'c) -> 'a t -> 'c t
+  val iter : ('a -> unit) -> 'a t -> unit
+  val fold : ('b -> 'a -> 'b) -> 'b -> 'a t -> 'b
+  val of_list : 'a list -> 'a t
+  val to_list : 'a t -> 'a list
+  val clone : 'a t -> 'a t
+  val force : 'a t -> unit
+end 
+
+module Lstream : LSTREAM
+
+type lstream = (string * float list) Lstream.t
 (** Stream of token with arguments. *)
 
 type rule = {
@@ -64,7 +80,7 @@ val get_rule : string -> Ls_type.rule list -> Ls_type.rule option
 (** Get the rule that match the given symbol. *)
 
 val eval_stream :
-  Mini_calc.arit_env -> (string * arit_expr list) BatEnum.t -> lstream
+  Mini_calc.arit_env -> (string * arit_expr list) Lstream.t -> lstream
 (** Evaluate a stream of arit_expr. *)
 
 val exec_rule : rule -> float list -> lstream

@@ -14,7 +14,7 @@ let init_time, print_time =
   init, print
 
 let to_gtk (width, height) lstream =
-  let lstream = BatList.of_enum lstream in
+  let lstream = Lstream.to_list lstream in
 
   let expose area ev =
     let turtle = new Ls_cairo.gtk_turtle area in
@@ -96,9 +96,9 @@ let main n bank size bench verbose png svg svg_cairo output =
   if bench then init_time () ;
   let lstream = eval_lsys n lsys in
   if verbose then print_endline "I'm computing and drawing !" ;
-  if png then to_png size (BatEnum.clone lstream) output ;
-  if svg then to_svg size (BatEnum.clone lstream) output ;
-  if svg_cairo then to_svg_cairo size (BatEnum.clone lstream) output ;
+  if png then to_png size (Lstream.clone lstream) output ;
+  if svg then to_svg size (Lstream.clone lstream) output ;
+  if svg_cairo then to_svg_cairo size (Lstream.clone lstream) output ;
   if not (svg || png || svg_cairo) then to_gtk size lstream ;
   if verbose then print_endline "I'm done !" ; 
   if bench then print_time () ;

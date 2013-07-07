@@ -56,6 +56,6 @@ let draw (t : #turtle) order = match order with
   | ("f",l) -> let x = (get_value_arg l 1.) in t#move ~trace:false x
   | _ -> ()
 
-let draw_enum turtle = BatEnum.iter (draw turtle)
+let draw_enum turtle = Lilis.Lstream.iter (draw turtle)
 
-let draw_list turtle = BatList.iter (draw turtle)
+let draw_list turtle = List.iter (draw turtle)
