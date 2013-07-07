@@ -3,18 +3,21 @@ exception Not_image
 
 (** Cairo version of the turtle *)
 class cairo_turtle size_x size_y context surface =
-  object inherit Graphic_order.turtle as super
 
+  object inherit Graphic_order.turtle as super
+    
     (* We do the scaling and the rounding by ourself here because cairo do it too slowly *)
-    method move ?(trace=true) d =
-      super#move ~trace d ;
+    method move ?(trace=true) f =
+      super#move ~trace f ;
+      let open Graphic_order in
       if trace 
-      then Cairo.line_to context (floor (size_x *. x)) (floor (size_y *. y))
-      else Cairo.move_to context (floor (size_x *. x)) (floor (size_y *. y))
+      then Cairo.line_to context (floor (size_x *. pos.x)) (floor (size_y *. pos.y))
+      else Cairo.move_to context (floor (size_x *. pos.x)) (floor (size_y *. pos.y))
 
     method restore_position () = 
       super#restore_position () ;
-      Cairo.move_to context (floor (size_x *. x)) (floor (size_y *. y))
+      let open Graphic_order in
+      Cairo.move_to context (floor (size_x *. pos.x)) (floor (size_y *. pos.y))
 
     (** Fill the picture with solid white and set the color to solid black *)
     method fill () =
@@ -54,10 +57,11 @@ class svg_turtle outfile size_x size_y =
   
   object inherit cairo_turtle width height ctx surface as super
 
-    method move  ?(trace=true) d =
-      super#move ~trace d ;
+    method move  ?(trace=true) f =
+      super#move ~trace f ;
       Cairo.stroke ctx ;
-      Cairo.move_to ctx (floor (width *. x)) (floor (height *. y))
+      let open Graphic_order in
+      Cairo.move_to ctx (floor (width *. pos.x)) (floor (height *. pos.y))
 
     method finish () = 
       Cairo.stroke ctx ; 

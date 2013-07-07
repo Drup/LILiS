@@ -17,15 +17,17 @@ class svg_turtle =
 
     val acc = BatEnum.empty ()
 
-    method move ?(trace=true) d =
-      super#move ~trace d ;
+    method move ?(trace=true) f =
+      super#move ~trace f ;
+      let open Graphic_order in
       if trace 
-      then BatEnum.push acc (L (x,y))
-      else BatEnum.push acc (M (x,y))
+      then BatEnum.push acc (L (pos.x,pos.y))
+      else BatEnum.push acc (M (pos.x,pos.y))
 
     method restore_position () = 
       super#restore_position () ;
-      BatEnum.push acc (M (x,y))
+      let open Graphic_order in
+      BatEnum.push acc (M (pos.x,pos.y))
 
     (** Export the path as a string. *)
     method to_string () = 

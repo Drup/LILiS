@@ -6,40 +6,39 @@ let get_value_arg l default = match l with
     [] -> default
   | x::_ -> x
 
+type pos = { mutable x : float ; mutable y : float ; mutable d : float }
+
 (** Class representing a turtle *)
 class turtle =
   object
 
     (** Position of the turtle *)
-    val mutable x = 0.
-    val mutable y = 0.
+    (* We pack the position in a float record because it's (very slightly) more efficient. *)
+    val pos = { x = 0. ; y = 0. ; d = 0. }
 
-    method get_pos () = (x,y)
-
-    (** Direction of the turtle *)
-    val mutable direction = 0.
+    method get_pos () = (pos.x, pos.y)
 
     (** Positions remenbered by the turtle *)
     val stack = Stack.create ()
 
     (** Turn the turtle by angle in degrees *)
     method turn angle =
-      direction <- direction +. angle *. pi /. 180.
+      pos.d <- pos.d +. angle *. pi /. 180.
 
-    (** Move the turtle by d *)
-    method move ?(trace=true) d =
-      x <- x +. (d *. cos direction) ;
-      y <- y +. (d *. sin direction)
+    (** Move the turtle by f *)
+    method move ?(trace=true) f =
+      pos.x <- pos.x +. (f *. cos pos.d) ;
+      pos.y <- pos.y +. (f *. sin pos.d)
 
     (** Save the position of the turtle in the stack *)
     method save_position () =
-      Stack.push (x,y,direction) stack
+      Stack.push (pos.x,pos.y,pos.d) stack
 
     (** Restore the position of the turtle from the stack. 
 	@raise Empty_Stack if the stack is empty. *)
     method restore_position () = 
       let (new_x,new_y,new_dir) = Stack.pop stack in
-      x <- new_x ; y <- new_y ; direction <- new_dir
+      pos.x <- new_x ; pos.y <- new_y ; pos.d <- new_dir
       
   end
 
