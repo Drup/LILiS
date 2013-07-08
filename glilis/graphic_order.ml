@@ -2,9 +2,10 @@
 let pi = 4. *. atan 1.
 
 (** Extract the first element of the argument list and replace it with a default value if the list is empty *)
-let get_value_arg l default = match l with
-    [] -> default
-  | x::_ -> x
+let get_value_arg l default = 
+  if Array.length l = 0 
+  then default
+  else l.(0)
 
 type pos = { mutable x : float ; mutable y : float ; mutable d : float }
 

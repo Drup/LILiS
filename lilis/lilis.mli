@@ -31,9 +31,6 @@ F(l) = F(l/3) -(60) F(l/3) +(120) F(l/3) -(60) F(l/3)
 
 (** {2 Lsystem evaluation library} *)
 
-type arit_expr = Mini_calc.arit_env -> float
-(** Arithmetic expressions used as arguments in rules. *)
-
 module type LSTREAM = sig
   type 'a t 
   val singleton : 'a -> 'a t
@@ -50,20 +47,20 @@ end
 
 module Lstream : LSTREAM
 
-type lstream = (string * float list) Lstream.t
+type lstream = (string * float array) Lstream.t
 (** Stream of token with arguments. *)
 
 type rule = {
-  lhs : string;
-  vars : string list;
-  rhs : (string * arit_expr list) list;
+  lhs : string ;
+  vars : string list ;
+  rhs : (string * (string Mini_calc.arit_tree list)) list ;
 }
 (** A Lsystem rule. *)
 
 type lsystem = {
-  name : string;
-  axiom : (string * float list) list;
-  rules : rule list;
+  name : string ;
+  axiom : (string * (float list)) list ;
+  rules : rule list
 }
 (** A complete Lsystem. *)
 
@@ -72,23 +69,3 @@ val lsystem_from_string : string -> lsystem list
 
 val eval_lsys : int -> lsystem -> lstream
 (** Evaluate a Lsystem at the n-th generation. *)
-
-
-(** {2 Internal functions } *)
-
-val get_rule : string -> Ls_type.rule list -> Ls_type.rule option
-(** Get the rule that match the given symbol. *)
-
-val eval_stream :
-  Mini_calc.arit_env -> (string * arit_expr list) Lstream.t -> lstream
-(** Evaluate a stream of arit_expr. *)
-
-val exec_rule : rule -> float list -> lstream
-(** Apply a rule to some given arguments. *)
-
-val get_transformation : lsystem -> string -> float list -> lstream
-(** Get the transformation function from a Lsystem. *)
-
-val generate_lstream : int -> lstream -> (string -> float list -> lstream) -> lstream
-(** Generate a lstream at the n-th generation, with the given axiom and the given transformation function. *)
-

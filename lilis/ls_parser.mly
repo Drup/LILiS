@@ -3,6 +3,12 @@ open Ls_type
 
 let separate_args = Str.split (Str.regexp "[ \t]*,[ \t]*")
 
+let eval_axiom l = 
+  let f (name,l) = 
+    let open Mini_calc in
+    name, List.map (fun t -> eval_tree Env.empty t) l
+  in List.map f l
+
 %}
 
 %token EOL EOF
@@ -41,9 +47,9 @@ expr:
   | ordre      { [ $1 ] }
 
 axiom: 
-    LACCO expr RACCO { List.map (fun (name,l) -> (name,List.map (fun f -> f Env.empty) l) ) $2 }
+    LACCO expr RACCO   { eval_axiom $2 }
 
 ordre:
-    NOM ARIT { ($1, List.map Mini_calc.closure (separate_args $2)) }
+    NOM ARIT { ($1, List.map Mini_calc.string_to_tree (separate_args $2)) }
   | NOM      { ($1,[]) }
 

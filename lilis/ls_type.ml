@@ -1,7 +1,5 @@
 (** Various types for all other modules. *)
 
-module Env = Mini_calc.Env
-
 (** Stream of token with arguments. *)
 module type LSTREAM = sig
   type 'a t 
@@ -71,10 +69,10 @@ end : LSTREAM)
 
 module Lstream = LsSeq
 
-type lstream = (string * float list) Lstream.t
+type lstream = (string * float array) Lstream.t
 
 (** Arithmetic expressions. *)
-type arit_expr = Mini_calc.arit_env -> float
+type arit_expr = string Mini_calc.arit_tree
 
 (** A rule of rewriting *)
 type rule = {
