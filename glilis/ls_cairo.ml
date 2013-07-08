@@ -10,9 +10,12 @@ class cairo_turtle size_x size_y context surface =
     method move ?(trace=true) f =
       super#move ~trace f ;
       let open Graphic_order in
+      (* Here is a little cheat to have real 1px line *)
+      let x = (floor (size_x *. pos.x)) +. 0.5 in
+      let y = (floor (size_y *. pos.y)) +. 0.5 in
       if trace 
-      then Cairo.line_to context (floor (size_x *. pos.x)) (floor (size_y *. pos.y))
-      else Cairo.move_to context (floor (size_x *. pos.x)) (floor (size_y *. pos.y))
+      then Cairo.line_to context x y 
+      else Cairo.move_to context x y
 
     method restore_position () = 
       super#restore_position () ;
@@ -53,7 +56,7 @@ class svg_turtle outfile size_x size_y =
   let buffer = open_out outfile in
   let surface = Cairo.SVG.create_for_stream ~output:(output_string buffer) ~width ~height in
   let ctx = Cairo.create surface in
-  let _ = Cairo.set_line_width ctx 1. in
+  let _ = Cairo.set_line_width ctx 0.5 in
   
   object inherit cairo_turtle width height ctx surface as super
 
@@ -75,7 +78,7 @@ class gtk_turtle w =
   let ctx = Cairo_gtk.create w#misc#window in
   let { Gtk.width = size_x ; Gtk.height = size_y } = w#misc#allocation in
   let surface = Cairo.get_target ctx in
-  let _ = Cairo.set_line_width ctx 1. in
+  let _ = Cairo.set_line_width ctx 0.5 in
   
   object inherit cairo_turtle (float size_x) (float size_y) ctx surface
 
