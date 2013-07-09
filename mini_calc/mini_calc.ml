@@ -8,7 +8,7 @@ include Calc_eval
 (** Parse a string containing an arithmetic expression to a tree *)
 let string_to_tree s =
   let lexbuf = Lexing.from_string s in
-  Calc_parser.main Calc_lexer.token lexbuf
+  Calc_parser.entry_arit Calc_lexer.token lexbuf
 
 (** Eval an arithmetic expression in the given environment *)
 let eval env s = 

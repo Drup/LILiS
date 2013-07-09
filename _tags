@@ -2,6 +2,8 @@
 <**/*.ml> : annot
 <*.annot> : not_hygienic
 
+true : use_menhir, explain
+
 #<**/*> : profile
 
 # OASIS_START
