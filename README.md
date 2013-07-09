@@ -16,6 +16,7 @@ This project is partially inspired by [Lpy](http://openalea.gforge.inria.fr/doku
 
 ## Dependencies
 
+- The parser depends on `menhir`.
 - The engine implementation depends on [Batteries Included](https://github.com/ocaml-batteries-team/batteries-included).
 - The graphical interface depends of the [Cairo's OCaml binding](https://forge.ocamlcore.org/projects/cairo/).
   This may change in the future.
@@ -27,7 +28,7 @@ It is *recommended* to install all this in a
 
 To install everything you need (but tyxml) :
 
-	$ opam install batteries cairo lablgtk cmdliner
+	$ opam install batteries cairo lablgtk cmdliner menhir
 
 LILiS depends upon the *development* version of `tyxml`, which is fetched using `darcs` (so you must install it):
 
