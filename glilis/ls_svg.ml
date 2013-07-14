@@ -1,40 +1,41 @@
 
-type path_inst = 
+type path_inst =
   | M of (float * float)
   | Mr of (float * float)
   | L of (float * float)
   | Lr of (float * float)
 
 let path_inst_to_string = function
-  | M (x,y)  -> Printf.sprintf " M %f %f " x y
-  | Mr (x,y) -> Printf.sprintf " m %f %f " x y
-  | L (x,y)  -> Printf.sprintf " L %f %f " x y
-  | Lr (x,y) -> Printf.sprintf " l %f %f " x y
+  | M (x,y)  -> Printf.sprintf "M %f %f " x y
+  | Mr (x,y) -> Printf.sprintf "m %f %f " x y
+  | L (x,y)  -> Printf.sprintf "L %f %f " x y
+  | Lr (x,y) -> Printf.sprintf "l %f %f " x y
 
 class svg_turtle =
 
+  let push_inst acc x = 
+    BatText.append acc (BatText.of_string (path_inst_to_string x))
+  in
+
   object inherit Graphic_order.turtle as super
 
-    val acc = BatEnum.empty ()
+    val mutable acc = BatText.of_string "M 0 0 "
 
     method move ?(trace=true) f =
       super#move ~trace f ;
       let open Graphic_order in
-      if trace 
-      then BatEnum.push acc (L (pos.x,pos.y))
-      else BatEnum.push acc (M (pos.x,pos.y))
+      if trace
+      then acc <- push_inst acc (L (pos.x,pos.y))
+      else acc <- push_inst acc (M (pos.x,pos.y))
 
-    method restore_position () = 
+    method restore_position () =
       super#restore_position () ;
       let open Graphic_order in
-      BatEnum.push acc (M (pos.x,pos.y))
+      acc <- push_inst acc (M (pos.x,pos.y))
 
     (** Export the path as a string. *)
-    method to_string () = 
-      let concat_acc s o =
-	BatText.append (BatText.of_string (path_inst_to_string o)) s
-      in 
-      BatText.to_string (BatEnum.fold concat_acc BatText.empty acc)
+    method to_string () =
+      BatText.to_string acc
 
   end
 
