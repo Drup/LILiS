@@ -17,20 +17,20 @@ class svg_turtle =
     BatText.append acc (BatText.of_string (path_inst_to_string x))
   in
 
-  object inherit Graphic_order.turtle as super
+  object inherit Glilis.turtle as super
 
     val mutable acc = BatText.of_string "M 0 0 "
 
     method move ?(trace=true) f =
       super#move ~trace f ;
-      let open Graphic_order in
+      let open Glilis in
       if trace
       then acc <- push_inst acc (L (pos.x,pos.y))
       else acc <- push_inst acc (M (pos.x,pos.y))
 
     method restore_position () =
       super#restore_position () ;
-      let open Graphic_order in
+      let open Glilis in
       acc <- push_inst acc (M (pos.x,pos.y))
 
     (** Export the path as a string. *)

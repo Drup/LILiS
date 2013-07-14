@@ -6,12 +6,20 @@ Authors:     Gabriel Radanne
 License:     MIT
 Plugins:     META (0.3), DevFiles (0.3)
 
+Flag cairo
+  Description: Enable the cairo backend for png and gtk output.
+  Default: true
+
+Flag tyxml
+  Description: Enable the tyxml backend for svg output.
+  Default: true
+
 Library mini_calc
   Path: mini_calc
   BuildTools: ocamlbuild
-  Modules:         
+  Modules:
     Mini_calc
-  InternalModules: 
+  InternalModules:
     Calc_type, Calc_eval, Calc_lexer, Calc_parser
   BuildDepends:
     batteries
@@ -19,19 +27,46 @@ Library mini_calc
 Library lilis
   Path: lilis
   BuildTools: ocamlbuild
-  Modules:         
+  Modules:
     Lilis
-  InternalModules: 
+  InternalModules:
     Ls_type, Ls_engine, Ls_lexer, Ls_syntax, Ls_parser
   BuildDepends:
     batteries, mini_calc
 
+Library glilis
+  Path: glilis
+  BuildTools: ocamlbuild
+  Modules: Glilis
+  BuildDepends: lilis
+
+Library "glilis.cairo"
+  Build: false
+  if flag(cairo)
+    Build: true
+  Path: glilis
+  BuildTools: ocamlbuild
+  Modules: Ls_cairo
+  BuildDepends: glilis, cairo2, cairo2.lablgtk2
+
+Library "glilis.tyxml"
+  Build: false
+  if flag(tyxml)
+    Build: true
+  Path: glilis
+  BuildTools: ocamlbuild
+  Modules: Ls_tyxml
+  BuildDepends: glilis, tyxml
+
 Executable glilis
+  Build: false
+  if flag(tyxml) && flag(cairo)
+    Build: true
   Install: false
   Path: glilis
   BuildTools: ocamlbuild
-  MainIs: glilis.ml
-  BuildDepends: cmdliner, lilis, cairo2, cairo2.lablgtk2, tyxml
+  MainIs: glilis_ex.ml
+  BuildDepends: cmdliner, tyxml, cairo2.lablgtk2, glilis, glilis.cairo, glilis.tyxml
   CompiledObject: best
 
 Document doc
@@ -40,4 +75,4 @@ Document doc
   Type:			ocamlbuild (0.3)
   BuildTools:		ocamldoc, ocamlbuild
   XOCamlbuildPath:	.
-  XOCamlbuildLibraries:	mini_calc,lilis
+  XOCamlbuildLibraries:	mini_calc, lilis, glilis, glilis.cairo, glilis.tyxml

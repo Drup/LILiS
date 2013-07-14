@@ -4,12 +4,12 @@ exception Not_image
 (** Cairo version of the turtle. *)
 class cairo_turtle size_x size_y context surface =
 
-  object inherit Graphic_order.turtle as super
+  object inherit Glilis.turtle as super
     
     (* We do the scaling and the rounding by ourself here because cairo do it too slowly *)
     method move ?(trace=true) f =
       super#move ~trace f ;
-      let open Graphic_order in
+      let open Glilis in
       (* Here is a little cheat to have real 1px line *)
       let x = (floor (size_x *. pos.x)) +. 0.5 in
       let y = (floor (size_y *. pos.y)) +. 0.5 in
@@ -19,7 +19,7 @@ class cairo_turtle size_x size_y context surface =
 
     method restore_position () = 
       super#restore_position () ;
-      let open Graphic_order in
+      let open Glilis in
       Cairo.move_to context (floor (size_x *. pos.x)) (floor (size_y *. pos.y))
 
     (** Fill the picture with solid white and set the color to solid black *)
@@ -63,7 +63,7 @@ class svg_turtle outfile size_x size_y =
     method move  ?(trace=true) f =
       super#move ~trace f ;
       Cairo.stroke ctx ;
-      let open Graphic_order in
+      let open Glilis in
       Cairo.move_to ctx (floor (width *. pos.x)) (floor (height *. pos.y))
 
     method finish () = 

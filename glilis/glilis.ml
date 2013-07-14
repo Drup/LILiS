@@ -1,119 +1,61 @@
-open Graphic_order
-open Lilis
-open Cmdliner
 
-let get_lsystem file =
-  let bank_ls = lsystem_from_chanel (open_in file) in
-  let lsys = List.nth bank_ls 0 in
-  lsys
+let pi = 4. *. atan 1.
 
-let init_time, print_time =
-  let time = ref (Unix.gettimeofday ()) in
-  let init () = time := Unix.gettimeofday () in
-  let print () = Printf.printf "Time elapsed : %f\n%!" (Unix.gettimeofday () -. !time) in
-  init, print
+(** Extract the first element of the argument list and replace it with a default value if the list is empty *)
+let get_value_arg l default = 
+  if Array.length l = 0 
+  then default
+  else l.(0)
 
-let to_gtk (width, height) lstream =
-  let lstream = Lstream.to_list lstream in
+type pos = { mutable x : float ; mutable y : float ; mutable d : float }
 
-  let expose area ev =
-    let turtle = new Ls_cairo.gtk_turtle area in
-    turtle#fill () ;
-    draw_list turtle lstream ;
-    turtle#draw () ;
-    true
-  in
-  ignore(GMain.init());
-  let window = GWindow.window ~width ~height ~title:"gLILiS" () in
-  ignore (window#connect#destroy GMain.quit);
+(** Class representing a turtle *)
+class turtle =
+  object
 
-  let area = GMisc.drawing_area ~packing:window#add () in
-  area#misc#set_double_buffered true;
-  ignore(area#event#connect#expose (expose area));
-  window#show ();
-  GMain.main ()
+    (** Position of the turtle *)
+    (* We pack the position in a float record because it's (very slightly) more efficient. *)
+    val pos = { x = 0. ; y = 0. ; d = 0. }
 
-let to_png (width, height) lstream file =
-  let turtle = new Ls_cairo.png_turtle width height in
-  turtle#fill () ;
-  draw_enum turtle lstream ;
-  turtle#finish file
+    method get_pos () = (pos.x, pos.y)
 
-let to_svg_cairo (width, height) lstream file =
-  let turtle = new Ls_cairo.svg_turtle file width height in
-  turtle#fill () ;
-  draw_enum turtle lstream ;
-  turtle#finish ()
+    (** Positions remenbered by the turtle *)
+    val stack = Stack.create ()
 
-let to_svg size lstream file =
-  let turtle = new Ls_svg.svg_turtle in
-  draw_enum turtle lstream ;
-  let lsvg = Ls_svg.template size (turtle#to_string ()) in  
-  let buffer = open_out file in
-  Svg.P.print ~output:(output_string buffer) lsvg ;
-  close_out buffer
+    (** Turn the turtle by angle in degrees *)
+    method turn angle =
+      pos.d <- pos.d +. angle *. pi /. 180.
 
-(** Go go Cmdliner ! *)
+    (** Move the turtle by f *)
+    method move ?(trace=true) f =
+      pos.x <- pos.x +. (f *. cos pos.d) ;
+      pos.y <- pos.y +. (f *. sin pos.d)
 
-let bank = 
-  let doc = "Charge the $(docv) file as a Lsystem library" in
-  Arg.(required & pos 0 (some non_dir_file) None & info [] ~docv:"BANK" ~doc)
+    (** Save the position of the turtle in the stack *)
+    method save_position () =
+      Stack.push (pos.x,pos.y,pos.d) stack
 
-let generation = 
-  let doc = "Generate the Lsystem at the n-th generation" in
-  Arg.(required & opt (some int) None & info ["n"] ~docv:"GEN" ~doc)
+    (** Restore the position of the turtle from the stack. 
+	@raise Empty_Stack if the stack is empty. *)
+    method restore_position () = 
+      let (new_x,new_y,new_dir) = Stack.pop stack in
+      pos.x <- new_x ; pos.y <- new_y ; pos.d <- new_dir
+      
+  end
 
-let size = 
-  let doc = "The size of the image, in pixels" in
-  Arg.(value & opt (pair int int) (700,700) & info ["s"; "size"] ~docv:"SIZE" ~doc)
+(** Translate some usual symbol of L-system into drawing order.
+    @return a couple (trace, p), if trace is true, then a line to p must be traced.
+*)
+let draw (t : #turtle) order = match order with
+  | ("+",l) -> let x = (get_value_arg l 90.) in t#turn (-.x)
+  | ("-",l) -> let x = (get_value_arg l 90.) in t#turn x
+  | ("F",l) -> let x = (get_value_arg l 1.) in t#move x
+  | ("B",l) -> let x = (get_value_arg l 1.) in t#move (-. x)
+  | ("[",_) -> t#save_position ()
+  | ("]",_) -> t#restore_position ()
+  | ("f",l) -> let x = (get_value_arg l 1.) in t#move ~trace:false x
+  | _ -> ()
 
-let bench = 
-  let doc = "Print the time of execution" in
-  Arg.(value & flag & info ["b";"bench"] ~docv:"BENCH" ~doc)
+let draw_enum turtle = Lilis.Lstream.iter (draw turtle)
 
-let verbose = 
-  let doc = "Be verbose" in
-  Arg.(value & flag & info ["v"] ~doc)
-
-let gtk = 
-  let doc = "Open a GTK window and draw the lsystem." in
-  Arg.(value & flag & info ["gtk"] ~doc)
-
-let png = 
-  let doc = "Write a png to $(docv)." in
-  Arg.(value & opt (some string) None & info ["png"] ~docv:"FILE" ~doc)
-
-let svg = 
-  let doc = "Write a svg to $(docv)." in
-  Arg.(value & opt (some string) None & info ["svg"] ~docv:"FILE" ~doc)
-
-let svg_cairo = 
-  let doc = "Write a svg to $(docv) with the cairo backend." in
-  Arg.(value & opt (some string) None & info ["svg-cairo"] ~docv:"FILE" ~doc)
-
-
-let main n bank size bench verbose png svg svg_cairo gtk =
-  let lsys = get_lsystem bank in
-  if bench then init_time () ;
-  let lstream = eval_lsys n lsys in
-  if verbose then print_endline "I'm computing and drawing !" ;
-
-  List.iter 
-    (fun (x,f) -> match x with Some x -> (f size (Lstream.clone lstream)) x | None -> ())
-    [ png, to_png ;
-      svg, to_svg ;
-      svg_cairo, to_svg_cairo ] ;
-
-  if gtk then to_gtk size lstream else Lstream.force lstream ;
-  if verbose then print_endline "I'm done !" ; 
-  if bench then print_time ()
-  
-let main_t = 
-  let open Term in
-  pure main $ generation $ bank 
-  $ size $ bench $ verbose 
-  $ png $ svg $ svg_cairo $ gtk
-
-let () = 
-  match Term.eval (main_t, Term.info "glilis") with 
-    | `Error _ -> exit 1 | _ -> exit 0
+let draw_list turtle = List.iter (draw turtle)

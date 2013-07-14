@@ -1,7 +1,7 @@
 # OASIS_START
-# DO NOT EDIT (digest: ff0f92ef06cb20971963593d1b6e28ad)
+# DO NOT EDIT (digest: ee36776cbb6b79d3ac2d911e1dbc3528)
 version = "0.1"
-description = "Widgets for browser applications written in OCaml."
+description = "Library to Interpret Lindenmayer Systems"
 requires = "batteries"
 archive(byte) = "mini_calc.cma"
 archive(byte, plugin) = "mini_calc.cma"
