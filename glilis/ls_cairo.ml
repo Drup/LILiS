@@ -1,7 +1,7 @@
 
 exception Not_image
 
-(** Cairo version of the turtle *)
+(** Cairo version of the turtle. *)
 class cairo_turtle size_x size_y context surface =
 
   object inherit Graphic_order.turtle as super
@@ -34,7 +34,7 @@ class cairo_turtle size_x size_y context surface =
 
   end
   
-(** A turtle that write to a png file *)
+(** A turtle that write to a png file. *)
 class png_turtle size_x size_y = 
   
   let surface = Cairo.Image.create Cairo.Image.ARGB32 size_x size_y in
@@ -49,7 +49,7 @@ class png_turtle size_x size_y =
       Cairo.PNG.write surface file
   end
 
-(** A turtle that write to a svg file *)
+(** A turtle that write to a svg file. *)
 class svg_turtle outfile size_x size_y = 
   
   let width, height = (float size_x), (float size_y) in
@@ -73,7 +73,7 @@ class svg_turtle outfile size_x size_y =
       close_out buffer ;
   end
 
-(** A turtle that write on a gtk surface *)
+(** A turtle that write on a gtk surface. *)
 class gtk_turtle w =
   let ctx = Cairo_gtk.create w#misc#window in
   let { Gtk.width = size_x ; Gtk.height = size_y } = w#misc#allocation in
