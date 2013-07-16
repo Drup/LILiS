@@ -1,5 +1,5 @@
 
-class cairo_turtle size_x size_y context surface =
+class cairo_turtle size_x size_y context =
 
   object inherit Glilis.turtle as super
 
@@ -39,7 +39,7 @@ class png_turtle size_x size_y =
   let ctx = Cairo.create surface in
   let _ = Cairo.set_line_width ctx 1. in
 
-  object inherit cairo_turtle (float size_x) (float size_y) ctx surface
+  object inherit cairo_turtle (float size_x) (float size_y) ctx
 
     method finish file =
       Cairo.stroke ctx ; 
@@ -54,7 +54,7 @@ class svg_turtle outfile size_x size_y =
   let ctx = Cairo.create surface in
   let _ = Cairo.set_line_width ctx 0.5 in
   
-  object inherit cairo_turtle width height ctx surface as super
+  object inherit cairo_turtle width height ctx as super
 
     method move  ?(trace=true) f =
       super#move ~trace f ;
@@ -73,9 +73,8 @@ class svg_turtle outfile size_x size_y =
 class gtk_turtle w =
   let ctx = Cairo_gtk.create w#misc#window in
   let { Gtk.width = size_x ; Gtk.height = size_y } = w#misc#allocation in
-  let surface = Cairo.get_target ctx in
   let _ = Cairo.set_line_width ctx 0.5 in
   
-  object inherit cairo_turtle (float size_x) (float size_y) ctx surface
+  object inherit cairo_turtle (float size_x) (float size_y) ctx
 
   end 

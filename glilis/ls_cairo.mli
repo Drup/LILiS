@@ -1,7 +1,7 @@
 (** Draw with {{: https://forge.ocamlcore.org/projects/cairo} cairo}. *)
 
 (** A turtle that can draw on any Cairo surface. *)
-class cairo_turtle : float -> float -> Cairo.context -> Cairo.Surface.t -> 
+class cairo_turtle : float -> float -> Cairo.context -> 
   object inherit Glilis.turtle
 
     (** Fill the picture with solid white and set the color to solid black *)
