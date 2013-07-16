@@ -19,14 +19,14 @@ Some symbols have a graphical meanings :
 - [ \] ] : restore the last saved position.
 
 For example here is the Von Koch curve :
-{[
+{v
 Von_koch
 axiom :
   F(1)
 rules :
   F(l) = F(l/3) -(60) F(l/3) +(120) F(l/3) -(60) F(l/3)
 end
-]}
+v}
 
 Indentation is optional. A rule must be terminated by a new line. You can't have a newline inside a succession of token (like a rule or an axiom).
 
