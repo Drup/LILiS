@@ -24,14 +24,16 @@ class svg_turtle =
     method move ?(trace=true) f =
       super#move ~trace f ;
       let open Glilis in
+      let pos = super#get_pos() in
       if trace
-      then acc <- push_inst acc (L (pos.x,pos.y))
-      else acc <- push_inst acc (M (pos.x,pos.y))
+      then acc <- push_inst acc (L pos)
+      else acc <- push_inst acc (M pos)
 
     method restore_position () =
       super#restore_position () ;
       let open Glilis in
-      acc <- push_inst acc (M (pos.x,pos.y))
+      let pos = super#get_pos() in
+      acc <- push_inst acc (M pos)
 
     (** Export the path as a string. *)
     method to_string () =

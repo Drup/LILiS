@@ -11,8 +11,9 @@ class cairo_turtle size_x size_y context surface =
       super#move ~trace f ;
       let open Glilis in
       (* Here is a little cheat to have real 1px line *)
-      let x = (floor (size_x *. pos.x)) +. 0.5 in
-      let y = (floor (size_y *. pos.y)) +. 0.5 in
+      let (x,y) = super#get_pos() in
+      let x = (floor (size_x *. x)) +. 0.5 in
+      let y = (floor (size_y *. y)) +. 0.5 in
       if trace 
       then Cairo.line_to context x y 
       else Cairo.move_to context x y
@@ -20,7 +21,8 @@ class cairo_turtle size_x size_y context surface =
     method restore_position () = 
       super#restore_position () ;
       let open Glilis in
-      Cairo.move_to context (floor (size_x *. pos.x)) (floor (size_y *. pos.y))
+      let (x,y) = super#get_pos() in
+      Cairo.move_to context (floor (size_x *. x)) (floor (size_y *. y))
 
     (** Fill the picture with solid white and set the color to solid black *)
     method fill () =
@@ -64,7 +66,8 @@ class svg_turtle outfile size_x size_y =
       super#move ~trace f ;
       Cairo.stroke ctx ;
       let open Glilis in
-      Cairo.move_to ctx (floor (width *. pos.x)) (floor (height *. pos.y))
+      let (x,y) = super#get_pos() in
+      Cairo.move_to ctx (floor (width *. x)) (floor (height *. y))
 
     method finish () = 
       Cairo.stroke ctx ; 
