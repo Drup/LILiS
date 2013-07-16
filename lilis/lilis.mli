@@ -32,23 +32,44 @@ Indentation is optional. A rule must be terminated by a new line. You can't have
 
 *)
 
+(** {2 Preliminary stream functions} *)
+
+(** Encapsulate various stream-like data structures. *)
+module Stream : sig
+
+  module type S = sig
+    type 'a t
+    val singleton : 'a -> 'a t
+    val map : ('a -> 'b) -> 'a t -> 'b t
+    val expand : ('a -> 'b t) -> 'a t -> 'b t
+    val iter : ('a -> unit) -> 'a t -> unit
+    val fold : ('b -> 'a -> 'b) -> 'b -> 'a t -> 'b
+    val of_list : 'a list -> 'a t
+    val to_list : 'a t -> 'a list
+    val clone : 'a t -> 'a t
+    val force : 'a t -> unit
+  end
+
+  module Seq : S with type 'a t = 'a BatSeq.t
+  (** BatSeq from batteries. Functionnal (allow sharing). Fastest (for now ?). *)
+
+  module Enum : S with type 'a t = 'a BatEnum.t
+  (** BatEnum from batteries. Destructive reading, imperative. 2.5 time slower than Seq. *)
+
+  module Stream : S with type 'a t = 'a Stream.t
+  (** Stream from the standard library. Use batteries for convenience. Destructive reading, imperative. ~10 time slower than Seq. *)
+
+  module LazyList : S with type 'a t = 'a BatLazyList.t
+  (** Regular lazy list from batteries. Functionnal. dereasonably slow. *)
+
+end
+
+module Lstream : Stream.S
+(**
+   The current best stream implementation, you can use this if you want a stable Stream module and don't care about the internals. Use BatSeq for now.
+*)
+
 (** {2 Lsystem evaluation library} *)
-
-module type LSTREAM = sig
-  type 'a t 
-  val singleton : 'a -> 'a t
-  val map : ('a -> 'b) -> 'a t -> 'b t
-  val expand : ('a -> 'b t) -> 'a t -> 'b t
-  val expand_map : ('a -> 'b t) -> ('b -> 'c) -> 'a t -> 'c t
-  val iter : ('a -> unit) -> 'a t -> unit
-  val fold : ('b -> 'a -> 'b) -> 'b -> 'a t -> 'b
-  val of_list : 'a list -> 'a t
-  val to_list : 'a t -> 'a list
-  val clone : 'a t -> 'a t
-  val force : 'a t -> unit
-end 
-
-module Lstream : LSTREAM
 
 type lstream = (string * float array) Lstream.t
 (** Stream of token with arguments. *)

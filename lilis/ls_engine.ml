@@ -58,7 +58,7 @@ let extract_symbenv lsys =
   List.fold_left extract_rule senv lsys.rules
 
 
-module LsEngine (Ls : LSTREAM) = struct
+module Engine (Ls : Ls_stream.S) = struct
   
   (** {1 Compression} *)
 
@@ -166,5 +166,3 @@ module LsEngine (Ls : LSTREAM) = struct
     let lstream = eval_lsys_raw n lsys' in
     uncompress_lstream senv lstream
 end
-
-include LsEngine (Lstream)
