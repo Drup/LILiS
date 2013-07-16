@@ -142,6 +142,7 @@ module LsEngine (Ls : LSTREAM) = struct
   (** Generate a lstream at the n-th generation, 
       with the given axiom and the given transformation function. *)
   let generate_lstream m axiom transformation =
+    if m < 0 then failwith "generate_lstream only accept positive integers as generation number" ;
     let map_transform lstream =
       Ls.expand (function (ordre,args) -> transformation ordre args) lstream
     in
