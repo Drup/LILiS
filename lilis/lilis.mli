@@ -93,3 +93,54 @@ val lsystem_from_string : string -> lsystem list
 
 val eval_lsys : int -> lsystem -> lstream
 (** Evaluate a Lsystem at the n-th generation. *)
+
+(** {3 Internal engine} *)
+
+module SMap : Map.S with type key = string
+
+(**
+   A functor to build your own little Lsystem engine given a stream-like data structure. Can be lazy or not, functional or not. 
+
+   The important operations from the performance point of view are [expand] and [map].
+   Concatenation (as used in [expand]) must absolutely be in O(1) amortized time. Lazyness is better for memory occupation but is not necessary.
+
+*)
+module Engine (Lstream : Stream.S) : sig
+
+  val eval_lsys :
+    int -> lsystem -> (string * float array) Lstream.t
+  (** Evaluate a Lsystem at the n-th generation. *)
+
+  (** {2 Compression functions} *)
+
+  (** A lsystem is first compressed before being iterated on.
+      This compression allow far better performances.
+
+      One of the step of compression is to transform string symbols into int.
+      To be allowed to transform back and forth a lstream, the {! compress_lstream } function provide an environment from string symbols to int. 
+      This environment can be used by {! compress_lstream} and {! uncompress_lstream} for O(n) compression/uncompression. The lazyness of {! Lstream} is respected.
+  *)
+
+  type comp_lsystem
+
+  val compress_lsys : lsystem -> int SMap.t * comp_lsystem
+
+  val compress_lstream :
+    int SMap.t -> (string * float array) Lstream.t -> (int * float array) Lstream.t
+
+  val uncompress_lstream :
+    int SMap.t -> (int * float array) Lstream.t -> (string * float array) Lstream.t
+
+  (** {2 Engine} *)
+
+  val apply :
+    comp_lsystem -> ?n:int ->
+    (int * float array) Lstream.t -> (int * float array) Lstream.t
+  (** [ apply_again lsys lstream ] will apply [lsys]'s rules once to [lstream]. The optional argument [n] can be used to apply more than once. *)
+
+  val eval_lsys_raw :
+    int -> comp_lsystem -> (int * float array) Lstream.t
+    (** Raw version of {! eval_lsys} that worked on compressed lsystem. *)
+
+
+end
