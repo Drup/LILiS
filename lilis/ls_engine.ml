@@ -33,8 +33,8 @@ module SymbEnv = struct
     then senv
     else { n = senv.n + 1; env = SMap.add symb senv.n senv.env }
 
-  let to_array { n ; env } = 
-    let v = Array.make n "" in
+  let to_array env =
+    let v = Array.make (SMap.cardinal env) "" in
     SMap.iter (fun s i -> v.(i) <- s) env ;
     v
 
@@ -87,7 +87,7 @@ module LsEngine (Ls : LSTREAM) = struct
     Ls.of_list (List.map fcl lstream)
 
   let compress_lstream senv lstream = 
-    let fcl (s,l) = SMap.find s senv.env, l in
+    let fcl (s,l) = SMap.find s senv, l in
     Ls.map fcl lstream
 
   let uncompress_lstream senv = 
@@ -121,7 +121,7 @@ module LsEngine (Ls : LSTREAM) = struct
     List.iter add_rule lsys.rules ; 
     let caxiom = compress_lslist senv lsys.axiom in
     let new_lsys = { caxiom ; crules } in
-    senv, new_lsys
+    senv.env, new_lsys
     
   (** {1 Lsystem evaluation engine} *)
           
