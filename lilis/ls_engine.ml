@@ -133,8 +133,8 @@ module LsEngine (Ls : LSTREAM) = struct
     in Ls.map f_eval_rule lstream
     
   (** Get the transformation function from a Lsystem. *)
-  let get_transformation lsys =
-    let transf symbol args = match lsys.crules.(symbol) with
+  let get_transformation rules =
+    let transf symbol args = match rules.(symbol) with
         Some x -> eval_rule args x 
       | None -> Ls.singleton (symbol,args)
     in transf
@@ -151,14 +151,19 @@ module LsEngine (Ls : LSTREAM) = struct
       | n -> generation (n-1) (map_transform l)
     in
     generation m axiom
-      
+
+  let apply lsys ?(n=1) lstream = 
+    generate_lstream n
+      lstream
+      (get_transformation lsys.crules)
+
+  let eval_lsys_raw n lsys =
+    apply lsys ~n lsys.caxiom
+
   (** Generate the n-th generation of the given Lsystem. *)
   let eval_lsys n lsys = 
     let senv, lsys' = compress_lsys lsys in
-    let lstream = 
-      generate_lstream n 
-        lsys'.caxiom
-        (get_transformation lsys') in
+    let lstream = eval_lsys_raw n lsys' in
     uncompress_lstream senv lstream
 end
 
