@@ -27,18 +27,20 @@ The executable can be used to draw any L-system like those in [`bank_lsystem`](b
 
 ## Dependencies
 
+- The parser depends on `menhir`.
 - The engine implementation depends on [Batteries Included](https://github.com/ocaml-batteries-team/batteries-included).
-- The graphical interface depends of the [cairo's ocaml binding](https://forge.ocamlcore.org/projects/cairo/).
-  This may change in the future.
-- `Cmdliner` is used by the executable `glilis`.
+- There is currently two graphical backends :
+  - The png and gtk one depends on [Cairo's Ocaml binding](https://forge.ocamlcore.org/projects/cairo/).
+  - The SVG on the *development* version of [tyxml](http://ocsigen.org/tyxml/).
+- `Cmdliner` is used by the executable `glilis_ex`.
 
-To install everything you need :
+You can install most of it with :
 
-	$ opam install batteries cairo lablgtk cmdliner tyxml
+	$ opam install batteries cairo lablgtk cmdliner menhir
+
+See [here](http://ocsigen.org/install#source) for the development version of tyxml.
 
 ## How to
-
-### Build instructions
 
 To build, just do :
 
