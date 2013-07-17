@@ -4,8 +4,6 @@
 
 true : use_menhir, explain
 
-#<**/*> : profile
-
 # OASIS_START
 # DO NOT EDIT (digest: 075679ddf2dc54b4ea6df6dbc73d02c3)
 # Ignore VCS directories, you can use the same kind of rule outside 
