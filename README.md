@@ -1,6 +1,6 @@
 # LILiS
 
-LILiS is *Library to Interpret Lindenmayer Systems*.
+LILiS is a *Library to Interpret Lindenmayer Systems*.
 
 ![Von Koch](http://drup.github.io/LILiS/vonkoch.svg)
 
