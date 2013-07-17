@@ -16,14 +16,25 @@ This project is partially inspired by [Lpy](http://openalea.gforge.inria.fr/doku
 
 ## Dependencies
 
+- The parser depends on `menhir`.
 - The engine implementation depends on [Batteries Included](https://github.com/ocaml-batteries-team/batteries-included).
-- The graphical interface depends of the [cairo's ocaml binding](https://forge.ocamlcore.org/projects/cairo/).
+- The graphical interface depends of the [Cairo's OCaml binding](https://forge.ocamlcore.org/projects/cairo/).
   This may change in the future.
 - `Cmdliner` is used by the executable `glilis`.
+- SVG rendering depends upon the *development* version of `tyxml`.
 
-To install everything you need :
+It is *recommended* to install all this in a
+[separate OPAM instance](http://opam.ocamlpro.com/doc/Developing.html#h2-Interlude:keepingyourOPAMinstallationclean).
 
-	$ opam install batteries cairo lablgtk cmdliner tyxml
+To install everything you need (but tyxml) :
+
+	$ opam install batteries cairo lablgtk cmdliner menhir
+
+LILiS depends upon the *development* version of `tyxml`, which is fetched using `darcs` (so you must install it):
+
+	$ opam repository add opamocsigen http://ocsigen.org/opam
+	$ opam pin --force tyxml 9999
+	$ opam install tyxml
 
 ## How to
 
@@ -73,8 +84,8 @@ Current potential goals:
 - Rewrite the L-system parser.  
   Oh god, did I really write something this hideous ?
 - Separate the drawing from the executable.
-- Try other drawing library or maybe pur openGL.
-- Implement an SVG export with `tyxml`.
+- Try other drawing libraries or maybe pure openGL.
+- Implement SVG export with `tyxml`.
 - Make a pretty GUI.
 - Improve the core engine.
 - Extend the grammar, implement interpretation rules and do a bit of verification on the rules.
