@@ -1,0 +1,22 @@
+LILiS is a {b Library to Interpret Lindenmayer Systems}.
+
+{{: http://en.wikipedia.org/wiki/L-system} L-systems} are a kind of formal grammar defined by Lindermayer.
+
+The goal of this project is to implement a library to evaluate L-systems and to visualise them (in 2D only).
+The library is available {{:https://github.com/Drup/LILiS} here}.
+
+
+{! Lilis} is the core engine of the library. It contains a parser and a evaluator for L-systems.
+
+{! Mini_calc} is a small library to evaluate arithmetic expressions. It's an helper for {! Lilis}.
+
+{! Glilis} contains a skeleton drawer for graphical backends.
+Two backend are currently implemented :
+- {! Ls_cairo} draw to png and gtk using {{: https://forge.ocamlcore.org/projects/cairo} cairo}.
+- {! Ls_tyxml} can produce svg file or svg elements using {{: http://ocsigen.org/tyxml/} tyxml}.
+
+{%html: <img style="margin : 0 auto; display: block" src="vonkoch.svg" /> %}
+
+{2 Index}
+{!modules: Mini_calc Lilis Glilis Ls_cairo Ls_tyxml}
+{!indexlist}

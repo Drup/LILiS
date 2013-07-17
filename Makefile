@@ -8,6 +8,7 @@ build: setup.data
 
 doc: setup.data build
 	$(SETUP) -doc $(DOCFLAGS)
+	cp doc/vonkoch.svg doc.docdir/vonkoch.svg
 
 test: setup.data build
 	$(SETUP) -test $(TESTFLAGS)
