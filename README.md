@@ -83,11 +83,8 @@ This project has three parts :
 
 Current potential goals:
 
-- Rewrite the L-system parser.  
-  Oh god, did I really write something this hideous ?
-- Separate the drawing from the executable.
+- Implement a better error handling for the parser.
 - Try other drawing library or maybe pur openGL.
-- Implement an SVG export with `tyxml`.
 - Make a pretty GUI.
 - Improve the core engine.
 - Extend the grammar, implement interpretation rules and do a bit of verification on the rules.
