@@ -37,3 +37,6 @@ setup.data:
 .PHONY: build doc test all install uninstall reinstall clean distclean configure
 
 # OASIS_STOP
+
+upload-docs:
+	make doc && git checkout gh-pages && cp _build/doc.docdir/* . && git add * && git commit -m"Update to latest documentation" && git push gh-pages
