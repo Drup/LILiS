@@ -1,7 +1,4 @@
-(** Small library to evaluate simple arithmetic expressions. 
-
-    @author Gabriel Radanne
-*)
+(** Small library to evaluate simple arithmetic expressions. *)
 
 (** 
    This library evaluates simple arithmetic expression over floats.
@@ -9,8 +6,6 @@
    Arithmetic expressions can contains variables.
    
    Here is an example of expression : [ 3*x+sin(2) ].
-
-   This library was designed to be used by {{:https://github.com/Drup/LILiS} LILiS}.
 
 *)
 

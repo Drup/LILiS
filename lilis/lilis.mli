@@ -1,9 +1,4 @@
-(** Library to Interpret Lindenmayer Systems. 
-
-    @author Gabriel Radanne
-*)
-
-(** This library is available {{:https://github.com/Drup/LILiS} here}. *)
+(** Library to Interpret Lindenmayer Systems. *)
 
 (** A L-system is described by a name, an axiom and a bunch of rules. Each symbols can have some arithmetic expressions as arguments.
 
