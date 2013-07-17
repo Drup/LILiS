@@ -2,10 +2,11 @@
 
 LILiS is *Library to Interpret Lindenmayer Systems*.
 
+![Von Koch](http://drup.github.io/LILiS/vonkoch.svg)
+
 ## L-system
 
 [L-systems](http://en.wikipedia.org/wiki/L-system) are a kind of formal grammar defined by Lindermayer.
-
 
 ## Description of LILiS
 
@@ -78,3 +79,6 @@ Current potential goals:
 - Make a pretty GUI.
 - Improve the core engine.
 - Extend the grammar, implement interpretation rules and do a bit of verification on the rules.
+
+
+![Dragon](http://drup.github.io/LILiS/dragon.svg)
