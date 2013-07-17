@@ -2,9 +2,11 @@ OASISFormat: 0.3
 Name:        LILiS
 Version:     0.1
 Synopsis:    Library to Interpret Lindenmayer Systems
-Authors:     Gabriel Radanne
+Description: A Library to interpret, evaluate and draw L-systems.
+Authors:     Gabriel Radanne <drupyog@zoho.com>
 License:     MIT
 Plugins:     META (0.3), DevFiles (0.3)
+Homepage:    http://drup.github.io/LILiS/
 
 Flag cairo
   Description: Enable the cairo backend for png and gtk output.
@@ -76,3 +78,9 @@ Document doc
   BuildTools:		ocamldoc, ocamlbuild
   XOCamlbuildPath:	.
   XOCamlbuildLibraries:	mini_calc, lilis, glilis, glilis.cairo, glilis.tyxml
+
+SourceRepository master
+  Type: git
+  Location: https://github.com/Drup/LILiS.git
+  Branch: master
+  Browser: https://github.com/Drup/LILiS
