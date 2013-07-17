@@ -62,7 +62,7 @@ You can also install `mini_calc` and `lilis` as libraries with :
 
 [Homebrew](http://mxcl.github.io/homebrew/) users may fail to build `lablgtk`.
 
-This is due to broken location of some `pkg-config` files.  
+This is due to broken location of some `pkg-config` files.
 See <https://github.com/mxcl/homebrew/issues/14123>
 
 To build `lablgtk`, do:
