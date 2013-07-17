@@ -1,0 +1,142 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="Mini_calc.html">
+<link rel="next" href="Glilis.html">
+<link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of class methods" rel=Appendix href="index_methods.html">
+<link title="Index of classes" rel=Appendix href="index_classes.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="Mini_calc" rel="Chapter" href="Mini_calc.html">
+<link title="Lilis" rel="Chapter" href="Lilis.html">
+<link title="Glilis" rel="Chapter" href="Glilis.html">
+<link title="Ls_cairo" rel="Chapter" href="Ls_cairo.html">
+<link title="Ls_tyxml" rel="Chapter" href="Ls_tyxml.html"><link title="Preliminary stream functions" rel="Section" href="#2_Preliminarystreamfunctions">
+<link title="Lsystem evaluation library" rel="Section" href="#2_Lsystemevaluationlibrary">
+<link title="Internal engine" rel="Subsection" href="#3_Internalengine">
+<title>LILiS user guide : Lilis</title>
+</head>
+<body>
+<div class="navbar"><a class="pre" href="Mini_calc.html" title="Mini_calc">Previous</a>
+&nbsp;<a class="up" href="index.html" title="Index">Up</a>
+&nbsp;<a class="post" href="Glilis.html" title="Glilis">Next</a>
+</div>
+<h1>Module <a href="type_Lilis.html">Lilis</a></h1>
+<pre><span class="keyword">module</span> Lilis: <code class="code"><span class="keyword">sig</span></code> <a href="Lilis.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><div class="info">
+Library to Interpret Lindenmayer Systems.<br>
+</div>
+<hr width="100%">
+<br>
+A L-system is described by a name, an axiom and a bunch of rules. Each symbols can have some arithmetic expressions as arguments.
+<p>
+
+An axiom is a list of symbols. A rule is composed of a left-hand side with a single symbol, potentially some variables and a right-hand side which is a list of symbols where arithmetic expressions can contains those variables.
+<p>
+
+Some symbols have a graphical meanings : <ul>
+<li><code class="code"> <span class="constructor">F</span> </code> : Forward, takes a length as argument.</li>
+<li><code class="code"> <span class="constructor">B</span> </code> : Backward, takes a length as argument.</li>
+<li><code class="code"> f </code> : forward without drawing.</li>
+<li><code class="code"> + </code> : turn clockwise, takes an angle in degree as argument.</li>
+<li><code class="code"> - </code> : turn counter-clockwise, takes an angle in degree as argument.</li>
+<li><code class="code"> [ </code> : save the current position on the stack.</li>
+<li><code class="code"> ] </code> : restore the last saved position.</li>
+</ul>
+
+For example here is the Von Koch curve :
+<pre class="verbatim">Von_koch
+axiom :
+  F(1)
+rules :
+  F(l) = F(l/3) -(60) F(l/3) +(120) F(l/3) -(60) F(l/3)
+end</pre>
+<p>
+
+Indentation is optional. A rule must be terminated by a new line. You can't have a newline inside a succession of token (like a rule or an axiom).<br>
+<br>
+<h2 id="2_Preliminarystreamfunctions">Preliminary stream functions</h2><br>
+<pre><span class="keyword">module</span> <a href="Lilis.Stream.html">Stream</a>: <code class="code"><span class="keyword">sig</span></code> <a href="Lilis.Stream.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><div class="info">
+Encapsulate various stream-like data structures.
+</div>
+<pre><span class="keyword">module</span> <a href="Lilis.Lstream.html">Lstream</a>: <code class="type"><a href="Lilis.Stream.S.html">Stream.S</a></code><code class="type"> </code></pre><div class="info">
+The current best stream implementation, you can use this if you want a stable Stream module and don't care about the internals.
+</div>
+<br>
+<h2 id="2_Lsystemevaluationlibrary">Lsystem evaluation library</h2><br>
+<pre><span id="TYPElstream"><span class="keyword">type</span> <code class="type"></code>lstream</span> = <code class="type">(string * float array) Lstream.t</code> </pre>
+<div class="info">
+Stream of token with arguments.<br>
+</div>
+
+<pre><code><span id="TYPErule"><span class="keyword">type</span> <code class="type"></code>rule</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTrule.lhs">lhs</span>&nbsp;:<code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTrule.vars">vars</span>&nbsp;:<code class="type">string list</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTrule.rhs">rhs</span>&nbsp;:<code class="type">(string * string <a href="Mini_calc.html#TYPEarit_tree">Mini_calc.arit_tree</a> list) list</code>;</code></td>
+
+</tr></table>
+}
+
+<div class="info">
+A Lsystem rule.<br>
+</div>
+
+<pre><code><span id="TYPElsystem"><span class="keyword">type</span> <code class="type"></code>lsystem</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTlsystem.name">name</span>&nbsp;:<code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTlsystem.axiom">axiom</span>&nbsp;:<code class="type">(string * float list) list</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTlsystem.rules">rules</span>&nbsp;:<code class="type"><a href="Lilis.html#TYPErule">rule</a> list</code>;</code></td>
+
+</tr></table>
+}
+
+<div class="info">
+A complete Lsystem.<br>
+</div>
+
+<pre><span id="VALlsystem_from_chanel"><span class="keyword">val</span> lsystem_from_chanel</span> : <code class="type">Pervasives.in_channel -> <a href="Lilis.html#TYPElsystem">lsystem</a> list</code></pre><pre><span id="VALlsystem_from_string"><span class="keyword">val</span> lsystem_from_string</span> : <code class="type">string -> <a href="Lilis.html#TYPElsystem">lsystem</a> list</code></pre><pre><span id="VALeval_lsys"><span class="keyword">val</span> eval_lsys</span> : <code class="type">int -> <a href="Lilis.html#TYPElsystem">lsystem</a> -> <a href="Lilis.html#TYPElstream">lstream</a></code></pre><div class="info">
+Evaluate a Lsystem at the n-th generation.<br>
+</div>
+<br>
+<h3 id="3_Internalengine">Internal engine</h3><br>
+<pre><span class="keyword">module</span> <a href="Lilis.SMap.html">SMap</a>: <code class="type">Map.S</code><code class="type">  with type key = string</code></pre><pre><span class="keyword">module</span> <a href="Lilis.Engine.html">Engine</a>: <div class="sig_block"><code class="code"><span class="keyword">functor</span> (</code><code class="code"><span class="constructor">Lstream</span></code><code class="code"> : </code><code class="type"><a href="Lilis.Stream.S.html">Stream.S</a></code><code class="code">) <span class="keywordsign">-&gt;</span> </code><code class="code"><span class="keyword">sig</span></code> <a href="Lilis.Engine.html">..</a> <code class="code"><span class="keyword">end</span></code></div></pre><div class="info">
+A functor to build your own little Lsystem engine given a stream-like data structure.
+</div>
+</body></html>

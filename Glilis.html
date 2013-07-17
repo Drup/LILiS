@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="Lilis.html">
+<link rel="next" href="Ls_cairo.html">
+<link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of class methods" rel=Appendix href="index_methods.html">
+<link title="Index of classes" rel=Appendix href="index_classes.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="Mini_calc" rel="Chapter" href="Mini_calc.html">
+<link title="Lilis" rel="Chapter" href="Lilis.html">
+<link title="Glilis" rel="Chapter" href="Glilis.html">
+<link title="Ls_cairo" rel="Chapter" href="Ls_cairo.html">
+<link title="Ls_tyxml" rel="Chapter" href="Ls_tyxml.html"><title>LILiS user guide : Glilis</title>
+</head>
+<body>
+<div class="navbar"><a class="pre" href="Lilis.html" title="Lilis">Previous</a>
+&nbsp;<a class="up" href="index.html" title="Index">Up</a>
+&nbsp;<a class="post" href="Ls_cairo.html" title="Ls_cairo">Next</a>
+</div>
+<h1>Module <a href="type_Glilis.html">Glilis</a></h1>
+<pre><span class="keyword">module</span> Glilis: <code class="code"><span class="keyword">sig</span></code> <a href="Glilis.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><div class="info">
+Graphical primitives for drawing L-systems.<br>
+</div>
+<hr width="100%">
+<br>
+We use a logo-like system to draw a L-system : a turtle is following the order in the Lstream.<br>
+<pre><span name="TYPEturtle"><span class="keyword">class</span> <a href="Glilis.turtle-c.html">turtle</a></span> : <code class="type"></code><code class="code"><span class="keyword">object</span></code> <a href="Glilis.turtle-c.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><div class="info">
+Class representing a turtle.
+</div>
+<pre><span id="VALdraw"><span class="keyword">val</span> draw</span> : <code class="type">#<a href="Glilis.turtle-c.html">turtle</a> -> string * float array -> unit</code></pre><div class="info">
+Translate some usual symbol of L-system into a drawing order.<br>
+</div>
+<pre><span id="VALdraw_enum"><span class="keyword">val</span> draw_enum</span> : <code class="type">#<a href="Glilis.turtle-c.html">turtle</a> -> (string * float array) Lilis.Lstream.t -> unit</code></pre><pre><span id="VALdraw_list"><span class="keyword">val</span> draw_list</span> : <code class="type">#<a href="Glilis.turtle-c.html">turtle</a> -> (string * float array) list -> unit</code></pre></body></html>

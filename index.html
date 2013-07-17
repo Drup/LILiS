@@ -1,0 +1,83 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of class methods" rel=Appendix href="index_methods.html">
+<link title="Index of classes" rel=Appendix href="index_classes.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="Mini_calc" rel="Chapter" href="Mini_calc.html">
+<link title="Lilis" rel="Chapter" href="Lilis.html">
+<link title="Glilis" rel="Chapter" href="Glilis.html">
+<link title="Ls_cairo" rel="Chapter" href="Ls_cairo.html">
+<link title="Ls_tyxml" rel="Chapter" href="Ls_tyxml.html"><title>LILiS user guide</title>
+</head>
+<body>
+<h1>LILiS user guide</h1>
+LILiS is a <b>Library to Interpret Lindenmayer Systems</b>.
+<p>
+
+<a href=" http://en.wikipedia.org/wiki/L-system"> L-systems</a> are a kind of formal grammar defined by Lindermayer.
+<p>
+
+The goal of this project is to implement a library to evaluate L-systems and to visualise them (in 2D only).
+The library is available <a href="https://github.com/Drup/LILiS"> here</a>.
+<p>
+
+<a href="Lilis.html"><code class="code"><span class="constructor">Lilis</span></code></a> is the core engine of the library. It contains a parser and a evaluator for L-systems.
+<p>
+
+<a href="Mini_calc.html"><code class="code"><span class="constructor">Mini_calc</span></code></a> is a small library to evaluate arithmetic expressions. It's an helper for <a href="Lilis.html"><code class="code"><span class="constructor">Lilis</span></code></a>.
+<p>
+
+<a href="Glilis.html"><code class="code"><span class="constructor">Glilis</span></code></a> contains a skeleton drawer for graphical backends.
+Two backend are currently implemented :<ul>
+<li><a href="Ls_cairo.html"><code class="code"><span class="constructor">Ls_cairo</span></code></a> draw to png and gtk using <a href=" https://forge.ocamlcore.org/projects/cairo"> cairo</a>.</li>
+<li><a href="Ls_tyxml.html"><code class="code"><span class="constructor">Ls_tyxml</span></code></a> can produce svg file or svg elements using <a href=" http://ocsigen.org/tyxml/"> tyxml</a>.</li>
+</ul>
+
+<img style="margin : 0 auto; display: block" src="vonkoch.svg" /> 
+<p>
+
+<h2 id="2_Index">Index</h2>
+<br>
+<table class="indextable">
+<tr><td class="module"><a href="Mini_calc.html">Mini_calc</a></td><td><div class="info">
+Small library to evaluate simple arithmetic expressions.
+</div>
+</td></tr>
+<tr><td class="module"><a href="Lilis.html">Lilis</a></td><td><div class="info">
+Library to Interpret Lindenmayer Systems.
+</div>
+</td></tr>
+<tr><td class="module"><a href="Glilis.html">Glilis</a></td><td><div class="info">
+Graphical primitives for drawing L-systems.
+</div>
+</td></tr>
+<tr><td class="module"><a href="Ls_cairo.html">Ls_cairo</a></td><td><div class="info">
+Draw with <a href=" https://forge.ocamlcore.org/projects/cairo"> cairo</a>.
+</div>
+</td></tr>
+<tr><td class="module"><a href="Ls_tyxml.html">Ls_tyxml</a></td><td><div class="info">
+Draw to a svg using <a href=" http://ocsigen.org/tyxml/"> tyxml</a>.
+</div>
+</td></tr>
+</table>
+
+<ul class="indexlist">
+<li><a href="index_types.html">Index of types</a></li>
+<li><a href="index_exceptions.html">Index of exceptions</a></li>
+<li><a href="index_values.html">Index of values</a></li>
+<li><a href="index_methods.html">Index of class methods</a></li>
+<li><a href="index_classes.html">Index of classes</a></li>
+<li><a href="index_modules.html">Index of modules</a></li>
+<li><a href="index_module_types.html">Index of module types</a></li>
+</ul>
+<br>
+</body>
+</html>
