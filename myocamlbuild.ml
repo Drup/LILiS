@@ -1,5 +1,5 @@
 (* OASIS_START *)
-(* DO NOT EDIT (digest: f490272ee28d043adf6cd6d8fdab6cf1) *)
+(* DO NOT EDIT (digest: 13135c173e4afe8e924015e9068f843e) *)
 module OASISGettext = struct
 (* # 21 "src/oasis/OASISGettext.ml" *)
 
@@ -479,7 +479,7 @@ let package_default =
   {
      MyOCamlbuildBase.lib_ocaml =
        [
-          ("mini_calc", ["mini_calc"]);
+          ("minicalc", ["mini_calc"]);
           ("lilis", ["lilis"]);
           ("glilis", ["glilis"]);
           ("glilis.cairo", ["glilis"]);

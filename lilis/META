@@ -1,8 +1,8 @@
 # OASIS_START
-# DO NOT EDIT (digest: 4221f23218b5026fa9bffbeb19702027)
+# DO NOT EDIT (digest: 7e817be820faf9386dc40a5bb241906d)
 version = "0.1"
 description = "Library to Interpret Lindenmayer Systems"
-requires = "batteries mini_calc"
+requires = "batteries minicalc"
 archive(byte) = "lilis.cma"
 archive(byte, plugin) = "lilis.cma"
 archive(native) = "lilis.cmxa"

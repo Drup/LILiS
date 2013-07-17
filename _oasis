@@ -16,7 +16,11 @@ Flag tyxml
   Description: Enable the tyxml backend for svg output.
   Default: true
 
-Library mini_calc
+Flag glilis_ex
+  Description: Build the executable glilis_ex.native.
+  Default: false
+
+Library minicalc
   Path: mini_calc
   BuildTools: ocamlbuild
   Modules:
@@ -34,7 +38,7 @@ Library lilis
   InternalModules:
     Ls_type, Ls_engine, Ls_lexer, Ls_syntax, Ls_parser
   BuildDepends:
-    batteries, mini_calc
+    batteries, minicalc
 
 Library glilis
   Path: glilis
@@ -62,7 +66,7 @@ Library "glilis.tyxml"
 
 Executable glilis
   Build: false
-  if flag(tyxml) && flag(cairo)
+  if flag(tyxml) && flag(cairo) && flag(glilis_ex)
     Build: true
   Install: false
   Path: glilis
@@ -77,7 +81,7 @@ Document doc
   Type:			ocamlbuild (0.3)
   BuildTools:		ocamldoc, ocamlbuild
   XOCamlbuildPath:	.
-  XOCamlbuildLibraries:	mini_calc, lilis, glilis, glilis.cairo, glilis.tyxml
+  XOCamlbuildLibraries:	minicalc, lilis, glilis, glilis.cairo, glilis.tyxml
 
 SourceRepository master
   Type: git

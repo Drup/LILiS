@@ -5,7 +5,7 @@
 true : use_menhir, explain
 
 # OASIS_START
-# DO NOT EDIT (digest: 075679ddf2dc54b4ea6df6dbc73d02c3)
+# DO NOT EDIT (digest: 330db7b5e3c031276d4085abea479905)
 # Ignore VCS directories, you can use the same kind of rule outside 
 # OASIS_START/STOP if you want to exclude directories that contains 
 # useless stuff for the build process
@@ -19,12 +19,12 @@ true : use_menhir, explain
 ".git": not_hygienic
 "_darcs": -traverse
 "_darcs": not_hygienic
-# Library mini_calc
-"mini_calc/mini_calc.cmxs": use_mini_calc
+# Library minicalc
+"mini_calc/minicalc.cmxs": use_minicalc
 <mini_calc/*.ml{,i}>: pkg_batteries
 # Library lilis
 "lilis/lilis.cmxs": use_lilis
-<lilis/*.ml{,i}>: use_mini_calc
+<lilis/*.ml{,i}>: use_minicalc
 <lilis/*.ml{,i}>: pkg_batteries
 # Library glilis
 "glilis/glilis.cmxs": use_glilis
@@ -37,7 +37,7 @@ true : use_menhir, explain
 <glilis/glilis_ex.{native,byte}>: use_glilis.cairo
 <glilis/glilis_ex.{native,byte}>: use_glilis
 <glilis/glilis_ex.{native,byte}>: use_lilis
-<glilis/glilis_ex.{native,byte}>: use_mini_calc
+<glilis/glilis_ex.{native,byte}>: use_minicalc
 <glilis/glilis_ex.{native,byte}>: pkg_cmdliner
 <glilis/glilis_ex.{native,byte}>: pkg_tyxml
 <glilis/glilis_ex.{native,byte}>: pkg_cairo2.lablgtk2
@@ -47,7 +47,7 @@ true : use_menhir, explain
 <glilis/*.ml{,i}>: use_glilis.cairo
 <glilis/*.ml{,i}>: use_glilis
 <glilis/*.ml{,i}>: use_lilis
-<glilis/*.ml{,i}>: use_mini_calc
+<glilis/*.ml{,i}>: use_minicalc
 <glilis/*.ml{,i}>: pkg_cmdliner
 <glilis/*.ml{,i}>: pkg_tyxml
 <glilis/*.ml{,i}>: pkg_cairo2.lablgtk2

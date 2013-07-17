@@ -1,12 +1,12 @@
 # OASIS_START
-# DO NOT EDIT (digest: ee36776cbb6b79d3ac2d911e1dbc3528)
+# DO NOT EDIT (digest: a67bd49f318f753964d2cdf41bbfb6b1)
 version = "0.1"
 description = "Library to Interpret Lindenmayer Systems"
 requires = "batteries"
-archive(byte) = "mini_calc.cma"
-archive(byte, plugin) = "mini_calc.cma"
-archive(native) = "mini_calc.cmxa"
-archive(native, plugin) = "mini_calc.cmxs"
-exists_if = "mini_calc.cma"
+archive(byte) = "minicalc.cma"
+archive(byte, plugin) = "minicalc.cma"
+archive(native) = "minicalc.cmxa"
+archive(native, plugin) = "minicalc.cmxs"
+exists_if = "minicalc.cma"
 # OASIS_STOP
 
