@@ -46,17 +46,17 @@ To build, just do :
 
 	$ make
 
-It will produce an executable `glilis_ex.native`. See `glilis_ex.native --help` for more information.
-
 You can use two flags with `configure` : `--disable-cairo` and `--disable-tyxml` to disable the relevant libraries. Both are enabled by default.
 
 To produce the documentation :
 
 	$ make doc
 
-You can also install `mini_calc` and `lilis` as libraries with :
+You can also install the various libraries with :
 
 	$ make install
+
+If you used `configure` with the flag `--enable-glilis_ex` and both graphical backends, it will produce an executable `glilis_ex.native`. See `glilis_ex.native --help` for more information.
 
 ### Building `lablgtk` and `cairo` on OS X
 
