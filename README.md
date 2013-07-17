@@ -10,12 +10,12 @@ LILiS is a *Library to Interpret Lindenmayer Systems*.
 
 ## Description of LILiS
 
-The goal of this project is to implement a library to evaluate L-systems and to visualise them (in 2D only).
+The goal of this library is to evaluate L-systems and to visualise them (in 2D only).
 The emphasis is put on speed and low memory occupation with the use of lazy evaluation.
 
 This project is partially inspired by [Lpy](http://openalea.gforge.inria.fr/dokuwiki/doku.php?id=packages:vplants:lpy:main).
 
-The project is split is 4 parts:
+The project is split in 4 parts:
 - A small library to calculate arithmetic expressions;
 - A library to parse and evaluate L-systems;
 - A graphic library to draw such L-systems;
