@@ -15,6 +15,16 @@ The emphasis is put on speed and low memory occupation with the use of lazy eval
 
 This project is partially inspired by [Lpy](http://openalea.gforge.inria.fr/dokuwiki/doku.php?id=packages:vplants:lpy:main).
 
+The project is split is 4 parts:
+- A small library to calculate arithmetic expressions;
+- A library to parse and evaluate L-systems;
+- A graphic library to draw such L-systems;
+- An executable.
+
+The documentation for the various libraries can be found [here](http://drup.github.io/LILiS/).
+
+The executable can be used to draw any L-system like those in [`bank_lsystem`](bank_lsystem) for examples.
+
 ## Dependencies
 
 - The engine implementation depends on [Batteries Included](https://github.com/ocaml-batteries-team/batteries-included).
@@ -34,7 +44,7 @@ To build, just do :
 
 	$ make
 
-It will produce an executable `glilis.native`. Just do `./glilis.native --help` for more informations.
+It will produce an executable `glilis_ex.native`. See `glilis_ex.native --help` for more information.
 
 To see some examples of L-systems, look at [`bank_lsystem`](bank_lsystem).
 
