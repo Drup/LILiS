@@ -48,7 +48,7 @@ To build, just do :
 
 It will produce an executable `glilis_ex.native`. See `glilis_ex.native --help` for more information.
 
-To see some examples of L-systems, look at [`bank_lsystem`](bank_lsystem).
+You can use two flags with `configure` : `--disable-cairo` and `--disable-tyxml` to disable the relevant libraries. Both are enabled by default.
 
 To produce the documentation :
 
