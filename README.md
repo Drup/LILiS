@@ -56,7 +56,7 @@ You can also install the various libraries with :
 
 	$ make install
 
-If you used `configure` with the flag `--enable-glilis_ex` and both graphical backends, it will produce an executable `glilis_ex.native`. See `glilis_ex.native --help` for more information.
+If you used `configure` with the flag `--enable-glilis-ex` and both graphical backends, it will produce an executable `glilis_ex.native`. See `glilis_ex.native --help` for more information.
 
 ### Building `lablgtk` and `cairo` on OS X
 
