@@ -2,10 +2,13 @@ open Glilis
 open Lilis
 open Cmdliner
 
-let get_lsystem file =
-  let bank_ls = lsystem_from_chanel (open_in file) in
-  let lsys = List.nth bank_ls 0 in
-  lsys
+let get_lsystem file name =
+  let c = open_in file in
+  let bank_ls = lsystem_from_chanel c in
+  close_in c;
+  match name with
+	| None   -> List.hd bank_ls
+	| Some s -> List.find (fun l -> l.name = s) bank_ls
 
 let init_time, print_time =
   let time = ref (Unix.gettimeofday ()) in
@@ -59,6 +62,10 @@ let bank =
   let doc = "Charge the $(docv) file as a Lsystem library" in
   Arg.(required & pos 0 (some non_dir_file) None & info [] ~docv:"BANK" ~doc)
 
+let lname =
+  let doc = "Draw the $(docv) Lsystem from the selected library" in
+  Arg.(value & pos 1 (some string) None & info [] ~docv:"NAME" ~doc)
+
 let generation = 
   let doc = "Generate the Lsystem at the n-th generation" in
   Arg.(required & opt (some int) None & info ["n"] ~docv:"GEN" ~doc)
@@ -92,8 +99,8 @@ let svg_cairo =
   Arg.(value & opt (some string) None & info ["svg-cairo"] ~docv:"FILE" ~doc)
 
 
-let main n bank size bench verbose png svg svg_cairo gtk =
-  let lsys = get_lsystem bank in
+let main n bank name size bench verbose png svg svg_cairo gtk =
+  let lsys = get_lsystem bank name in
   if bench then init_time () ;
   let lstream = eval_lsys n lsys in
   if verbose then print_endline "I'm computing and drawing !" ;
@@ -110,9 +117,9 @@ let main n bank size bench verbose png svg svg_cairo gtk =
   
 let main_t = 
   let open Term in
-  pure main $ generation $ bank 
-  $ size $ bench $ verbose 
-  $ png $ svg $ svg_cairo $ gtk
+  pure main $ generation $ bank $ lname
+            $ size $ bench $ verbose 
+            $ png $ svg $ svg_cairo $ gtk
 
 let () = 
   match Term.eval (main_t, Term.info "glilis") with 
