@@ -7,7 +7,7 @@ let get_lsystem file name =
   let bank_ls = lsystem_from_chanel c in
   close_in c;
   match name with
-	| "" -> List.nth bank_ls 0
+	| "" -> List.head bank_ls
 	| s  -> List.find (fun l -> l.name = s) bank_ls
 
 let init_time, print_time =
