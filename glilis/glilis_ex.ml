@@ -7,8 +7,8 @@ let get_lsystem file name =
   let bank_ls = lsystem_from_chanel c in
   close_in c;
   match name with
-	| "" -> List.head bank_ls
-	| s  -> List.find (fun l -> l.name = s) bank_ls
+	| None   -> List.hd bank_ls
+	| Some s -> List.find (fun l -> l.name = s) bank_ls
 
 let init_time, print_time =
   let time = ref (Unix.gettimeofday ()) in
@@ -64,7 +64,7 @@ let bank =
 
 let lname =
   let doc = "Draw the $(docv) Lsystem from the selected library" in
-  Arg.(value & pos 1 string "" & info [] ~docv:"NAME" ~doc)
+  Arg.(value & pos 1 (some string) None & info [] ~docv:"NAME" ~doc)
 
 let generation = 
   let doc = "Generate the Lsystem at the n-th generation" in
