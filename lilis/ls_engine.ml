@@ -130,7 +130,7 @@ module Engine (Ls : Ls_stream.S) = struct
   let eval_rule (env : float array) (lstream : comp_rule) : comp_lstream =
     let f_eval_rule (ordre,ordre_args) = 
       ordre, Array.map (fun f -> f env) ordre_args
-    in Ls.map f_eval_rule lstream
+    in Ls.map f_eval_rule (Ls.clone lstream)
     
   (** Get the transformation function from a Lsystem. *)
   let get_transformation rules =
