@@ -48,7 +48,7 @@ module Enum = (struct
   let to_list = BatList.of_enum
 end : S with type 'a t = 'a BatEnum.t )
 
-(** Stream from the standard library. Use batteries for convenience. Destructive reading, imperative. ~10 time slower than Seq. *)
+(** Stream from the standard library. Use batteries for convenience. Destructive reading, imperative. ~10 time slower than Seq. Broken for now because lack of clone function.*)
 module Stream = (struct 
   include BatStream
   let expand f l = concat (map f l)
@@ -58,7 +58,7 @@ module Stream = (struct
   let singleton x = cons x (of_list [])
 end : S with type 'a t = 'a Stream.t )
 
-(** Regular lazy list from batteries. Functionnal. dereasonably slow. *)
+(** Regular lazy list from batteries. Functionnal. ~8 time slower than Seq. *)
 module LazyList = (struct 
   include BatLazyList
   let expand f l = concat (map f l)

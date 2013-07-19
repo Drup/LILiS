@@ -52,10 +52,10 @@ module Stream : sig
   (** BatEnum from batteries. Destructive reading, imperative. 2.5 time slower than Seq. *)
 
   module Stream : S with type 'a t = 'a Stream.t
-  (** Stream from the standard library. Use batteries for convenience. Destructive reading, imperative. ~10 time slower than Seq. *)
+(** Stream from the standard library. Use batteries for convenience. Destructive reading, imperative. ~10 time slower than Seq. Broken for now because lack of clone function.*)
 
   module LazyList : S with type 'a t = 'a BatLazyList.t
-  (** Regular lazy list from batteries. Functionnal. dereasonably slow. *)
+(** Regular lazy list from batteries. Functionnal. ~8 time slower than Seq. *)
 
 end
 
