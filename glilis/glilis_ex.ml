@@ -2,14 +2,23 @@ open Glilis
 open Lilis
 open Cmdliner
 
+exception NoLsys of string 
+exception NoLsysName of string * string
+
 let get_lsystem file name =
   let c = open_in file in
   let bank_ls = lsystem_from_chanel c in
   close_in c;
   match name with
-	| None   -> List.hd bank_ls
-	| Some s -> List.find (fun l -> l.name = s) bank_ls
-
+    | None   -> begin 
+        try List.hd bank_ls 
+        with Failure "hd" -> raise (NoLsys file)
+      end
+    | Some s -> begin
+        try List.find (fun l -> l.name = s) bank_ls 
+        with Not_found -> raise (NoLsysName (file, s))
+      end 
+                                             
 let init_time, print_time =
   let time = ref (Unix.gettimeofday ()) in
   let init () = time := Unix.gettimeofday () in
@@ -56,7 +65,9 @@ let to_svg size lstream file =
   Svg.P.print ~output:(output_string buffer) lsvg ;
   close_out buffer
 
-(** Go go Cmdliner ! *)
+(** {2 Go go Cmdliner !} *)
+
+(** {3 First, arguments.} *)
 
 let bank = 
   let doc = "Charge the $(docv) file as a Lsystem library" in
@@ -98,28 +109,42 @@ let svg_cairo =
   let doc = "Write a svg to $(docv) with the cairo backend." in
   Arg.(value & opt (some string) None & info ["svg-cairo"] ~docv:"FILE" ~doc)
 
+(** {3 Then, terms.} *)
 
-let main n bank name size bench verbose png svg svg_cairo gtk =
-  let lsys = get_lsystem bank name in
+let parsing_t bank lname =
+  try
+    let lsys = get_lsystem bank lname in
+    `Ok lsys
+  with 
+    | NoLsys file -> 
+      `Error ( false , Printf.sprintf 
+        "The file %s doesn't contain any L-system." file )
+    | NoLsysName (file,lname) -> 
+      `Error ( false , Printf.sprintf
+        "The file %s doesn't contain any L-system named %s." file lname )
+
+let processing_t bench n lsys = 
   if bench then init_time () ;
   let lstream = eval_lsys n lsys in
-  if verbose then print_endline "I'm computing and drawing !" ;
+  lstream
 
+let draw_t bench size png svg svg_cairo gtk lstream =
   List.iter 
-    (fun (x,f) -> match x with Some x -> (f size (Lstream.clone lstream)) x | None -> ())
+    (fun (x,f) -> BatOption.may (f size (Lstream.clone lstream)) x)
     [ png, to_png ;
       svg, to_svg ;
       svg_cairo, to_svg_cairo ] ;
-
-  if gtk then to_gtk size lstream else Lstream.force lstream ;
-  if verbose then print_endline "I'm done !" ; 
-  if bench then print_time ()
+  if gtk then to_gtk size lstream
+  (* This is kinda hacky, we force the evaluation of the stream to be able to benchmark the engine part alone. *)
+  else Lstream.force lstream ;
+  if bench then print_time () ;
+  ()
   
 let main_t = 
   let open Term in
-  pure main $ generation $ bank $ lname
-            $ size $ bench $ verbose 
-            $ png $ svg $ svg_cairo $ gtk
+  let lsys = ret (pure parsing_t $ bank $ lname) in
+  let lstream = pure processing_t $ bench $ generation $ lsys in
+  pure draw_t $ bench $ size $ png $ svg $ svg_cairo $ gtk $ lstream
 
 let () = 
   match Term.eval (main_t, Term.info "glilis") with 
