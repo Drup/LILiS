@@ -6,8 +6,8 @@ include Ls_engine
 
 include Ls_syntax
 
-type lstream = (string * float array) Stream.Seq.t
-
 module Lstream = Stream.Seq
+
+type lstream = (string * float array) Lstream.t
 
 include Engine(Lstream)
