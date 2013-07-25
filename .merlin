@@ -1,0 +1,14 @@
+S mini_calc
+S lilis
+S glilis
+
+B _build
+B _build/mini_calc
+B _build/lilis
+B _build/glilis
+
+PKG batteries
+PKG cairo2
+PKG cairo2.lablgtk2
+PKG tyxml
+PKG cmdliner

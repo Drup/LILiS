@@ -1,6 +1,5 @@
 
-<**/*.ml> : annot
-<*.annot> : not_hygienic
+<**/*.ml> : bin-annot
 
 true : use_menhir, explain
 
