@@ -41,49 +41,24 @@ class svg_turtle =
 
   end
 
-let a_stopcolor s : [> `Stop_Color ] Svg.M.attrib =
-  Svg.M.to_attrib (Xml.string_attrib "stop-color" s)
-
-let a_stroke s : [> `Stroke ] Svg.M.attrib =
-  Svg.M.to_attrib (Xml.string_attrib "stroke" s)
-
-let a_strokewidth f : [> `Stroke_Width ] Svg.M.attrib =
-  Svg.M.to_attrib (Xml.float_attrib "stroke-width" f)
-
-let a_fill' f : [> `Fill ] Svg.M.attrib =
-  Svg.M.to_attrib (Xml.string_attrib "fill" f)
-
-(* `Gradient_Stop instead of Stop *)
-(* generate "gradient-stop" instead of "stop" *)
-let gradientstop' ?(a=[]) l = let _a = a in Svg.M.(tot (toelt (gradientstop ~a:_a l)))
-
-(* `Linear_Gradient instead of LinearGradient *)
-(* generate "linear-gradient" instead of "linearGradient" *)
-let lineargradient' ?(a=[]) l = let _a = a in Svg.M.(tot (toelt (lineargradient ~a:_a l)))
-
-(* Should be allowed in svg *)
-let path' ?(a=[]) l = let _a = a in Svg.M.(tot (toelt (path ~a:_a l)))
-
-(* viewbox generates "viewbox" instead of "viewBox" *)
-
-let template (w,h) s = 
+let template (w,h) s =
   let open Svg.M in
   svg
     ~a:[
       a_width (float w, Some `Px) ; a_height (float h, Some `Px) ;
       a_viewbox (0., 0., 1., 1.)
     ]
-    [lineargradient' ~a:[a_id "Gradient"] 
-       [ gradientstop' ~a:[a_offset (`Percentage 0) ; a_stopcolor "blue"] [] ;
-	 gradientstop' ~a:[a_offset (`Percentage 33) ; a_stopcolor "green"] [] ;
-	 gradientstop' ~a:[a_offset (`Percentage 66) ; a_stopcolor "yellow"] [] ;
-	 gradientstop' ~a:[a_offset (`Percentage 100) ; a_stopcolor "red"] [] ;
+    [lineargradient ~a:[a_id "Gradient"]
+       [ stop ~a:[a_offset (`Percentage 0) ; a_stopcolor "blue"] [] ;
+	 stop ~a:[a_offset (`Percentage 33) ; a_stopcolor "green"] [] ;
+	 stop ~a:[a_offset (`Percentage 66) ; a_stopcolor "yellow"] [] ;
+	 stop ~a:[a_offset (`Percentage 100) ; a_stopcolor "red"] [] ;
        ] ;
-     path' 
-       ~a:[a_d ("M 0 0" ^ s) 
-	  ; a_stroke "url(#Gradient)"
-	  ; a_strokewidth 0.001
-	  ; a_fill' "transparent" 
+     path
+       ~a:[a_d s
+	  ; a_stroke (`Icc ("#Gradient", Some (`Color ("black",None) )))
+	  ; a_strokewidth (0.001, None)
+	  ; a_fill `None
 	  ] 
        []
     ]
