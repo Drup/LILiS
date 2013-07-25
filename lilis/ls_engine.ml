@@ -44,7 +44,7 @@ end
 (* It's basically a big multi-fold along lsystem rules. *)
 let extract_symbenv lsys = 
   let extract_rule_rhs r senv = 
-    let transform_symb senv (symb,args) = 
+    let transform_symb senv (symb,args) =
       SymbEnv.add symb senv
     in 
     List.fold_left transform_symb senv r
@@ -98,7 +98,7 @@ module Engine (Ls : Ls_stream.S) = struct
   (** {3 Lsystem Transformation}
       Transform an Lsystem to a compressed form using a string <-> int mapping. *)
 
-  let transform_rule_rhs r vars senv =
+  let transform_rule_rhs r vars senv : comp_rule =
     let transform_symb (symb,args) = 
       let new_symb = SMap.find symb senv.env in
       let new_args = Array.of_list (List.map (arit_closure vars) args) in
@@ -127,9 +127,9 @@ module Engine (Ls : Ls_stream.S) = struct
           
   (** Evaluate a stream of arithmetic expressions in the given environment. *)
   (* PERF There is an Array.map here, we can probably avoid it. *)
-  let eval_rule (env : float array) (lstream : comp_rule) : comp_lstream =
-    let f_eval_rule (ordre,ordre_args) = 
-      ordre, Array.map (fun f -> f env) ordre_args
+  let eval_rule args (lstream : comp_rule) : comp_lstream =
+    let f_eval_rule (ordre, (ordre_args : arit_fun array) ) =
+      ordre, Array.map (fun f -> f args) ordre_args
     in Ls.map f_eval_rule (Ls.clone lstream)
     
   (** Get the transformation function from a Lsystem. *)
