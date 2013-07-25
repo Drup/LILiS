@@ -1,4 +1,5 @@
 open Ls_type
+open Ls_utils
 
 (** We compress arithmetic expression in two ways :
   - regular compression by evaluation
@@ -18,8 +19,6 @@ let arit_closure vars ( t : arit_expr ) : arit_fun =
 
 
 (** The symbol environment contains the association int <-> string for Lsystem symbols. *)
-
-module SMap = BatMap.Make(BatString)
 
 type senv = { n : int ; env : int SMap.t }
 

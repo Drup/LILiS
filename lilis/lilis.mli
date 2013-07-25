@@ -89,6 +89,27 @@ val lsystem_from_string : string -> lsystem list
 val eval_lsys : int -> lsystem -> lstream
 (** Evaluate a Lsystem at the n-th generation. *)
 
+(** {3 Verifications} *)
+
+type arityerror =
+  { lsys : string ; symb : string ;
+    defined_arity : int ; used_arity : int }
+exception ArityError of arityerror
+
+val check_arity : lsystem -> unit
+(** Check arity of symbols across the given Lsystem.
+    @raise ArityError if it's not. *)
+
+type vardeferror =
+  { lsys : string ; symb : string ;
+    variable : string }
+
+exception VarDefError of vardeferror
+
+val check_vardef : lsystem -> Mini_calc.arit_env -> unit
+(** Check if all arithmetic variables are correctly defined in the given Lsystem.
+    @raise VarDefError if it's not. *)
+
 (** {3 Internal engine} *)
 
 module SMap : Map.S with type key = string

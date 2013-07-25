@@ -36,7 +36,7 @@ Library lilis
   Modules:
     Lilis
   InternalModules:
-    Ls_type, Ls_engine, Ls_lexer, Ls_syntax, Ls_parser
+    Ls_type, Ls_stream, Ls_utils, Ls_engine, Ls_lexer, Ls_syntax, Ls_parser
   BuildDepends:
     batteries, minicalc
 
