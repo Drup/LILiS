@@ -61,6 +61,9 @@ val compress_tree_custom : ('a -> float option) -> 'a arit_tree -> 'a arit_tree
 val map_tree : ('a -> 'b) -> 'a arit_tree -> 'b arit_tree
 (** Change variables representations using the given function. *)
 
+val get_vars : 'a arit_tree -> 'a list
+(** Get the list of variable in the given tree. *)
+
 val closure :
   ?env:arit_env ->
   string -> (string * 'a) list -> (('a -> float) -> float)

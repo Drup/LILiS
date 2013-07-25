@@ -33,6 +33,14 @@ let rec map_tree f t = match t with
   | Op2 (t1,op,t2) -> Op2 (map_tree f t1,op,map_tree f t2)
   | Id x -> Id (f x)
 
+let get_vars t =
+  let rec aux acc = function
+    | Float _ -> acc
+    | Op1 (_ , t) -> aux acc t
+    | Op2 (t1 , _ , t2) -> let acc = aux acc t1 in aux acc t2 
+    | Id x -> x :: acc
+  in aux [] t
+
 (** Compress a tree (aka eval part than can be evaluated) in the given env *)
 let rec compress_tree_custom f t = match t with
   | Float a -> Float a
