@@ -91,20 +91,15 @@ val eval_lsys : int -> lsystem -> lstream
 
 (** {3 Verifications} *)
 
-type arityerror =
-  { lsys : string ; symb : string ;
-    defined_arity : int ; used_arity : int }
-exception ArityError of arityerror
+exception ArityError of ( string * string * int * int )
+(** [ ArityError ( lsystem_name, symbol, defined_arity, used_arity ) ] *)
 
 val check_arity : lsystem -> unit
 (** Check arity of symbols across the given Lsystem.
     @raise ArityError if it's not. *)
 
-type vardeferror =
-  { lsys : string ; symb : string ;
-    variable : string }
-
-exception VarDefError of vardeferror
+exception VarDefError of ( string * string * string )
+(** [ VarDefError ( lsystem_name, symbol, undefined_variable ) ] *)
 
 val check_vardef : lsystem -> Mini_calc.arit_env -> unit
 (** Check if all arithmetic variables are correctly defined in the given Lsystem.

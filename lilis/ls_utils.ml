@@ -11,18 +11,14 @@ module SMap = BatMap.Make(BatString)
 
 (** {3 Arity check} *)
 
-type arityerror = 
-  { lsys : string ; symb : string ; 
-    defined_arity : int ; used_arity : int }
-
-exception ArityError of arityerror
+exception ArityError of ( string * string * int * int )
 
 let check_arity lsys =
   let add_arity (symb,used_arity) env =
     match SMap.Exceptionless.find symb env with
       | Some defined_arity ->
           if defined_arity = used_arity then env else
-            let arity_e = { lsys = lsys.name ; symb ; defined_arity ; used_arity } in
+            let arity_e = (lsys.name, symb, defined_arity, used_arity ) in
             raise (ArityError arity_e)
       | None -> SMap.add symb used_arity env
   in
@@ -39,17 +35,13 @@ let check_arity lsys =
 
 (** {3 Variable definition check} *)
 
-type vardeferror = 
-  { lsys : string ; symb : string ; 
-    variable : string }
-
-exception VarDefError of vardeferror 
+exception VarDefError of ( string * string * string )
 
 let check_vardef lsys env =
   let check_rule r = 
     let is_def variable = 
       if not (Mini_calc.Env.mem variable env || List.mem variable r.vars) then
-        raise (VarDefError {lsys = lsys.name ; symb = r.lhs ; variable })
+        raise (VarDefError ( lsys.name, r.lhs, variable ))
     in 
     let check_expr e = 
       let l = Mini_calc.get_vars e in 
