@@ -23,6 +23,7 @@ type arit_env
 
 module Env : sig
   val add : string -> float -> arit_env -> arit_env
+  val mem : string -> arit_env -> bool
   val union : arit_env -> arit_env -> arit_env
   val of_list : (string * float) list -> arit_env
   val empty : arit_env
