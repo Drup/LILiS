@@ -11,7 +11,7 @@
 
 
 type 'a arit_tree = 'a Calc_type.arit_tree
-  (** Type of arithmetic trees with unknow of type 'a. *)
+  (** Type of arithmetic trees with unknow variables of type 'a. *)
 
 val tree_to_string : string arit_tree -> string
   (** Print an arithmetic tree. *)
