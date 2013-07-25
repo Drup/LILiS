@@ -20,6 +20,7 @@
 <link title="Ls_cairo" rel="Chapter" href="Ls_cairo.html">
 <link title="Ls_tyxml" rel="Chapter" href="Ls_tyxml.html"><link title="Preliminary stream functions" rel="Section" href="#2_Preliminarystreamfunctions">
 <link title="Lsystem evaluation library" rel="Section" href="#2_Lsystemevaluationlibrary">
+<link title="Verifications" rel="Subsection" href="#3_Verifications">
 <link title="Internal engine" rel="Subsection" href="#3_Internalengine">
 <title>LILiS user guide : Lilis</title>
 </head>
@@ -133,6 +134,24 @@ A complete Lsystem.<br>
 
 <pre><span id="VALlsystem_from_chanel"><span class="keyword">val</span> lsystem_from_chanel</span> : <code class="type">Pervasives.in_channel -> <a href="Lilis.html#TYPElsystem">lsystem</a> list</code></pre><pre><span id="VALlsystem_from_string"><span class="keyword">val</span> lsystem_from_string</span> : <code class="type">string -> <a href="Lilis.html#TYPElsystem">lsystem</a> list</code></pre><pre><span id="VALeval_lsys"><span class="keyword">val</span> eval_lsys</span> : <code class="type">int -> <a href="Lilis.html#TYPElsystem">lsystem</a> -> <a href="Lilis.html#TYPElstream">lstream</a></code></pre><div class="info">
 Evaluate a Lsystem at the n-th generation.<br>
+</div>
+<br>
+<h3 id="3_Verifications">Verifications</h3><br>
+<pre><span id="EXCEPTIONArityError"><span class="keyword">exception</span> ArityError</span> <span class="keyword">of</span> <code class="type">(string * string * int * int)</code></pre>
+<div class="info">
+<code class="code"> <span class="constructor">ArityError</span> ( lsystem_name, symbol, defined_arity, used_arity ) </code><br>
+</div>
+<pre><span id="VALcheck_arity"><span class="keyword">val</span> check_arity</span> : <code class="type"><a href="Lilis.html#TYPElsystem">lsystem</a> -> unit</code></pre><div class="info">
+Check arity of symbols across the given Lsystem.<br>
+<b>Raises</b> <code>ArityError</code> if it's not.<br>
+</div>
+<pre><span id="EXCEPTIONVarDefError"><span class="keyword">exception</span> VarDefError</span> <span class="keyword">of</span> <code class="type">(string * string * string)</code></pre>
+<div class="info">
+<code class="code"> <span class="constructor">VarDefError</span> ( lsystem_name, symbol, undefined_variable ) </code><br>
+</div>
+<pre><span id="VALcheck_vardef"><span class="keyword">val</span> check_vardef</span> : <code class="type"><a href="Lilis.html#TYPElsystem">lsystem</a> -> <a href="Mini_calc.html#TYPEarit_env">Mini_calc.arit_env</a> -> unit</code></pre><div class="info">
+Check if all arithmetic variables are correctly defined in the given Lsystem.<br>
+<b>Raises</b> <code>VarDefError</code> if it's not.<br>
 </div>
 <br>
 <h3 id="3_Internalengine">Internal engine</h3><br>

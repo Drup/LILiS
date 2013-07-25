@@ -38,7 +38,7 @@ This library evaluates simple arithmetic expression over floats.
    Here is an example of expression : <code class="code"> 3*x+sin(2) </code>.<br>
 <pre><span id="TYPEarit_tree"><span class="keyword">type</span> <code class="type">'a</code> arit_tree</span> = <code class="type">'a Calc_type.arit_tree</code> </pre>
 <div class="info">
-Type of arithmetic trees with unknow of type 'a.<br>
+Type of arithmetic trees with unknow variables of type 'a.<br>
 </div>
 
 <pre><span id="VALtree_to_string"><span class="keyword">val</span> tree_to_string</span> : <code class="type">string <a href="Mini_calc.html#TYPEarit_tree">arit_tree</a> -> string</code></pre><div class="info">
@@ -75,6 +75,9 @@ Compress a tree using the given function, ie. evaluate everything that can be ev
 </div>
 <pre><span id="VALmap_tree"><span class="keyword">val</span> map_tree</span> : <code class="type">('a -> 'b) -> 'a <a href="Mini_calc.html#TYPEarit_tree">arit_tree</a> -> 'b <a href="Mini_calc.html#TYPEarit_tree">arit_tree</a></code></pre><div class="info">
 Change variables representations using the given function.<br>
+</div>
+<pre><span id="VALget_vars"><span class="keyword">val</span> get_vars</span> : <code class="type">'a <a href="Mini_calc.html#TYPEarit_tree">arit_tree</a> -> 'a list</code></pre><div class="info">
+Get the list of variable in the given tree.<br>
 </div>
 <pre><span id="VALclosure"><span class="keyword">val</span> closure</span> : <code class="type">?env:<a href="Mini_calc.html#TYPEarit_env">arit_env</a> -><br>       string -> (string * 'a) list -> ('a -> float) -> float</code></pre><div class="info">
 Compress the string in the optional env and return the resulting closure.<br>

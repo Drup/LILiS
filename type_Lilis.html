@@ -102,6 +102,10 @@
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;lsystem_from_chanel&nbsp;:&nbsp;<span class="constructor">Pervasives</span>.in_channel&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lilis</span>.lsystem&nbsp;list<br>
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;lsystem_from_string&nbsp;:&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lilis</span>.lsystem&nbsp;list<br>
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;eval_lsys&nbsp;:&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lilis</span>.lsystem&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lilis</span>.lstream<br>
+&nbsp;&nbsp;<span class="keyword">exception</span>&nbsp;<span class="constructor">ArityError</span>&nbsp;<span class="keyword">of</span>&nbsp;(string&nbsp;*&nbsp;string&nbsp;*&nbsp;int&nbsp;*&nbsp;int)<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;check_arity&nbsp;:&nbsp;<span class="constructor">Lilis</span>.lsystem&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
+&nbsp;&nbsp;<span class="keyword">exception</span>&nbsp;<span class="constructor">VarDefError</span>&nbsp;<span class="keyword">of</span>&nbsp;(string&nbsp;*&nbsp;string&nbsp;*&nbsp;string)<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;check_vardef&nbsp;:&nbsp;<span class="constructor">Lilis</span>.lsystem&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Mini_calc</span>.arit_env&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
 &nbsp;&nbsp;<span class="keyword">module</span>&nbsp;<span class="constructor">SMap</span>&nbsp;:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">sig</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;key&nbsp;=&nbsp;string<br>
