@@ -39,4 +39,6 @@ setup.data:
 # OASIS_STOP
 
 upload-docs:
-	make doc && git checkout gh-pages && cp _build/doc.docdir/* . && git add * && git commit -m"Update to latest documentation" && git push gh-pages
+	make doc && git checkout gh-pages && cp _build/doc.docdir/* . && 
+	git add *.html && git commit -a -m "Update to latest documentation." && 
+	git push gh-pages
