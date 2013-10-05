@@ -1,5 +1,5 @@
 
-<**/*.ml> : bin-annot
+<**/*.ml> : -bin-annot
 
 true : use_menhir, explain
 
