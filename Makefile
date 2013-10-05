@@ -1,3 +1,6 @@
+NAME :=    $(shell oasis query name)
+VERSION := $(shell oasis query version)
+
 # OASIS_START
 # DO NOT EDIT (digest: bc1e05bfc8b39b664f29dae8dbd3ebbb)
 
@@ -13,7 +16,7 @@ doc: setup.data build
 test: setup.data build
 	$(SETUP) -test $(TESTFLAGS)
 
-all: 
+all:
 	$(SETUP) -all $(ALLFLAGS)
 
 install: setup.data
@@ -25,10 +28,10 @@ uninstall: setup.data
 reinstall: setup.data
 	$(SETUP) -reinstall $(REINSTALLFLAGS)
 
-clean: 
+clean:
 	$(SETUP) -clean $(CLEANFLAGS)
 
-distclean: 
+distclean:
 	$(SETUP) -distclean $(DISTCLEANFLAGS)
 
 setup.data:
@@ -39,6 +42,9 @@ setup.data:
 # OASIS_STOP
 
 upload-docs:
-	make doc && git checkout gh-pages && cp _build/doc.docdir/* . && 
-	git add *.html && git commit -a -m "Update to latest documentation." && 
-	git push gh-pages
+	make doc && git checkout gh-pages && cp _build/doc.docdir/* . &&
+	git add * && git commit && git push gh-pages
+
+tarball:
+	git archive --format=tar --prefix=lilis-$(VERSION)/ HEAD \
+	  | gzip > lilis-$(VERSION).tar.gz
