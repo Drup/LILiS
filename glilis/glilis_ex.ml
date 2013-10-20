@@ -5,6 +5,11 @@ open Cmdliner
 exception NoLsys of string
 exception NoLsysName of string * string
 
+(* This allow to change easily the stream used. *)
+module Lstream = Stream.Sequence
+module LsEn = Engine(Lstream)
+let eval_lsys = LsEn.eval_lsys
+
 let get_lsystem file name =
   let c = open_in file in
   let bank_ls = lsystem_from_chanel c in
@@ -48,19 +53,19 @@ let to_gtk (width, height) lstream =
 let to_png (width, height) lstream file =
   let turtle = new Ls_cairo.png_turtle width height in
   turtle#fill () ;
-  draw_enum turtle lstream ;
+  Lstream.iter (draw turtle) lstream ;
   turtle#finish file
 
 let to_svg_cairo (width, height) lstream file =
   let turtle = new Ls_cairo.svg_turtle file width height in
   turtle#fill () ;
-  draw_enum turtle lstream ;
+  Lstream.iter (draw turtle) lstream ;
   turtle#finish ()
 
 let to_svg size lstream file =
   let turtle = new Ls_tyxml.svg_turtle in
-  draw_enum turtle lstream ;
-  let lsvg = Ls_tyxml.template size (turtle#to_string ()) in  
+  Lstream.iter (draw turtle) lstream ;
+  let lsvg = Ls_tyxml.template size (turtle#to_string ()) in
   let buffer = open_out file in
   Svg.P.print ~output:(output_string buffer) lsvg ;
   close_out buffer
