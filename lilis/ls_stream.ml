@@ -67,3 +67,13 @@ module LazyList = (struct
   let clone l = l
   let singleton x = cons x nil
 end : S with type 'a t = 'a BatLazyList.t )
+
+(** Sequence, from companion_cube. *)
+module Sequence = (struct
+  include Sequence
+  let force l = iter (fun _ -> ()) l
+  let expand = flatMap
+  let clone l = l
+  let of_list l =
+    of_array (Array.of_list l)
+end : S with type 'a t = 'a Sequence.t)

@@ -57,6 +57,8 @@ module Stream : sig
   module LazyList : S with type 'a t = 'a BatLazyList.t
 (** Regular lazy list from batteries. Functionnal. ~8 time slower than Seq. *)
 
+  module Sequence : S with type 'a t = 'a Sequence.t
+
 end
 
 module Lstream : Stream.S
