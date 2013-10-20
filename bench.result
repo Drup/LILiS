@@ -1,0 +1,18 @@
+19/07/2013
+von koch simple, n = 11, 20 runs, time by run
+Seq: 1.22227120505s
+Enum: 5.01280361105s
+LazyList: Doesn't finish, segfault
+
+19/07/2013 - Batteries 2.1
+von koch simple, n = 11, 20 runs, time by run
+Seq: 1.34582024855s
+Enum: 5.1886183168s
+LazyList : 9.55530038555s
+
+20/10/2013 - Here come a new challenger !
+von koch simple, n = 11, 20 runs, time by run
+Seq : 1.1591187493s
+Sequence : 0.8053300701s
+Enum : 4.68891946425s
+LazyList : 8.08663420655s
