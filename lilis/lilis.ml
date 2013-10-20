@@ -6,7 +6,7 @@ include Ls_utils
 
 include Ls_syntax
 
-module Lstream = Stream.Seq
+module Lstream = Stream.Sequence
 
 type lstream = (string * float array) Lstream.t
 

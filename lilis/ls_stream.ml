@@ -16,7 +16,7 @@ module type S = sig
   val force : 'a t -> unit
 end
 
-(** Seq from batteries. Functionnal (allow sharing). Fastest (for now ?). *)
+(** Seq from batteries. Functionnal (allow sharing). *)
 module Seq = (struct
   include BatSeq
   (* Modified version of BatSeq.concat in batteries *)
@@ -58,8 +58,8 @@ module Stream = (struct
   let singleton x = cons x (of_list [])
 end : S with type 'a t = 'a Stream.t )
 
-(** Regular lazy list from batteries. Functionnal. ~8 time slower than Seq. *)
-module LazyList = (struct 
+(** Regular lazy list from batteries. Functionnal. *)
+module LazyList = (struct
   include BatLazyList
   let expand f l = concat (map f l)
   let fold = fold_left

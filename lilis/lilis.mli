@@ -58,12 +58,13 @@ module Stream : sig
 (** Regular lazy list from batteries. Functionnal. ~8 time slower than Seq. *)
 
   module Sequence : S with type 'a t = 'a Sequence.t
+(** Sequence, the dual of Seq, from the sequence package, by companion_cube. *)
 
 end
 
 module Lstream : Stream.S
 (**
-   The current best stream implementation, you can use this if you want a stable Stream module and don't care about the internals. Use BatSeq for now.
+   The current best stream implementation, you can use this if you want a stable Stream module and don't care about the internals. Use Sequence for now.
 *)
 
 (** {2 Lsystem evaluation library} *)
