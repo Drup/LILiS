@@ -66,6 +66,8 @@ module LazyList = (struct
   let force l = iter (fun x -> ()) l
   let clone l = l
   let singleton x = cons x nil
+  let of_list l =
+    of_array (Array.of_list l)
 end : S with type 'a t = 'a BatLazyList.t )
 
 (** Sequence, from companion_cube. *)
