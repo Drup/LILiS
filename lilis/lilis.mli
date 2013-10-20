@@ -4,7 +4,7 @@
 
 An axiom is a list of symbols. A rule is composed of a left-hand side with a single symbol, potentially some variables and a right-hand side which is a list of symbols where arithmetic expressions can contains those variables.
 
-Some symbols have a graphical meanings : 
+Some symbols have a graphical meanings :
 - [ F ] : Forward, takes a length as argument.
 - [ B ] : Backward, takes a length as argument.
 - [ f ] : forward without drawing.
@@ -112,7 +112,7 @@ val check_vardef : lsystem -> Mini_calc.arit_env -> unit
 module SMap : Map.S with type key = string
 
 (**
-   A functor to build your own little Lsystem engine given a stream-like data structure. Can be lazy or not, functional or not. 
+   A functor to build your own little Lsystem engine given a stream-like data structure. Can be lazy or not, functional or not.
 
    The important operations from the performance point of view are [expand] and [map].
    Concatenation (as used in [expand]) must absolutely be in O(1) amortized time. Lazyness is better for memory occupation but is not necessary.
@@ -130,7 +130,7 @@ module Engine (Lstream : Stream.S) : sig
       This compression allow far better performances.
 
       One of the step of compression is to transform string symbols into int.
-      To be allowed to transform back and forth a lstream, the {! compress_lstream } function provide an environment from string symbols to int. 
+      To be allowed to transform back and forth a lstream, the {! compress_lstream } function provide an environment from string symbols to int.
       This environment can be used by {! compress_lstream} and {! uncompress_lstream} for O(n) compression/uncompression. The lazyness of {! Lstream} is respected.
   *)
 

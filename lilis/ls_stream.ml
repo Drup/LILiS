@@ -4,7 +4,7 @@
 
 (** Stream of token with arguments. *)
 module type S = sig
-  type 'a t 
+  type 'a t
   val singleton : 'a -> 'a t
   val map : ('a -> 'b) -> 'a t -> 'b t
   val expand : ('a -> 'b t) -> 'a t -> 'b t
@@ -14,13 +14,13 @@ module type S = sig
   val to_list : 'a t -> 'a list
   val clone : 'a t -> 'a t
   val force : 'a t -> unit
-end 
+end
 
 (** Seq from batteries. Functionnal (allow sharing). Fastest (for now ?). *)
 module Seq = (struct
   include BatSeq
   (* Modified version of BatSeq.concat in batteries *)
-  let expand f s = 
+  let expand f s =
     let rec aux current rest () = match current () with
       | Cons(e, s) ->
           Cons(e, aux s rest)
@@ -35,21 +35,21 @@ module Seq = (struct
   let fold = fold_left
   let force l = iter (fun x -> ()) l
   let clone l = l
-  let of_list l = List.fold_right cons l nil
+  let of_list l = Array.fold_right cons (Array.of_list l) nil
   let to_list l = BatList.of_enum (enum l)
   let singleton x = cons x nil
 end : S with type 'a t = 'a BatSeq.t  )
 
-(** Enum from batteries. Destructive reading, imperative. 2.5 time slower than Seq. *)
+(** Enum from batteries. Destructive reading, imperative. *)
 module Enum = (struct
   include BatEnum
   let expand f l = concat (map f l)
-  let of_list = BatList.enum
+  let of_list l = BatArray.enum (Array.of_list l)
   let to_list = BatList.of_enum
 end : S with type 'a t = 'a BatEnum.t )
 
 (** Stream from the standard library. Use batteries for convenience. Destructive reading, imperative. ~10 time slower than Seq. Broken for now because lack of clone function.*)
-module Stream = (struct 
+module Stream = (struct
   include BatStream
   let expand f l = concat (map f l)
   let fold f z l = foldl (fun x y -> (f x y, None)) z l
