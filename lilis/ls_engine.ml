@@ -13,7 +13,7 @@ type arit_fun = float array -> float
 let arit_closure vars ( t : arit_expr ) : arit_fun = 
   let open Mini_calc in
   let t = compress_tree Env.usual t in
-  let f x = BatArray.findi ( (=) x) vars in
+  let f x = BatArray.findi ( BatString.equal x) vars in
   let t = map_tree f t in
   fun env -> eval_tree_custom (fun x -> env.(x)) t
 

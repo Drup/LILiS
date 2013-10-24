@@ -8,6 +8,9 @@ let get_value_arg l default =
   else l.(0)
 
 type pos = { mutable x : float ; mutable y : float ; mutable d : float }
+let copy_pos { x ; y ; d } =
+  { x ; y ; d }
+
 
 class turtle =
   object
@@ -29,12 +32,12 @@ class turtle =
       pos.y <- pos.y +. (f *. sin pos.d)
 
     method save_position () =
-      Stack.push (pos.x,pos.y,pos.d) stack
+      Stack.push (copy_pos pos) stack
 
-    method restore_position () = 
-      let (new_x,new_y,new_dir) = Stack.pop stack in
-      pos.x <- new_x ; pos.y <- new_y ; pos.d <- new_dir
-      
+    method restore_position () =
+      let { x ; y ; d } = Stack.pop stack in
+      pos.x <- x ; pos.y <- y ; pos.d <- d
+
   end
 
 let draw (t : #turtle) order = match order with
