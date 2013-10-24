@@ -2,7 +2,7 @@
 
 (** We use a logo-like system to draw a L-system : a turtle is following the order in the Lstream. *)
 
-class turtle : object 
+class turtle : object
 
   method get_pos : unit -> float * float
   (** Get the curent [(x,y)] position of the turtle. *)
@@ -22,7 +22,7 @@ class turtle : object
   (** Restore the position of the turtle from the stack.
       @raise Empty_Stack if the stack is empty.*)
 end
-(** Class representing a turtle. 
+(** Class representing a turtle.
     This implementation doesn't draw anything but is doing all the movement calculations.
 *)
 

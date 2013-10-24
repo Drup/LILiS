@@ -1,12 +1,12 @@
 Von_koch
-axiom : 
+axiom :
   - f(0.28) + f(0.05) F(0.9)
 rules :
   F(l) = F(l/3) +(60) F(l/3) -(120) F(l/3) +(60) F(l/3)
 end
 
 dragon
-axiom: 
+axiom:
   -(45) f(0.47) * F(0.6) X(0.6)
 rules:
   X(l) = X(l/sqrt(2)) + Y(l/sqrt(2)) F(l/sqrt(2)) +

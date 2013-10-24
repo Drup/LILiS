@@ -13,7 +13,7 @@ let path_inst_to_string = function
 
 class svg_turtle =
 
-  let push_inst acc x = 
+  let push_inst acc x =
     BatText.append acc (BatText.of_string (path_inst_to_string x))
   in
 
@@ -59,6 +59,6 @@ let template (w,h) s =
 	  ; a_stroke (`Icc ("#Gradient", Some (`Color ("black",None) )))
 	  ; a_strokewidth (0.001, None)
 	  ; a_fill `None
-	  ] 
+	  ]
        []
     ]

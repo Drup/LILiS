@@ -1,10 +1,10 @@
 (** Small library to evaluate simple arithmetic expressions. *)
 
-(** 
+(**
    This library evaluates simple arithmetic expression over floats.
    Regular operators (+,-,*,/,^) and some regular functions (sin, cos, tan, asin, acos, atan, log, log10, exp, sqrt) are implemented.
    Arithmetic expressions can contains variables.
-   
+
    Here is an example of expression : [ 3*x+sin(2) ].
 
 *)
@@ -30,7 +30,7 @@ module Env : sig
   val usual : arit_env
 end
 (** Variable environment.
-    
+
     [ Env.usual ] contains [ pi ] and [ e ] .
 *)
 
@@ -55,7 +55,7 @@ val eval_tree_custom : ('a -> float) -> 'a arit_tree -> float
 (** Evaluate a tree, the given function is used to evaluate variables. *)
 
 val compress_tree_custom : ('a -> float option) -> 'a arit_tree -> 'a arit_tree
-(** Compress a tree using the given function, ie. evaluate everything that can be evaluated. 
+(** Compress a tree using the given function, ie. evaluate everything that can be evaluated.
     A variable is untouched if the function returns [ None ].
 *)
 

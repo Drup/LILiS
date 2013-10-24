@@ -38,15 +38,15 @@ let check_arity lsys =
 exception VarDefError of ( string * string * string )
 
 let check_vardef lsys env =
-  let check_rule r = 
-    let is_def variable = 
+  let check_rule r =
+    let is_def variable =
       if not (Mini_calc.Env.mem variable env || List.mem variable r.vars) then
         raise (VarDefError ( lsys.name, r.lhs, variable ))
-    in 
-    let check_expr e = 
-      let l = Mini_calc.get_vars e in 
+    in
+    let check_expr e =
+      let l = Mini_calc.get_vars e in
       List.iter is_def l
-    in 
+    in
     List.iter (fun (_,l) -> List.iter check_expr l) r.rhs
-  in 
-  List.iter check_rule lsys.rules 
+  in
+  List.iter check_rule lsys.rules

@@ -23,7 +23,7 @@ let rec eval_tree_custom f = function
   | Id x -> f x
 
 (** Eval a tree in the given environment. *)
-let eval_tree env t = 
+let eval_tree env t =
   let f x = Env.find_arit x env in
   eval_tree_custom f t
 
@@ -37,7 +37,7 @@ let get_vars t =
   let rec aux acc = function
     | Float _ -> acc
     | Op1 (_ , t) -> aux acc t
-    | Op2 (t1 , _ , t2) -> let acc = aux acc t1 in aux acc t2 
+    | Op2 (t1 , _ , t2) -> let acc = aux acc t1 in aux acc t2
     | Id x -> x :: acc
   in aux [] t
 
@@ -57,6 +57,6 @@ let rec compress_tree_custom f t = match t with
       | t1, t2 -> Op2 (t1,op,t2)
     end
 
-let compress_tree env t = 
+let compress_tree env t =
   let f x = Env.Exceptionless.find x env in
   compress_tree_custom f t
