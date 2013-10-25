@@ -1,5 +1,5 @@
 (* OASIS_START *)
-(* DO NOT EDIT (digest: 13135c173e4afe8e924015e9068f843e) *)
+(* DO NOT EDIT (digest: 659a77533ed0502aad6d55745a2a86be) *)
 module OASISGettext = struct
 (* # 21 "src/oasis/OASISGettext.ml" *)
 
@@ -487,13 +487,14 @@ let package_default =
        ];
      lib_c = [];
      flags = [];
-     includes = [("lilis", ["mini_calc"]); ("glilis", ["lilis"])];
+     includes =
+       [("test", ["lilis"]); ("lilis", ["mini_calc"]); ("glilis", ["lilis"])];
      }
   ;;
 
 let dispatch_default = MyOCamlbuildBase.dispatch_default package_default;;
 
-# 497 "myocamlbuild.ml"
+# 498 "myocamlbuild.ml"
 (* OASIS_STOP *)
 (* Ocamlbuild_plugin.dispatch dispatch_default;; *)
 

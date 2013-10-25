@@ -1,11 +1,13 @@
 S mini_calc
 S lilis
 S glilis
+S test
 
 B _build
 B _build/mini_calc
 B _build/lilis
 B _build/glilis
+B _build/test
 
 PKG batteries
 PKG cairo2

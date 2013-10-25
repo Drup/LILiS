@@ -75,6 +75,24 @@ Executable glilis
   BuildDepends: cmdliner, tyxml, cairo2.lablgtk2, glilis, glilis.cairo, glilis.tyxml
   CompiledObject: best
 
+# Tests
+
+Executable bench
+  Path: test
+  Build$: flag(tests)
+  Install: false
+  CompiledObject: best
+  BuildTools: ocamlbuild
+  MainIs: bench_streams.ml
+  BuildDepends: lilis, benchmark
+
+Test bench
+  Command: $bench
+  TestTools: bench
+  Run$: flag(tests)
+
+# Misc
+
 Document doc
   Install:		false
   Title:		API reference for LILiS
