@@ -1,8 +1,7 @@
 Von_koch
-axiom :
-  - f(0.28) + f(0.05) F(0.9)
-rules :
-  F(l) = F(l/3) +(60) F(l/3) -(120) F(l/3) +(60) F(l/3)
+axiom: f(0.5) - f(0.05) +(30) F(0.8) -(120) F(0.8) -(120) F(0.8)
+rules:
+F(l) = F(l/3) +(60) F(l/3) -(120) F(l/3) +(60) F(l/3)
 end
 
 dragon
@@ -10,7 +9,7 @@ axiom:
   -(45) f(0.47) * F(0.6) X(0.6)
 rules:
   X(l) = X(l/sqrt(2)) + Y(l/sqrt(2)) F(l/sqrt(2)) +
-  Y(l) = - F(l/sqrt(2)) X(l/sqrt(2)) - Y(l/sqrt(2))
+  Y(l) = -(90) F(l/sqrt(2)) X(l/sqrt(2)) -(90) Y(l/sqrt(2))
   F(l) = F(l/sqrt(2))
   * = * -(45)
 end
@@ -19,14 +18,8 @@ Tetradragon
 axiom:
    -(45) f(0.1) a F(1.1)
 rules:
-  F(l) = F(l/2.23) + F(l/2.23) - F(l/2.23)
+  F(l) = F(l/2.23) + F(l/2.23) -(90) F(l/2.23)
   a = a -(26.5)
-end
-
-Von_koch
-axiom: f(0.5) - f(0.05) +(30) F(0.8) -(120) F(0.8) -(120) F(0.8)
-rules:
-F(l) = F(l/3) +(60) F(l/3) -(120) F(l/3) +(60) F(l/3)
 end
 
 fougere
