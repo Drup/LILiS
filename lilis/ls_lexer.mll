@@ -13,17 +13,16 @@ let func_list =
 
 let alpha = ['A'-'Z' 'a'-'z' '_' ]
 let ls_name = [ 'A'-'Z' 'a'-'z' '_'  '+' '-' '[' ']' '@' '#' ]+
-let ws = [ ' ' '\t' ]
+let ws = [ ' ' '\t' '\n' ]
 
 rule token = parse
-  | "axiom" ws* ":" { AXIOM }
-  | "rules" ws* ":" { RULES }
-  | "end" { ENDLS }
+  | ("//" _*)? '\n' { Lexing.new_line lexbuf ; token lexbuf }
+  | "axiom" { AXIOM }
+  | "rule" { RULE }
   | '='	{ EQUAL }
   | ','	{ COMMA }
-(*  | ';'	{ RCOMMA } *)
-  (* | '{' { LACCO } *)
-  (* | '}' { RACCO } *)
+  | '{' { LACCO }
+  | '}' { RACCO }
 (* TOFIX We have to paste part of calc_lexer.mll here, this is highly unsatisfying. *)
   | '+'	{ PLUS }
   | '-'	{ MINUS }
@@ -41,4 +40,3 @@ rule token = parse
   | ls_name as s { NAME s}
   | eof	{ END }
   | ws { token lexbuf }
-  | '\n' { Lexing.new_line lexbuf ; EOL }

@@ -9,10 +9,12 @@ let eval_axiom l =
 
 %}
 
-%token EOL AXIOM RULES ENDLS
-%token EQUAL
-%token COMMA //RCOMMA
 %token <string> NAME
+%token COMMA
+%token EQUAL
+%token LACCO RACCO
+%token AXIOM RULE
+
 %start main
 %type <Ls_type.lsystem list> main
 
@@ -23,27 +25,20 @@ main:
   { ls }
 
 lsystem:
-  name = IDENT EOL* axiom=axiom EOL* rules=rules ENDLS EOL*
-  { {name ; axiom ; rules } }
+  name=IDENT LACCO
+  axiom=axiom
+  rules=rule+
+  RACCO
+  { { name ; axiom=axiom ; rules } }
 
 axiom:
-  AXIOM EOL* e=expr
-  { eval_axiom e }
+  AXIOM EQUAL ol=order+ { eval_axiom ol }
 
-rules:
-  RULES EOL* rules = list(rule)
-  { rules }
+rule:
+  RULE n = ls_token v = loption(vars) EQUAL ol=order*
+  { { lhs = n ; vars = v  ; rhs = ol } }
 
-rule: 
-  n = ls_token v = loption(vars) EQUAL e = expr EOL+
-  { { lhs = n ; vars = v  ; rhs = e } }
-
-
-expr: 
-  orders = nonempty_list(order)
-  { orders }
-
-order: 
+order:
   n = ls_token a = loption(args)
   { (n,a) }
 
