@@ -1,12 +1,12 @@
 
-<**/*.ml> : -bin-annot
+<**/*.ml> : -bin-annot, -short-paths
 
 true : use_menhir, explain
 
 # OASIS_START
 # DO NOT EDIT (digest: 12968804da726657bb2551c48b552656)
-# Ignore VCS directories, you can use the same kind of rule outside 
-# OASIS_START/STOP if you want to exclude directories that contains 
+# Ignore VCS directories, you can use the same kind of rule outside
+# OASIS_START/STOP if you want to exclude directories that contains
 # useless stuff for the build process
 <**/.svn>: -traverse
 <**/.svn>: not_hygienic

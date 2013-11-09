@@ -1,56 +1,68 @@
-%{
-open Ls_type
 
-let eval_axiom l = 
-  let f (name,l) = 
-    let open Mini_calc in
-    name, List.map (fun t -> eval_tree Env.empty t) l
-  in List.map f l
-
-%}
-
+%token EOF
 %token <string> NAME
-%token COMMA
-%token EQUAL
+%token EQUAL QMARK
 %token LACCO RACCO
-%token AXIOM RULE
+%token AXIOM RULE DEF
+%token COMMA
 
 %start main
-%type <Ls_type.lsystem list> main
+%type <Ls_type.AST.lsystem list> main
 
 %%
 
 main:
-  ls = nonempty_list(lsystem) END
+  ls = nonempty_list(lsystem) EOF
   { ls }
 
 lsystem:
   name=IDENT LACCO
+  definitions=def*
   axiom=axiom
-  rules=rule+
+  rules=rule*
   RACCO
-  { { name ; axiom=axiom ; rules } }
+  { let open Ls_type.AST in {name ; definitions ; axiom ; rules} }
 
 axiom:
-  AXIOM EQUAL ol=order+ { eval_axiom ol }
+  AXIOM EQUAL ol=token(args)+ { ol }
+
+def:
+    DEF toks = token(opt_vars)+ l = loption(def_rhs)
+  { (toks,l) }
+
+def_rhs: EQUAL l = token(args)* { l }
 
 rule:
-  RULE n = ls_token v = loption(vars) EQUAL ol=order*
-  { { lhs = n ; vars = v  ; rhs = ol } }
+  RULE tok=token(vars) EQUAL rhs=token(args)*
+  { let (lhs,vars) = tok in Ls_type.({lhs;vars;rhs}) }
 
-order:
-  n = ls_token a = loption(args)
+token(arg):
+  n = ls_token a = loption(arg)
   { (n,a) }
 
 vars:
   LPAREN v=separated_list(COMMA,IDENT) RPAREN
   { v }
 
-args: 
-  LPAREN a=separated_list(COMMA, arit) RPAREN 
+opt_vars:
+  LPAREN v=opt_vars2 RPAREN { v }
+
+opt_vars2:
+  | v=opt_var { [v] }
+  | i=IDENT { [(i,None)] }
+  | v=opt_var COMMA l=separated_nonempty_list(COMMA,opt_var) { v :: l }
+  | i=IDENT COMMA l=opt_vars2
+     { (i,None) :: l }
+
+opt_var: i=IDENT QMARK a=arit { (i, Some a) }
+
+
+args:
+  LPAREN a=separated_list(COMMA, arit) RPAREN
   { a }
 
-ls_token: 
+
+ls_token:
   | n=NAME | n=IDENT { n }
   | PLUS  { "+" } | MINUS { "-" }
   | TIMES { "*" } | DIV   { "/" }

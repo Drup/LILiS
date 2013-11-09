@@ -1,6 +1,6 @@
-exception Error of (int * int * string)
+open Ls_type
 
-let lsystem_lex lexbuf =
+let parse_lex lexbuf =
   try
     Ls_parser.main Ls_lexer.token lexbuf
   with _ ->
@@ -13,12 +13,13 @@ let lsystem_lex lexbuf =
           line cnum tok
       )
 
+let parse_convert lexbuf =
+  List.map Ls_utils.lsystem @@ parse_lex lexbuf
 
 let lsystem_from_chanel chanel =
   let lexbuf = Lexing.from_channel chanel in
-  lsystem_lex lexbuf
-
+  parse_convert lexbuf
 
 let lsystem_from_string s =
   let lexbuf = Lexing.from_string s in
-  lsystem_lex lexbuf
+  parse_convert lexbuf

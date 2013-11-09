@@ -8,8 +8,8 @@ include Ls_syntax
 
 module Lstream = Stream.Sequence
 
-type lstream = (string * float array) Lstream.t
-
 include Ls_engine
 
-include Engine(Lstream)
+module E = Engine(Lstream)
+
+let eval_lsys = E.eval_lsys

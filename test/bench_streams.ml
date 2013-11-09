@@ -12,13 +12,6 @@ let bank_ls =
   let r = lsystem_from_chanel c in
   close_in c; r
 
-let _ =
-  List.iter
-    (fun lsys ->
-       check_arity lsys ;
-       check_vardef lsys Mini_calc.Env.usual
-    ) bank_ls
-
 let find s =
   List.find (fun lsys -> lsys.name = s) bank_ls
 

@@ -15,12 +15,10 @@ Some symbols have a graphical meanings :
 
 For example here is the Von Koch curve :
 {v
-Von_koch
-axiom :
-  F(1)
-rules :
-  F(l) = F(l/3) -(60) F(l/3) +(120) F(l/3) -(60) F(l/3)
-end
+Von_koch \{
+axiom = F(1)
+rules F(l) = F(l/3) -(60) F(l/3) +(120) F(l/3) -(60) F(l/3)
+\}
 v}
 
 Indentation is optional. A rule must be terminated by a new line. You can't have a newline inside a succession of token (like a rule or an axiom).
@@ -69,8 +67,8 @@ module Lstream : Stream.S
 
 (** {2 Lsystem evaluation library} *)
 
-type lstream = (string * float array) Lstream.t
-(** Stream of token with arguments. *)
+type axiom = (string * (float list)) list
+(** A simple Lsystem axiom. *)
 
 type rule = {
   lhs : string ;
@@ -81,36 +79,65 @@ type rule = {
 
 type lsystem = {
   name : string ;
-  axiom : (string * (float list)) list ;
-  rules : rule list
+  axiom : axiom ;
+  rules : rule list ;
+  post_rules : rule list ;
 }
 (** A complete Lsystem. *)
 
 val lsystem_from_chanel : in_channel -> lsystem list
 val lsystem_from_string : string -> lsystem list
 
-val eval_lsys : int -> lsystem -> lstream
+val eval_lsys : int -> lsystem -> (string * float array) Lstream.t
 (** Evaluate a Lsystem at the n-th generation. *)
+
+(** {3 Utils} *)
+
+module SMap : Map.S with type key = string
 
 (** {3 Verifications} *)
 
-exception ArityError of ( string * string * int * int )
-(** [ ArityError ( lsystem_name, symbol, defined_arity, used_arity ) ] *)
+exception ArityError of ( string * int * int )
+(** [ ArityError ( symbol, defined_arity, used_arity ) ] *)
 
-val check_arity : lsystem -> unit
-(** Check arity of symbols across the given Lsystem.
-    @raise ArityError if it's not. *)
+exception VarDefError of ( string * string )
+(** [ VarDefError ( symbol, undefined_variable ) ] *)
 
-exception VarDefError of ( string * string * string )
-(** [ VarDefError ( lsystem_name, symbol, undefined_variable ) ] *)
+exception TokenDefError of string
+(** [ TokenDefError (symbol) ] *)
 
-val check_vardef : lsystem -> Mini_calc.arit_env -> unit
-(** Check if all arithmetic variables are correctly defined in the given Lsystem.
-    @raise VarDefError if it's not. *)
+exception OptionalArgument of ( string * string )
+(** [ OptionalArgument (symbol, arg) ] *)
+
+val check_stream : int SMap.t -> (string * 'a list) list -> unit
+(** Check a stream against an environment. This environment is a mapping name -> arity.
+    @raise ArityError, VarDefError, TokenDefError *)
+
+val check_rule : int SMap.t -> ?arit_env:Mini_calc.arit_env -> rule -> unit
+(** As [ check_axiom ]. Need also an arithmetic environment, will use [ Mini_calc.Env.usual ] if none is provided.
+    @raise ArityError, VarDefError, TokenDefError *)
+
 
 (** {3 Internal engine} *)
 
-module SMap : Map.S with type key = string
+exception UncompleteTransformation
+(** Error raised when a transformation is not complete but is used as so.*)
+
+(** The symbolic environment is the dictionnary to compress and decompress streams. *)
+module SymbEnv : sig
+  type t
+  (** A string <-> int mapping, used by the compression functions. *)
+
+  val extract : axiom -> rule list -> t
+  (** Create a symbol environment from an axiom and a bunch of rules. *)
+
+  val add_rule : t -> rule -> t
+  (** Add symbols from a rule to a symbolic environment. *)
+
+  val add_axiom : t -> axiom -> t
+  (** Add symbols from an axiom to symbolic environment. *)
+
+end
 
 (**
    A functor to build your own little Lsystem engine given a stream-like data structure. Can be lazy or not, functional or not.
@@ -135,26 +162,24 @@ module Engine (Lstream : Stream.S) : sig
       This environment can be used by {! compress_lstream} and {! uncompress_lstream} for O(n) compression/uncompression. The lazyness of {! Lstream} is respected.
   *)
 
-  type comp_lsystem
+  type 'a lstream = ('a * float array) Lstream.t
+  type 'a crules
 
-  val compress_lsys : lsystem -> int SMap.t * comp_lsystem
+  val compress_rules : SymbEnv.t -> rule list -> int crules
 
-  val compress_lstream :
-    int SMap.t -> (string * float array) Lstream.t -> (int * float array) Lstream.t
+  val compress_lslist : SymbEnv.t -> axiom -> int lstream
 
-  val uncompress_lstream :
-    int SMap.t -> (int * float array) Lstream.t -> (string * float array) Lstream.t
+  val compress_lstream : SymbEnv.t -> string lstream -> int lstream
+
+  val uncompress_lstream : SymbEnv.t -> int lstream -> string lstream
 
   (** {2 Engine} *)
 
-  val apply :
-    comp_lsystem -> ?n:int ->
-    (int * float array) Lstream.t -> (int * float array) Lstream.t
-  (** [ apply_again lsys lstream ] will apply [lsys]'s rules once to [lstream]. The optional argument [n] can be used to apply more than once. *)
+  val apply : ?n:int -> int crules -> int lstream -> int lstream
+  (** [ apply rules lstream ] will apply rules once to [lstream]. The optional argument [n] can be used to apply more than once. *)
 
-  val eval_lsys_raw :
-    int -> comp_lsystem -> (int * float array) Lstream.t
-    (** Raw version of {! eval_lsys} that worked on compressed lsystem. *)
+  val apply_complete : 'a crules -> int lstream -> 'a lstream
+  (** As [ apply ] but with a complete maping. Will raise [ UncompleteTransformation ] if the maping is not complete. The verification is done before actually doing any calculus. Apply only once. *)
 
 
 end

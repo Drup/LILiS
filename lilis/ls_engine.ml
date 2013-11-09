@@ -1,6 +1,9 @@
 open Ls_type
 open Ls_utils
 
+(** Error raised when a transformation is not complete but is used as so.*)
+exception UncompleteTransformation
+
 (** We compress arithmetic expression in two ways :
   - regular compression by evaluation
   - replace the environment by an array lookup
@@ -9,8 +12,9 @@ open Ls_utils
 type arit_fun = float array -> float
 
 (* [vars] provides the string -> int mapping for variables.
-   Will crash horribly if the mapping is imcomplete. *)
-let arit_closure vars ( t : arit_expr ) : arit_fun =
+   Will crash horribly if the mapping is imcomplete, which shouldn't happen if the compression functions are used.
+*)
+let arit_closure vars ( t : arit ) : arit_fun =
   let open Mini_calc in
   let t = compress_tree Env.usual t in
   let f x = BatArray.findi ( BatString.equal x) vars in
@@ -20,10 +24,8 @@ let arit_closure vars ( t : arit_expr ) : arit_fun =
 
 (** The symbol environment contains the association int <-> string for Lsystem symbols. *)
 
-type senv = { n : int ; env : int SMap.t }
-
 module SymbEnv = struct
-  type t = senv
+  type t = { n : int ; env : int SMap.t }
 
   let empty = { n = 0 ; env = SMap.empty }
 
@@ -37,24 +39,27 @@ module SymbEnv = struct
     SMap.iter (fun s i -> v.(i) <- s) env ;
     v
 
+  let add_axiom senv axiom =
+    let transform_symb senv (symb,args) =
+      add symb senv
+    in
+    List.fold_left transform_symb senv axiom
+
+  let add_rule senv r =
+    let senv = add r.lhs senv in
+    let senv = add_axiom senv r.rhs in
+    senv
+
+  (** Extract the symbol environment from an Lsystem. *)
+  (* It's basically a big multi-fold along lsystem rules. *)
+  let extract axiom rules =
+    let senv = add_axiom empty axiom in
+    List.fold_left add_rule senv rules
+
 end
 
-(** Extract the symbol environment from an Lsystem. *)
-(* It's basically a big multi-fold along lsystem rules. *)
-let extract_symbenv lsys =
-  let extract_rule_rhs r senv =
-    let transform_symb senv (symb,args) =
-      SymbEnv.add symb senv
-    in
-    List.fold_left transform_symb senv r
-  in
-  let extract_rule senv r =
-    let senv = SymbEnv.add r.lhs senv in
-    let senv = extract_rule_rhs r.rhs senv in
-    senv
-  in
-  let senv = extract_rule_rhs lsys.axiom SymbEnv.empty in
-  List.fold_left extract_rule senv lsys.rules
+open SymbEnv
+
 
 
 module Engine (Ls : Ls_stream.S) = struct
@@ -71,12 +76,9 @@ module Engine (Ls : Ls_stream.S) = struct
 
   (** Compressed variations of types in [ Ls_type ]. *)
 
-  type comp_lstream = (int * (float array)) Ls.t
-  type comp_rule = (int * (arit_fun array)) Ls.t
-  type comp_lsystem = {
-    caxiom : comp_lstream ;
-    crules : comp_rule option array
-  }
+  type 'a lstream = ('a * (float array)) Ls.t
+  type 'a crule = ('a * (arit_fun array)) Ls.t
+  type 'a crules = 'a crule option array
 
   (** {3 Stream compression}
       Compress or uncompress a stream according to a string <-> int mapping. *)
@@ -86,47 +88,50 @@ module Engine (Ls : Ls_stream.S) = struct
     Ls.of_list (List.map fcl lstream)
 
   let compress_lstream senv lstream =
-    let fcl (s,l) = SMap.find s senv, l in
+    let fcl (s,l) = SMap.find s senv.env, l in
     Ls.map fcl lstream
 
   let uncompress_lstream senv =
-    let v = SymbEnv.to_array senv in
+    let v = SymbEnv.to_array senv.env in
     let ful (i,l) = v.(i), l in
     Ls.map ful
 
   (** {3 Lsystem Transformation}
       Transform an Lsystem to a compressed form using a string <-> int mapping. *)
 
-  let transform_rule_rhs r vars senv : comp_rule =
+  let transform_rule_rhs r vars senv : 'a crule =
     let transform_symb (symb,args) =
       let new_symb = SMap.find symb senv.env in
       let new_args = Array.of_list (List.map (arit_closure vars) args) in
       new_symb, new_args
     in Ls.of_list (List.map transform_symb r)
 
-  let transform_rule r senv =
+  let transform_rule senv r =
     let new_vars = Array.of_list r.vars in
     let new_lhs = SMap.find r.lhs senv.env in
     let new_rhs = transform_rule_rhs r.rhs new_vars senv in
     (new_lhs, new_rhs)
 
-  let compress_lsys lsys =
-    let senv = extract_symbenv lsys in
+  let compress_rules senv rules =
     let crules = BatArray.create senv.n None in
     let add_rule r =
-      let i, rhs = transform_rule r senv in
+      let i, rhs = transform_rule senv r in
       crules.(i) <- Some rhs
     in
-    List.iter add_rule lsys.rules ;
-    let caxiom = compress_lslist senv lsys.axiom in
-    let new_lsys = { caxiom ; crules } in
-    senv.env, new_lsys
+    List.iter add_rule rules ;
+    crules
+
+  let compress_lsys axiom rules =
+    let senv = extract axiom rules in
+    let caxiom = compress_lslist senv axiom in
+    let crules = compress_rules senv rules in
+    senv, caxiom, crules
 
   (** {1 Lsystem evaluation engine} *)
 
   (** Evaluate a stream of arithmetic expressions in the given environment. *)
   (* PERF There is an Array.map here, we can probably avoid it. *)
-  let eval_rule args (lstream : comp_rule) : comp_lstream =
+  let eval_rule args (lstream : 'a crule) : 'a lstream =
     let f_eval_rule (ordre, (ordre_args : arit_fun array) ) =
       ordre, Array.map (fun f -> f args) ordre_args
     in Ls.map f_eval_rule (Ls.clone lstream)
@@ -138,30 +143,44 @@ module Engine (Ls : Ls_stream.S) = struct
       | None -> Ls.singleton (symbol,args)
     in transf
 
+  (** Verify that a rule is complete and obtain the transformation.
+      @Raises UncompleteTransformation
+  *)
+  let get_complete_transformation rules =
+    let f = function
+      | Some x -> x
+      | None -> raise UncompleteTransformation
+    in
+    let r = Array.map f rules in
+    let transf symbol args = eval_rule args r.(symbol) in
+    transf
+
+  let apply_once transf axiom =
+    Ls.expand (function (ordre,args) -> transf ordre args) axiom
+
   (** Generate a lstream at the n-th generation,
       with the given axiom and the given transformation function. *)
-  let generate_lstream m axiom transformation =
+  let generate_lstream m transf axiom =
     if m < 0 then failwith "generate_lstream only accept positive integers as generation number" ;
-    let map_transform lstream =
-      Ls.expand (function (ordre,args) -> transformation ordre args) lstream
-    in
     let rec generation n l = match n with
         0 -> l
-      | n -> generation (n-1) (map_transform l)
+      | n -> generation (n-1) (apply_once transf l)
     in
     generation m axiom
 
-  let apply lsys ?(n=1) lstream =
-    generate_lstream n
+  let apply_complete rules lstream =
+    apply_once
+      (get_complete_transformation rules)
       lstream
-      (get_transformation lsys.crules)
 
-  let eval_lsys_raw n lsys =
-    apply lsys ~n lsys.caxiom
+  let apply ?(n=1) rules lstream =
+    generate_lstream n
+      (get_transformation rules)
+      lstream
 
   (** Generate the n-th generation of the given Lsystem. *)
   let eval_lsys n lsys =
-    let senv, lsys' = compress_lsys lsys in
-    let lstream = eval_lsys_raw n lsys' in
+    let senv, axiom, rules = compress_lsys lsys.axiom lsys.rules in
+    let lstream = apply ~n rules axiom in
     uncompress_lstream senv lstream
 end

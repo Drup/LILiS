@@ -119,8 +119,6 @@ let svg_cairo =
 let parsing_t bank lname =
   try
     let lsys = get_lsystem bank lname in
-    let () = check_arity lsys in
-    let () = check_vardef lsys Mini_calc.Env.usual in
     `Ok lsys
   with
     | NoLsys file ->
@@ -129,14 +127,22 @@ let parsing_t bank lname =
     | NoLsysName (file,lname) ->
       `Error ( false , Printf.sprintf
         "The file %s doesn't contain any L-system named %s." file lname )
-    | ArityError ( lsys , symb , d , u ) ->
+    | ArityError ( symb , d , u ) ->
       `Error ( false , Printf.sprintf
-        "In the lsystem %s, the symbol %s takes %i argument but is used with %i arguments."
-        lsys symb d u )
-    | VarDefError ( lsys, symb, v ) ->
+        "The symbol %s takes %i argument but is used with %i arguments."
+        symb d u )
+    | VarDefError ( symb, v ) ->
       `Error ( false, Printf.sprintf
-        "In the lsystem %s, in the rule %s, the variable %s is undefined."
-        lsys symb v )
+        "In the rule %s, the variable %s is undefined."
+        symb v )
+    | TokenDefError symb ->
+      `Error ( false, Printf.sprintf
+        "The symbol %s is undefined."
+        symb)
+    | OptionalArgument (symb, arg) ->
+      `Error ( false, Printf.sprintf
+        "The symbol %s is called without the %s argument, while it is not optional.."
+        symb arg )
 
 
 let processing_t bench n lsys =
