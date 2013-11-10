@@ -178,9 +178,35 @@ module Engine (Ls : Ls_stream.S) = struct
       (get_transformation rules)
       lstream
 
+  let split k ls =
+    let l = Ls.to_list ls in
+    let n = List.length l in
+    let piece_size = int_of_float (ceil (float n /. float k)) in
+    let arr = Array.make k (Ls.singleton (List.hd l)) in
+    let rec aux i l =
+      if i = k - 1 then arr.(i) <- Ls.of_list l
+      else
+        let l1,l2 = BatList.split_at piece_size l in
+        arr.(i) <- Ls.of_list l1 ;
+        aux (i+1) l2
+    in aux 0 l ;
+    arr
+
   (** Generate the n-th generation of the given Lsystem. *)
   let eval_lsys n lsys =
     let senv, axiom, rules = compress_lsys lsys.axiom lsys.rules in
-    let lstream = apply ~n rules axiom in
+    let lstream =
+      let k = 4 in
+      if n <= k then apply ~n rules axiom
+      else
+        let axiom' = apply ~n:k rules axiom in
+        let l = Parmap.array_parmap
+            ~ncores:4
+            (fun x -> let l = apply ~n:(n-k) rules x in Ls.force l ; l)
+            (split 4 axiom')
+        in
+        print_endline "bla" ;
+        Array.fold_left Ls.append (Ls.of_list []) l
+    in
     uncompress_lstream senv lstream
 end

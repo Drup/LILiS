@@ -41,6 +41,7 @@ module Stream : sig
     val to_list : 'a t -> 'a list
     val clone : 'a t -> 'a t
     val force : 'a t -> unit
+    val append : 'a t -> 'a t -> 'a t
   end
 
   module Seq : S with type 'a t = 'a BatSeq.t

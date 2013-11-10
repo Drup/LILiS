@@ -14,6 +14,7 @@ module type S = sig
   val to_list : 'a t -> 'a list
   val clone : 'a t -> 'a t
   val force : 'a t -> unit
+  val append : 'a t -> 'a t -> 'a t
 end
 
 (** Seq from batteries. Functionnal (allow sharing). *)
@@ -56,6 +57,7 @@ module Stream = (struct
   let force l = iter (fun x -> ()) l
   let clone l = l (* Noooo *)
   let singleton x = cons x (of_list [])
+  let append a b = merge (fun _ _ -> true) (a,b)
 end : S with type 'a t = 'a Stream.t )
 
 (** Regular lazy list from batteries. Functionnal. *)
