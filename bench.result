@@ -16,3 +16,8 @@ Seq : 1.1591187493s
 Sequence : 0.8053300701s
 Enum : 4.68891946425s
 LazyList : 8.08663420655s
+
+11/11/2013, commit 1e086a3 - temoin
+von koch simple bench, n = 11, 20 runs, time by run
+Seq : 0.69734573805s
+Sequence : 1.03820339525s
