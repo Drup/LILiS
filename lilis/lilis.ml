@@ -10,6 +10,4 @@ module Lstream = Stream.Sequence
 
 include Ls_engine
 
-module E = Engine(Lstream)
-
-let eval_lsys = E.eval_lsys
+include Engine(Lstream)
