@@ -36,8 +36,9 @@ module Seq = (struct
   let fold = fold_left
   let force l = iter (fun x -> ()) l
   let clone l = l
-  let of_list l = Array.fold_right cons (Array.of_list l) nil
-  let to_list l = BatList.of_enum (enum l)
+  let of_list l = List.fold_right cons l nil
+  let to_list l =
+    fold_right (fun h t -> h :: t) l []
   let singleton x = cons x nil
   let empty () = nil
 end : S with type 'a t = 'a BatSeq.t  )
@@ -46,9 +47,8 @@ end : S with type 'a t = 'a BatSeq.t  )
 module Enum = (struct
   include BatEnum
   let expand f l = concat (map f l)
-  let of_list l = BatArray.enum (Array.of_list l)
+  let of_list l = BatList.enum l
   let to_list = BatList.of_enum
-  let of_array = BatArray.enum
 end : S with type 'a t = 'a BatEnum.t )
 
 (** Regular lazy list from batteries. Functionnal. *)
@@ -59,8 +59,6 @@ module LazyList = (struct
   let force l = iter (fun x -> ()) l
   let clone l = l
   let singleton x = cons x nil
-  let of_list l =
-    of_array (Array.of_list l)
   let empty () = nil
 end : S with type 'a t = 'a BatLazyList.t )
 
@@ -71,6 +69,4 @@ module Sequence = (struct
   let expand = flatMap
   let empty () = empty
   let clone l = l
-  let of_list l =
-    of_array (Array.of_list l)
 end : S with type 'a t = 'a Sequence.t)
