@@ -14,6 +14,7 @@ module type S = sig
   val to_list : 'a t -> 'a list
   val clone : 'a t -> 'a t
   val force : 'a t -> unit
+  val empty : unit -> 'a t
 end
 
 (** Seq from batteries. Functionnal (allow sharing). *)
@@ -38,6 +39,7 @@ module Seq = (struct
   let of_list l = Array.fold_right cons (Array.of_list l) nil
   let to_list l = BatList.of_enum (enum l)
   let singleton x = cons x nil
+  let empty () = nil
 end : S with type 'a t = 'a BatSeq.t  )
 
 (** Enum from batteries. Destructive reading, imperative. *)
@@ -46,17 +48,8 @@ module Enum = (struct
   let expand f l = concat (map f l)
   let of_list l = BatArray.enum (Array.of_list l)
   let to_list = BatList.of_enum
+  let of_array = BatArray.enum
 end : S with type 'a t = 'a BatEnum.t )
-
-(** Stream from the standard library. Use batteries for convenience. Destructive reading, imperative. ~10 time slower than Seq. Broken for now because lack of clone function.*)
-module Stream = (struct
-  include BatStream
-  let expand f l = concat (map f l)
-  let fold f z l = foldl (fun x y -> (f x y, None)) z l
-  let force l = iter (fun x -> ()) l
-  let clone l = l (* Noooo *)
-  let singleton x = cons x (of_list [])
-end : S with type 'a t = 'a Stream.t )
 
 (** Regular lazy list from batteries. Functionnal. *)
 module LazyList = (struct
@@ -68,6 +61,7 @@ module LazyList = (struct
   let singleton x = cons x nil
   let of_list l =
     of_array (Array.of_list l)
+  let empty () = nil
 end : S with type 'a t = 'a BatLazyList.t )
 
 (** Sequence, from companion_cube. *)
@@ -75,6 +69,7 @@ module Sequence = (struct
   include Sequence
   let force l = iter (fun _ -> ()) l
   let expand = flatMap
+  let empty () = empty
   let clone l = l
   let of_list l =
     of_array (Array.of_list l)

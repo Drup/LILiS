@@ -150,7 +150,7 @@ module Engine (Ls : Ls_stream.S) = struct
 
   (** Verify that a rule is complete and obtain the transformation. *)
   let get_complete_transformation rules =
-    let empty = Ls.of_list [] in
+    let empty = Ls.empty () in
     let f = function
       | Some x -> x
       | None -> empty
