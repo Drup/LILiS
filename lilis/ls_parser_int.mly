@@ -9,6 +9,9 @@
 %start main
 %type <Ls_type.AST.lsystem list> main
 
+%start defs
+%type <Ls_type.AST.def list> defs
+
 %%
 
 main:
@@ -25,6 +28,9 @@ lsystem:
 
 axiom:
   AXIOM EQUAL ol=token(args)+ { ol }
+
+defs:
+    def=def* EOF { def }
 
 def:
     DEF toks = token(opt_vars)+ l = loption(def_rhs)

@@ -68,25 +68,25 @@ module Lstream : Stream.S
 type axiom = (string * (float list)) list
 (** A simple Lsystem axiom. *)
 
-type rule = {
+type 'a rule = {
   lhs : string ;
   vars : string list ;
-  rhs : (string * (string Mini_calc.arit_tree list)) list ;
+  rhs : ('a * (string Mini_calc.arit_tree list)) list ;
 }
 (** A Lsystem rule. *)
 
-type lsystem = {
+type 'a lsystem = {
   name : string ;
   axiom : axiom ;
-  rules : rule list ;
-  post_rules : rule list ;
+  rules : string rule list ;
+  post_rules : 'a rule list ;
 }
 (** A complete Lsystem. *)
 
-val lsystem_from_chanel : in_channel -> lsystem list
-val lsystem_from_string : string -> lsystem list
+val lsystem_from_chanel : in_channel -> string lsystem list
+val lsystem_from_string : string -> string lsystem list
 
-val eval_lsys : int -> lsystem -> (string * float array) Lstream.t
+val eval_lsys : int -> 'a lsystem -> ('a * float array) Lstream.t
 (** Evaluate a Lsystem at the n-th generation. *)
 
 (** {3 Utils} *)
@@ -111,10 +111,11 @@ val check_stream : int SMap.t -> (string * 'a list) list -> unit
 (** Check a stream against an environment. This environment is a mapping name -> arity.
     @raise ArityError, VarDefError, TokenDefError *)
 
-val check_rule : int SMap.t -> ?arit_env:Mini_calc.arit_env -> rule -> unit
+val check_rule : int SMap.t -> ?arit_env:Mini_calc.arit_env -> string rule -> unit
 (** As [ check_axiom ]. Need also an arithmetic environment, will use [ Mini_calc.Env.usual ] if none is provided.
     @raise ArityError, VarDefError, TokenDefError *)
 
+val replace_defs : ('a * ('b * int)) list -> 'a lsystem -> 'b lsystem
 
 (** {3 Internal engine} *)
 
@@ -123,11 +124,14 @@ module SymbEnv : sig
   type t
   (** A string <-> int mapping, used by the compression functions. *)
 
-  val extract : axiom -> rule list -> t
+  val extract : axiom -> string rule list -> 'a rule list-> t
   (** Create a symbol environment from an axiom and a bunch of rules. *)
 
-  val add_rule : t -> rule -> t
+  val add_rule : t -> string rule -> t
   (** Add symbols from a rule to a symbolic environment. *)
+
+  val add_post_rule : t -> 'a rule -> t
+  (** Like [ add_rule ] but allow polymorphic rules. Ignore the right-hand side of the rule. *)
 
   val add_axiom : t -> axiom -> t
   (** Add symbols from an axiom to symbolic environment. *)
@@ -144,7 +148,7 @@ end
 module Engine (Lstream : Stream.S) : sig
 
   val eval_lsys :
-    int -> lsystem -> (string * float array) Lstream.t
+    int -> 'a lsystem -> ('a * float array) Lstream.t
   (** Evaluate a Lsystem at the n-th generation. *)
 
   (** {2 Compression functions} *)
@@ -160,9 +164,9 @@ module Engine (Lstream : Stream.S) : sig
   type 'a lstream = ('a * float array) Lstream.t
   type 'a crules
 
-  val compress_rules : SymbEnv.t -> rule list -> int crules
+  val compress_rules : SymbEnv.t -> string rule list -> int crules
 
-  val compress_post_rules : SymbEnv.t -> (string -> 'a) -> rule list -> 'a crules
+  val compress_post_rules : SymbEnv.t -> 'a rule list -> 'a crules
 
   val compress_lslist : SymbEnv.t -> axiom -> int lstream
 
@@ -177,6 +181,10 @@ module Engine (Lstream : Stream.S) : sig
 
   val apply_complete : 'a crules -> int lstream -> 'a lstream
   (** As [ apply ] but with a complete maping. Symbols without rules are supressed. *)
+
+  val eval_lsys_uncompress :
+    int -> 'a lsystem -> (string * float array) Lstream.t
+  (** Like [ eval_lsys ], but will ignore post rules and uncompress the stream instead. *)
 
 
 end

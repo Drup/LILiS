@@ -1,7 +1,7 @@
 NAME :=    $(shell oasis query name)
 VERSION := $(shell oasis query version)
 
-BUILDFLAGS='-ocamlopt "ocamlfind ocamlopt -inline 10 -unsafe"'
+BUILDFLAGS='-ocamlopt "ocamlfind ocamlopt -inline 10"'
 
 # OASIS_START
 # DO NOT EDIT (digest: bc1e05bfc8b39b664f29dae8dbd3ebbb)

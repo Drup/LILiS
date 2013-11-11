@@ -2,7 +2,20 @@
 
 (** We use a logo-like system to draw a L-system : a turtle is following the order in the Lstream. *)
 
-class turtle : object
+
+type orders = [
+  | `Forward
+  | `forward
+  | `Turn
+  | `Save
+  | `Restore
+]
+(** The type of orders always accepted by a turtle. *)
+
+val orders : (string * (orders * int)) list
+
+class ['a] turtle : object
+  constraint 'a = [< orders ]
 
   method get_pos : unit -> float * float
   (** Get the curent [(x,y)] position of the turtle. *)
@@ -21,14 +34,11 @@ class turtle : object
   method restore_position : unit -> unit
   (** Restore the position of the turtle from the stack.
       @raise Empty_Stack if the stack is empty.*)
+
+  method draw : 'a * float array -> unit
+  (** Translate some usual symbol of L-system into a drawing order. *)
+
 end
 (** Class representing a turtle.
     This implementation doesn't draw anything but is doing all the movement calculations.
 *)
-
-val draw : #turtle -> string * float array -> unit
-(** Translate some usual symbol of L-system into a drawing order. *)
-
-val draw_enum : #turtle -> (string * float array) Lilis.Lstream.t -> unit
-
-val draw_list : #turtle -> (string * float array) list -> unit

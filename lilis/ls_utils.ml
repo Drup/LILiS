@@ -26,7 +26,10 @@ let is_def_tok env token =
     raise (TokenDefError token)
 
 let check_arity env tok vars =
-  let defined_arity = SMap.find tok env in
+  let defined_arity = match SMap.Exceptionless.find tok env with
+    | Some x -> x
+    | None -> raise @@ TokenDefError tok
+  in
   let arity = List.length vars in
   if defined_arity <> arity then
     raise (ArityError ( tok, defined_arity, arity ))
@@ -54,6 +57,37 @@ let check_rule env ?(arit_env=Mini_calc.Env.usual) r =
   in
   check_gen_stream env r.vars check_inside r.rhs
 
+(** {2 Default definitions} *)
+
+let defaut_defs = "
+def F(d?1) = Forward(d)
+def f(d?1) = forward(d)
+def +(x?90) = Turn(x)
+def -(x?90) = Turn(- x)
+def [ = Save
+def ] = Restore
+"
+
+let add_defs new_def lsys =
+  { lsys with AST.definitions = new_def @ lsys.AST.definitions }
+
+let replace_defs env { name ; axiom ; rules ; post_rules } =
+  let replace_def (tok,vars) =
+    let (tok',arity) = match BatList.Exceptionless.assoc tok env with
+      | Some x -> x
+      | None -> failwith "Error while replace_defs"
+    in
+    let used_arity = List.length vars in
+    if arity <> used_arity then failwith "Error while replace_defs" ;
+    (tok',vars)
+  in
+  let in_rule { lhs ; vars ; rhs } =
+    let rhs = List.map replace_def rhs in
+    { lhs ; vars ; rhs }
+  in
+  let post_rules =
+    List.map in_rule post_rules in
+  { name ; axiom ; rules ; post_rules }
 
 
 (** {2 Transformation from ast to lsystem representation} *)

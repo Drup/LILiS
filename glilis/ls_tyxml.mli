@@ -1,7 +1,7 @@
 (** Draw to a svg using {{: http://ocsigen.org/tyxml/} tyxml}. *)
 
-class svg_turtle :
-  object inherit Glilis.turtle
+class ['a] svg_turtle :
+  object inherit ['a] Glilis.turtle
 
     (** Export the path as a string. *)
     method to_string : unit -> string

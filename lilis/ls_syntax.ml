@@ -1,5 +1,10 @@
 open Ls_type
 
+let default_defs =
+  let lexbuf = Lexing.from_string Ls_utils.defaut_defs in
+  try Ls_parser.defs Ls_lexer.token lexbuf
+  with _ -> assert false
+
 let parse_lex lexbuf =
   try
     Ls_parser.main Ls_lexer.token lexbuf
@@ -14,7 +19,9 @@ let parse_lex lexbuf =
       )
 
 let parse_convert lexbuf =
-  List.map Ls_utils.lsystem @@ parse_lex lexbuf
+  List.map
+    (fun x -> Ls_utils.lsystem (Ls_utils.add_defs default_defs x))
+    (parse_lex lexbuf)
 
 let lsystem_from_chanel chanel =
   let lexbuf = Lexing.from_channel chanel in

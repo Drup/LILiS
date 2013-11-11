@@ -54,9 +54,10 @@ module SymbEnv = struct
 
   (** Extract the symbol environment from an Lsystem. *)
   (* It's basically a big multi-fold along lsystem rules. *)
-  let extract axiom rules =
+  let extract axiom rules post_rules =
     let senv = add_axiom empty axiom in
-    List.fold_left add_rule senv rules
+    let senv = List.fold_left add_rule senv rules in
+    List.fold_left add_post_rule senv post_rules
 
 end
 
@@ -114,7 +115,7 @@ module Engine (Ls : Ls_stream.S) = struct
     let new_rhs = transform_rule_rhs f new_vars r.rhs in
     (new_lhs, new_rhs)
 
-  let compress_post_rules senv f rules : 'a crules =
+  let compress_gen_rules senv f rules : 'a crules =
     let crules = BatArray.create senv.n None in
     let add_rule r =
       let i, rhs = transform_rule senv f r in
@@ -123,14 +124,19 @@ module Engine (Ls : Ls_stream.S) = struct
     List.iter add_rule rules ;
     crules
 
-  let compress_rules senv rules : 'a crules =
-    compress_post_rules senv (fun x -> SMap.find x senv.env) rules
+  let compress_post_rules senv rules : 'a crules =
+    compress_gen_rules senv (fun x -> x) rules
 
-  let compress_lsys axiom rules =
-    let senv = extract axiom rules in
-    let caxiom = compress_lslist senv axiom in
-    let crules = compress_rules senv rules in
-    senv, caxiom, crules
+  let compress_rules senv rules : 'a crules =
+    let get x = SMap.find x senv.env in
+    compress_gen_rules senv get rules
+
+  let compress_lsys lsys =
+    let senv = extract lsys.axiom lsys.rules lsys.post_rules in
+    let caxiom = compress_lslist senv lsys.axiom in
+    let crules = compress_rules senv lsys.rules in
+    let cprules = compress_post_rules senv lsys.post_rules in
+    senv, caxiom, crules, cprules
 
   (** {1 Lsystem evaluation engine} *)
 
@@ -179,9 +185,15 @@ module Engine (Ls : Ls_stream.S) = struct
       (get_transformation rules)
       lstream
 
-  (** Generate the n-th generation of the given Lsystem. *)
-  let eval_lsys n lsys =
-    let senv, axiom, rules = compress_lsys lsys.axiom lsys.rules in
+  (** Like eval_lsys, but will ignore post rules and uncompress the stream instead. *)
+  let eval_lsys_uncompress n lsys =
+    let senv, axiom, rules, _ = compress_lsys lsys in
     let lstream = apply ~n rules axiom in
     uncompress_lstream senv lstream
+
+  (** Generate the n-th generation of the given Lsystem. *)
+  let eval_lsys n lsys =
+    let senv, axiom, rules, prules = compress_lsys lsys in
+    let lstream = apply ~n rules axiom in
+    apply_complete prules lstream
 end

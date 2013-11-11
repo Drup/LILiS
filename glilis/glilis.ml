@@ -12,8 +12,24 @@ let copy_pos { x ; y ; d } =
   { x ; y ; d }
 
 
-class turtle =
-  object
+type orders = [
+  | `Forward
+  | `forward
+  | `Turn
+  | `Save
+  | `Restore
+]
+
+let orders = [
+  "Forward", (`Forward,1) ;
+  "forward", (`forward,1) ;
+  "Turn"   , (`Turn,   1) ;
+  "Save"   , (`Save,   0) ;
+  "Restore", (`Restore,0) ;
+]
+
+class ['a] turtle =
+  object(t)
 
     (** Position of the turtle *)
     (* We pack the position in a float record because it's (very slightly) more efficient. *)
@@ -38,18 +54,11 @@ class turtle =
       let { x ; y ; d } = Stack.pop stack in
       pos.x <- x ; pos.y <- y ; pos.d <- d
 
+    method draw (order : 'a * float array) = match order with
+      | `Forward, l -> t#move ~trace:true l.(0)
+      | `Turn   , l -> t#turn ( -. l.(0))
+      | `forward, l -> t#move ~trace:false l.(0)
+      | `Save   , _ -> t#save_position ()
+      | `Restore, _ -> t#restore_position ()
+
   end
-
-let draw (t : #turtle) order = match order with
-  | ("+",l) -> let x = (get_value_arg l 90.) in t#turn (-.x)
-  | ("-",l) -> let x = (get_value_arg l 90.) in t#turn x
-  | ("F",l) -> let x = (get_value_arg l 1.) in t#move x
-  | ("B",l) -> let x = (get_value_arg l 1.) in t#move (-. x)
-  | ("[",_) -> t#save_position ()
-  | ("]",_) -> t#restore_position ()
-  | ("f",l) -> let x = (get_value_arg l 1.) in t#move ~trace:false x
-  | _ -> ()
-
-let draw_enum turtle = Lilis.Lstream.iter (draw turtle)
-
-let draw_list turtle = List.iter (draw turtle)

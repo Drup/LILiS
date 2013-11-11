@@ -36,8 +36,8 @@ let to_gtk (width, height) lstream =
   let expose area ev =
     let turtle = new Ls_cairo.gtk_turtle area in
     turtle#fill () ;
-    draw_list turtle lstream ;
-    turtle#draw () ;
+    List.iter turtle#draw lstream ;
+    turtle#apply () ;
     true
   in
   ignore(GMain.init());
@@ -53,18 +53,18 @@ let to_gtk (width, height) lstream =
 let to_png (width, height) lstream file =
   let turtle = new Ls_cairo.png_turtle width height in
   turtle#fill () ;
-  Lstream.iter (draw turtle) lstream ;
+  Lstream.iter turtle#draw lstream ;
   turtle#finish file
 
 let to_svg_cairo (width, height) lstream file =
   let turtle = new Ls_cairo.svg_turtle file width height in
   turtle#fill () ;
-  Lstream.iter (draw turtle) lstream ;
+  Lstream.iter turtle#draw lstream ;
   turtle#finish ()
 
 let to_svg size lstream file =
   let turtle = new Ls_tyxml.svg_turtle in
-  Lstream.iter (draw turtle) lstream ;
+  Lstream.iter turtle#draw lstream ;
   let lsvg = Ls_tyxml.template size (turtle#to_string ()) in
   let buffer = open_out file in
   Svg.P.print ~output:(output_string buffer) lsvg ;
@@ -146,6 +146,7 @@ let parsing_t bank lname =
 
 
 let processing_t bench n lsys =
+  let lsys = Lilis.replace_defs Glilis.orders lsys in
   if bench then init_time () ;
   let lstream = eval_lsys n lsys in
   lstream

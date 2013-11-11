@@ -11,13 +11,13 @@ let path_inst_to_string = function
   | L (x,y)  -> Printf.sprintf "L %f %f " x y
   | Lr (x,y) -> Printf.sprintf "l %f %f " x y
 
-class svg_turtle =
+class ['a] svg_turtle =
 
   let push_inst acc x =
     BatText.append acc (BatText.of_string (path_inst_to_string x))
   in
 
-  object inherit Glilis.turtle as super
+  object inherit ['a] Glilis.turtle as super
 
     val mutable acc = BatText.of_string "M 0 0 "
 

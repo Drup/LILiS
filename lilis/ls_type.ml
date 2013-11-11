@@ -7,18 +7,18 @@ module SMap = BatMap.Make(BatString)
 type axiom = (string * (float list)) list
 
 (** A rule of rewriting *)
-type rule = {
+type 'a rule = {
   lhs : string ;
   vars : string list ;
-  rhs : (string * (arit list)) list ;
+  rhs : ('a * (arit list)) list ;
 }
 
 (** A complete Lsystem. *)
-type lsystem = {
+type 'a lsystem = {
   name : string ;
   axiom : (string * (float list)) list ;
-  rules : rule list ;
-  post_rules : rule list ;
+  rules : string rule list ;
+  post_rules : 'a rule list ;
 }
 
 module AST = struct
@@ -35,7 +35,7 @@ module AST = struct
     name : string ;
     definitions : def list ;
     axiom : axiom ;
-    rules : rule list ;
+    rules : string rule list ;
   }
 
   type env_def = ((string * arit option) token) list
