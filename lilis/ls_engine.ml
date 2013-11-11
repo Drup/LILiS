@@ -16,7 +16,9 @@ let arit_closure vars ( t : arit ) : arit_fun =
   let t = compress_tree Env.usual t in
   let f x = BatArray.findi ( BatString.equal x) vars in
   let t = map_tree f t in
-  fun env -> eval_tree_custom (fun x -> env.(x)) t
+  let aclosure env =
+    eval_tree_custom (Array.unsafe_get env) t
+  in aclosure
 
 
 (** The symbol environment contains the association int <-> string for Lsystem symbols. *)
@@ -141,9 +143,9 @@ module Engine (Ls : Ls_stream.S) = struct
 
   (** Get the transformation function from a Lsystem. *)
   let get_transformation rules =
-    let transf symbol args = match rules.(symbol) with
+    let transf ((symbol,args) as tok) = match rules.(symbol) with
         Some x -> eval_rule args x
-      | None -> Ls.singleton (symbol,args)
+      | None -> Ls.singleton tok
     in transf
 
   (** Verify that a rule is complete and obtain the transformation. *)
@@ -154,11 +156,8 @@ module Engine (Ls : Ls_stream.S) = struct
       | None -> empty
     in
     let r = Array.map f rules in
-    let transf symbol args = eval_rule args r.(symbol) in
+    let transf (symbol,args) = eval_rule args r.(symbol) in
     transf
-
-  let apply_once transf axiom =
-    Ls.expand (function (ordre,args) -> transf ordre args) axiom
 
   (** Generate a lstream at the n-th generation,
       with the given axiom and the given transformation function. *)
@@ -166,12 +165,12 @@ module Engine (Ls : Ls_stream.S) = struct
     if m < 0 then failwith "generate_lstream only accept positive integers as generation number" ;
     let rec generation n l = match n with
         0 -> l
-      | n -> generation (n-1) (apply_once transf l)
+      | n -> generation (n-1) (Ls.expand transf l)
     in
     generation m axiom
 
   let apply_complete rules lstream =
-    apply_once
+    Ls.expand
       (get_complete_transformation rules)
       lstream
 
