@@ -120,9 +120,6 @@ val check_rule : int SMap.t -> ?arit_env:Mini_calc.arit_env -> rule -> unit
 
 (** {3 Internal engine} *)
 
-exception UncompleteTransformation
-(** Error raised when a transformation is not complete but is used as so.*)
-
 (** The symbolic environment is the dictionnary to compress and decompress streams. *)
 module SymbEnv : sig
   type t
@@ -167,6 +164,8 @@ module Engine (Lstream : Stream.S) : sig
 
   val compress_rules : SymbEnv.t -> rule list -> int crules
 
+  val compress_post_rules : SymbEnv.t -> (string -> 'a) -> rule list -> 'a crules
+
   val compress_lslist : SymbEnv.t -> axiom -> int lstream
 
   val compress_lstream : SymbEnv.t -> string lstream -> int lstream
@@ -179,7 +178,7 @@ module Engine (Lstream : Stream.S) : sig
   (** [ apply rules lstream ] will apply rules once to [lstream]. The optional argument [n] can be used to apply more than once. *)
 
   val apply_complete : 'a crules -> int lstream -> 'a lstream
-  (** As [ apply ] but with a complete maping. Will raise [ UncompleteTransformation ] if the maping is not complete. The verification is done before actually doing any calculus. Apply only once. *)
+  (** As [ apply ] but with a complete maping. Symbols without rules are supressed. *)
 
 
 end

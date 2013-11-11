@@ -1,9 +1,6 @@
 open Ls_type
 open Ls_utils
 
-(** Error raised when a transformation is not complete but is used as so.*)
-exception UncompleteTransformation
-
 (** We compress arithmetic expression in two ways :
   - regular compression by evaluation
   - replace the environment by an array lookup
@@ -49,6 +46,9 @@ module SymbEnv = struct
     let senv = add r.lhs senv in
     let senv = add_axiom senv r.rhs in
     senv
+
+  let add_post_rule senv r =
+    add r.lhs senv
 
   (** Extract the symbol environment from an Lsystem. *)
   (* It's basically a big multi-fold along lsystem rules. *)
@@ -99,27 +99,30 @@ module Engine (Ls : Ls_stream.S) = struct
   (** {3 Lsystem Transformation}
       Transform an Lsystem to a compressed form using a string <-> int mapping. *)
 
-  let transform_rule_rhs r vars senv : 'a crule =
+  let transform_rule_rhs symbf vars r : 'a crule =
     let transform_symb (symb,args) =
-      let new_symb = SMap.find symb senv.env in
+      let new_symb = symbf symb in
       let new_args = Array.of_list (List.map (arit_closure vars) args) in
       new_symb, new_args
     in Ls.of_list (List.map transform_symb r)
 
-  let transform_rule senv r =
+  let transform_rule senv f r =
     let new_vars = Array.of_list r.vars in
     let new_lhs = SMap.find r.lhs senv.env in
-    let new_rhs = transform_rule_rhs r.rhs new_vars senv in
+    let new_rhs = transform_rule_rhs f new_vars r.rhs in
     (new_lhs, new_rhs)
 
-  let compress_rules senv rules =
+  let compress_post_rules senv f rules : 'a crules =
     let crules = BatArray.create senv.n None in
     let add_rule r =
-      let i, rhs = transform_rule senv r in
+      let i, rhs = transform_rule senv f r in
       crules.(i) <- Some rhs
     in
     List.iter add_rule rules ;
     crules
+
+  let compress_rules senv rules : 'a crules =
+    compress_post_rules senv (fun x -> SMap.find x senv.env) rules
 
   let compress_lsys axiom rules =
     let senv = extract axiom rules in
@@ -143,13 +146,12 @@ module Engine (Ls : Ls_stream.S) = struct
       | None -> Ls.singleton (symbol,args)
     in transf
 
-  (** Verify that a rule is complete and obtain the transformation.
-      @Raises UncompleteTransformation
-  *)
+  (** Verify that a rule is complete and obtain the transformation. *)
   let get_complete_transformation rules =
+    let empty = Ls.of_list [] in
     let f = function
       | Some x -> x
-      | None -> raise UncompleteTransformation
+      | None -> empty
     in
     let r = Array.map f rules in
     let transf symbol args = eval_rule args r.(symbol) in
