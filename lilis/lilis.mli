@@ -53,10 +53,10 @@ module Stream : sig
   (** BatEnum from batteries. Destructive reading, imperative. 2.5 time slower than Seq. *)
 
   module LazyList : S with type 'a t = 'a BatLazyList.t and type 'a stored = 'a BatLazyList.t
-(** Regular lazy list from batteries. Functionnal. ~8 time slower than Seq. *)
+  (** Regular lazy list from batteries. Functionnal. ~8 time slower than Seq. *)
 
   module Sequence : S with type 'a t = 'a Sequence.t and type 'a stored = 'a Sequence.t
-(** Sequence, the dual of Seq, from the sequence package, by companion_cube. *)
+  (** Sequence, the dual of Seq, from the sequence package, by companion_cube. *)
 
 end
 

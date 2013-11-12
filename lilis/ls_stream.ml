@@ -83,7 +83,6 @@ module Sequence = (struct
   type 'a stored = 'a t
   let force l = iter (fun _ -> ()) l
   let expand = flatMap
-  let of_list l = of_list l
   let store = id
   let gennew = id
 end : S with type 'a t = 'a Sequence.t and type 'a stored = 'a Sequence.t)
