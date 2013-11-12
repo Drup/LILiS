@@ -11,7 +11,7 @@ LILiS is a *Library to Interpret Lindenmayer Systems*.
 ## Description of LILiS
 
 The goal of this library is to evaluate L-systems and to visualise them (in 2D only).
-The emphasis is put on high speed, static verification and optimization, modularity and pretty drawings.
+The emphasis is put on high speed, static verifications and optimizations, modularity and pretty drawings.
 
 This project is partially inspired by [Lpy](http://openalea.gforge.inria.fr/dokuwiki/doku.php?id=packages:vplants:lpy:main).
 
@@ -25,7 +25,7 @@ The documentation for the various libraries can be found [here](http://drup.gith
 
 The executable can be used to draw any L-system like those in [`bank_lsystem`](bank_lsystem) for examples.
 
-Computing L-systems happen to be a very nice way to stress the flatMap operation on some data structure. If you have any stream library (or other data structures) you want to test, feel free to ask.
+Computing L-systems happens to be a very nice way to stress the flatMap operation on some data structures. If you have any stream library (or other data structures) you want to test, feel free to ask.
 
 ## Dependencies
 
@@ -91,13 +91,15 @@ Current potential goals:
 - Big priority : add a preprocessor to do conditional compilation. This is the only way to handle all those optional dependencies nicely.
 
 - Performance related :
-  - Constant folding for symbols : replace `+(60)` by `+'` (with `def +' = Turn(60)`)
+  - Constants folding for symbols : replace `+(60)` by `+'` (with `def +' = Turn(60)`)
+  - Constants folding for symbols, bis : replace `A B` with some other symbol if neither `A` nor `B` are left hand side of a rule.
   - Symbol grouping : `F(x) F(y)` → `F(x+y)`. Be **very** careful as this is not always true.
   - Allow simple expressions to be pre-computed :
 	  `rule S(n) = S(n+1)`. This may be super hard in general.
   - Allow to plug a (drawing) function in the last derivation, to avoid a useless flattening.
   - Work on the trigo stuff in the drawing part of the library.
-  - Investigate the idea "Compute the size of the resulting stream in advance, allocate a huge array, copy the result of each rule, ???, profit." It may be a good way to parallelize lilis.
+  - Investigate the idea "Compute the size of the result in advance, allocate a huge array, copy the result of each rule, ???, profit." It may be a good way to parallelize lilis.
+  - Play with Parmap a bit more, use the fact that the last operation is an iter (like for drawing) since we don't have to do the last (and very costly) concat in this case.
 
 - Improve the verification some more, especially in relation to :
   - Token redefinition
@@ -118,6 +120,6 @@ Current potential goals:
 - Implement a better error handling for the parser.
 
 - Work on the combinator approach for the front end.
-- Currently, the definition environment disappear after the front end and only post rules remains. On one hand, we can't let the environment, as we can't trust it when it's given independently by the user, on an other hand, this prevent completing optional arguments from the library side. A solution (maybe with some abstract type, may be interesting. Beware of leaking abstractions.
+- Currently, the definition environment disappear after the front end and only post rules remains. On one hand, we can't let the environment, as we can't trust it when it's given independently by the user, on an other hand, this prevent completing optional arguments from the library side. A solution (maybe with some abstract types), may be interesting. Beware of leaking abstractions.
 
 ![Dragon](http://drup.github.io/LILiS/dragon.svg)
