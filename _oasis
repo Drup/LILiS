@@ -77,7 +77,7 @@ Executable glilis
 
 # Tests
 
-Executable bench
+Executable bench_streams
   Path: test
   Build$: flag(tests)
   Install: false
@@ -86,10 +86,23 @@ Executable bench
   MainIs: bench_streams.ml
   BuildDepends: lilis, benchmark
 
-Test bench
-  Command: $bench
-  TestTools: bench
-  Run$: flag(tests)
+Executable bench_vonkoch
+  Path: test
+  Build$: flag(tests)
+  Install: false
+  CompiledObject: best
+  BuildTools: ocamlbuild
+  MainIs: bench_vonkoch.ml
+  BuildDepends: lilis, benchmark
+
+Executable bench_quick
+  Path: test
+  Build$: flag(tests)
+  Install: false
+  CompiledObject: best
+  BuildTools: ocamlbuild
+  MainIs: bench_quick.ml
+  BuildDepends: lilis, benchmark
 
 # Misc
 
