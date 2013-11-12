@@ -32,28 +32,30 @@ module Stream : sig
 
   module type S = sig
     type 'a t
+    type 'a stored
     val singleton : 'a -> 'a t
     val map : ('a -> 'b) -> 'a t -> 'b t
     val expand : ('a -> 'b t) -> 'a t -> 'b t
     val iter : ('a -> unit) -> 'a t -> unit
     val fold : ('b -> 'a -> 'b) -> 'b -> 'a t -> 'b
-    val of_list : 'a list -> 'a t
+    val of_list : 'a list -> 'a stored
     val to_list : 'a t -> 'a list
-    val clone : 'a t -> 'a t
     val force : 'a t -> unit
-    val empty : unit -> 'a t
+    val empty : 'a stored
+    val store : 'a t -> 'a stored
+    val gennew : 'a stored -> 'a t
   end
 
-  module Seq : S with type 'a t = 'a BatSeq.t
+  module Seq : S with type 'a t = 'a BatSeq.t and type 'a stored = 'a BatSeq.t
   (** BatSeq from batteries. Functionnal (allow sharing). Fastest (for now ?). *)
 
-  module Enum : S with type 'a t = 'a BatEnum.t
+  module Enum : S with type 'a t = 'a BatEnum.t and type 'a stored = unit -> 'a BatEnum.t
   (** BatEnum from batteries. Destructive reading, imperative. 2.5 time slower than Seq. *)
 
-  module LazyList : S with type 'a t = 'a BatLazyList.t
+  module LazyList : S with type 'a t = 'a BatLazyList.t and type 'a stored = 'a BatLazyList.t
 (** Regular lazy list from batteries. Functionnal. ~8 time slower than Seq. *)
 
-  module Sequence : S with type 'a t = 'a Sequence.t
+  module Sequence : S with type 'a t = 'a Sequence.t and type 'a stored = 'a Sequence.t
 (** Sequence, the dual of Seq, from the sequence package, by companion_cube. *)
 
 end
@@ -168,7 +170,7 @@ module Engine (Lstream : Stream.S) : sig
 
   val compress_post_rules : SymbEnv.t -> 'a rule list -> 'a crules
 
-  val compress_lslist : SymbEnv.t -> axiom -> int lstream
+  val compress_lslist : SymbEnv.t -> axiom -> (int * float array) Lstream.stored
 
   val compress_lstream : SymbEnv.t -> string lstream -> int lstream
 

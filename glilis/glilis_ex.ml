@@ -152,12 +152,13 @@ let processing_t bench n lsys =
   lstream
 
 let draw_t bench size png svg svg_cairo gtk lstream =
+  let fstream = Lstream.store lstream in
   List.iter
-    (fun (x,f) -> BatOption.may (f size (Lstream.clone lstream)) x)
+    (fun (x,f) -> BatOption.may (f size (Lstream.gennew fstream)) x)
     [ png, to_png ;
       svg, to_svg ;
       svg_cairo, to_svg_cairo ] ;
-  if gtk then to_gtk size lstream
+  if gtk then to_gtk size (Lstream.gennew fstream)
   (* This is kinda hacky, we force the evaluation of the stream to be able to benchmark the engine part alone. *)
   else Lstream.force lstream ;
   if bench then print_time () ;

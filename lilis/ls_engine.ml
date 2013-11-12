@@ -80,7 +80,7 @@ module Engine (Ls : Ls_stream.S) = struct
   (** Compressed variations of types in [ Ls_type ]. *)
 
   type 'a lstream = ('a * (float array)) Ls.t
-  type 'a crule = ('a * (arit_fun array)) Ls.t
+  type 'a crule = ('a * (arit_fun array)) Ls.stored (* If the stream is transient *)
   type 'a crules = 'a crule option array
 
   (** {3 Stream compression}
@@ -145,7 +145,7 @@ module Engine (Ls : Ls_stream.S) = struct
   let eval_rule args (lstream : 'a crule) : 'a lstream =
     let f_eval_rule (ordre, (ordre_args : arit_fun array) ) =
       ordre, Array.map (fun f -> f args) ordre_args
-    in Ls.map f_eval_rule (Ls.clone lstream)
+    in Ls.map f_eval_rule (Ls.gennew lstream)
 
   (** Get the transformation function from a Lsystem. *)
   let get_transformation rules =
@@ -156,10 +156,9 @@ module Engine (Ls : Ls_stream.S) = struct
 
   (** Verify that a rule is complete and obtain the transformation. *)
   let get_complete_transformation rules =
-    let empty = Ls.empty () in
     let f = function
       | Some x -> x
-      | None -> empty
+      | None -> Ls.empty
     in
     let r = Array.map f rules in
     let transf (symbol,args) = eval_rule args r.(symbol) in
@@ -188,12 +187,12 @@ module Engine (Ls : Ls_stream.S) = struct
   (** Like eval_lsys, but will ignore post rules and uncompress the stream instead. *)
   let eval_lsys_uncompress n lsys =
     let senv, axiom, rules, _ = compress_lsys lsys in
-    let lstream = apply ~n rules axiom in
+    let lstream = apply ~n rules (Ls.gennew axiom) in
     uncompress_lstream senv lstream
 
   (** Generate the n-th generation of the given Lsystem. *)
   let eval_lsys n lsys =
     let senv, axiom, rules, prules = compress_lsys lsys in
-    let lstream = apply ~n rules axiom in
+    let lstream = apply ~n rules (Ls.gennew axiom) in
     apply_complete prules lstream
 end
