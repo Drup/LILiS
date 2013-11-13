@@ -86,3 +86,17 @@ module Sequence = (struct
   let store = id
   let gennew = id
 end : S with type 'a t = 'a Sequence.t and type 'a stored = 'a Sequence.t)
+
+(** Stream from the standard library. Use batteries for convenience. Destructive reading, imperative. *)
+module Stream = (struct
+  include BatStream
+  type 'a stored = 'a list
+  let expand f l = concat (map f l)
+  let fold f z l = foldl (fun x y -> (f x y, None)) z l
+  let force l = iter (fun x -> ()) l
+  let of_list = id
+  let singleton x = cons x (BatStream.of_list [])
+  let store s = to_list s
+  let empty = []
+  let gennew l = BatStream.of_list l
+end : S with type 'a t = 'a Stream.t )

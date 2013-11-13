@@ -2,11 +2,11 @@ open Benchmark
 open Lilis
 open Stream
 
-module BeSequence = Engine(Stream.Sequence)
-module BeSeq = Engine(Stream.Seq)
-module BeEnum = Engine(Stream.Enum)
-(* module BeStream = Engine(Stream.Stream) *)
-module BeLazyList = Engine(Stream.LazyList)
+module BeSequence = Engine(Sequence)
+module BeSeq = Engine(Seq)
+module BeEnum = Engine(Enum)
+module BeStream = Engine(Stream)
+module BeLazyList = Engine(LazyList)
 
 let sequence i lsys =
   "Sequence", (fun lsys -> Sequence.force @@ BeSequence.eval_lsys i lsys), lsys
@@ -20,11 +20,15 @@ let enum i lsys =
 let lazy_list i lsys =
   "LazyList", (fun lsys -> LazyList.force @@ BeLazyList.eval_lsys i lsys), lsys
 
+let stream i lsys =
+  "Stream", (fun lsys -> Stream.force @@ BeStream.eval_lsys i lsys), lsys
+
 let all_streams = [
   sequence ;
   seq ;
   enum ;
   lazy_list ;
+  stream ;
 ]
 
 let get_bank_ls s =

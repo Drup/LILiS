@@ -46,14 +46,17 @@ module Stream : sig
     val gennew : 'a stored -> 'a t
   end
 
+  module Stream : S with type 'a t = 'a Stream.t
+  (** Stream from the standard library. *)
+
   module Seq : S with type 'a t = 'a BatSeq.t and type 'a stored = 'a BatSeq.t
-  (** BatSeq from batteries. Functionnal (allow sharing). Fastest (for now ?). *)
+  (** BatSeq from batteries. Functionnal (allow sharing). *)
 
   module Enum : S with type 'a t = 'a BatEnum.t and type 'a stored = unit -> 'a BatEnum.t
-  (** BatEnum from batteries. Destructive reading, imperative. 2.5 time slower than Seq. *)
+  (** BatEnum from batteries. Destructive reading, imperative. *)
 
   module LazyList : S with type 'a t = 'a BatLazyList.t and type 'a stored = 'a BatLazyList.t
-  (** Regular lazy list from batteries. Functionnal. ~8 time slower than Seq. *)
+  (** Regular lazy list from batteries. Functionnal. *)
 
   module Sequence : S with type 'a t = 'a Sequence.t and type 'a stored = 'a Sequence.t
   (** Sequence, the dual of Seq, from the sequence package, by companion_cube. *)
