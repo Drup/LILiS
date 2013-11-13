@@ -7,7 +7,7 @@ class ['a] svg_turtle :
     method to_string : unit -> string
 
   end
-(** A turtle that draw to svg. I only create a string containing an svg path. *)
+(** A turtle that draw to svg. It only creates a string containing an svg path. *)
 
 val template : int * int -> string -> [> Svg_types.svg ] Svg.M.elt
-(** [template size path] return a complete svg elements using the path. *)
+(** [template size path] returns a complete svg elements using the path. *)

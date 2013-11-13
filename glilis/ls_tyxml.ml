@@ -1,15 +1,16 @@
 
 type path_inst =
-  | M of (float * float)
-  | Mr of (float * float)
-  | L of (float * float)
-  | Lr of (float * float)
+  | M of Glilis.pos
+  | Mr of Glilis.pos
+  | L of Glilis.pos
+  | Lr of Glilis.pos
 
-let path_inst_to_string = function
-  | M (x,y)  -> Printf.sprintf "M %f %f " x y
-  | Mr (x,y) -> Printf.sprintf "m %f %f " x y
-  | L (x,y)  -> Printf.sprintf "L %f %f " x y
-  | Lr (x,y) -> Printf.sprintf "l %f %f " x y
+let path_inst_to_string =
+  let open Glilis in function
+  | M  { x ; y } -> Printf.sprintf "M %f %f " x y
+  | Mr { x ; y } -> Printf.sprintf "m %f %f " x y
+  | L  { x ; y } -> Printf.sprintf "L %f %f " x y
+  | Lr { x ; y } -> Printf.sprintf "l %f %f " x y
 
 class ['a] svg_turtle =
 
@@ -17,14 +18,14 @@ class ['a] svg_turtle =
     BatText.append acc (BatText.of_string (path_inst_to_string x))
   in
 
-  object inherit ['a] Glilis.turtle as super
+  object inherit ['a] Glilis.vturtle as super
 
     val mutable acc = BatText.of_string "M 0 0 "
 
     method move ?(trace=true) f =
       super#move ~trace f ;
       let open Glilis in
-      let pos = super#get_pos() in
+      let pos = super#get_pos in
       if trace
       then acc <- push_inst acc (L pos)
       else acc <- push_inst acc (M pos)
@@ -32,8 +33,10 @@ class ['a] svg_turtle =
     method restore_position () =
       super#restore_position () ;
       let open Glilis in
-      let pos = super#get_pos() in
+      let pos = super#get_pos in
       acc <- push_inst acc (M pos)
+
+    method color c = ()
 
     (** Export the path as a string. *)
     method to_string () =

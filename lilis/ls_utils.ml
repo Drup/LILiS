@@ -66,6 +66,7 @@ def +(x?90) = Turn(x)
 def -(x?90) = Turn(- x)
 def [ = Save
 def ] = Restore
+def color(r,g,b,a?1) = Color(r,g,b,a)
 "
 
 let add_defs new_def lsys =
