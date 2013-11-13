@@ -93,6 +93,7 @@ Current potential goals:
 - Performance related :
   - Constants folding for symbols : replace `+(60)` by `+'` (with `def +' = Turn(60)`)
   - Constants folding for symbols, bis : replace `A B` with some other symbol if neither `A` nor `B` are left hand side of a rule.
+  - Find a way to group arithmetic expressions. First in a given symbol `F(x*2,x*2)` and, more interesting : `rule F(x) = F(x/2) + F(x/2)`.
   - Symbol grouping : `F(x) F(y)` → `F(x+y)`. Be **very** careful as this is not always true.
   - Allow simple expressions to be pre-computed :
 	  `rule S(n) = S(n+1)`. This may be super hard in general.
