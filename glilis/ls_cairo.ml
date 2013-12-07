@@ -68,27 +68,16 @@ class ['a] png_turtle size_x size_y =
 class ['a] svg_turtle outfile size_x size_y =
 
   let width, height = (float size_x), (float size_y) in
-  let buffer = open_out outfile in
-  let surface = Cairo.SVG.create_for_stream ~output:(output_string buffer) ~width ~height in
+  let surface = Cairo.SVG.create ~fname:outfile ~width ~height in
   let ctx = Cairo.create surface in
   let _ = Cairo.set_line_width ctx 0.5 in
 
   object inherit ['a] cairo_turtle width height ctx as super
 
-    method move  ?(trace=true) f =
-      super#move ~trace f ;
-      Cairo.stroke ctx ;
-      let open Glilis in
-      let { x ; y } = super#get_pos in
-      let x = real_pos width x in
-      let y = real_pos height y in
-      Cairo.move_to ctx x y
-
     method finish () =
       Cairo.stroke ctx ;
       Cairo.Surface.flush surface ;
-      flush buffer ;
-      close_out buffer ;
+      Cairo.Surface.finish surface ;
   end
 
 class ['a] gtk_turtle w =
