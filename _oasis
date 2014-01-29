@@ -66,13 +66,16 @@ Library "glilis.tyxml"
 
 Executable glilis
   Build: false
-  if flag(tyxml) && flag(cairo) && flag(glilis_ex)
+  BuildDepends: cmdliner, tyxml, cairo2.lablgtk2, glilis, glilis.cairo, glilis.tyxml
+  if flag(tyxml)
+    ByteOpt+:    -ppopt "-D Tyxml"
+    NativeOpt+:  -ppopt "-D Tyxml"
+  if flag(cairo) && flag(glilis_ex)
     Build: true
   Install: false
   Path: glilis
   BuildTools: ocamlbuild
   MainIs: glilis_ex.ml
-  BuildDepends: cmdliner, tyxml, cairo2.lablgtk2, glilis, glilis.cairo, glilis.tyxml
   CompiledObject: best
 
 # Tests
