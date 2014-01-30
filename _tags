@@ -4,9 +4,9 @@
 true : use_menhir, explain
 
 # OASIS_START
-# DO NOT EDIT (digest: d5ad7501bc6bd1196c434fadfd0fc7e8)
-# Ignore VCS directories, you can use the same kind of rule outside 
-# OASIS_START/STOP if you want to exclude directories that contains 
+# DO NOT EDIT (digest: 337e87545859dc1c26a663792b4f118c)
+# Ignore VCS directories, you can use the same kind of rule outside
+# OASIS_START/STOP if you want to exclude directories that contains
 # useless stuff for the build process
 <**/.svn>: -traverse
 <**/.svn>: not_hygienic
