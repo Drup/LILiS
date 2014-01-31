@@ -91,7 +91,15 @@ end : S with type 'a t = 'a Sequence.t and type 'a stored = 'a Sequence.t)
 module Stream = (struct
   include BatStream
   type 'a stored = 'a list
-  let expand f l = concat (map f l)
+  let rec expand f l =
+    Stream.slazy
+      (fun () ->
+         match Stream.peek l with
+           | Some p ->
+               let p' = f p in
+               Stream.junk l;
+               Stream.iapp p' (Stream.slazy (fun () -> expand f l))
+           | None -> Stream.sempty)
   let fold f z l = foldl (fun x y -> (f x y, None)) z l
   let force l = iter (fun x -> ()) l
   let of_list = id
