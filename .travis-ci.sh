@@ -1,5 +1,5 @@
 # Edit this for your own project dependencies
-OPAM_DEPENDS="ocamlfind batteries menhir cmdliner lablgtk cairo2 tyxml"
+OPAM_DEPENDS="ocamlfind batteries menhir cmdliner lablgtk cairo2 tyxml sequence"
 
 case "$OCAML_VERSION,$OPAM_VERSION" in
 3.12.1,1.0.0) ppa=avsm/ocaml312+opam10 ;;
