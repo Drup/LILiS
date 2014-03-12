@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="next" href="Lilis.html">
+<link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of class methods" rel=Appendix href="index_methods.html">
+<link title="Index of classes" rel=Appendix href="index_classes.html">
+<link title="Index of class types" rel=Appendix href="index_class_types.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="Mini_calc" rel="Chapter" href="Mini_calc.html">
+<link title="Lilis" rel="Chapter" href="Lilis.html">
+<link title="Glilis" rel="Chapter" href="Glilis.html">
+<link title="Ls_cairo" rel="Chapter" href="Ls_cairo.html">
+<link title="Ls_tyxml" rel="Chapter" href="Ls_tyxml.html"><link title="Some other functions" rel="Section" href="#3_Someotherfunctions">
+<title>LILiS user guide : Mini_calc</title>
+</head>
+<body>
+<div class="navbar">&nbsp;<a class="up" href="index.html" title="Index">Up</a>
+&nbsp;<a class="post" href="Lilis.html" title="Lilis">Next</a>
+</div>
+<h1>Module <a href="type_Mini_calc.html">Mini_calc</a></h1>
+
+<pre><span class="keyword">module</span> Mini_calc: <code class="code"><span class="keyword">sig</span></code> <a href="Mini_calc.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><div class="info module top">
+Small library to evaluate simple arithmetic expressions.<br>
+</div>
+<hr width="100%">
+<br>
+This library evaluates simple arithmetic expression over floats.
+   Regular operators (+,-,*,/,^) and some regular functions (sin, cos, tan, asin, acos, atan, log, log10, exp, sqrt) are implemented.
+   Arithmetic expressions can contains variables.
+<p>
+
+   Here is an example of expression : <code class="code"> 3*x+sin(2) </code>.<br>
+
+<pre><span id="TYPEarit_tree"><span class="keyword">type</span> <code class="type">'a</code> arit_tree</span> = <code class="type">'a Calc_type.arit_tree</code> </pre>
+<div class="info ">
+Type of arithmetic trees with unknow variables of type 'a.<br>
+</div>
+
+
+<pre><span id="VALtree_to_string"><span class="keyword">val</span> tree_to_string</span> : <code class="type">string <a href="Mini_calc.html#TYPEarit_tree">arit_tree</a> -> string</code></pre><div class="info ">
+Print an arithmetic tree.<br>
+</div>
+
+<pre><span id="VALstring_to_tree"><span class="keyword">val</span> string_to_tree</span> : <code class="type">string -> string <a href="Mini_calc.html#TYPEarit_tree">arit_tree</a></code></pre><div class="info ">
+Parse an arithmetic expression.<br>
+</div>
+
+<pre><span id="TYPEarit_env"><span class="keyword">type</span> <code class="type"></code>arit_env</span> </pre>
+
+
+<pre><span class="keyword">module</span> <a href="Mini_calc.Env.html">Env</a>: <code class="code"><span class="keyword">sig</span></code> <a href="Mini_calc.Env.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><div class="info">
+Variable environment.
+</div>
+
+<pre><span id="EXCEPTIONUnknown_variable"><span class="keyword">exception</span> Unknown_variable</span> <span class="keyword">of</span> <code class="type">string</code></pre>
+
+<pre><span id="VALeval_tree"><span class="keyword">val</span> eval_tree</span> : <code class="type"><a href="Mini_calc.html#TYPEarit_env">arit_env</a> -> string <a href="Mini_calc.html#TYPEarit_tree">arit_tree</a> -> float</code></pre><div class="info ">
+Evaluate a tree in the given environment.<br>
+<b>Raises</b> <code>Unkown_variable</code> if a variable is not define in the environment.<br>
+</div>
+
+<pre><span id="VALcompress_tree"><span class="keyword">val</span> compress_tree</span> : <code class="type"><a href="Mini_calc.html#TYPEarit_env">arit_env</a> -><br>       string <a href="Mini_calc.html#TYPEarit_tree">arit_tree</a> -> string <a href="Mini_calc.html#TYPEarit_tree">arit_tree</a></code></pre><div class="info ">
+Compress a tree in the given environment, ie. evaluate everything that can be evaluated.<br>
+</div>
+
+<pre><span id="VALeval"><span class="keyword">val</span> eval</span> : <code class="type"><a href="Mini_calc.html#TYPEarit_env">arit_env</a> -> string -> float</code></pre><div class="info ">
+Evaluate the arithmetic expression in the given environment and the usual environment.<br>
+<b>Raises</b> <code>Unkown_variable</code> if a variable is not define in the environment.<br>
+</div>
+<br>
+<h3 id="3_Someotherfunctions">Some other functions</h3><br>
+
+<pre><span id="VALeval_tree_custom"><span class="keyword">val</span> eval_tree_custom</span> : <code class="type">('a -> float) -> 'a <a href="Mini_calc.html#TYPEarit_tree">arit_tree</a> -> float</code></pre><div class="info ">
+Evaluate a tree, the given function is used to evaluate variables.<br>
+</div>
+
+<pre><span id="VALcompress_tree_custom"><span class="keyword">val</span> compress_tree_custom</span> : <code class="type">('a -> float option) -> 'a <a href="Mini_calc.html#TYPEarit_tree">arit_tree</a> -> 'a <a href="Mini_calc.html#TYPEarit_tree">arit_tree</a></code></pre><div class="info ">
+Compress a tree using the given function, ie. evaluate everything that can be evaluated.
+    A variable is untouched if the function returns <code class="code"> <span class="constructor">None</span> </code>.<br>
+</div>
+
+<pre><span id="VALmap_tree"><span class="keyword">val</span> map_tree</span> : <code class="type">('a -> 'b) -> 'a <a href="Mini_calc.html#TYPEarit_tree">arit_tree</a> -> 'b <a href="Mini_calc.html#TYPEarit_tree">arit_tree</a></code></pre><div class="info ">
+Change variables representations using the given function.<br>
+</div>
+
+<pre><span id="VALget_vars"><span class="keyword">val</span> get_vars</span> : <code class="type">'a <a href="Mini_calc.html#TYPEarit_tree">arit_tree</a> -> 'a list</code></pre><div class="info ">
+Get the list of variable in the given tree.<br>
+</div>
+
+<pre><span id="VALclosure"><span class="keyword">val</span> closure</span> : <code class="type">?env:<a href="Mini_calc.html#TYPEarit_env">arit_env</a> -><br>       string -> (string * 'a) list -> ('a -> float) -> float</code></pre><div class="info ">
+Compress the string in the optional env and return the resulting closure.<br>
+</div>
+</body></html>
