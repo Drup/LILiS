@@ -28,7 +28,7 @@ build: $(SETUP) setup.data
 
 doc: $(SETUP) setup.data build
 	./$(SETUP) -doc $(DOCFLAGS)
-	 doc/vonkoch.svg doc.docdir/vonkoch.svg
+	cp doc/vonkoch.svg doc.docdir/vonkoch.svg
 
 test: $(SETUP) setup.data build
 	./$(SETUP) -test $(TESTFLAGS)
@@ -60,5 +60,5 @@ setup.data: $(SETUP)
 .PHONY: default build doc test all install uninstall reinstall clean distclean configure
 
 upload-docs:
-	make doc && git checkout gh-pages && cp _build/doc.docdir/* . &&
-	git add * && git commit && git push gh-pages
+	make doc && git checkout gh-pages && rm -rf dev/* && cp _build/doc.docdir/* dev	&& \
+	git add dev && git commit
