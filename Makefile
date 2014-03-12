@@ -1,52 +1,64 @@
-NAME :=    $(shell oasis query name)
-VERSION := $(shell oasis query version)
+# Makefile
+# --------
+# Copyright : (c) 2012, Jeremie Dimino <jeremie@dimino.org>
+# Licence   : BSD3
+#
+# Generic Makefile for oasis project
 
-BUILDFLAGS='-ocamlopt "ocamlfind ocamlopt -inline 10"'
+# Set to setup.exe for the release
+SETUP := setup-dev.exe
 
-# OASIS_START
-# DO NOT EDIT (digest: 7b2408909643717852b95f994b273fee)
+# Default rule
+default: build
 
-SETUP = ocaml setup.ml
+# Setup for the development version
+setup-dev.exe: _oasis setup.ml
+	grep -v '^#' setup.ml > setup_dev.ml
+	ocamlfind ocamlopt -o $@ -linkpkg -package ocamlbuild,oasis.dynrun setup_dev.ml || \
+	  ocamlfind ocamlc -o $@ -linkpkg -package ocamlbuild,oasis.dynrun setup_dev.ml || true
+	rm -f setup_dev.*
 
-build: setup.data
-	$(SETUP) -build $(BUILDFLAGS)
+# Setup for the release
+setup.exe: setup.ml
+	ocamlopt.opt -o $@ $< || ocamlopt -o $@ $< || ocamlc -o $@ $<
+	rm -f setup.cmx setup.cmi setup.o setup.obj setup.cmo
 
-doc: setup.data build
-	$(SETUP) -doc $(DOCFLAGS)
-	cp doc/vonkoch.svg doc.docdir/vonkoch.svg
+build: $(SETUP) setup.data
+	./$(SETUP) -build $(BUILDFLAGS)
 
-test: setup.data build
-	$(SETUP) -test $(TESTFLAGS)
+doc: $(SETUP) setup.data build
+	./$(SETUP) -doc $(DOCFLAGS)
+	 doc/vonkoch.svg doc.docdir/vonkoch.svg
 
-all:
-	$(SETUP) -all $(ALLFLAGS)
+test: $(SETUP) setup.data build
+	./$(SETUP) -test $(TESTFLAGS)
 
-install: setup.data
-	$(SETUP) -install $(INSTALLFLAGS)
+all: $(SETUP)
+	./$(SETUP) -all $(ALLFLAGS)
 
-uninstall: setup.data
-	$(SETUP) -uninstall $(UNINSTALLFLAGS)
+install: $(SETUP) setup.data
+	./$(SETUP) -install $(INSTALLFLAGS)
 
-reinstall: setup.data
-	$(SETUP) -reinstall $(REINSTALLFLAGS)
+uninstall: $(SETUP) setup.data
+	./$(SETUP) -uninstall $(UNINSTALLFLAGS)
 
-clean:
-	$(SETUP) -clean $(CLEANFLAGS)
+reinstall: $(SETUP) setup.data
+	./$(SETUP) -reinstall $(REINSTALLFLAGS)
 
-distclean:
-	$(SETUP) -distclean $(DISTCLEANFLAGS)
+clean: $(SETUP)
+	./$(SETUP) -clean $(CLEANFLAGS)
 
-setup.data:
-	$(SETUP) -configure $(CONFIGUREFLAGS)
+distclean: $(SETUP)
+	./$(SETUP) -distclean $(DISTCLEANFLAGS)
 
-.PHONY: build doc test all install uninstall reinstall clean distclean configure
+configure: $(SETUP)
+	./$(SETUP) -configure $(CONFIGUREFLAGS)
 
-# OASIS_STOP
+setup.data: $(SETUP)
+	./$(SETUP) -configure $(CONFIGUREFLAGS)
+
+.PHONY: default build doc test all install uninstall reinstall clean distclean configure
 
 upload-docs:
 	make doc && git checkout gh-pages && cp _build/doc.docdir/* . &&
 	git add * && git commit && git push gh-pages
-
-tarball:
-	git archive --format=tar --prefix=lilis-$(VERSION)/ HEAD \
-	  | gzip > lilis-$(VERSION).tar.gz

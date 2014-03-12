@@ -5,7 +5,7 @@ Synopsis:    Library to Interpret Lindenmayer Systems
 Description: A Library to interpret, evaluate and draw L-systems.
 Authors:     Gabriel Radanne <drupyog@zoho.com>
 License:     MIT
-Plugins:     META (0.3), DevFiles (0.3)
+Plugins:     META (0.3)
 Homepage:    http://drup.github.io/LILiS/
 
 Flag cairo
