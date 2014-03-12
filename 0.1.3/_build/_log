@@ -1,0 +1,168 @@
+### Starting build.
+# Target: mini_calc/mini_calc.mli.depends, tags: { debug, explain, extension:mli, file:mini_calc/mini_calc.mli, ocaml, ocamldep, pkg_batteries, quiet, traverse, use_menhir }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamldep -package batteries -modules mini_calc/mini_calc.mli > mini_calc/mini_calc.mli.depends
+# Target: mini_calc/calc_type.ml.depends, tags: { debug, explain, extension:ml, file:mini_calc/calc_type.ml, ocaml, ocamldep, pkg_batteries, quiet, traverse, use_menhir }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamldep -package batteries -modules mini_calc/calc_type.ml > mini_calc/calc_type.ml.depends
+# Target: mini_calc/calc_type.cmo, tags: { byte, compile, debug, explain, extension:cmo, extension:ml, file:mini_calc/calc_type.cmo, file:mini_calc/calc_type.ml, implem, ocaml, pkg_batteries, quiet, traverse, use_menhir }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamlc -c -g -package batteries -I mini_calc -o mini_calc/calc_type.cmo mini_calc/calc_type.ml
+# Target: mini_calc/mini_calc.cmi, tags: { byte, compile, debug, explain, extension:mli, file:mini_calc/mini_calc.mli, interf, ocaml, pkg_batteries, quiet, traverse, use_menhir }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamlc -c -g -package batteries -I mini_calc -o mini_calc/mini_calc.cmi mini_calc/mini_calc.mli
+# Target: mini_calc/mini_calc.ml.depends, tags: { debug, explain, extension:ml, file:mini_calc/mini_calc.ml, ocaml, ocamldep, pkg_batteries, quiet, traverse, use_menhir }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamldep -package batteries -modules mini_calc/mini_calc.ml > mini_calc/mini_calc.ml.depends
+# Target: mini_calc/calc_eval.ml.depends, tags: { debug, explain, extension:ml, file:mini_calc/calc_eval.ml, ocaml, ocamldep, pkg_batteries, quiet, traverse, use_menhir }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamldep -package batteries -modules mini_calc/calc_eval.ml > mini_calc/calc_eval.ml.depends
+# Target: mini_calc/calc_lexer.mll, tags: { debug, explain, extension:mll, file:mini_calc/calc_lexer.mll, lexer, ocaml, ocamllex, quiet, traverse, use_menhir }
+/home/gabriel/.opam/4.01.0/bin/ocamllex.opt -q mini_calc/calc_lexer.mll
+# Target: mini_calc/calc_lexer.ml.depends, tags: { debug, explain, extension:ml, file:mini_calc/calc_lexer.ml, ocaml, ocamldep, pkg_batteries, quiet, traverse, use_menhir }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamldep -package batteries -modules mini_calc/calc_lexer.ml > mini_calc/calc_lexer.ml.depends
+# Target: mini_calc/calc_parser.mly.depends, tags: { debug, explain, extension:mly, file:mini_calc/calc_parser.mly, menhir_ocamldep, ocaml, ocamldep, quiet, traverse, use_menhir }
+menhir --raw-depend --ocamldep '/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamldep -modules' mini_calc/calc_parser.mly > mini_calc/calc_parser.mly.depends
+# Target: mini_calc/calc_parser.mly, tags: { byte, compile, debug, explain, extension:mly, file:mini_calc/calc_parser.mly, menhir, ocaml, parser, quiet, traverse, use_menhir }
+menhir --ocamlc '/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamlc -g -I mini_calc' --explain --infer mini_calc/calc_parser.mly
+# Target: mini_calc/calc_parser.mli.depends, tags: { debug, explain, extension:mli, file:mini_calc/calc_parser.mli, ocaml, ocamldep, pkg_batteries, quiet, traverse, use_menhir }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamldep -package batteries -modules mini_calc/calc_parser.mli > mini_calc/calc_parser.mli.depends
+# Target: mini_calc/calc_parser.cmi, tags: { byte, compile, debug, explain, extension:mli, file:mini_calc/calc_parser.mli, interf, ocaml, pkg_batteries, quiet, traverse, use_menhir }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamlc -c -g -package batteries -I mini_calc -o mini_calc/calc_parser.cmi mini_calc/calc_parser.mli
+# Target: mini_calc/calc_eval.cmo, tags: { byte, compile, debug, explain, extension:cmo, extension:ml, file:mini_calc/calc_eval.cmo, file:mini_calc/calc_eval.ml, implem, ocaml, pkg_batteries, quiet, traverse, use_menhir }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamlc -c -g -package batteries -I mini_calc -o mini_calc/calc_eval.cmo mini_calc/calc_eval.ml
+# Target: mini_calc/calc_lexer.cmo, tags: { byte, compile, debug, explain, extension:cmo, extension:ml, file:mini_calc/calc_lexer.cmo, file:mini_calc/calc_lexer.ml, implem, ocaml, pkg_batteries, quiet, traverse, use_menhir }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamlc -c -g -package batteries -I mini_calc -o mini_calc/calc_lexer.cmo mini_calc/calc_lexer.ml
+# Target: mini_calc/calc_parser.ml.depends, tags: { debug, explain, extension:ml, file:mini_calc/calc_parser.ml, ocaml, ocamldep, pkg_batteries, quiet, traverse, use_menhir }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamldep -package batteries -modules mini_calc/calc_parser.ml > mini_calc/calc_parser.ml.depends
+# Target: mini_calc/mini_calc.cmo, tags: { byte, compile, debug, explain, extension:cmo, extension:ml, file:mini_calc/mini_calc.cmo, file:mini_calc/mini_calc.ml, implem, ocaml, pkg_batteries, quiet, traverse, use_menhir }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamlc -c -g -package batteries -I mini_calc -o mini_calc/mini_calc.cmo mini_calc/mini_calc.ml
+# Target: mini_calc/calc_parser.cmo, tags: { byte, compile, debug, explain, extension:cmo, extension:ml, file:mini_calc/calc_parser.cmo, file:mini_calc/calc_parser.ml, implem, ocaml, pkg_batteries, quiet, traverse, use_menhir }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamlc -c -g -package batteries -I mini_calc -o mini_calc/calc_parser.cmo mini_calc/calc_parser.ml
+# Target: mini_calc/minicalc.cma, tags: { byte, debug, explain, extension:cma, file:mini_calc/minicalc.cma, library, link, ocaml, quiet, traverse, use_menhir }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamlc -a mini_calc/calc_type.cmo mini_calc/calc_eval.cmo mini_calc/calc_parser.cmo mini_calc/calc_lexer.cmo mini_calc/mini_calc.cmo -o mini_calc/minicalc.cma
+# Target: mini_calc/calc_type.cmx, tags: { compile, debug, explain, extension:cmx, extension:ml, file:mini_calc/calc_type.cmx, file:mini_calc/calc_type.ml, implem, native, ocaml, pkg_batteries, quiet, traverse, use_menhir }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamlopt -c -g -package batteries -I mini_calc -o mini_calc/calc_type.cmx mini_calc/calc_type.ml
+# Target: mini_calc/calc_parser.cmx, tags: { compile, debug, explain, extension:cmx, extension:ml, file:mini_calc/calc_parser.cmx, file:mini_calc/calc_parser.ml, implem, native, ocaml, pkg_batteries, quiet, traverse, use_menhir }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamlopt -c -g -package batteries -I mini_calc -o mini_calc/calc_parser.cmx mini_calc/calc_parser.ml
+# Target: mini_calc/calc_eval.cmx, tags: { compile, debug, explain, extension:cmx, extension:ml, file:mini_calc/calc_eval.cmx, file:mini_calc/calc_eval.ml, implem, native, ocaml, pkg_batteries, quiet, traverse, use_menhir }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamlopt -c -g -package batteries -I mini_calc -o mini_calc/calc_eval.cmx mini_calc/calc_eval.ml
+# Target: mini_calc/calc_lexer.cmx, tags: { compile, debug, explain, extension:cmx, extension:ml, file:mini_calc/calc_lexer.cmx, file:mini_calc/calc_lexer.ml, implem, native, ocaml, pkg_batteries, quiet, traverse, use_menhir }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamlopt -c -g -package batteries -I mini_calc -o mini_calc/calc_lexer.cmx mini_calc/calc_lexer.ml
+# Target: mini_calc/mini_calc.cmx, tags: { compile, debug, explain, extension:cmx, extension:ml, file:mini_calc/mini_calc.cmx, file:mini_calc/mini_calc.ml, implem, native, ocaml, pkg_batteries, quiet, traverse, use_menhir }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamlopt -c -g -package batteries -I mini_calc -o mini_calc/mini_calc.cmx mini_calc/mini_calc.ml
+# Target: mini_calc/minicalc.cmxa, tags: { debug, explain, extension:cmxa, file:mini_calc/minicalc.cmxa, library, link, native, ocaml, quiet, traverse, use_menhir }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamlopt -a mini_calc/calc_type.cmx mini_calc/calc_eval.cmx mini_calc/calc_parser.cmx mini_calc/calc_lexer.cmx mini_calc/mini_calc.cmx -o mini_calc/minicalc.cmxa
+# Target: mini_calc/minicalc.cmxs, tags: { debug, explain, extension:cmxs, file:mini_calc/minicalc.cmxs, library, link, native, ocaml, quiet, shared, traverse, use_menhir, use_minicalc }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamlopt -shared mini_calc/minicalc.cmxa mini_calc/calc_type.cmx mini_calc/calc_eval.cmx mini_calc/calc_parser.cmx mini_calc/calc_lexer.cmx mini_calc/mini_calc.cmx -o mini_calc/minicalc.cmxs
+# Target: lilis/lilis.mli.depends, tags: { debug, explain, extension:mli, file:lilis/lilis.mli, ocaml, ocamldep, pkg_batteries, pkg_sequence, quiet, traverse, use_menhir, use_minicalc }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamldep -package batteries -package sequence -modules lilis/lilis.mli > lilis/lilis.mli.depends
+# Target: lilis/lilis.cmi, tags: { byte, compile, debug, explain, extension:mli, file:lilis/lilis.mli, interf, ocaml, pkg_batteries, pkg_sequence, quiet, traverse, use_menhir, use_minicalc }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamlc -c -g -I mini_calc -package batteries -package sequence -I lilis -I mini_calc -o lilis/lilis.cmi lilis/lilis.mli
+# Target: lilis/lilis.ml.depends, tags: { debug, explain, extension:ml, file:lilis/lilis.ml, ocaml, ocamldep, pkg_batteries, pkg_sequence, quiet, traverse, use_menhir, use_minicalc }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamldep -package batteries -package sequence -modules lilis/lilis.ml > lilis/lilis.ml.depends
+# Target: lilis/ls_engine.ml.depends, tags: { debug, explain, extension:ml, file:lilis/ls_engine.ml, ocaml, ocamldep, pkg_batteries, pkg_sequence, quiet, traverse, use_menhir, use_minicalc }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamldep -package batteries -package sequence -modules lilis/ls_engine.ml > lilis/ls_engine.ml.depends
+# Target: lilis/ls_stream.ml.depends, tags: { debug, explain, extension:ml, file:lilis/ls_stream.ml, ocaml, ocamldep, pkg_batteries, pkg_sequence, quiet, traverse, use_menhir, use_minicalc }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamldep -package batteries -package sequence -modules lilis/ls_stream.ml > lilis/ls_stream.ml.depends
+# Target: lilis/ls_type.ml.depends, tags: { debug, explain, extension:ml, file:lilis/ls_type.ml, ocaml, ocamldep, pkg_batteries, pkg_sequence, quiet, traverse, use_menhir, use_minicalc }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamldep -package batteries -package sequence -modules lilis/ls_type.ml > lilis/ls_type.ml.depends
+# Target: lilis/ls_utils.ml.depends, tags: { debug, explain, extension:ml, file:lilis/ls_utils.ml, ocaml, ocamldep, pkg_batteries, pkg_sequence, quiet, traverse, use_menhir, use_minicalc }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamldep -package batteries -package sequence -modules lilis/ls_utils.ml > lilis/ls_utils.ml.depends
+# Target: lilis/ls_type.cmo, tags: { byte, compile, debug, explain, extension:cmo, extension:ml, file:lilis/ls_type.cmo, file:lilis/ls_type.ml, implem, ocaml, pkg_batteries, pkg_sequence, quiet, traverse, use_menhir, use_minicalc }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamlc -c -g -I mini_calc -package batteries -package sequence -I lilis -I mini_calc -o lilis/ls_type.cmo lilis/ls_type.ml
+# Target: lilis/ls_stream.cmo, tags: { byte, compile, debug, explain, extension:cmo, extension:ml, file:lilis/ls_stream.cmo, file:lilis/ls_stream.ml, implem, ocaml, pkg_batteries, pkg_sequence, quiet, traverse, use_menhir, use_minicalc }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamlc -c -g -I mini_calc -package batteries -package sequence -I lilis -I mini_calc -o lilis/ls_stream.cmo lilis/ls_stream.ml
+# Target: lilis/ls_utils.cmo, tags: { byte, compile, debug, explain, extension:cmo, extension:ml, file:lilis/ls_utils.cmo, file:lilis/ls_utils.ml, implem, ocaml, pkg_batteries, pkg_sequence, quiet, traverse, use_menhir, use_minicalc }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamlc -c -g -I mini_calc -package batteries -package sequence -I lilis -I mini_calc -o lilis/ls_utils.cmo lilis/ls_utils.ml
+# Target: lilis/ls_syntax.ml.depends, tags: { debug, explain, extension:ml, file:lilis/ls_syntax.ml, ocaml, ocamldep, pkg_batteries, pkg_sequence, quiet, traverse, use_menhir, use_minicalc }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamldep -package batteries -package sequence -modules lilis/ls_syntax.ml > lilis/ls_syntax.ml.depends
+# Target: lilis/ls_lexer.mll, tags: { debug, explain, extension:mll, file:lilis/ls_lexer.mll, lexer, ocaml, ocamllex, quiet, traverse, use_menhir }
+/home/gabriel/.opam/4.01.0/bin/ocamllex.opt -q lilis/ls_lexer.mll
+# Target: lilis/ls_lexer.ml.depends, tags: { debug, explain, extension:ml, file:lilis/ls_lexer.ml, ocaml, ocamldep, pkg_batteries, pkg_sequence, quiet, traverse, use_menhir, use_minicalc }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamldep -package batteries -package sequence -modules lilis/ls_lexer.ml > lilis/ls_lexer.ml.depends
+# Target: lilis/ls_parser.mlypack.depends, tags: { debug, explain, extension:mly, extension:mlypack, file:lilis/ls_parser.mlypack, file:lilis/ls_parser_int.mly, file:mini_calc/calc_parser.mly, menhir_ocamldep, ocaml, ocamldep, quiet, traverse, use_menhir }
+menhir --raw-depend --ocamldep '/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamldep -modules' --base lilis/ls_parser mini_calc/calc_parser.mly lilis/ls_parser_int.mly > lilis/ls_parser.mlypack.depends
+# Target: lilis/ls_parser, tags: { byte, compile, debug, explain, extension:mly, extension:mlypack, file:lilis/ls_parser.mlypack, file:lilis/ls_parser_int.mly, file:mini_calc/calc_parser.mly, menhir, ocaml, parser, quiet, traverse, use_menhir }
+menhir --ocamlc '/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamlc -g -I lilis -I mini_calc' --explain --infer --base lilis/ls_parser mini_calc/calc_parser.mly lilis/ls_parser_int.mly
+# Target: lilis/ls_parser.mli.depends, tags: { debug, explain, extension:mli, file:lilis/ls_parser.mli, ocaml, ocamldep, pkg_batteries, pkg_sequence, quiet, traverse, use_menhir, use_minicalc }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamldep -package batteries -package sequence -modules lilis/ls_parser.mli > lilis/ls_parser.mli.depends
+# Target: lilis/ls_parser.cmi, tags: { byte, compile, debug, explain, extension:mli, file:lilis/ls_parser.mli, interf, ocaml, pkg_batteries, pkg_sequence, quiet, traverse, use_menhir, use_minicalc }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamlc -c -g -I mini_calc -package batteries -package sequence -I lilis -I mini_calc -o lilis/ls_parser.cmi lilis/ls_parser.mli
+# Target: lilis/ls_lexer.cmo, tags: { byte, compile, debug, explain, extension:cmo, extension:ml, file:lilis/ls_lexer.cmo, file:lilis/ls_lexer.ml, implem, ocaml, pkg_batteries, pkg_sequence, quiet, traverse, use_menhir, use_minicalc }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamlc -c -g -I mini_calc -package batteries -package sequence -I lilis -I mini_calc -o lilis/ls_lexer.cmo lilis/ls_lexer.ml
+# Target: lilis/ls_engine.cmo, tags: { byte, compile, debug, explain, extension:cmo, extension:ml, file:lilis/ls_engine.cmo, file:lilis/ls_engine.ml, implem, ocaml, pkg_batteries, pkg_sequence, quiet, traverse, use_menhir, use_minicalc }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamlc -c -g -I mini_calc -package batteries -package sequence -I lilis -I mini_calc -o lilis/ls_engine.cmo lilis/ls_engine.ml
+# Target: lilis/ls_syntax.cmo, tags: { byte, compile, debug, explain, extension:cmo, extension:ml, file:lilis/ls_syntax.cmo, file:lilis/ls_syntax.ml, implem, ocaml, pkg_batteries, pkg_sequence, quiet, traverse, use_menhir, use_minicalc }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamlc -c -g -I mini_calc -package batteries -package sequence -I lilis -I mini_calc -o lilis/ls_syntax.cmo lilis/ls_syntax.ml
+# Target: lilis/ls_parser.ml.depends, tags: { debug, explain, extension:ml, file:lilis/ls_parser.ml, ocaml, ocamldep, pkg_batteries, pkg_sequence, quiet, traverse, use_menhir, use_minicalc }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamldep -package batteries -package sequence -modules lilis/ls_parser.ml > lilis/ls_parser.ml.depends
+# Target: lilis/lilis.cmo, tags: { byte, compile, debug, explain, extension:cmo, extension:ml, file:lilis/lilis.cmo, file:lilis/lilis.ml, implem, ocaml, pkg_batteries, pkg_sequence, quiet, traverse, use_menhir, use_minicalc }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamlc -c -g -I mini_calc -package batteries -package sequence -I lilis -I mini_calc -o lilis/lilis.cmo lilis/lilis.ml
+# Target: lilis/ls_parser.cmo, tags: { byte, compile, debug, explain, extension:cmo, extension:ml, file:lilis/ls_parser.cmo, file:lilis/ls_parser.ml, implem, ocaml, pkg_batteries, pkg_sequence, quiet, traverse, use_menhir, use_minicalc }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamlc -c -g -I mini_calc -package batteries -package sequence -I lilis -I mini_calc -o lilis/ls_parser.cmo lilis/ls_parser.ml
+# Target: lilis/lilis.cma, tags: { byte, debug, explain, extension:cma, file:lilis/lilis.cma, library, link, ocaml, quiet, traverse, use_menhir }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamlc -a lilis/ls_stream.cmo lilis/ls_type.cmo lilis/ls_utils.cmo lilis/ls_engine.cmo lilis/ls_parser.cmo lilis/ls_lexer.cmo lilis/ls_syntax.cmo lilis/lilis.cmo -o lilis/lilis.cma
+# Target: lilis/ls_type.cmx, tags: { compile, debug, explain, extension:cmx, extension:ml, file:lilis/ls_type.cmx, file:lilis/ls_type.ml, implem, native, ocaml, pkg_batteries, pkg_sequence, quiet, traverse, use_menhir, use_minicalc }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamlopt -c -g -I mini_calc -package batteries -package sequence -I lilis -I mini_calc -o lilis/ls_type.cmx lilis/ls_type.ml
+# Target: lilis/ls_stream.cmx, tags: { compile, debug, explain, extension:cmx, extension:ml, file:lilis/ls_stream.cmx, file:lilis/ls_stream.ml, implem, native, ocaml, pkg_batteries, pkg_sequence, quiet, traverse, use_menhir, use_minicalc }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamlopt -c -g -I mini_calc -package batteries -package sequence -I lilis -I mini_calc -o lilis/ls_stream.cmx lilis/ls_stream.ml
+# Target: lilis/ls_utils.cmx, tags: { compile, debug, explain, extension:cmx, extension:ml, file:lilis/ls_utils.cmx, file:lilis/ls_utils.ml, implem, native, ocaml, pkg_batteries, pkg_sequence, quiet, traverse, use_menhir, use_minicalc }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamlopt -c -g -I mini_calc -package batteries -package sequence -I lilis -I mini_calc -o lilis/ls_utils.cmx lilis/ls_utils.ml
+# Target: lilis/ls_parser.cmx, tags: { compile, debug, explain, extension:cmx, extension:ml, file:lilis/ls_parser.cmx, file:lilis/ls_parser.ml, implem, native, ocaml, pkg_batteries, pkg_sequence, quiet, traverse, use_menhir, use_minicalc }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamlopt -c -g -I mini_calc -package batteries -package sequence -I lilis -I mini_calc -o lilis/ls_parser.cmx lilis/ls_parser.ml
+# Target: lilis/ls_lexer.cmx, tags: { compile, debug, explain, extension:cmx, extension:ml, file:lilis/ls_lexer.cmx, file:lilis/ls_lexer.ml, implem, native, ocaml, pkg_batteries, pkg_sequence, quiet, traverse, use_menhir, use_minicalc }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamlopt -c -g -I mini_calc -package batteries -package sequence -I lilis -I mini_calc -o lilis/ls_lexer.cmx lilis/ls_lexer.ml
+# Target: lilis/ls_engine.cmx, tags: { compile, debug, explain, extension:cmx, extension:ml, file:lilis/ls_engine.cmx, file:lilis/ls_engine.ml, implem, native, ocaml, pkg_batteries, pkg_sequence, quiet, traverse, use_menhir, use_minicalc }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamlopt -c -g -I mini_calc -package batteries -package sequence -I lilis -I mini_calc -o lilis/ls_engine.cmx lilis/ls_engine.ml
+# Target: lilis/ls_syntax.cmx, tags: { compile, debug, explain, extension:cmx, extension:ml, file:lilis/ls_syntax.cmx, file:lilis/ls_syntax.ml, implem, native, ocaml, pkg_batteries, pkg_sequence, quiet, traverse, use_menhir, use_minicalc }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamlopt -c -g -I mini_calc -package batteries -package sequence -I lilis -I mini_calc -o lilis/ls_syntax.cmx lilis/ls_syntax.ml
+# Target: lilis/lilis.cmx, tags: { compile, debug, explain, extension:cmx, extension:ml, file:lilis/lilis.cmx, file:lilis/lilis.ml, implem, native, ocaml, pkg_batteries, pkg_sequence, quiet, traverse, use_menhir, use_minicalc }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamlopt -c -g -I mini_calc -package batteries -package sequence -I lilis -I mini_calc -o lilis/lilis.cmx lilis/lilis.ml
+# Target: lilis/lilis.cmxa, tags: { debug, explain, extension:cmxa, file:lilis/lilis.cmxa, library, link, native, ocaml, quiet, traverse, use_menhir }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamlopt -a lilis/ls_stream.cmx lilis/ls_type.cmx lilis/ls_utils.cmx lilis/ls_engine.cmx lilis/ls_parser.cmx lilis/ls_lexer.cmx lilis/ls_syntax.cmx lilis/lilis.cmx -o lilis/lilis.cmxa
+# Target: lilis/lilis.cmxs, tags: { debug, explain, extension:cmxs, file:lilis/lilis.cmxs, library, link, native, ocaml, quiet, shared, traverse, use_lilis, use_menhir }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamlopt -shared lilis/lilis.cmxa lilis/ls_stream.cmx lilis/ls_type.cmx lilis/ls_utils.cmx lilis/ls_engine.cmx lilis/ls_parser.cmx lilis/ls_lexer.cmx lilis/ls_syntax.cmx lilis/lilis.cmx -o lilis/lilis.cmxs
+# Target: glilis/glilis.mli.depends, tags: { debug, explain, extension:mli, file:glilis/glilis.mli, ocaml, ocamldep, pkg_batteries, pkg_cairo2, pkg_cairo2.lablgtk2, pkg_cmdliner, pkg_sequence, pkg_tyxml, quiet, traverse, use_glilis, use_glilis.cairo, use_glilis.tyxml, use_lilis, use_menhir, use_minicalc }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamldep -package batteries -package cairo2 -package cairo2.lablgtk2 -package cmdliner -package sequence -package tyxml -modules glilis/glilis.mli > glilis/glilis.mli.depends
+# Target: glilis/glilis.cmi, tags: { byte, compile, debug, explain, extension:mli, file:glilis/glilis.mli, interf, ocaml, pkg_batteries, pkg_cairo2, pkg_cairo2.lablgtk2, pkg_cmdliner, pkg_sequence, pkg_tyxml, quiet, traverse, use_glilis, use_glilis.cairo, use_glilis.tyxml, use_lilis, use_menhir, use_minicalc }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamlc -c -g -I mini_calc -I lilis -I glilis -I glilis -I glilis -package batteries -package cairo2 -package cairo2.lablgtk2 -package cmdliner -package sequence -package tyxml -I glilis -I lilis -o glilis/glilis.cmi glilis/glilis.mli
+# Target: glilis/glilis.ml.depends, tags: { debug, explain, extension:ml, file:glilis/glilis.ml, ocaml, ocamldep, pkg_batteries, pkg_cairo2, pkg_cairo2.lablgtk2, pkg_cmdliner, pkg_sequence, pkg_tyxml, quiet, traverse, use_glilis, use_glilis.cairo, use_glilis.tyxml, use_lilis, use_menhir, use_minicalc }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamldep -package batteries -package cairo2 -package cairo2.lablgtk2 -package cmdliner -package sequence -package tyxml -modules glilis/glilis.ml > glilis/glilis.ml.depends
+# Target: glilis/glilis.cmo, tags: { byte, compile, debug, explain, extension:cmo, extension:ml, file:glilis/glilis.cmo, file:glilis/glilis.ml, implem, ocaml, pkg_batteries, pkg_cairo2, pkg_cairo2.lablgtk2, pkg_cmdliner, pkg_sequence, pkg_tyxml, quiet, traverse, use_glilis, use_glilis.cairo, use_glilis.tyxml, use_lilis, use_menhir, use_minicalc }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamlc -c -g -I mini_calc -I lilis -I glilis -I glilis -I glilis -package batteries -package cairo2 -package cairo2.lablgtk2 -package cmdliner -package sequence -package tyxml -I glilis -I lilis -o glilis/glilis.cmo glilis/glilis.ml
+# Target: glilis/glilis.cma, tags: { byte, debug, explain, extension:cma, file:glilis/glilis.cma, library, link, ocaml, quiet, traverse, use_menhir }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamlc -a glilis/glilis.cmo -o glilis/glilis.cma
+# Target: glilis/glilis.cmx, tags: { compile, debug, explain, extension:cmx, extension:ml, file:glilis/glilis.cmx, file:glilis/glilis.ml, implem, native, ocaml, pkg_batteries, pkg_cairo2, pkg_cairo2.lablgtk2, pkg_cmdliner, pkg_sequence, pkg_tyxml, quiet, traverse, use_glilis, use_glilis.cairo, use_glilis.tyxml, use_lilis, use_menhir, use_minicalc }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamlopt -c -g -I mini_calc -I lilis -I glilis -I glilis -I glilis -package batteries -package cairo2 -package cairo2.lablgtk2 -package cmdliner -package sequence -package tyxml -I glilis -I lilis -o glilis/glilis.cmx glilis/glilis.ml
+# Target: glilis/glilis.cmxa, tags: { debug, explain, extension:cmxa, file:glilis/glilis.cmxa, library, link, native, ocaml, quiet, traverse, use_menhir }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamlopt -a glilis/glilis.cmx -o glilis/glilis.cmxa
+# Target: glilis/glilis.cmxs, tags: { debug, explain, extension:cmxs, file:glilis/glilis.cmxs, library, link, native, ocaml, quiet, shared, traverse, use_glilis, use_menhir }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamlopt -shared glilis/glilis.cmxa glilis/glilis.cmx -o glilis/glilis.cmxs
+# Target: glilis/ls_cairo.mli.depends, tags: { debug, explain, extension:mli, file:glilis/ls_cairo.mli, ocaml, ocamldep, pkg_batteries, pkg_cairo2, pkg_cairo2.lablgtk2, pkg_cmdliner, pkg_sequence, pkg_tyxml, quiet, traverse, use_glilis, use_glilis.cairo, use_glilis.tyxml, use_lilis, use_menhir, use_minicalc }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamldep -package batteries -package cairo2 -package cairo2.lablgtk2 -package cmdliner -package sequence -package tyxml -modules glilis/ls_cairo.mli > glilis/ls_cairo.mli.depends
+# Target: glilis/ls_cairo.cmi, tags: { byte, compile, debug, explain, extension:mli, file:glilis/ls_cairo.mli, interf, ocaml, pkg_batteries, pkg_cairo2, pkg_cairo2.lablgtk2, pkg_cmdliner, pkg_sequence, pkg_tyxml, quiet, traverse, use_glilis, use_glilis.cairo, use_glilis.tyxml, use_lilis, use_menhir, use_minicalc }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamlc -c -g -I mini_calc -I lilis -I glilis -I glilis -I glilis -package batteries -package cairo2 -package cairo2.lablgtk2 -package cmdliner -package sequence -package tyxml -I glilis -I lilis -o glilis/ls_cairo.cmi glilis/ls_cairo.mli
+# Target: glilis/ls_cairo.ml.depends, tags: { debug, explain, extension:ml, file:glilis/ls_cairo.ml, ocaml, ocamldep, pkg_batteries, pkg_cairo2, pkg_cairo2.lablgtk2, pkg_cmdliner, pkg_sequence, pkg_tyxml, quiet, traverse, use_glilis, use_glilis.cairo, use_glilis.tyxml, use_lilis, use_menhir, use_minicalc }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamldep -package batteries -package cairo2 -package cairo2.lablgtk2 -package cmdliner -package sequence -package tyxml -modules glilis/ls_cairo.ml > glilis/ls_cairo.ml.depends
+# Target: glilis/ls_cairo.cmo, tags: { byte, compile, debug, explain, extension:cmo, extension:ml, file:glilis/ls_cairo.cmo, file:glilis/ls_cairo.ml, implem, ocaml, pkg_batteries, pkg_cairo2, pkg_cairo2.lablgtk2, pkg_cmdliner, pkg_sequence, pkg_tyxml, quiet, traverse, use_glilis, use_glilis.cairo, use_glilis.tyxml, use_lilis, use_menhir, use_minicalc }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamlc -c -g -I mini_calc -I lilis -I glilis -I glilis -I glilis -package batteries -package cairo2 -package cairo2.lablgtk2 -package cmdliner -package sequence -package tyxml -I glilis -I lilis -o glilis/ls_cairo.cmo glilis/ls_cairo.ml
+# Target: glilis/glilis.cairo.cma, tags: { byte, debug, explain, extension:cma, file:glilis/glilis.cairo.cma, library, link, ocaml, quiet, traverse, use_menhir }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamlc -a glilis/ls_cairo.cmo -o glilis/glilis.cairo.cma
+# Target: glilis/ls_cairo.cmx, tags: { compile, debug, explain, extension:cmx, extension:ml, file:glilis/ls_cairo.cmx, file:glilis/ls_cairo.ml, implem, native, ocaml, pkg_batteries, pkg_cairo2, pkg_cairo2.lablgtk2, pkg_cmdliner, pkg_sequence, pkg_tyxml, quiet, traverse, use_glilis, use_glilis.cairo, use_glilis.tyxml, use_lilis, use_menhir, use_minicalc }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamlopt -c -g -I mini_calc -I lilis -I glilis -I glilis -I glilis -package batteries -package cairo2 -package cairo2.lablgtk2 -package cmdliner -package sequence -package tyxml -I glilis -I lilis -o glilis/ls_cairo.cmx glilis/ls_cairo.ml
+# Target: glilis/glilis.cairo.cmxa, tags: { debug, explain, extension:cmxa, file:glilis/glilis.cairo.cmxa, library, link, native, ocaml, quiet, traverse, use_menhir }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamlopt -a glilis/ls_cairo.cmx -o glilis/glilis.cairo.cmxa
+# Target: glilis/glilis.cairo.cmxs, tags: { debug, explain, extension:cmxs, file:glilis/glilis.cairo.cmxs, library, link, native, ocaml, quiet, shared, traverse, use_glilis.cairo, use_menhir }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamlopt -shared glilis/glilis.cairo.cmxa glilis/ls_cairo.cmx -o glilis/glilis.cairo.cmxs
+# Target: glilis/ls_tyxml.mli.depends, tags: { debug, explain, extension:mli, file:glilis/ls_tyxml.mli, ocaml, ocamldep, pkg_batteries, pkg_cairo2, pkg_cairo2.lablgtk2, pkg_cmdliner, pkg_sequence, pkg_tyxml, quiet, traverse, use_glilis, use_glilis.cairo, use_glilis.tyxml, use_lilis, use_menhir, use_minicalc }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamldep -package batteries -package cairo2 -package cairo2.lablgtk2 -package cmdliner -package sequence -package tyxml -modules glilis/ls_tyxml.mli > glilis/ls_tyxml.mli.depends
+# Target: glilis/ls_tyxml.cmi, tags: { byte, compile, debug, explain, extension:mli, file:glilis/ls_tyxml.mli, interf, ocaml, pkg_batteries, pkg_cairo2, pkg_cairo2.lablgtk2, pkg_cmdliner, pkg_sequence, pkg_tyxml, quiet, traverse, use_glilis, use_glilis.cairo, use_glilis.tyxml, use_lilis, use_menhir, use_minicalc }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamlc -c -g -I mini_calc -I lilis -I glilis -I glilis -I glilis -package batteries -package cairo2 -package cairo2.lablgtk2 -package cmdliner -package sequence -package tyxml -I glilis -I lilis -o glilis/ls_tyxml.cmi glilis/ls_tyxml.mli
+# Target: glilis/ls_tyxml.ml.depends, tags: { debug, explain, extension:ml, file:glilis/ls_tyxml.ml, ocaml, ocamldep, pkg_batteries, pkg_cairo2, pkg_cairo2.lablgtk2, pkg_cmdliner, pkg_sequence, pkg_tyxml, quiet, traverse, use_glilis, use_glilis.cairo, use_glilis.tyxml, use_lilis, use_menhir, use_minicalc }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamldep -package batteries -package cairo2 -package cairo2.lablgtk2 -package cmdliner -package sequence -package tyxml -modules glilis/ls_tyxml.ml > glilis/ls_tyxml.ml.depends
+# Target: glilis/ls_tyxml.cmo, tags: { byte, compile, debug, explain, extension:cmo, extension:ml, file:glilis/ls_tyxml.cmo, file:glilis/ls_tyxml.ml, implem, ocaml, pkg_batteries, pkg_cairo2, pkg_cairo2.lablgtk2, pkg_cmdliner, pkg_sequence, pkg_tyxml, quiet, traverse, use_glilis, use_glilis.cairo, use_glilis.tyxml, use_lilis, use_menhir, use_minicalc }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamlc -c -g -I mini_calc -I lilis -I glilis -I glilis -I glilis -package batteries -package cairo2 -package cairo2.lablgtk2 -package cmdliner -package sequence -package tyxml -I glilis -I lilis -o glilis/ls_tyxml.cmo glilis/ls_tyxml.ml
+# Target: glilis/glilis.tyxml.cma, tags: { byte, debug, explain, extension:cma, file:glilis/glilis.tyxml.cma, library, link, ocaml, quiet, traverse, use_menhir }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamlc -a glilis/ls_tyxml.cmo -o glilis/glilis.tyxml.cma
+# Target: glilis/ls_tyxml.cmx, tags: { compile, debug, explain, extension:cmx, extension:ml, file:glilis/ls_tyxml.cmx, file:glilis/ls_tyxml.ml, implem, native, ocaml, pkg_batteries, pkg_cairo2, pkg_cairo2.lablgtk2, pkg_cmdliner, pkg_sequence, pkg_tyxml, quiet, traverse, use_glilis, use_glilis.cairo, use_glilis.tyxml, use_lilis, use_menhir, use_minicalc }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamlopt -c -g -I mini_calc -I lilis -I glilis -I glilis -I glilis -package batteries -package cairo2 -package cairo2.lablgtk2 -package cmdliner -package sequence -package tyxml -I glilis -I lilis -o glilis/ls_tyxml.cmx glilis/ls_tyxml.ml
+# Target: glilis/glilis.tyxml.cmxa, tags: { debug, explain, extension:cmxa, file:glilis/glilis.tyxml.cmxa, library, link, native, ocaml, quiet, traverse, use_menhir }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamlopt -a glilis/ls_tyxml.cmx -o glilis/glilis.tyxml.cmxa
+# Target: glilis/glilis.tyxml.cmxs, tags: { debug, explain, extension:cmxs, file:glilis/glilis.tyxml.cmxs, library, link, native, ocaml, quiet, shared, traverse, use_glilis.tyxml, use_menhir }
+/home/gabriel/.opam/4.01.0/bin/ocamlfind ocamlopt -shared glilis/glilis.tyxml.cmxa glilis/ls_tyxml.cmx -o glilis/glilis.tyxml.cmxs
+# Compilation successful.
