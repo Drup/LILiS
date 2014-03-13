@@ -26,5 +26,7 @@ opam init
 opam remote add opamocsigen https://github.com/ocsigen/opam-ocsigen.git
 opam install ${OPAM_DEPENDS}
 eval `opam config env`
-./configure --enable-glilis-ex --enable-tyxml --enable-cairo
+./configure --enable-glilis-ex
+./configure --enable-tyxml
+./configure --enable-cairo
 make
