@@ -23,7 +23,6 @@ opam --version
 opam --git-version
 
 opam init
-opam remote add opamocsigen https://github.com/ocsigen/opam-ocsigen.git
 opam install ${OPAM_DEPENDS}
 eval `opam config env`
 ./configure --enable-glilis-ex

@@ -21,7 +21,7 @@ The project is split in 4 parts:
 - A graphic library to draw such L-systems;
 - An executable.
 
-The documentation for the various libraries can be found [here](http://drup.github.io/LILiS/).
+The documentation for the various libraries can be found [here](http://drup.github.io/dev/LILiS/).
 
 The executable can be used to draw any L-system like those in [`bank_lsystem`](bank_lsystem) for examples.
 

@@ -1,9 +1,7 @@
 (** Describe various implementations of streams. *)
 
 (* Convenient functions *)
-let tap l () = l
-external id : 'a -> 'a = "%identity"
-external (|>) : 'a -> ('a -> 'b) -> 'b = "%revapply"
+let id = BatPervasives.identity
 
 (** All structures are lazy and support O(1) concatenation. *)
 

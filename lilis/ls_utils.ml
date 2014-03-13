@@ -1,5 +1,8 @@
 open Ls_type
 
+let (@@) = BatPervasives.(@@)
+let (|>) = BatPervasives.(|>)
+
 (** {2 Verifications} *)
 
 (** We have to verity two sort of things :
