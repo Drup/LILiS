@@ -1,7 +1,7 @@
 
 <**/*.ml> : -bin-annot, -short-paths
 
-true : use_menhir, explain, syntax_camlp4o
+true : use_menhir, explain
 
 # OASIS_START
 # OASIS_STOP

@@ -62,6 +62,8 @@ let to_svg_cairo (width, height) lstream file =
   Lstream.iter turtle#draw lstream ;
   turtle#finish ()
 
+
+#ifdef Tyxml
 let to_svg size lstream file =
   let turtle = new Ls_tyxml.svg_turtle in
   Lstream.iter turtle#draw lstream ;
@@ -69,8 +71,15 @@ let to_svg size lstream file =
   let buffer = open_out file in
   Svg.P.print ~output:(output_string buffer) lsvg ;
   close_out buffer
+#endif
 
 (** {2 Go go Cmdliner !} *)
+
+(* We gather possible outputs options here.
+   We need a little applicative functor magic manipulation. *)
+let outputs = ref (Term.pure [])
+let add_output cmdopt cmdfun =
+  outputs := Term.(pure (fun x o -> (x, cmdfun) :: o) $ cmdopt $ !outputs)
 
 (** {3 First, arguments.} *)
 
@@ -105,14 +114,19 @@ let gtk =
 let png =
   let doc = "Write a png to $(docv)." in
   Arg.(value & opt (some string) None & info ["png"] ~docv:"FILE" ~doc)
+let () = add_output png to_png
 
+#ifdef Tyxml
 let svg =
   let doc = "Write a svg to $(docv)." in
   Arg.(value & opt (some string) None & info ["svg"] ~docv:"FILE" ~doc)
+let () = add_output svg to_svg
+#endif
 
 let svg_cairo =
   let doc = "Write a svg to $(docv) with the cairo backend." in
   Arg.(value & opt (some string) None & info ["svg-cairo"] ~docv:"FILE" ~doc)
+let () = add_output svg_cairo to_svg_cairo
 
 (** {3 Then, terms.} *)
 
@@ -151,13 +165,11 @@ let processing_t bench n lsys =
   let lstream = eval_lsys n lsys in
   lstream
 
-let draw_t bench size png svg svg_cairo gtk lstream =
+let draw_t bench size outputs gtk lstream =
   let fstream = Lstream.store lstream in
   List.iter
     (fun (x,f) -> BatOption.may (f size (Lstream.gennew fstream)) x)
-    [ png, to_png ;
-      svg, to_svg ;
-      svg_cairo, to_svg_cairo ] ;
+    outputs ;
   if gtk then to_gtk size (Lstream.gennew fstream)
   (* This is kinda hacky, we force the evaluation of the stream to be able to benchmark the engine part alone. *)
   else Lstream.force lstream ;
@@ -168,7 +180,7 @@ let main_t =
   let open Term in
   let lsys = ret (pure parsing_t $ bank $ lname) in
   let lstream = pure processing_t $ bench $ generation $ lsys in
-  pure draw_t $ bench $ size $ png $ svg $ svg_cairo $ gtk $ lstream
+  pure draw_t $ bench $ size $ !outputs $ gtk $ lstream
 
 let () =
   match Term.eval (main_t, Term.info "glilis") with

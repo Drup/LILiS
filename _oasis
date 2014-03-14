@@ -16,7 +16,7 @@ Flag tyxml
   Description: Enable the tyxml backend for svg output.
   Default: true
 
-Flag glilis_ex
+Flag executable
   Description: Build the executable glilis_ex.native.
   Default: false
 
@@ -46,7 +46,8 @@ Library glilis
   Modules: Glilis
   BuildDepends: lilis
 
-Library "glilis.cairo"
+Library cairo
+  FindlibParent: glilis
   Build: false
   if flag(cairo)
     Build: true
@@ -55,23 +56,25 @@ Library "glilis.cairo"
   Modules: Ls_cairo
   BuildDepends: glilis, cairo2, cairo2.lablgtk2
 
-Library "glilis.tyxml"
-  Build: false
-  if flag(tyxml)
-    Build: true
+Library tyxml
+  FindlibParent: glilis
+  Build$: flag(tyxml)
   Path: glilis
   BuildTools: ocamlbuild
   Modules: Ls_tyxml
   BuildDepends: glilis, tyxml
 
 Executable glilis
-  Build: false
-  BuildDepends: cmdliner, tyxml, cairo2.lablgtk2, glilis, glilis.cairo, glilis.tyxml
+  Build$: flag(cairo) && flag(executable)
+  BuildDepends: cmdliner, cairo2.lablgtk2, glilis, glilis.cairo, glilis.tyxml
+#  ByteOpt+: -pp cppo
+#  NativeOpt+: -pp cppo
   if flag(tyxml)
-    ByteOpt+:    -ppopt "-D Tyxml"
-    NativeOpt+:  -ppopt "-D Tyxml"
-  if flag(cairo) && flag(glilis_ex)
-    Build: true
+#    ByteOpt+:    -ppopt '-D Tyxml'
+#    NativeOpt+:  -ppopt '-D Tyxml'
+    ByteOpt+:    -pp 'cppo -D Tyxml'
+    NativeOpt+:  -pp 'cppo -D Tyxml'
+    # BuildDepends+: tyxml
   Install: false
   Path: glilis
   BuildTools: ocamlbuild
