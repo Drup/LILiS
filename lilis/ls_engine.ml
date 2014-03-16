@@ -65,7 +65,7 @@ open SymbEnv
 
 
 
-module Engine (Ls : Ls_stream.S) = struct
+module Engine (Ls : Ls_streams.S) = struct
 
   (** {1 Compression} *)
 

@@ -1,12 +1,10 @@
 include Ls_type
 
-module Stream = Ls_stream
-
 include Ls_utils
 
 include Ls_syntax
 
-module Lstream = Stream.Sequence
+module Lstream = Ls_sequence
 
 include Ls_engine
 

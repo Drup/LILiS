@@ -6,7 +6,7 @@ exception NoLsys of string
 exception NoLsysName of string * string
 
 (* This allow to change easily the stream used. *)
-module Lstream = Stream.Sequence
+module Lstream = Ls_sequence
 module LsEn = Engine(Lstream)
 let eval_lsys = LsEn.eval_lsys
 

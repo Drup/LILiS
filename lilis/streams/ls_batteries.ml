@@ -1,29 +1,9 @@
-(** Describe various implementations of streams. *)
+(** Batteries streams implementations. *)
 
-(* Convenient functions *)
 let id = BatPervasives.identity
 
-(** All structures are lazy and support O(1) concatenation. *)
-
-(** Stream of token with arguments. *)
-module type S = sig
-  type 'a t
-  type 'a stored
-  val singleton : 'a -> 'a t
-  val map : ('a -> 'b) -> 'a t -> 'b t
-  val expand : ('a -> 'b t) -> 'a t -> 'b t
-  val iter : ('a -> unit) -> 'a t -> unit
-  val fold : ('b -> 'a -> 'b) -> 'b -> 'a t -> 'b
-  val of_list : 'a list -> 'a stored
-  val to_list : 'a t -> 'a list
-  val force : 'a t -> unit
-  val empty : 'a stored
-  val store : 'a t -> 'a stored
-  val gennew : 'a stored -> 'a t
-end
-
 (** Seq from batteries. Functionnal (allow sharing). *)
-module Seq = (struct
+module Seq = struct
   include BatSeq
   type 'a stored = 'a t
   (* Modified version of BatSeq.concat in batteries *)
@@ -48,10 +28,10 @@ module Seq = (struct
   let empty = nil
   let store = id
   let gennew = id
-end : S with type 'a t = 'a BatSeq.t and type 'a stored = 'a BatSeq.t)
+end
 
 (** Enum from batteries. Destructive reading, imperative. *)
-module Enum = (struct
+module Enum = struct
   include BatEnum
   type 'a stored = unit -> 'a t
   let expand f l = concat (map f l)
@@ -59,10 +39,11 @@ module Enum = (struct
   let to_list = BatList.of_enum
   let store l () = clone l
   let gennew l = l ()
-end : S with type 'a t = 'a BatEnum.t and type 'a stored = unit -> 'a BatEnum.t)
+end
+
 
 (** Regular lazy list from batteries. Functionnal. *)
-module LazyList = (struct
+module LazyList = struct
   include BatLazyList
   type 'a stored = 'a t
   let expand f l = concat (map f l)
@@ -73,20 +54,10 @@ module LazyList = (struct
   let of_list l = of_list l
   let store = id
   let gennew = id
-end : S with type 'a t = 'a BatLazyList.t and type 'a stored = 'a BatLazyList.t)
-
-(** Sequence, from companion_cube. *)
-module Sequence = (struct
-  include Sequence
-  type 'a stored = 'a t
-  let force l = iter (fun _ -> ()) l
-  let expand = flatMap
-  let store = id
-  let gennew = id
-end : S with type 'a t = 'a Sequence.t and type 'a stored = 'a Sequence.t)
+end
 
 (** Stream from the standard library. Use batteries for convenience. Destructive reading, imperative. *)
-module Stream = (struct
+module Stream = struct
   include BatStream
   type 'a stored = 'a list
   let rec expand f l =
@@ -105,4 +76,4 @@ module Stream = (struct
   let store s = to_list s
   let empty = []
   let gennew l = BatStream.of_list l
-end : S with type 'a t = 'a Stream.t )
+end

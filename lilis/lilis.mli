@@ -27,43 +27,8 @@ Indentation is optional. A rule must be terminated by a new line. You can't have
 
 (** {2 Preliminary stream functions} *)
 
-(** Encapsulate various stream-like data structures. *)
-module Stream : sig
 
-  module type S = sig
-    type 'a t
-    type 'a stored
-    val singleton : 'a -> 'a t
-    val map : ('a -> 'b) -> 'a t -> 'b t
-    val expand : ('a -> 'b t) -> 'a t -> 'b t
-    val iter : ('a -> unit) -> 'a t -> unit
-    val fold : ('b -> 'a -> 'b) -> 'b -> 'a t -> 'b
-    val of_list : 'a list -> 'a stored
-    val to_list : 'a t -> 'a list
-    val force : 'a t -> unit
-    val empty : 'a stored
-    val store : 'a t -> 'a stored
-    val gennew : 'a stored -> 'a t
-  end
-
-  module Stream : S with type 'a t = 'a Stream.t
-  (** Stream from the standard library. *)
-
-  module Seq : S with type 'a t = 'a BatSeq.t and type 'a stored = 'a BatSeq.t
-  (** BatSeq from batteries. Functionnal (allow sharing). *)
-
-  module Enum : S with type 'a t = 'a BatEnum.t and type 'a stored = unit -> 'a BatEnum.t
-  (** BatEnum from batteries. Destructive reading, imperative. *)
-
-  module LazyList : S with type 'a t = 'a BatLazyList.t and type 'a stored = 'a BatLazyList.t
-  (** Regular lazy list from batteries. Functionnal. *)
-
-  module Sequence : S with type 'a t = 'a Sequence.t and type 'a stored = 'a Sequence.t
-  (** Sequence, the dual of Seq, from the sequence package, by companion_cube. *)
-
-end
-
-module Lstream : Stream.S
+module Lstream : Ls_streams.S
 (**
    The current best stream implementation, you can use this if you want a stable Stream module and don't care about the internals. Use Sequence for now.
 *)
@@ -150,7 +115,7 @@ end
    Concatenation (as used in [expand]) must absolutely be in O(1) amortized time. Lazyness is better for memory occupation but is not necessary.
 
 *)
-module Engine (Lstream : Stream.S) : sig
+module Engine (Lstream : Ls_streams.S) : sig
 
   val eval_lsys :
     int -> 'a lsystem -> ('a * float array) Lstream.t

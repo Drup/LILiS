@@ -1,4 +1,4 @@
-OASISFormat: 0.3
+OASISFormat: 0.4
 Name:        LILiS
 Version:     0.1
 Synopsis:    Library to Interpret Lindenmayer Systems
@@ -7,6 +7,13 @@ Authors:     Gabriel Radanne <drupyog@zoho.com>
 License:     MIT
 Plugins:     META (0.3)
 Homepage:    http://drup.github.io/LILiS/
+
+AlphaFeatures: pure_interface
+
+BuildTools: ocamlbuild
+
+Flag sequence
+  Description: Build the Sequence interface and use it for glilis.exe
 
 Flag cairo
   Description: Enable the cairo backend for png and gtk output.
@@ -20,6 +27,8 @@ Flag executable
   Description: Build the executable glilis_ex.native.
   Default: false
 
+# A small library to build and compute arithmetic expression trees.
+
 Library minicalc
   Path: mini_calc
   BuildTools: ocamlbuild
@@ -30,29 +39,55 @@ Library minicalc
   BuildDepends:
     batteries
 
+# Various streams implementation for lilis.
+
+Library streams
+  FindLibParent: lilis
+  Path: lilis
+  Modules : Ls_streams
+
+Library sequence
+  Build$: flag(sequence)
+  FindLibParent: streams
+  Path: lilis/streams
+  BuildDepends: sequence, lilis.streams
+  Modules: Ls_sequence
+
+Library batteries
+  FindLibParent: streams
+  Path: lilis/streams
+  BuildDepends: batteries, lilis.streams
+  Modules: Ls_batteries
+
+# Library engine
+#   FindLibParent: lilis
+#   Path: lilis
+#   BuildDepends: batteries, minicalc, lilis.stream
+#   Modules:
+#    Ls_type, Ls_utils, Ls_
+
+# Library for Lsystems.
+
 Library lilis
   Path: lilis
-  BuildTools: ocamlbuild
   Modules:
     Lilis
   InternalModules:
-    Ls_type, Ls_stream, Ls_utils, Ls_engine, Ls_lexer, Ls_syntax, Ls_parser
+    Ls_type, Ls_utils, Ls_engine, Ls_lexer, Ls_syntax, Ls_parser
   BuildDepends:
-    batteries, sequence, minicalc
+    batteries, minicalc, lilis.streams.sequence
+
+# Graphical extension of lilis.
 
 Library glilis
   Path: glilis
-  BuildTools: ocamlbuild
   Modules: Glilis
   BuildDepends: lilis
 
 Library cairo
   FindlibParent: glilis
-  Build: false
-  if flag(cairo)
-    Build: true
+  Build$: flag(cairo)
   Path: glilis
-  BuildTools: ocamlbuild
   Modules: Ls_cairo
   BuildDepends: glilis, cairo2, cairo2.lablgtk2
 
@@ -60,13 +95,12 @@ Library tyxml
   FindlibParent: glilis
   Build$: flag(tyxml)
   Path: glilis
-  BuildTools: ocamlbuild
   Modules: Ls_tyxml
   BuildDepends: glilis, tyxml
 
 Executable glilis
-  Build$: flag(cairo) && flag(executable)
-  BuildDepends: cmdliner, cairo2.lablgtk2, glilis, glilis.cairo, glilis.tyxml
+  Build$: flag(cairo) && flag(executable) && flag(sequence)
+  BuildDepends: cmdliner, cairo2.lablgtk2, glilis, glilis.cairo, glilis.tyxml, lilis.streams.sequence
 #  ByteOpt+: -pp cppo
 #  NativeOpt+: -pp cppo
   if flag(tyxml)
@@ -77,7 +111,6 @@ Executable glilis
     # BuildDepends+: tyxml
   Install: false
   Path: glilis
-  BuildTools: ocamlbuild
   MainIs: glilis_ex.ml
   CompiledObject: best
 
@@ -90,7 +123,7 @@ Executable bench_streams
   CompiledObject: best
   BuildTools: ocamlbuild
   MainIs: bench_streams.ml
-  BuildDepends: lilis, benchmark
+  BuildDepends: lilis, lilis.streams.batteries, lilis.streams.sequence, benchmark
 
 Executable bench_vonkoch
   Path: test
@@ -118,7 +151,11 @@ Document doc
   Type:			ocamlbuild (0.3)
   BuildTools:		ocamldoc, ocamlbuild
   XOCamlbuildPath:	.
-  XOCamlbuildLibraries:	minicalc, lilis, glilis, glilis.cairo, glilis.tyxml
+  XOCamlbuildLibraries:
+    minicalc,
+    lilis.streams, lilis.streams.sequence, lilis.streams.batteries,
+    lilis,
+    glilis, glilis.cairo, glilis.tyxml
 
 SourceRepository master
   Type: git
