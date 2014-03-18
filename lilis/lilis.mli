@@ -35,9 +35,7 @@ Indentation is optional. A rule must be terminated by a new line. You can't have
 
    For clonable data-structures, we can have {! S.t} identical to {! S.stored}
 *)
-module type S = sig
-  include LisStream.S
-end
+module type S = LisTypes.S
 
 (** {2 Lsystem representation} *)
 
@@ -120,7 +118,7 @@ end
    Concatenation (as used in [expand]) must absolutely be in O(1) amortized time. Lazyness is better for memory occupation but is not necessary.
 
 *)
-module Engine (Lstream : LisStream.S) : sig
+module Engine (Lstream : S) : sig
 
   val eval_lsys :
     int -> 'a lsystem -> ('a * float array) Lstream.t
