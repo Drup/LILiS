@@ -1,11 +1,7 @@
-include Ls_type
+include LisTypes
 
-include Ls_utils
+include LisUtils
 
-include Ls_syntax
+include LisSyntax
 
-module Lstream = Ls_sequence
-
-include Ls_engine
-
-include Engine(Lstream)
+include LisEngine

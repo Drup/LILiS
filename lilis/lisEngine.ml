@@ -1,5 +1,5 @@
-open Ls_type
-open Ls_utils
+open LisTypes
+open LisUtils
 
 (** We compress arithmetic expression in two ways :
   - regular compression by evaluation
@@ -11,7 +11,7 @@ type arit_fun = float array -> float
 (* [vars] provides the string -> int mapping for variables.
    Will crash horribly if the mapping is imcomplete, which shouldn't happen if the compression functions are used.
 *)
-let arit_closure vars ( t : arit ) : arit_fun =
+let arit_closure vars t : arit_fun =
   let open Mini_calc in
   let t = compress_tree Env.usual t in
   let f x = BatArray.findi ( BatString.equal x) vars in
@@ -65,7 +65,7 @@ open SymbEnv
 
 
 
-module Engine (Ls : Ls_streams.S) = struct
+module Engine (Ls : LisStream.S) = struct
 
   (** {1 Compression} *)
 

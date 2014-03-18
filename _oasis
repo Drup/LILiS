@@ -39,43 +39,31 @@ Library minicalc
   BuildDepends:
     batteries
 
-# Various streams implementation for lilis.
-
-Library streams
-  FindLibParent: lilis
-  Path: lilis
-  Modules : Ls_streams
-
-Library sequence
-  Build$: flag(sequence)
-  FindLibParent: streams
-  Path: lilis/streams
-  BuildDepends: sequence, lilis.streams
-  Modules: Ls_sequence
-
-Library batteries
-  FindLibParent: streams
-  Path: lilis/streams
-  BuildDepends: batteries, lilis.streams
-  Modules: Ls_batteries
-
-# Library engine
-#   FindLibParent: lilis
-#   Path: lilis
-#   BuildDepends: batteries, minicalc, lilis.stream
-#   Modules:
-#    Ls_type, Ls_utils, Ls_
-
 # Library for Lsystems.
 
 Library lilis
   Path: lilis
+  BuildDepends: batteries, minicalc
   Modules:
     Lilis
   InternalModules:
-    Ls_type, Ls_utils, Ls_engine, Ls_lexer, Ls_syntax, Ls_parser
-  BuildDepends:
-    batteries, minicalc, lilis.streams.sequence
+    LisTypes, LisUtils, LisEngine, LisLexer, LisSyntax, LisParser
+
+# Various streams implementation for lilis.
+
+Library sequence
+  Build$: flag(sequence)
+  FindLibParent: lilis
+  Path: lilis/streams
+  BuildDepends: sequence, lilis
+  Modules: LisSequence
+
+Library batteries
+  FindLibParent: lilis
+  Path: lilis/streams
+  BuildDepends: batteries, lilis
+  Modules: LisBatteries
+
 
 # Graphical extension of lilis.
 
@@ -88,19 +76,19 @@ Library cairo
   FindlibParent: glilis
   Build$: flag(cairo)
   Path: glilis
-  Modules: Ls_cairo
+  Modules: LisCairo
   BuildDepends: glilis, cairo2, cairo2.lablgtk2
 
 Library tyxml
   FindlibParent: glilis
   Build$: flag(tyxml)
   Path: glilis
-  Modules: Ls_tyxml
+  Modules: LisTyxml
   BuildDepends: glilis, tyxml
 
 Executable glilis
   Build$: flag(cairo) && flag(executable) && flag(sequence)
-  BuildDepends: cmdliner, cairo2.lablgtk2, glilis, glilis.cairo, glilis.tyxml, lilis.streams.sequence
+  BuildDepends: cmdliner, cairo2.lablgtk2, glilis, glilis.cairo, glilis.tyxml, lilis.sequence
 #  ByteOpt+: -pp cppo
 #  NativeOpt+: -pp cppo
   if flag(tyxml)
@@ -110,8 +98,8 @@ Executable glilis
     NativeOpt+:  -pp 'cppo -D Tyxml'
     # BuildDepends+: tyxml
   Install: false
-  Path: glilis
-  MainIs: glilis_ex.ml
+  Path: glilis/ex
+  MainIs: glilis.ml
   CompiledObject: best
 
 # Tests
@@ -123,7 +111,7 @@ Executable bench_streams
   CompiledObject: best
   BuildTools: ocamlbuild
   MainIs: bench_streams.ml
-  BuildDepends: lilis, lilis.streams.batteries, lilis.streams.sequence, benchmark
+  BuildDepends: lilis, lilis.batteries, lilis.sequence, benchmark
 
 Executable bench_vonkoch
   Path: test
@@ -153,8 +141,7 @@ Document doc
   XOCamlbuildPath:	.
   XOCamlbuildLibraries:
     minicalc,
-    lilis.streams, lilis.streams.sequence, lilis.streams.batteries,
-    lilis,
+    lilis, lilis.sequence, lilis.batteries,
     glilis, glilis.cairo, glilis.tyxml
 
 SourceRepository master

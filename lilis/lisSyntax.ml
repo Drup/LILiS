@@ -1,13 +1,13 @@
-open Ls_type
+open LisTypes
 
 let default_defs =
-  let lexbuf = Lexing.from_string Ls_utils.defaut_defs in
-  try Ls_parser.defs Ls_lexer.token lexbuf
+  let lexbuf = Lexing.from_string LisUtils.defaut_defs in
+  try LisParser.defs LisLexer.token lexbuf
   with _ -> assert false
 
 let parse_lex lexbuf =
   try
-    Ls_parser.main Ls_lexer.token lexbuf
+    LisParser.main LisLexer.token lexbuf
   with _ ->
       let curr = lexbuf.Lexing.lex_curr_p in
       let line = curr.Lexing.pos_lnum in
@@ -20,7 +20,7 @@ let parse_lex lexbuf =
 
 let parse_convert lexbuf =
   List.map
-    (fun x -> Ls_utils.lsystem (Ls_utils.add_defs default_defs x))
+    (fun x -> LisUtils.lsystem (LisUtils.add_defs default_defs x))
     (parse_lex lexbuf)
 
 let lsystem_from_chanel chanel =

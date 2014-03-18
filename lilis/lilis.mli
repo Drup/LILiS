@@ -27,13 +27,19 @@ Indentation is optional. A rule must be terminated by a new line. You can't have
 
 (** {2 Preliminary stream functions} *)
 
-
-module Lstream : Ls_streams.S
 (**
-   The current best stream implementation, you can use this if you want a stable Stream module and don't care about the internals. Use Sequence for now.
-*)
+   A stream-like data structure should be lazy and support O(1) concatenation.
 
-(** {2 Lsystem evaluation library} *)
+   It should also be possible to store a datastructure in order to replicate it
+   (to print it multiple time on screen, for example).
+
+   For clonable data-structures, we can have {! S.t} identical to {! S.stored}
+*)
+module type S = sig
+  include LisStream.S
+end
+
+(** {2 Lsystem representation} *)
 
 type axiom = (string * (float list)) list
 (** A simple Lsystem axiom. *)
@@ -53,11 +59,10 @@ type 'a lsystem = {
 }
 (** A complete Lsystem. *)
 
+(** {2 Input fonctions} *)
+
 val lsystem_from_chanel : in_channel -> string lsystem list
 val lsystem_from_string : string -> string lsystem list
-
-val eval_lsys : int -> 'a lsystem -> ('a * float array) Lstream.t
-(** Evaluate a Lsystem at the n-th generation. *)
 
 (** {3 Utils} *)
 
@@ -82,7 +87,7 @@ val check_stream : int SMap.t -> (string * 'a list) list -> unit
     @raise ArityError, VarDefError, TokenDefError *)
 
 val check_rule : int SMap.t -> ?arit_env:Mini_calc.arit_env -> string rule -> unit
-(** As [ check_axiom ]. Need also an arithmetic environment, will use [ Mini_calc.Env.usual ] if none is provided.
+(** As [ check_stream ] for a rule. Need also an arithmetic environment, will use {! Mini_calc.Env.usual } if none is provided.
     @raise ArityError, VarDefError, TokenDefError *)
 
 val replace_defs : ('a * ('b * int)) list -> 'a lsystem -> 'b lsystem
@@ -115,7 +120,7 @@ end
    Concatenation (as used in [expand]) must absolutely be in O(1) amortized time. Lazyness is better for memory occupation but is not necessary.
 
 *)
-module Engine (Lstream : Ls_streams.S) : sig
+module Engine (Lstream : LisStream.S) : sig
 
   val eval_lsys :
     int -> 'a lsystem -> ('a * float array) Lstream.t

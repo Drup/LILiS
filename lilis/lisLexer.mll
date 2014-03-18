@@ -1,5 +1,5 @@
 {
-open Ls_parser
+open LisParser
 
 (* TOFIX I have to paste Calc_type.func_list here, this is bad. *)
 let func_list =

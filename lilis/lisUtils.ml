@@ -1,7 +1,10 @@
-open Ls_type
+open LisTypes
+open LisParser
 
 let (@@) = BatPervasives.(@@)
 let (|>) = BatPervasives.(|>)
+
+module SMap = BatMap.Make(BatString)
 
 (** {2 Verifications} *)
 
