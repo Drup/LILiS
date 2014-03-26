@@ -5,10 +5,10 @@ Synopsis:    Library to Interpret Lindenmayer Systems
 Description: A Library to interpret, evaluate and draw L-systems.
 Authors:     Gabriel Radanne <drupyog@zoho.com>
 License:     MIT
-Plugins:     META (0.3)
+Plugins:     META (0.3), DevFiles (0.3)
 Homepage:    http://drup.github.io/LILiS/
 
-AlphaFeatures: pure_interface
+AlphaFeatures: pure_interface, compiled_setup_ml
 
 BuildTools: ocamlbuild
 
@@ -133,7 +133,7 @@ Executable bench_quick
 
 # Misc
 
-Document doc
+Document lilis
   Install:		false
   Title:		API reference for LILiS
   Type:			ocamlbuild (0.3)
