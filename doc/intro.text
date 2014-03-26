@@ -11,11 +11,11 @@ The library is available {{:https://github.com/Drup/LILiS} here}.
 
 {! Glilis} contains a skeleton drawer for graphical backends.
 Two backend are currently implemented :
-- {! Ls_cairo} draw to png and gtk using {{: https://forge.ocamlcore.org/projects/cairo} cairo}.
-- {! Ls_tyxml} can produce svg file or svg elements using {{: http://ocsigen.org/tyxml/} tyxml}.
+- {! LisCairo} draw to png and gtk using {{: https://forge.ocamlcore.org/projects/cairo} cairo}.
+- {! LisTyxml} can produce svg file or svg elements using {{: http://ocsigen.org/tyxml/} tyxml}.
 
 {%html: <img style="margin : 0 auto; display: block" src="vonkoch.svg" /> %}
 
 {2 Index}
-{!modules: Mini_calc Lilis Glilis Ls_cairo Ls_tyxml}
+{!modules: Mini_calc Lilis Glilis LisCairo LisTyxml}
 {!indexlist}
