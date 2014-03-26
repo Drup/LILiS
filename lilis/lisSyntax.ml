@@ -1,5 +1,11 @@
 open LisTypes
 
+exception ParseError of (int * int * string)
+
+let string_of_ParseError (line, cnum, tok) =
+  Printf.sprintf "Parse error on line %i, colunm %i, token %s"
+    line cnum tok
+
 let default_defs =
   let lexbuf = Lexing.from_string LisUtils.defaut_defs in
   try LisParser.defs LisLexer.token lexbuf
@@ -13,10 +19,7 @@ let parse_lex lexbuf =
       let line = curr.Lexing.pos_lnum in
       let cnum = curr.Lexing.pos_cnum - curr.Lexing.pos_bol in
       let tok = Lexing.lexeme lexbuf in
-      failwith (
-        Printf.sprintf "Parse error on line %i, colunm %i, token %s"
-          line cnum tok
-      )
+      raise @@ ParseError (line, cnum, tok)
 
 let parse_convert lexbuf =
   List.map

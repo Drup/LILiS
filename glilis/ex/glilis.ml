@@ -141,6 +141,7 @@ let parsing_t bank lname =
     | NoLsysName (file,lname) ->
       `Error ( false , Printf.sprintf
         "The file %s doesn't contain any L-system named %s." file lname )
+    | ParseError perr -> `Error (false, string_of_ParseError perr)
     | ArityError ( symb , d , u ) ->
       `Error ( false , Printf.sprintf
         "The symbol %s takes %i argument but is used with %i arguments."
