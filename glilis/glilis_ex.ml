@@ -6,7 +6,7 @@ exception NoLsys of string
 exception NoLsysName of string * string
 
 (* This allow to change easily the stream used. *)
-module Lstream = Ls_sequence
+module Lstream = LisSequence
 module LsEn = Engine(Lstream)
 let eval_lsys = LsEn.eval_lsys
 
@@ -34,7 +34,7 @@ let to_gtk (width, height) lstream =
   let lstream = Lstream.to_list lstream in
 
   let expose area ev =
-    let turtle = new Ls_cairo.gtk_turtle area in
+    let turtle = new LisCairo.gtk_turtle area in
     turtle#fill () ;
     List.iter turtle#draw lstream ;
     turtle#apply () ;
@@ -51,13 +51,13 @@ let to_gtk (width, height) lstream =
   GMain.main ()
 
 let to_png (width, height) lstream file =
-  let turtle = new Ls_cairo.png_turtle width height in
+  let turtle = new LisCairo.png_turtle width height in
   turtle#fill () ;
   Lstream.iter turtle#draw lstream ;
   turtle#finish file
 
 let to_svg_cairo (width, height) lstream file =
-  let turtle = new Ls_cairo.svg_turtle file width height in
+  let turtle = new LisCairo.svg_turtle file width height in
   turtle#fill () ;
   Lstream.iter turtle#draw lstream ;
   turtle#finish ()
@@ -65,9 +65,9 @@ let to_svg_cairo (width, height) lstream file =
 
 #ifdef Tyxml
 let to_svg size lstream file =
-  let turtle = new Ls_tyxml.svg_turtle in
+  let turtle = new LisTyxml.svg_turtle in
   Lstream.iter turtle#draw lstream ;
-  let lsvg = Ls_tyxml.template size (turtle#to_string ()) in
+  let lsvg = LisTyxml.template size (turtle#to_string ()) in
   let buffer = open_out file in
   Svg.P.print ~output:(output_string buffer) lsvg ;
   close_out buffer

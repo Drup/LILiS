@@ -98,8 +98,8 @@ Executable glilis
     NativeOpt+:  -pp 'cppo -D Tyxml'
     # BuildDepends+: tyxml
   Install: false
-  Path: glilis/ex
-  MainIs: glilis.ml
+  Path: glilis
+  MainIs: glilis_ex.ml
   CompiledObject: best
 
 # Tests
