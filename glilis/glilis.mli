@@ -65,4 +65,4 @@ class virtual ['a] vturtle :
     method color : color -> unit
     method draw : 'a * float array -> unit
   end
-(** This virtual turtle implements most movement calculations, without any actual drawing. See {! Ls_cairo} and {! Ls_tyxml} for use examples. See {! turtle} for methods documentation. *)
+(** This virtual turtle implements most movement calculations, without any actual drawing. See {! LisCairo} and {! LisTyxml} for use examples. See {! turtle} for methods documentation. *)

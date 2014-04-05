@@ -1,10 +1,10 @@
-open LisTypes
+open LisCommon
 open LisParser
 
 let (@@) = BatPervasives.(@@)
 let (|>) = BatPervasives.(|>)
 
-module SMap = BatMap.Make(BatString)
+module SMap = SMap
 
 (** {2 Verifications} *)
 
@@ -40,7 +40,7 @@ let check_arity env tok vars =
   if defined_arity <> arity then
     raise (ArityError ( tok, defined_arity, arity ))
 
-(** The exposed checking functions. *)
+(** {3 The exposed checking functions.} *)
 
 let check_gen_stream env vars check_inside axiom =
   List.iter
@@ -56,12 +56,14 @@ let check_stream env axiom =
     (fun _ _ -> ()) axiom
 
 let check_rule env ?(arit_env=Mini_calc.Env.usual) r =
-  is_def_tok env r.lhs ;
-  check_arity env r.lhs r.vars ;
+  is_def_tok env r.Lilis.lhs ;
+  check_arity env r.Lilis.lhs r.Lilis.vars ;
   let check_inside t l =
-    List.iter (check_expr env arit_env r.vars t) l
+    List.iter (check_expr env arit_env r.Lilis.vars t) l
   in
-  check_gen_stream env r.vars check_inside r.rhs
+  check_gen_stream env r.Lilis.vars check_inside r.Lilis.rhs
+
+
 
 (** {2 Default definitions} *)
 
@@ -78,7 +80,7 @@ def color(r,g,b,a?1) = Color(r,g,b,a)
 let add_defs new_def lsys =
   { lsys with AST.definitions = new_def @ lsys.AST.definitions }
 
-let replace_defs env { name ; axiom ; rules ; post_rules } =
+let replace_defs env {Lilis. name ; axiom ; rules ; post_rules } =
   let replace_def (tok,vars) =
     let (tok',arity) = match BatList.Exceptionless.assoc tok env with
       | Some x -> x
@@ -88,13 +90,14 @@ let replace_defs env { name ; axiom ; rules ; post_rules } =
     if arity <> used_arity then failwith "Error while replace_defs" ;
     (tok',vars)
   in
-  let in_rule { lhs ; vars ; rhs } =
+  let in_rule {Lilis. lhs ; vars ; rhs } =
     let rhs = List.map replace_def rhs in
-    { lhs ; vars ; rhs }
+    {Lilis. lhs ; vars ; rhs }
   in
   let post_rules =
     List.map in_rule post_rules in
-  { name ; axiom ; rules ; post_rules }
+  {Lilis. name ; axiom ; rules ; post_rules }
+
 
 
 (** {2 Transformation from ast to lsystem representation} *)
@@ -121,7 +124,7 @@ let definitions (dl : AST.def list)  =
     (env', ((lhs,List.map fst vars),rhs))
   in
   let env, r = foldAccum SMap.empty aux dl in
-  env, List.map (fun ((lhs,vars),rhs) -> {lhs;vars;rhs}) r
+  env, List.map (fun ((lhs,vars),rhs) -> {AST. lhs ; vars ; rhs}) r
 
 (** Fill optional arguments according to a definition. *)
 let fill_args defs (tok,vars) =
@@ -142,16 +145,59 @@ let fill_args defs (tok,vars) =
 let fill_axiom defs axiom =
   List.map (fill_args defs) axiom
 
-let fill_rule defs rule =
-  let rhs = fill_axiom defs rule.rhs in
-  { rule with rhs }
+let fill_rule defs {AST. lhs ; vars ; rhs } =
+  let rhs = fill_axiom defs rhs in
+  {Lilis. lhs ; vars ; rhs }
+
+let rule {AST. lhs ; vars ; rhs } =
+  {Lilis. lhs ; vars ; rhs }
 
 let lsystem lsystem =
   let name = lsystem.AST.name in
   let env, post_rules = definitions lsystem.AST.definitions in
+  let post_rules = List.map rule post_rules in
   let axiom = eval_expr @@ fill_axiom env lsystem.AST.axiom in
   let rules = List.map (fill_rule env) lsystem.AST.rules in
   let env = SMap.map List.length env in
   let () = check_stream env axiom in
   let () = List.iter (check_rule env) rules in
-  { name ; axiom ; rules ; post_rules }
+  {Lilis. name ; axiom ; rules ; post_rules }
+
+
+(** {2 Parsing} *)
+
+exception ParseError of (int * int * string)
+
+let string_of_ParseError (line, cnum, tok) =
+  Printf.sprintf "Parse error on line %i, colunm %i, token %s"
+    line cnum tok
+
+let default_defs =
+  let lexbuf = Lexing.from_string defaut_defs in
+  try LisParser.defs LisLexer.token lexbuf
+  with _ -> assert false
+
+let parse_lex lexbuf =
+  try
+    LisParser.main LisLexer.token lexbuf
+  with _ ->
+      let curr = lexbuf.Lexing.lex_curr_p in
+      let line = curr.Lexing.pos_lnum in
+      let cnum = curr.Lexing.pos_cnum - curr.Lexing.pos_bol in
+      let tok = Lexing.lexeme lexbuf in
+      raise @@ ParseError (line, cnum, tok)
+
+(** {3 Exposed Parsing functions, with lsystem transformation} *)
+
+let parse_convert lexbuf =
+  List.map
+    (fun x -> lsystem (add_defs default_defs x))
+    (parse_lex lexbuf)
+
+let from_chanel chanel =
+  let lexbuf = Lexing.from_channel chanel in
+  parse_convert lexbuf
+
+let from_string s =
+  let lexbuf = Lexing.from_string s in
+  parse_convert lexbuf

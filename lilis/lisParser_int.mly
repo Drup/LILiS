@@ -7,10 +7,10 @@
 %token COMMA
 
 %start main
-%type <LisTypes.AST.lsystem list> main
+%type <LisCommon.AST.lsystem list> main
 
 %start defs
-%type <LisTypes.AST.def list> defs
+%type <LisCommon.AST.def list> defs
 
 %%
 
@@ -24,7 +24,7 @@ lsystem:
   axiom=axiom
   rules=rule*
   RACCO
-  { {LisTypes.AST. name ; definitions ; axiom ; rules} }
+  { {LisCommon.AST. name ; definitions ; axiom ; rules} }
 
 axiom:
   AXIOM EQUAL ol=token(args)+ { ol }
@@ -40,7 +40,7 @@ def_rhs: EQUAL l = token(args)* { l }
 
 rule:
   RULE tok=token(vars) EQUAL rhs=token(args)*
-  { let (lhs,vars) = tok in {LisTypes. lhs; vars; rhs} }
+  { let (lhs,vars) = tok in {LisCommon.AST. lhs; vars; rhs} }
 
 token(arg):
   n = ls_token a = loption(arg)

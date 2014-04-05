@@ -9,8 +9,10 @@ Plugins:     META (0.3), DevFiles (0.3)
 Homepage:    http://drup.github.io/LILiS/
 
 AlphaFeatures: pure_interface, compiled_setup_ml
-
 BuildTools: ocamlbuild
+
+
+### Various flags ###
 
 Flag sequence
   Description: Build the Sequence interface and use it for glilis.exe
@@ -27,6 +29,8 @@ Flag executable
   Description: Build the executable glilis_ex.native.
   Default: false
 
+
+### Minicalc ###
 # A small library to build and compute arithmetic expression trees.
 
 Library minicalc
@@ -39,15 +43,18 @@ Library minicalc
   BuildDepends:
     batteries
 
+
+
+### Lilis ###
 # Library for Lsystems.
 
 Library lilis
   Path: lilis
   BuildDepends: batteries, minicalc
   Modules:
-    Lilis
+    Lilis, LisUtils
   InternalModules:
-    LisTypes, LisUtils, LisEngine, LisLexer, LisSyntax, LisParser
+    LisCommon, LisLexer, LisParser
 
 # Various streams implementation for lilis.
 
@@ -65,7 +72,9 @@ Library batteries
   Modules: LisBatteries
 
 
-# Graphical extension of lilis.
+
+### Glilis ###
+# Graphical extensions of lilis.
 
 Library glilis
   Path: glilis
@@ -86,6 +95,9 @@ Library tyxml
   Modules: LisTyxml
   BuildDepends: glilis, tyxml
 
+
+### Executable ###
+
 Executable glilis
   Build$: flag(cairo) && flag(executable) && flag(sequence)
   BuildDepends: cmdliner, cairo2.lablgtk2, glilis, glilis.cairo, glilis.tyxml, lilis.sequence
@@ -102,11 +114,11 @@ Executable glilis
   MainIs: glilis_ex.ml
   CompiledObject: best
 
-# Tests
+### Tests ###
 
 Executable bench_streams
   Path: test
-  Build$: flag(tests)
+  Build$: flag(tests) && flag(sequence)
   Install: false
   CompiledObject: best
   BuildTools: ocamlbuild
@@ -115,23 +127,24 @@ Executable bench_streams
 
 Executable bench_vonkoch
   Path: test
-  Build$: flag(tests)
+  Build$: flag(tests) && flag(sequence)
   Install: false
   CompiledObject: best
   BuildTools: ocamlbuild
   MainIs: bench_vonkoch.ml
-  BuildDepends: lilis, benchmark
+  BuildDepends: lilis, lilis.sequence, benchmark
 
 Executable bench_quick
   Path: test
-  Build$: flag(tests)
+  Build$: flag(tests) && flag(sequence)
   Install: false
   CompiledObject: best
   BuildTools: ocamlbuild
   MainIs: bench_quick.ml
-  BuildDepends: lilis, benchmark
+  BuildDepends: lilis, lilis.sequence, benchmark
 
-# Misc
+
+### Misc ###
 
 Document lilis
   Install:		false

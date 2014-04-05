@@ -7,12 +7,12 @@ exception NoLsysName of string * string
 
 (* This allow to change easily the stream used. *)
 module Lstream = LisSequence
-module LsEn = Engine(Lstream)
+module LsEn = Make(Lstream)
 let eval_lsys = LsEn.eval_lsys
 
 let get_lsystem file name =
   let c = open_in file in
-  let bank_ls = lsystem_from_chanel c in
+  let bank_ls = LisUtils.from_chanel c in
   close_in c;
   match name with
     | None   -> begin
@@ -141,27 +141,27 @@ let parsing_t bank lname =
     | NoLsysName (file,lname) ->
       `Error ( false , Printf.sprintf
         "The file %s doesn't contain any L-system named %s." file lname )
-    | ParseError perr -> `Error (false, string_of_ParseError perr)
-    | ArityError ( symb , d , u ) ->
+    | LisUtils.ParseError perr -> `Error (false, LisUtils.string_of_ParseError perr)
+    | LisUtils.ArityError ( symb , d , u ) ->
       `Error ( false , Printf.sprintf
         "The symbol %s takes %i argument but is used with %i arguments."
         symb d u )
-    | VarDefError ( symb, v ) ->
+    | LisUtils.VarDefError ( symb, v ) ->
       `Error ( false, Printf.sprintf
         "In the rule %s, the variable %s is undefined."
         symb v )
-    | TokenDefError symb ->
+    | LisUtils.TokenDefError symb ->
       `Error ( false, Printf.sprintf
         "The symbol %s is undefined."
         symb)
-    | OptionalArgument (symb, arg) ->
+    | LisUtils.OptionalArgument (symb, arg) ->
       `Error ( false, Printf.sprintf
         "The symbol %s is called without the %s argument, while it is not optional.."
         symb arg )
 
 
 let processing_t bench n lsys =
-  let lsys = Lilis.replace_defs Glilis.orders lsys in
+  let lsys = LisUtils.replace_defs Glilis.orders lsys in
   if bench then init_time () ;
   let lstream = eval_lsys n lsys in
   lstream

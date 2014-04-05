@@ -5,6 +5,29 @@ LILiS is a {b Library to Interpret Lindenmayer Systems}.
 The goal of this project is to implement a library to evaluate L-systems and to visualise them (in 2D only).
 The library is available {{:https://github.com/Drup/LILiS} here}.
 
+
+
+Some symbols have a graphical meanings :
+- [ F ] : Forward, takes a length as argument.
+- [ B ] : Backward, takes a length as argument.
+- [ f ] : forward without drawing.
+- [ + ] : turn clockwise, takes an angle in degree as argument.
+- [ - ] : turn counter-clockwise, takes an angle in degree as argument.
+- [ \[ ] : save the current position on the stack.
+- [ \] ] : restore the last saved position.
+
+For example here is the Von Koch curve :
+{v
+Von_koch \{
+axiom = F(1)
+rules F(l) = F(l/3) -(60) F(l/3) +(120) F(l/3) -(60) F(l/3)
+\}
+v}
+
+Indentation is optional. A rule must be terminated by a new line. You can't have a newline inside a succession of token (like a rule or an axiom).
+
+
+
 {! Lilis} is a nice entry point to the library. It contains a parser and a ready-to-use evaluator for L-systems. It is contained in the lilis package.
 
 {! Mini_calc} is a small library to evaluate arithmetic expressions. It's an helper for {! Lilis}. It is contained in the minicalc
@@ -17,5 +40,5 @@ Two backend are currently implemented :
 {%html: <img style="margin : 0 auto; display: block" src="vonkoch.svg" /> %}
 
 {2 Index}
-{!modules: Mini_calc Lilis Glilis LisCairo LisTyxml}
+{!modules: Mini_calc Lilis LisUtils Glilis LisCairo LisTyxml}
 {!indexlist}

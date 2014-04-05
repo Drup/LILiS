@@ -1,53 +1,18 @@
 (** Library to Interpret Lindenmayer Systems. *)
 
-(** A L-system is described by a name, an axiom and a bunch of rules. Each symbols can have some arithmetic expressions as arguments.
-
-An axiom is a list of symbols. A rule is composed of a left-hand side with a single symbol, potentially some variables and a right-hand side which is a list of symbols where arithmetic expressions can contains those variables.
-
-Some symbols have a graphical meanings :
-- [ F ] : Forward, takes a length as argument.
-- [ B ] : Backward, takes a length as argument.
-- [ f ] : forward without drawing.
-- [ + ] : turn clockwise, takes an angle in degree as argument.
-- [ - ] : turn counter-clockwise, takes an angle in degree as argument.
-- [ \[ ] : save the current position on the stack.
-- [ \] ] : restore the last saved position.
-
-For example here is the Von Koch curve :
-{v
-Von_koch \{
-axiom = F(1)
-rules F(l) = F(l/3) -(60) F(l/3) +(120) F(l/3) -(60) F(l/3)
-\}
-v}
-
-Indentation is optional. A rule must be terminated by a new line. You can't have a newline inside a succession of token (like a rule or an axiom).
-
-*)
-
-(** {2 Preliminary stream functions} *)
-
-(**
-   A stream-like data structure should be lazy and support O(1) concatenation.
-
-   It should also be possible to store a datastructure in order to replicate it
-   (to print it multiple time on screen, for example).
-
-   For clonable data-structures, we can have {! S.t} identical to {! S.stored}
-*)
-module type S = LisTypes.S
-
 (** {2 Lsystem representation} *)
 
+(** A L-system is described by a name, an axiom and a bunch of rules. Each symbols can have some arithmetic expressions as arguments. *)
+
 type axiom = (string * (float list)) list
-(** A simple Lsystem axiom. *)
+(** A simple Lsystem axiom. An axiom is a list of symbols. *)
 
 type 'a rule = {
   lhs : string ;
   vars : string list ;
   rhs : ('a * (string Mini_calc.arit_tree list)) list ;
 }
-(** A Lsystem rule. *)
+(** A Lsystem rule. A rule is composed of a left-hand side with a single symbol, potentially some variables and a right-hand side which is a list of symbols where arithmetic expressions can contains those variables. The right hand side can be composed of non-string tokens. *)
 
 type 'a lsystem = {
   name : string ;
@@ -55,42 +20,10 @@ type 'a lsystem = {
   rules : string rule list ;
   post_rules : 'a rule list ;
 }
-(** A complete Lsystem. *)
+(** A complete Lsystem. ['a] is the output type of the lsystem. For example, we can have a set of rules that will transform tokens to graphical orders. *)
 
-(** {2 Input fonctions} *)
 
-val lsystem_from_chanel : in_channel -> string lsystem list
-val lsystem_from_string : string -> string lsystem list
-
-(** {3 Utils} *)
-
-module SMap : Map.S with type key = string
-
-(** {3 Verifications} *)
-
-exception ArityError of ( string * int * int )
-(** [ ArityError ( symbol, defined_arity, used_arity ) ] *)
-
-exception VarDefError of ( string * string )
-(** [ VarDefError ( symbol, undefined_variable ) ] *)
-
-exception TokenDefError of string
-(** [ TokenDefError (symbol) ] *)
-
-exception OptionalArgument of ( string * string )
-(** [ OptionalArgument (symbol, arg) ] *)
-
-val check_stream : int SMap.t -> (string * 'a list) list -> unit
-(** Check a stream against an environment. This environment is a mapping name -> arity.
-    @raise ArityError, VarDefError, TokenDefError *)
-
-val check_rule : int SMap.t -> ?arit_env:Mini_calc.arit_env -> string rule -> unit
-(** As [ check_stream ] for a rule. Need also an arithmetic environment, will use {! Mini_calc.Env.usual } if none is provided.
-    @raise ArityError, VarDefError, TokenDefError *)
-
-val replace_defs : ('a * ('b * int)) list -> 'a lsystem -> 'b lsystem
-
-(** {3 Internal engine} *)
+(** {2 Functorized Engine} *)
 
 (** The symbolic environment is the dictionnary to compress and decompress streams. *)
 module SymbEnv : sig
@@ -111,6 +44,31 @@ module SymbEnv : sig
 
 end
 
+
+(**
+   A stream-like data structure should be lazy and support O(1) concatenation.
+
+   It should also be possible to store a datastructure in order to replicate it
+   (to print it multiple time on screen, for example).
+
+   For clonable data-structures, we can have {! S.t} identical to {! S.stored}
+*)
+module type S = sig
+  type 'a t
+  type 'a stored
+  val singleton : 'a -> 'a t
+  val map : ('a -> 'b) -> 'a t -> 'b t
+  val expand : ('a -> 'b t) -> 'a t -> 'b t
+  val iter : ('a -> unit) -> 'a t -> unit
+  val fold : ('b -> 'a -> 'b) -> 'b -> 'a t -> 'b
+  val of_list : 'a list -> 'a stored
+  val to_list : 'a t -> 'a list
+  val force : 'a t -> unit
+  val empty : 'a stored
+  val store : 'a t -> 'a stored
+  val gennew : 'a stored -> 'a t
+end
+
 (**
    A functor to build your own little Lsystem engine given a stream-like data structure. Can be lazy or not, functional or not.
 
@@ -118,7 +76,7 @@ end
    Concatenation (as used in [expand]) must absolutely be in O(1) amortized time. Lazyness is better for memory occupation but is not necessary.
 
 *)
-module Engine (Lstream : S) : sig
+module Make (Lstream : S) : sig
 
   val eval_lsys :
     int -> 'a lsystem -> ('a * float array) Lstream.t
@@ -158,6 +116,5 @@ module Engine (Lstream : S) : sig
   val eval_lsys_uncompress :
     int -> 'a lsystem -> (string * float array) Lstream.t
   (** Like [ eval_lsys ], but will ignore post rules and uncompress the stream instead. *)
-
 
 end

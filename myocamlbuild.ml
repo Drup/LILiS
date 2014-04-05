@@ -1,4 +1,5 @@
 (* OASIS_START *)
+(* DO NOT EDIT (digest: d41d8cd98f00b204e9800998ecf8427e) *)
 (* OASIS_STOP *)
 
 let doc_intro = "doc/intro.text" in
@@ -14,6 +15,7 @@ dispatch
             (S[A"-t"; A"LILiS user guide";
                A"-intro"; P doc_intro;
                A"-colorize-code";
+               A"-short-functors";
                A"-charset"; P "utf-8"
               ]);
         | _ -> ()

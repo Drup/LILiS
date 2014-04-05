@@ -2,26 +2,26 @@ open Benchmark
 open Lilis
 open Stream
 
-module BeSequence = Engine(Sequence)
-module BeSeq = Engine(Seq)
-module BeEnum = Engine(Enum)
-module BeStream = Engine(Stream)
-module BeLazyList = Engine(LazyList)
+module BeSequence = Make(LisSequence)
+module BeSeq = Make(LisBatteries.Seq)
+module BeEnum = Make(LisBatteries.Enum)
+module BeStream = Make(LisBatteries.Stream)
+module BeLazyList = Make(LisBatteries.LazyList)
 
 let sequence i lsys =
-  "Sequence", (fun lsys -> Sequence.force @@ BeSequence.eval_lsys i lsys), lsys
+  "Sequence", (fun lsys -> LisSequence.force @@ BeSequence.eval_lsys i lsys), lsys
 
 let seq i lsys =
-  "Seq", (fun lsys -> Seq.force @@ BeSeq.eval_lsys i lsys), lsys
+  "Seq", (fun lsys -> LisBatteries.Seq.force @@ BeSeq.eval_lsys i lsys), lsys
 
 let enum i lsys =
-  "Enum", (fun lsys -> Enum.force @@ BeEnum.eval_lsys i lsys), lsys
+  "Enum", (fun lsys -> LisBatteries.Enum.force @@ BeEnum.eval_lsys i lsys), lsys
 
 let lazy_list i lsys =
-  "LazyList", (fun lsys -> LazyList.force @@ BeLazyList.eval_lsys i lsys), lsys
+  "LazyList", (fun lsys -> LisBatteries.LazyList.force @@ BeLazyList.eval_lsys i lsys), lsys
 
 let stream i lsys =
-  "Stream", (fun lsys -> Stream.force @@ BeStream.eval_lsys i lsys), lsys
+  "Stream", (fun lsys -> LisBatteries.Stream.force @@ BeStream.eval_lsys i lsys), lsys
 
 let all_streams = [
   sequence ;
@@ -33,7 +33,7 @@ let all_streams = [
 
 let get_bank_ls s =
   let c = open_in s in
-  let r = lsystem_from_chanel c in
+  let r = LisUtils.from_chanel c in
   close_in c; r
 
 let find bank s =
