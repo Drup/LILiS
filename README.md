@@ -30,17 +30,16 @@ Computing L-systems happens to be a very nice way to stress the flatMap operatio
 ## Dependencies
 
 - The parser depends on `menhir`.
+- [cppo](https://github.com/mjambon/cppo) is a building dependency.
 - The engine implementation depends on [Batteries Included](https://github.com/ocaml-batteries-team/batteries-included) and [Sequence](https://github.com/c-cube/sequence) for super-fast streams.
 - There is currently two graphical backends :
   - The png and gtk one depends on [Cairo's Ocaml binding](https://forge.ocamlcore.org/projects/cairo/).
-  - The SVG on the *development* version of [tyxml](http://ocsigen.org/tyxml/).
+  - The SVG one depends on [tyxml](http://ocsigen.org/tyxml/) (version >= 3.0.0).
 - `Cmdliner` is used by the executable `glilis_ex`.
 
 You can install most of it with :
 
-	$ opam install batteries sequence cairo lablgtk cmdliner menhir
-
-See [here](http://ocsigen.org/install#source) for the development version of tyxml.
+	$ opam install cppo batteries sequence cairo lablgtk tyxml cmdliner menhir
 
 ## How to
 
@@ -48,17 +47,17 @@ To build, just do :
 
 	$ make
 
-You can use two flags with `configure` : `--disable-cairo` and `--disable-tyxml` to disable the relevant libraries. Both are enabled by default.
+The optional dependencies can be controlled by configure flags. See `configure --help` for a complete list.
 
 To produce the documentation :
 
-	$ make doc
+	$ make docs
 
 You can also install the various libraries with :
 
 	$ make install
 
-If you used `configure` with the flag `--enable-glilis-ex` and both graphical backends, it will produce an executable `glilis_ex.native`. See `glilis_ex.native --help` for more information.
+If you used `configure` with the flag `--enable-executable` and both graphical backends, it will produce an executable `glilis_ex.native`. See `glilis_ex.native --help` for more information.
 
 You can also enable benchmarks and tests with the flag `--enable-tests`. This will produce some benchmarking executable. Needs the [benchmark](http://ocaml-benchmark.sourceforge.net/) library.
 
