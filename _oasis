@@ -22,6 +22,10 @@ Flag gen
   Description: Build the Gen interface
   Default: false
 
+Flag cfstream
+  Description: Build the CFStream interface
+  Default: false
+
 Flag cairo
   Description: Enable the cairo backend for png and gtk output
   Default: true
@@ -76,6 +80,13 @@ Library gen
   Path: lilis/streams
   BuildDepends: containers, lilis
   Modules: LisGen
+
+Library cfstream
+  Build$: flag(cfstream)
+  FindLibParent: lilis
+  Path: lilis/streams
+  BuildDepends: threads, cfstream, lilis
+  Modules: LisCFStream
 
 Library batteries
   FindLibParent: lilis
@@ -135,30 +146,30 @@ Executable glilis_no_tyxml
 
 Executable bench_streams
   Path: test
-  Build$: flag(tests) && flag(sequence) && flag(gen)
+  Build$: flag(tests) && flag(sequence) && flag(gen) && flag(cfstream)
   Install: false
   CompiledObject: best
   BuildTools: ocamlbuild
   MainIs: bench_streams.ml
-  BuildDepends: lilis, lilis.batteries, lilis.sequence, lilis.gen, benchmark
+  BuildDepends: lilis, lilis.batteries, lilis.sequence, lilis.gen, lilis.cfstream, benchmark
 
 Executable bench_vonkoch
   Path: test
-  Build$: flag(tests) && flag(sequence) && flag(gen)
+  Build$: flag(tests) && flag(sequence) && flag(gen) && flag(cfstream)
   Install: false
   CompiledObject: best
   BuildTools: ocamlbuild
   MainIs: bench_vonkoch.ml
-  BuildDepends: lilis, lilis.sequence, lilis.gen, benchmark
+  BuildDepends: lilis, lilis.sequence, lilis.gen, lilis.cfstream, benchmark
 
 Executable bench_quick
   Path: test
-  Build$: flag(tests) && flag(sequence) && flag(gen)
+  Build$: flag(tests) && flag(sequence) && flag(gen) && flag(cfstream)
   Install: false
   CompiledObject: best
   BuildTools: ocamlbuild
   MainIs: bench_quick.ml
-  BuildDepends: lilis, lilis.sequence, lilis.gen, benchmark
+  BuildDepends: lilis, lilis.sequence, lilis.gen, lilis.cfstream, benchmark
 
 
 ### Misc ###

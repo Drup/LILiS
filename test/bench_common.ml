@@ -4,6 +4,7 @@ open Stream
 
 module BeSequence = Make(LisSequence)
 module BeGen = Make(LisGen)
+module BeCFStream = Make(LisCFStream)
 module BeSeq = Make(LisBatteries.Seq)
 module BeEnum = Make(LisBatteries.Enum)
 module BeStream = Make(LisBatteries.Stream)
@@ -14,6 +15,9 @@ let sequence i lsys =
 
 let gen i lsys =
   "Gen", (fun lsys -> LisGen.force @@ BeGen.eval_lsys i lsys), lsys
+
+let cfstream i lsys =
+  "CFStream", (fun lsys -> LisCFStream.force @@ BeCFStream.eval_lsys i lsys), lsys
 
 let seq i lsys =
   "Seq", (fun lsys -> LisBatteries.Seq.force @@ BeSeq.eval_lsys i lsys), lsys
@@ -30,6 +34,7 @@ let stream i lsys =
 let all_streams = [
   sequence ;
   gen ;
+  cfstream ;
   seq ;
   enum ;
   lazy_list ;
