@@ -14,36 +14,227 @@
 <link title="Index of module types" rel=Appendix href="index_module_types.html">
 <link title="Mini_calc" rel="Chapter" href="Mini_calc.html">
 <link title="Lilis" rel="Chapter" href="Lilis.html">
+<link title="LisUtils" rel="Chapter" href="LisUtils.html">
+<link title="LisSequence" rel="Chapter" href="LisSequence.html">
+<link title="LisBatteries" rel="Chapter" href="LisBatteries.html">
 <link title="Glilis" rel="Chapter" href="Glilis.html">
-<link title="Ls_cairo" rel="Chapter" href="Ls_cairo.html">
-<link title="Ls_tyxml" rel="Chapter" href="Ls_tyxml.html"><title>LILiS user guide</title>
+<link title="LisCairo" rel="Chapter" href="LisCairo.html">
+<link title="LisTyxml" rel="Chapter" href="LisTyxml.html"><title>LILiS user guide</title>
 </head>
 <body>
 <h1>LILiS user guide</h1>
-LILiS is a <b>Library to Interpret Lindenmayer Systems</b>.
+<a href="https://github.com/Drup/LILiS">LILiS</a> is a <b>Library to Interpret Lindenmayer Systems</b>. It allows to evaluate and draw them.
 <p>
 
-<a href=" http://en.wikipedia.org/wiki/L-system"> L-systems</a> are a kind of formal grammar defined by Lindermayer.
+<a href=" http://en.wikipedia.org/wiki/L-system"> L-systems</a> are a kind of formal grammar defined by Lindermayer. In LILiS, an lsystem is composed of a name, a list of definitions, an axiom and some rules. The axiom will be rewritten using the rules.
 <p>
 
-The goal of this project is to implement a library to evaluate L-systems and to visualise them (in 2D only).
-The library is available <a href="https://github.com/Drup/LILiS"> here</a>.
+<h2 id="2_AguidedtourinLILiS">A guided tour in LILiS</h2>
 <p>
 
-<a href="Lilis.html"><code class="code"><span class="constructor">Lilis</span></code></a> is the core engine of the library. It contains a parser and a evaluator for L-systems.
+Let us start by drawing the well known <a href=" http://en.wikipedia.org/wiki/Koch_snowflake">Von Koch curve</a>. This curve is a simple segment and each iteration is replaced by four smaller segments, as expressed in this lsystem:
+<pre class="verbatim">Von_koch_simple {
+axiom = -(90) f(0.5) +(90) F(1)
+rule F(l) = F(l/3) +(60) F(l/3) -(120) F(l/3) +(60) F(l/3)
+}</pre>
+<p>
+
+Let's put this lsystem in a file <code class="code">bank_lsystem</code>. Using the <code class="code">glilis</code> executable, you can use the following command line to draw a beautiful Von koch curve and show it in a gtk window.
+<pre class="verbatim">glilis -n 6 bank_lsystem Von_koch_simple --gtk</pre>
+<p>
+
+Here are the results for generation one to five :
+<p>
+
+  <div style="width : 80% ; padding : 0 ; margin : 0 auto" >
+	<a href="von_koch_1.svg"><img style="width:15%" src="von_koch_1.svg" /></a>
+	<a href="von_koch_2.svg"><img style="width:15%" src="von_koch_2.svg" /></a>
+	<a href="von_koch_3.svg"><img style="width:15%" src="von_koch_3.svg" /></a>
+	<a href="von_koch_4.svg"><img style="width:15%" src="von_koch_4.svg" /></a>
+	<a href="von_koch_5.svg"><img style="width:15%" src="von_koch_5.svg" /></a>
+  </div>
+
+<p>
+
+Symbols have associated graphical meanings, as in the <a href=" http://en.wikipedia.org/wiki/Turtle_graphics">Turtle language</a>. <code class="code"> <span class="constructor">F</span>(l) </code> is a segment of length <code class="code">l</code>, <code class="code">f(l)</code> is an invisible segment of length <code class="code">l</code> and <code class="code"> +(a) </code> and <code class="code"> -(a) </code> are clockwise and counter-clockwise rotations of angle <code class="code">a</code> in radians.
+<p>
+
+<h3 id="3_Sudomakemeapicture">Sudo, make me a picture</h3>
+<p>
+
+Instead of showing the lsystem in a gtk window, we could also save it in a png
+<pre class="verbatim">glilis -n 6 bank_lsystem Von_koch_simple --png von_koch.png</pre>
+<p>
+
+or, if LILiS was compiled with tyxml, in a (obviously prettier, but quite bigger) svg:
+<pre class="verbatim">glilis -n 6 bank_lsystem Von_koch_simple --svg von_koch.png</pre>
+<p>
+
+You can discover the rest of the command with the help included:
+<pre class="verbatim">./glilis_ex.native --help</pre>
+<p>
+
+<h3 id="3_Therecanbeonlyoneturtleinthisdrawing">There can be only one turtle in this drawing</h3>
+<p>
+
+A few symbols are predefined, with graphical meanings :<ul>
+<li><code class="code"> <span class="constructor">F</span>(l) </code> : Forward, takes a length as argument.</li>
+<li><code class="code"> <span class="constructor">B</span>(l) </code> : Backward, takes a length as argument.</li>
+<li><code class="code"> f(l) </code> : forward without drawing.</li>
+<li><code class="code"> +(a) </code> : Turn clockwise, takes an angle in degree as argument.</li>
+<li><code class="code"> -(a) </code> : Turn counter-clockwise, takes an angle in degree as argument.</li>
+<li><code class="code"> [ </code> : Save the current position on the stack.</li>
+<li><code class="code"> ] </code> : Restore the last saved position.</li>
+</ul>
+
+The <code class="code">[</code> and <code class="code">]</code> symbols allows branching in the (normally linear) path of the turtle. We will how to use it in the next example.
+<p>
+
+<h3 id="3_Wewantmoresymbols">We want more symbols!</h3>
+<p>
+
+A bunch of predefined symbols is not enough to express complex drawings comfortably, hence it is possible to define symbols as needed. For example if we want to draw a fern, we need a placeholder symbol that will emit the various branches at each iterations. Here is a lsystem to draw it:
+<p>
+
+<pre class="verbatim">fern {
+def X(d)
+axiom = f(0.5) -(90) f(1) -(180) X(0.3)
+rule X(x) =
+  F(x/2) -(25) [ [ X(x/2) ] +(25) X(x/2) ]
+  +(25) F(x/2) [ +(25) F(x/2) X(x/2) ] -(25) X(x/2)
+
+}</pre>
+<p>
+
+With the command line <code class="code"> glilis -n 5 bank_lsystem fern --gtk </code>, we get this beautiful fern:
+<a href="fern.svg"><img style="width : 20% ; margin : 0 auto; display: block" src="fern.svg" /></a> 
+<p>
+
+<h3 id="3_Oneruletorulethemall">One rule to rule them all</h3>
+<p>
+
+It is possible to define multiple rules on the various symbols. All the rules are applied during each iteration on the relevant symbol. If multiple rules affect the same symbol, only the last one is used. This feature allows us to draw the <a href="http://en.wikipedia.org/wiki/Dragon_curve">Dragon curve</a>.
+<p>
+
+<pre class="verbatim">dragon {
+def X(d) Y(d) *
+axiom = -(45) f(0.47) * F(0.6) X(0.6)
+rule X(l) = X(l/sqrt(2)) + Y(l/sqrt(2)) F(l/sqrt(2)) +
+rule Y(l) = -(90) F(l/sqrt(2)) X(l/sqrt(2)) -(90) Y(l/sqrt(2))
+rule F(l) = F(l/sqrt(2))
+rule * = * -(45)
+}</pre>
+<p>
+
+Let there be dragons!
+  <div style="width : 80% ; padding : 0 ; margin : 0 auto" >
+	<a href="dragon_7.svg"><img style="width:15%" src="dragon_7.svg" /></a>
+	<a href="dragon_8.svg"><img style="width:15%" src="dragon_8.svg" /></a>
+	<a href="dragon_9.svg"><img style="width:15%" src="dragon_9.svg" /></a>
+	<a href="dragon_10.svg"><img style="width:15%" src="dragon_10.svg" /></a>
+	<a href="dragon_11.svg"><img style="width:15%" src="dragon_11.svg" /></a>
+  </div>
+
+<p>
+
+<h3 id="3_Youspinmerightsquare">You spin me right square</h3>
+<p>
+
+Abstract symbols allows to do complex calculations by using them as placeholders, but we may want to add some new shapes in our drawings. To do so, we can give a graphical meaning to a new symbol.
+<p>
+
+<pre class="verbatim">Spin_it {
+def X(l)
+def Square(l) = Save Turn(45) forward(l*sqrt(2)/2)
+  Turn(-135) Forward(l)
+  Turn(-90) Forward(l)
+  Turn(-90) Forward(l)
+  Turn(-90) Forward(l) Restore
+axiom = - f(0.5) + f(0.5) X(0.01)
+rule X(l) = Square(l) +(2) X(l + 0.01)
+}</pre>
+<a href="spin_it.svg"><img style="width : 20% ; margin : 0 auto; display: block" src="spin_it.svg" /></a> 
+<p>
+
+You may notice that the commands in the definition of <code class="code"><span class="constructor">Square</span></code> are not the same that we have used before. It's because those are <b>graphical</b> commands that are handled directly by the drawing backend. Each backend can implement is own set of commands. For now, those commands are implemented:<ul>
+<li><code class="code"> <span class="constructor">Forward</span>(l) </code></li>
+<li><code class="code"> forward(l) </code></li>
+<li><code class="code"> <span class="constructor">Turn</span>(a) </code></li>
+<li><code class="code"> <span class="constructor">Save</span> </code></li>
+<li><code class="code"> <span class="constructor">Restore</span> </code></li>
+<li><code class="code"> <span class="constructor">Color</span>(r,g,b,a) </code></li>
+</ul>
+
+The usual symbols are defined by default for each lsystem. Here are those definitions:
+<pre class="verbatim">def F(d?1) = Forward(d)
+def f(d?1) = forward(d)
+def +(x?90) = Turn(x)
+def -(x?90) = Turn(- x)
+def [ = Save
+def ] = Restore
+def color(r,g,b,a?1) = Color(r,g,b,a)</pre>
+<p>
+
+We see here one last feature in LILiS: a default value can be defined for an argument, making it optional. Hence, instead of writing <code class="code">-(90)</code> it is possible to write just <code class="code">-</code>. Optional arguments can only appear at the right most part of the arguments in a function and will be resolved from left to right.
+<p>
+
+<h3 id="3_Wibbly">Wibbly ... Wobbly ... Graphy ... Colory ... Stuff </h3>
+<p>
+
+The dear reader is welcome to consider this very nice lsystem, as a finishing master piece for this tutorial.
+<pre class="verbatim">Von_koch_color {
+def C(d) = Color(0,d,0.1,1)
+def F(l,d,k) = Forward(l)
+axiom = - f(0.28) + f(0.05) F(0.9,0,0.9)
+rule F(l,d,k) =
+     C(d)         F(l/3, d, k/4)         +(60)
+     C(d + k/4)   F(l/3, d + k/4, k/4)   -(120)
+     C(d + k/2)   F(l/3, d + k/2, k/4)   +(60)
+     C(d + 3/4*k) F(l/3, d + 3/4*k, k/4)
+}</pre>
+<p>
+
+If this is not enough, more lsystems are available in the sources, in the <code class="code">bank_lsystem</code> file.
+<p>
+
+<a href="vonkoch.svg"><img style="margin : 0 auto; display: block" src="vonkoch.svg" /></a> 
+<p>
+
+<h2 id="2_LILiSthelibrary">LILiS, the library</h2>
+<p>
+
+LILiS is also an OCaml library designed to answer all your lsystem needs. This library is divided in 3 packages
+<p>
+
+<h3 id="3_lilis">lilis</h3>
+<p>
+
+lilis is the library for parsing, checking and evaluating lsystems.
+The module <a href="Lilis.html"><code class="code"><span class="constructor">Lilis</span></code></a> contains a functorized engine that allows to evaluate lsystems on any stream-like data-structure.
+<p>
+
+A stream-like data-structure is any kind of structure that respect <a href="Lilis.S.html"><code class="code"><span class="constructor">Lilis</span>.<span class="constructor">S</span></code></a>. Several of them are implemented :<ul>
+<li><a href="LisSequence.html"><code class="code"><span class="constructor">LisSequence</span></code></a> in the lilis.sequence package, using <a href="https://github.com/c-cube/sequence">sequence</a>. This is the most efficient stream implementation.</li>
+<li><a href="LisBatteries.html"><code class="code"><span class="constructor">LisBatteries</span></code></a> in the lilis.batteries package, using <a href="http://batteries.forge.ocamlcore.org/">Batteries</a>.</li>
+</ul>
+
+<a href="LisUtils.html"><code class="code"><span class="constructor">LisUtils</span></code></a> contains all the parsing and verification functions.
+<p>
+
+<h3 id="3_minicalc">minicalc</h3>
 <p>
 
 <a href="Mini_calc.html"><code class="code"><span class="constructor">Mini_calc</span></code></a> is a small library to evaluate arithmetic expressions. It's an helper for <a href="Lilis.html"><code class="code"><span class="constructor">Lilis</span></code></a>.
 <p>
 
+<h3 id="3_glilis">glilis</h3>
+<p>
+
 <a href="Glilis.html"><code class="code"><span class="constructor">Glilis</span></code></a> contains a skeleton drawer for graphical backends.
 Two backend are currently implemented :<ul>
-<li><a href="Ls_cairo.html"><code class="code"><span class="constructor">Ls_cairo</span></code></a> draw to png and gtk using <a href=" https://forge.ocamlcore.org/projects/cairo"> cairo</a>.</li>
-<li><a href="Ls_tyxml.html"><code class="code"><span class="constructor">Ls_tyxml</span></code></a> can produce svg file or svg elements using <a href=" http://ocsigen.org/tyxml/"> tyxml</a>.</li>
+<li><a href="LisCairo.html"><code class="code"><span class="constructor">LisCairo</span></code></a> draw to png and gtk using <a href=" https://forge.ocamlcore.org/projects/cairo"> cairo</a>. A <b>rasterizing</b> svg backed is also contained.</li>
+<li><a href="LisTyxml.html"><code class="code"><span class="constructor">LisTyxml</span></code></a> can produce svg file or svg elements using <a href=" http://ocsigen.org/tyxml/"> tyxml</a>.</li>
 </ul>
-
-<img style="margin : 0 auto; display: block" src="vonkoch.svg" /> 
-<p>
 
 <h2 id="2_Index">Index</h2>
 <br>
@@ -52,19 +243,39 @@ Two backend are currently implemented :<ul>
 Small library to evaluate simple arithmetic expressions.
 </div>
 </td></tr>
+</table>
+
+<br>
+<table class="indextable">
 <tr><td class="module"><a href="Lilis.html">Lilis</a></td><td><div class="info">
 Library to Interpret Lindenmayer Systems.
 </div>
 </td></tr>
+<tr><td class="module"><a href="LisUtils.html">LisUtils</a></td><td><div class="info">
+Utilies for Lilis such as parsing and verification on lsystems.
+</div>
+</td></tr>
+<tr><td class="module"><a href="LisSequence.html">LisSequence</a></td><td><div class="info">
+Sequence, from the sequence package, by companion_cube.
+</div>
+</td></tr>
+<tr><td class="module"><a href="LisBatteries.html">LisBatteries</a></td><td><div class="info">
+Batteries streams implementations.
+</div>
+</td></tr>
+</table>
+
+<br>
+<table class="indextable">
 <tr><td class="module"><a href="Glilis.html">Glilis</a></td><td><div class="info">
 Graphical primitives for drawing L-systems.
 </div>
 </td></tr>
-<tr><td class="module"><a href="Ls_cairo.html">Ls_cairo</a></td><td><div class="info">
+<tr><td class="module"><a href="LisCairo.html">LisCairo</a></td><td><div class="info">
 Draw with <a href=" https://forge.ocamlcore.org/projects/cairo"> cairo</a>.
 </div>
 </td></tr>
-<tr><td class="module"><a href="Ls_tyxml.html">Ls_tyxml</a></td><td><div class="info">
+<tr><td class="module"><a href="LisTyxml.html">LisTyxml</a></td><td><div class="info">
 Draw to a svg using <a href=" http://ocsigen.org/tyxml/"> tyxml</a>.
 </div>
 </td></tr>
@@ -80,6 +291,9 @@ Draw to a svg using <a href=" http://ocsigen.org/tyxml/"> tyxml</a>.
 <li><a href="index_modules.html">Index of modules</a></li>
 <li><a href="index_module_types.html">Index of module types</a></li>
 </ul>
-<br>
+
+<p>
+
+<a href="dragon.svg"><img style="margin : 0 auto; display: block" src="dragon.svg" /></a> <br>
 </body>
 </html>
