@@ -80,14 +80,14 @@ def color(r,g,b,a?1) = Color(r,g,b,a)
 let add_defs new_def lsys =
   { lsys with AST.definitions = new_def @ lsys.AST.definitions }
 
-let replace_defs env {Lilis. name ; axiom ; rules ; post_rules } =
+let replace_in_post_rules env {Lilis. name ; axiom ; rules ; post_rules } =
   let replace_def (tok,vars) =
     let (tok',arity) = match BatList.Exceptionless.assoc tok env with
       | Some x -> x
-      | None -> failwith "Error while replace_defs"
+      | None -> raise (TokenDefError tok)
     in
     let used_arity = List.length vars in
-    if arity <> used_arity then failwith "Error while replace_defs" ;
+    if arity <> used_arity then raise (ArityError (tok, arity, used_arity)) ;
     (tok',vars)
   in
   let in_rule {Lilis. lhs ; vars ; rhs } =

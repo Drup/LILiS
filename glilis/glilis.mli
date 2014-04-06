@@ -17,6 +17,7 @@ type orders = [
 (** The type of orders always accepted by a turtle. *)
 
 val orders : (string * (orders * int)) list
+(** Mapping from string tokens to orders. Also contains the arity of the orders. *)
 
 
 class type ['a] turtle = object

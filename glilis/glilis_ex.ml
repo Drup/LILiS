@@ -161,7 +161,7 @@ let parsing_t bank lname =
 
 
 let processing_t bench n lsys =
-  let lsys = LisUtils.replace_defs Glilis.orders lsys in
+  let lsys = LisUtils.replace_in_post_rules Glilis.orders lsys in
   if bench then init_time () ;
   let lstream = eval_lsys n lsys in
   lstream

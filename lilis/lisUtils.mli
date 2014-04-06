@@ -39,4 +39,4 @@ val check_rule : int SMap.t -> ?arit_env:Mini_calc.arit_env -> string Lilis.rule
 (** As [ check_stream ] for a rule. Need also an arithmetic environment, will use {! Mini_calc.Env.usual } if none is provided.
     @raise ArityError, VarDefError, TokenDefError *)
 
-val replace_defs : ('a * ('b * int)) list -> 'a Lilis.lsystem -> 'b Lilis.lsystem
+val replace_in_post_rules : (string * ('b * int)) list -> string Lilis.lsystem -> 'b Lilis.lsystem
