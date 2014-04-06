@@ -5,7 +5,7 @@ open Bench_common
 let lsystems = [
   7, "Von_koch" ;
   15, "dragon" ;
-  9, "fougere" ;
+  9, "fern" ;
   12, "Tetradragon" ;
 ]
 
