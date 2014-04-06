@@ -5,13 +5,13 @@ rule F(l) = F(l/3) +(60) F(l/3) -(120) F(l/3) +(60) F(l/3)
 
 Von_koch_color {
 def C(d) = Color(0,d,0.1,1)
-def F(l,d,k) = Forward(l)
-axiom = - f(0.28) + f(0.05) F(0.9,0,0.9)
-rule F(l,d,k) =
-     C(d)         F(l/3, d, k/4)         +(60)
-     C(d + k/4)   F(l/3, d + k/4, k/4)   -(120)
-     C(d + k/2)   F(l/3, d + k/2, k/4)   +(60)
-     C(d + 3/4*k) F(l/3, d + 3/4*k, k/4)
+def FF(l,d,k) = Forward(l)
+axiom = - f(0.28) + f(0.05) FF(0.9,0,0.9)
+rule FF(l,d,k) =
+     C(d)         FF(l/3, d, k/4)         +(60)
+     C(d + k/4)   FF(l/3, d + k/4, k/4)   -(120)
+     C(d + k/2)   FF(l/3, d + k/2, k/4)   +(60)
+     C(d + 3/4*k) FF(l/3, d + 3/4*k, k/4)
 }
 
 Von_koch_bench {
