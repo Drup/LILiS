@@ -2,7 +2,7 @@
 
 LILiS is a *Library to Interpret Lindenmayer Systems*.
 
-![Von Koch](http://drup.github.io/LILiS/vonkoch.svg)
+![Von Koch](http://drup.github.io/LILiS/dev/vonkoch.svg)
 
 ## L-system
 
@@ -123,4 +123,4 @@ Current potential goals:
 - Work on the combinator approach for the front end.
 - Currently, the definition environment disappear after the front end and only post rules remains. On one hand, we can't let the environment, as we can't trust it when it's given independently by the user, on an other hand, this prevent completing optional arguments from the library side. A solution (maybe with some abstract types), may be interesting. Beware of leaking abstractions.
 
-![Dragon](http://drup.github.io/LILiS/dragon.svg)
+![Dragon](http://drup.github.io/LILiS/dev/dragon.svg)
