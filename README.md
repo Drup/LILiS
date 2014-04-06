@@ -21,7 +21,7 @@ The project is split in 4 parts:
 - A graphic library to draw such L-systems;
 - An executable.
 
-The documentation for the various libraries can be found [here](http://drup.github.io/dev/LILiS/).
+The documentation for the various libraries can be found [here](http://drup.github.io/LILiS/dev/).
 
 The executable can be used to draw any L-system like those in [`bank_lsystem`](bank_lsystem) for examples.
 
@@ -61,20 +61,6 @@ You can also install the various libraries with :
 If you used `configure` with the flag `--enable-glilis-ex` and both graphical backends, it will produce an executable `glilis_ex.native`. See `glilis_ex.native --help` for more information.
 
 You can also enable benchmarks and tests with the flag `--enable-tests`. This will produce some benchmarking executable. Needs the [benchmark](http://ocaml-benchmark.sourceforge.net/) library.
-
-### Building `lablgtk` and `cairo` on OS X
-
-[Homebrew](http://mxcl.github.io/homebrew/) users may fail to build `lablgtk`.
-
-This is due to broken location of some `pkg-config` files.
-See <https://github.com/mxcl/homebrew/issues/14123>
-
-To build `lablgtk`, do:
-
-	brew install cairo
-	export PKG_CONFIG_PATH="$(brew --prefix cairo)/lib/pkgconfig:/usr/local/opt/pixman/lib/pkgconfig:/usr/local/opt/fontconfig/lib/pkgconfig:/usr/local/opt/freetype/lib/pkgconfig:/usr/local/opt/libpng/lib/pkgconfig:/usr/X11/lib/pkgconfig"
-	brew install gtk+
-	opam install lablgtk cairo
 
 ## Architecture of the project
 
