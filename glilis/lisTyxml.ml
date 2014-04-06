@@ -5,42 +5,48 @@ type path_inst =
   | L of Glilis.pos
   | Lr of Glilis.pos
 
-let path_inst_to_string =
-  let open Glilis in function
-  | M  { x ; y } -> Printf.sprintf "M %f %f " x y
-  | Mr { x ; y } -> Printf.sprintf "m %f %f " x y
-  | L  { x ; y } -> Printf.sprintf "L %f %f " x y
-  | Lr { x ; y } -> Printf.sprintf "l %f %f " x y
+let push_inst buf =
+  let foo buf s x y =
+    Buffer.add_string buf s ;
+    Buffer.add_string buf (string_of_float x) ;
+    Buffer.add_string buf " " ;
+    Buffer.add_string buf (string_of_float y) ;
+  in let open Glilis in function
+    | M  { x ; y } -> foo buf " M " x y
+    | Mr { x ; y } -> foo buf " m " x y
+    | L  { x ; y } -> foo buf " L " x y
+    | Lr { x ; y } -> foo buf " l " x y
 
 class ['a] svg_turtle =
 
-  let push_inst acc x =
-    BatText.append acc (BatText.of_string (path_inst_to_string x))
-  in
-
   object inherit ['a] Glilis.vturtle as super
 
-    val mutable acc = BatText.of_string "M 0 0 "
+    val acc =
+      (* Whatever the initial size, we're going to blow it up anyway.
+         Experimentally, the initial size doesn't affect performances. *)
+      let buf = Buffer.create 10 in
+      Buffer.add_string buf "M 0 0" ;
+      buf
 
     method move ?(trace=true) f =
       super#move ~trace f ;
       let open Glilis in
       let pos = super#get_pos in
       if trace
-      then acc <- push_inst acc (L pos)
-      else acc <- push_inst acc (M pos)
+      then push_inst acc (L pos)
+      else push_inst acc (M pos)
 
     method restore_position () =
       super#restore_position () ;
       let open Glilis in
       let pos = super#get_pos in
-      acc <- push_inst acc (M pos)
+      push_inst acc (M pos)
 
     method color c = ()
 
     (** Export the path as a string. *)
     method to_string () =
-      BatText.to_string acc
+      Buffer.contents acc
 
   end
 
