@@ -41,6 +41,14 @@ You can install most of it with :
 
 	$ opam install cppo batteries sequence cairo lablgtk tyxml cmdliner menhir
 
+### Optional dependencies
+
+Some stream library are used if they are available :
+- [CFStream](https://github.com/biocaml/cfstream)
+- [Gen](https://github.com/c-cube/ocaml-containers)
+
+For the benchmarks, the [Benchmark](http://ocaml-benchmark.sourceforge.net/) package is needed.
+
 ## How to
 
 To build, just do :
@@ -59,7 +67,7 @@ You can also install the various libraries with :
 
 If you used `configure` with the flag `--enable-executable` and both graphical backends, it will produce an executable `glilis_ex.native`. See `glilis_ex.native --help` for more information.
 
-You can also enable benchmarks and tests with the flag `--enable-tests`. This will produce some benchmarking executable. Needs the [benchmark](http://ocaml-benchmark.sourceforge.net/) library.
+You can also enable benchmarks and tests with the flag `--enable-tests`. The benckmarks will be build if the relevant libraries are available.
 
 ## Architecture of the project
 
