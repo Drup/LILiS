@@ -17,3 +17,4 @@ PKG cairo2.lablgtk2
 PKG tyxml
 PKG cmdliner
 PKG sequence
+PKG efl

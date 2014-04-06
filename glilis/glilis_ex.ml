@@ -30,6 +30,22 @@ let init_time, print_time =
   let print () = Printf.printf "Time elapsed : %f\n%!" (Unix.gettimeofday () -. !time) in
   init, print
 
+let to_efl (width, height) lstream =
+  let draw evas_obj =
+    let turtle = new LisEfl.turtle width height evas_obj in
+    Lstream.iter turtle#draw lstream ;
+  in
+  let open Efl in
+  Elm.init ();
+  Elm.policy_quit_set `last_window_closed;
+  let win = Elm_win.addx ~autodel:true ~size:(width, height) "gLILiS" in
+  Evas_object.anti_alias_set win true ;
+  let evas_obj = Evas_object.evas_get win in
+  draw evas_obj ;
+  Evas_object.show win;
+  Elm.run ();
+  Elm.shutdown ()
+
 let to_gtk (width, height) lstream =
   let lstream = Lstream.to_list lstream in
 
@@ -107,6 +123,10 @@ let verbose =
   let doc = "Be verbose" in
   Arg.(value & flag & info ["v"] ~doc)
 
+let efl =
+  let doc = "Open a EFL window and draw the lsystem." in
+  Arg.(value & flag & info ["efl"] ~doc)
+
 let gtk =
   let doc = "Open a GTK window and draw the lsystem." in
   Arg.(value & flag & info ["gtk"] ~doc)
@@ -166,12 +186,13 @@ let processing_t bench n lsys =
   let lstream = eval_lsys n lsys in
   lstream
 
-let draw_t bench size outputs gtk lstream =
+let draw_t bench size outputs gtk efl lstream =
   let fstream = Lstream.store lstream in
   List.iter
     (fun (x,f) -> BatOption.may (f size (Lstream.gennew fstream)) x)
     outputs ;
   if gtk then to_gtk size (Lstream.gennew fstream)
+  else if efl then to_efl size (Lstream.gennew fstream)
   (* This is kinda hacky, we force the evaluation of the stream to be able to benchmark the engine part alone. *)
   else Lstream.force lstream ;
   if bench then print_time () ;
@@ -181,7 +202,7 @@ let main_t =
   let open Term in
   let lsys = ret (pure parsing_t $ bank $ lname) in
   let lstream = pure processing_t $ bench $ generation $ lsys in
-  pure draw_t $ bench $ size $ !outputs $ gtk $ lstream
+  pure draw_t $ bench $ size $ !outputs $ gtk $ efl $ lstream
 
 let () =
   match Term.eval (main_t, Term.info "glilis") with

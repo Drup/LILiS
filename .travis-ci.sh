@@ -1,5 +1,5 @@
 # Edit this for your own project dependencies
-OPAM_DEPENDS="ocamlfind oasis batteries menhir cppo cmdliner lablgtk cairo2 tyxml sequence"
+OPAM_DEPENDS="ocamlfind oasis batteries menhir cppo cmdliner lablgtk cairo2 tyxml sequence efl"
 
 case "$OCAML_VERSION,$OPAM_VERSION" in
 3.12.1,1.0.0) ppa=avsm/ocaml312+opam10 ;;
@@ -25,7 +25,5 @@ opam --git-version
 opam init
 opam install ${OPAM_DEPENDS}
 eval `opam config env`
-./configure --enable-executable
-./configure --enable-tyxml
-./configure --enable-cairo
+./configure --enable-sequence --enable-executable --enable-tyxml --enable-cairo --enable-efl
 make
