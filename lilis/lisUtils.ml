@@ -109,21 +109,20 @@ let eval_expr l =
     name, List.map (fun t -> eval_tree Env.empty t) l
   in List.map f l
 
-let foldAccum zero f l =
-  let rec aux x f l acc = match l with
-      [] -> (x,acc)
-    | h::t -> let (x',h') = f x h in aux x' f t (h'::acc)
-  in aux zero f l []
+let foldAccum f l zero =
+  let f' y (x,t) = let (x',h) = f y x in (x',h::t) in
+  BatList.fold_right f' l (zero,[])
+
 
 (** Extract definitions *)
 let definitions (dl : AST.def list)  =
   let distribute (l,e) = List.map (fun k -> (k,e)) l in
   let dl = List.map distribute dl |> BatList.concat in
-  let aux env ((lhs,vars),rhs) =
+  let aux ((lhs,vars),rhs) env =
     let env' = SMap.add lhs vars env in
     (env', ((lhs,List.map fst vars),rhs))
   in
-  let env, r = foldAccum SMap.empty aux dl in
+  let env, r = foldAccum aux dl SMap.empty in
   env, List.map (fun ((lhs,vars),rhs) -> {AST. lhs ; vars ; rhs}) r
 
 (** Fill optional arguments according to a definition. *)
