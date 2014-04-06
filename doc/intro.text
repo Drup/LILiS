@@ -1,44 +1,194 @@
-LILiS is a {b Library to Interpret Lindenmayer Systems}.
+{{:https://github.com/Drup/LILiS}LILiS} is a {b Library to Interpret Lindenmayer Systems}. It allows to evaluate and draw them.
 
-{{: http://en.wikipedia.org/wiki/L-system} L-systems} are a kind of formal grammar defined by Lindermayer.
-
-The goal of this project is to implement a library to evaluate L-systems and to visualise them (in 2D only).
-The library is available {{:https://github.com/Drup/LILiS} here}.
+{{: http://en.wikipedia.org/wiki/L-system} L-systems} are a kind of formal grammar defined by Lindermayer. In LILiS, an lsystem is composed of a name, a list of definitions, an axiom and some rules. The axiom will be rewritten using the rules.
 
 
+{2 A guided tour in LILiS}
 
-Some symbols have a graphical meanings :
-- [ F ] : Forward, takes a length as argument.
-- [ B ] : Backward, takes a length as argument.
-- [ f ] : forward without drawing.
-- [ + ] : turn clockwise, takes an angle in degree as argument.
-- [ - ] : turn counter-clockwise, takes an angle in degree as argument.
-- [ \[ ] : save the current position on the stack.
-- [ \] ] : restore the last saved position.
-
-For example here is the Von Koch curve :
+Let us start by drawing the well known {{: http://en.wikipedia.org/wiki/Koch_snowflake}Von Koch curve}. This curve is a simple segment and each iteration is replaced by four smaller segments, as expressed in this lsystem:
 {v
-Von_koch \{
-axiom = F(1)
-rules F(l) = F(l/3) -(60) F(l/3) +(120) F(l/3) -(60) F(l/3)
+Von_koch_simple \{
+axiom = -(90) f(0.5) +(90) F(1)
+rule F(l) = F(l/3) +(60) F(l/3) -(120) F(l/3) +(60) F(l/3)
 \}
 v}
 
-Indentation is optional. A rule must be terminated by a new line. You can't have a newline inside a succession of token (like a rule or an axiom).
+Let's put this lsystem in a file [bank_lsystem]. Using the [glilis] executable, you can use the following command line to draw a beautiful Von koch curve and show it in a gtk window.
+{v glilis -n 6 bank_lsystem Von_koch_simple --gtk v}
+
+Here are the results for generation one to five :
+
+{%html:
+  <div style="width : 80% ; padding : 0 ; margin : 0 auto" >
+	<a href="von_koch_1.svg"><img style="width:15%" src="von_koch_1.svg" /></a>
+	<a href="von_koch_2.svg"><img style="width:15%" src="von_koch_2.svg" /></a>
+	<a href="von_koch_3.svg"><img style="width:15%" src="von_koch_3.svg" /></a>
+	<a href="von_koch_4.svg"><img style="width:15%" src="von_koch_4.svg" /></a>
+	<a href="von_koch_5.svg"><img style="width:15%" src="von_koch_5.svg" /></a>
+  </div>
+%}
+
+Symbols have associated graphical meanings, as in the {{: http://en.wikipedia.org/wiki/Turtle_graphics}Turtle language}. [ F(l) ] is a segment of length [l], [f(l)] is an invisible segment of length [l] and [ +(a) ] and [ -(a) ] are clockwise and counter-clockwise rotations of angle [a] in radians.
+
+{3 Sudo, make me a picture}
+
+Instead of showing the lsystem in a gtk window, we could also save it in a png
+{v glilis -n 6 bank_lsystem Von_koch_simple --png von_koch.png v}
+
+or, if LILiS was compiled with tyxml, in a (obviously prettier, but quite bigger) svg:
+{v glilis -n 6 bank_lsystem Von_koch_simple --svg von_koch.png v}
+
+You can discover the rest of the command with the help included:
+{v ./glilis_ex.native --help v}
+
+{3 There can be only one turtle in this drawing}
+
+A few symbols are predefined, with graphical meanings :
+- [ F(l) ] : Forward, takes a length as argument.
+- [ B(l) ] : Backward, takes a length as argument.
+- [ f(l) ] : forward without drawing.
+- [ +(a) ] : Turn clockwise, takes an angle in degree as argument.
+- [ -(a) ] : Turn counter-clockwise, takes an angle in degree as argument.
+- [ \[ ] : Save the current position on the stack.
+- [ \] ] : Restore the last saved position.
+
+The [\[] and [\]] symbols allows branching in the (normally linear) path of the turtle. We will how to use it in the next example.
 
 
+{3 We want more symbols!}
 
-{! Lilis} is a nice entry point to the library. It contains a parser and a ready-to-use evaluator for L-systems. It is contained in the lilis package.
+A bunch of predefined symbols is not enough to express complex drawings comfortably, hence it is possible to define symbols as needed. For example if we want to draw a fern, we need a placeholder symbol that will emit the various branches at each iterations. Here is a lsystem to draw it:
 
-{! Mini_calc} is a small library to evaluate arithmetic expressions. It's an helper for {! Lilis}. It is contained in the minicalc
+{v
+fern \{
+def X(d)
+axiom = f(0.5) -(90) f(1) -(180) X(0.3)
+rule X(x) =
+  F(x/2) -(25) \[ \[ X(x/2) \] +(25) X(x/2) \]
+  +(25) F(x/2) \[ +(25) F(x/2) X(x/2) \] -(25) X(x/2)
+
+\}
+v}
+
+With the command line [ glilis -n 5 bank_lsystem fern --gtk ], we get this beautiful fern:
+{%html: <a href="fern.svg"><img style="width : 20% ; margin : 0 auto; display: block" src="fern.svg" /></a> %}
+
+
+{3 One rule to rule them all}
+
+It is possible to define multiple rules on the various symbols. All the rules are applied during each iteration on the relevant symbol. If multiple rules affect the same symbol, only the last one is used. This feature allows us to draw the {{:http://en.wikipedia.org/wiki/Dragon_curve}Dragon curve}.
+
+{v
+dragon \{
+def X(d) Y(d) *
+axiom = -(45) f(0.47) * F(0.6) X(0.6)
+rule X(l) = X(l/sqrt(2)) + Y(l/sqrt(2)) F(l/sqrt(2)) +
+rule Y(l) = -(90) F(l/sqrt(2)) X(l/sqrt(2)) -(90) Y(l/sqrt(2))
+rule F(l) = F(l/sqrt(2))
+rule * = * -(45)
+\}
+v}
+
+Let there be dragons!
+{%html:
+  <div style="width : 80% ; padding : 0 ; margin : 0 auto" >
+	<a href="dragon_7.svg"><img style="width:15%" src="dragon_7.svg" /></a>
+	<a href="dragon_8.svg"><img style="width:15%" src="dragon_8.svg" /></a>
+	<a href="dragon_9.svg"><img style="width:15%" src="dragon_9.svg" /></a>
+	<a href="dragon_10.svg"><img style="width:15%" src="dragon_10.svg" /></a>
+	<a href="dragon_11.svg"><img style="width:15%" src="dragon_11.svg" /></a>
+  </div>
+%}
+
+{3 You spin me right square}
+
+Abstract symbols allows to do complex calculations by using them as placeholders, but we may want to add some new shapes in our drawings. To do so, we can give a graphical meaning to a new symbol.
+
+{v
+Spin_it \{
+def X(l)
+def Square(l) = Save Turn(45) forward(l*sqrt(2)/2)
+  Turn(-135) Forward(l)
+  Turn(-90) Forward(l)
+  Turn(-90) Forward(l)
+  Turn(-90) Forward(l) Restore
+axiom = - f(0.5) + f(0.5) X(0.01)
+rule X(l) = Square(l) +(2) X(l + 0.01)
+\}
+v}
+{%html: <a href="spin_it.svg"><img style="width : 20% ; margin : 0 auto; display: block" src="spin_it.svg" /></a> %}
+
+You may notice that the commands in the definition of [Square] are not the same that we have used before. It's because those are {b graphical} commands that are handled directly by the drawing backend. Each backend can implement is own set of commands. For now, those commands are implemented:
+- [ Forward(l) ]
+- [ forward(l) ]
+- [ Turn(a) ]
+- [ Save ]
+- [ Restore ]
+- [ Color(r,g,b,a) ]
+
+The usual symbols are defined by default for each lsystem. Here are those definitions:
+{v
+def F(d?1) = Forward(d)
+def f(d?1) = forward(d)
+def +(x?90) = Turn(x)
+def -(x?90) = Turn(- x)
+def \[ = Save
+def \] = Restore
+def color(r,g,b,a?1) = Color(r,g,b,a)
+v}
+
+We see here one last feature in LILiS: a default value can be defined for an argument, making it optional. Hence, instead of writing [-(90)] it is possible to write just [-]. Optional arguments can only appear at the right most part of the arguments in a function and will be resolved from left to right.
+
+{3 Wibbly ... Wobbly ... Graphy ... Colory ... Stuff }
+
+The dear reader is welcome to consider this very nice lsystem, as a finishing master piece for this tutorial.
+{v
+Von_koch_color \{
+def C(d) = Color(0,d,0.1,1)
+def F(l,d,k) = Forward(l)
+axiom = - f(0.28) + f(0.05) F(0.9,0,0.9)
+rule F(l,d,k) =
+     C(d)         F(l/3, d, k/4)         +(60)
+     C(d + k/4)   F(l/3, d + k/4, k/4)   -(120)
+     C(d + k/2)   F(l/3, d + k/2, k/4)   +(60)
+     C(d + 3/4*k) F(l/3, d + 3/4*k, k/4)
+\}
+v}
+
+If this is not enough, more lsystems are available in the sources, in the [bank_lsystem] file.
+
+{%html: <a href="vonkoch.svg"><img style="margin : 0 auto; display: block" src="vonkoch.svg" /></a> %}
+
+{2 LILiS, the library}
+
+LILiS is also an OCaml library designed to answer all your lsystem needs. This library is divided in 3 packages
+
+{3 lilis}
+
+lilis is the library for parsing, checking and evaluating lsystems.
+The module {! Lilis} contains a functorized engine that allows to evaluate lsystems on any stream-like data-structure.
+
+A stream-like data-structure is any kind of structure that respect {! Lilis.S}. Several of them are implemented :
+ - {! LisSequence} in the lilis.sequence package, using {{:https://github.com/c-cube/sequence}sequence}. This is the most efficient stream implementation.
+ - {! LisBatteries} in the lilis.batteries package, using {{:http://batteries.forge.ocamlcore.org/}Batteries}.
+
+{! LisUtils} contains all the parsing and verification functions.
+
+{3 minicalc}
+
+{! Mini_calc} is a small library to evaluate arithmetic expressions. It's an helper for {! Lilis}.
+
+{3 glilis}
 
 {! Glilis} contains a skeleton drawer for graphical backends.
 Two backend are currently implemented :
-- {! LisCairo} draw to png and gtk using {{: https://forge.ocamlcore.org/projects/cairo} cairo}.
+- {! LisCairo} draw to png and gtk using {{: https://forge.ocamlcore.org/projects/cairo} cairo}. A {b rasterizing} svg backed is also contained.
 - {! LisTyxml} can produce svg file or svg elements using {{: http://ocsigen.org/tyxml/} tyxml}.
 
-{%html: <img style="margin : 0 auto; display: block" src="vonkoch.svg" /> %}
-
 {2 Index}
-{!modules: Mini_calc Lilis LisUtils Glilis LisCairo LisTyxml}
+{!modules: Mini_calc}
+{!modules: Lilis LisUtils LisSequence LisBatteries}
+{!modules: Glilis LisCairo LisTyxml}
 {!indexlist}
+
+{%html: <a href="dragon.svg"><img style="margin : 0 auto; display: block" src="dragon.svg" /></a> %}

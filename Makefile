@@ -46,7 +46,7 @@ setup.exe: setup.ml
 # OASIS_STOP
 
 docs: doc
-	cp doc/vonkoch.svg lilis.docdir/vonkoch.svg
+	cp doc/*.svg lilis.docdir
 
 upload-docs: docs
 	git checkout gh-pages && rm -rf dev/* && cp _build/lilis.docdir/* dev && \

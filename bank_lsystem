@@ -38,11 +38,27 @@ rule F(l) = F(l/2.23) + F(l/2.23) -(90) F(l/2.23)
 rule a = a -(26.5)
 }
 
-fougere {
+fern {
 def X(d)
-axiom = f(0.5) - f(1) - - X(0.3)
+axiom = f(0.5) -(90) f(1) -(180) X(0.3)
 rule X(x) =
   F(x/2) -(25) [ [ X(x/2) ] +(25) X(x/2) ]
   +(25) F(x/2) [ +(25) F(x/2) X(x/2) ] -(25) X(x/2)
 
+}
+
+Von_koch_simple {
+axiom = - f(0.5) + F(1)
+rule F(l) = F(l/3) +(60) F(l/3) -(120) F(l/3) +(60) F(l/3)
+}
+
+Spin_it {
+def X(l)
+def Square(l) = Save Turn(45) forward(l*sqrt(2)/2)
+  Turn(-135) Forward(l)
+  Turn(-90) Forward(l)
+  Turn(-90) Forward(l)
+  Turn(-90) Forward(l) Restore
+axiom = - f(0.5) + f(0.5) X(0.01)
+rule X(l) = Square(l) +(2) X(l + 0.01)
 }
