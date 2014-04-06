@@ -16,17 +16,22 @@ BuildTools: ocamlbuild
 
 Flag sequence
   Description: Build the Sequence interface and use it for glilis.exe
+  Default: true
+
+Flag gen
+  Description: Build the Gen interface
+  Default: false
 
 Flag cairo
-  Description: Enable the cairo backend for png and gtk output.
+  Description: Enable the cairo backend for png and gtk output
   Default: true
 
 Flag tyxml
-  Description: Enable the tyxml backend for svg output.
+  Description: Enable the tyxml backend for svg output
   Default: true
 
 Flag executable
-  Description: Build the executable glilis_ex.native.
+  Description: Build the executable glilis_ex.native
   Default: false
 
 
@@ -64,6 +69,13 @@ Library sequence
   Path: lilis/streams
   BuildDepends: sequence, lilis
   Modules: LisSequence
+
+Library gen
+  Build$: flag(gen)
+  FindLibParent: lilis
+  Path: lilis/streams
+  BuildDepends: containers, lilis
+  Modules: LisGen
 
 Library batteries
   FindLibParent: lilis
@@ -123,30 +135,30 @@ Executable glilis_no_tyxml
 
 Executable bench_streams
   Path: test
-  Build$: flag(tests) && flag(sequence)
+  Build$: flag(tests) && flag(sequence) && flag(gen)
   Install: false
   CompiledObject: best
   BuildTools: ocamlbuild
   MainIs: bench_streams.ml
-  BuildDepends: lilis, lilis.batteries, lilis.sequence, benchmark
+  BuildDepends: lilis, lilis.batteries, lilis.sequence, lilis.gen, benchmark
 
 Executable bench_vonkoch
   Path: test
-  Build$: flag(tests) && flag(sequence)
+  Build$: flag(tests) && flag(sequence) && flag(gen)
   Install: false
   CompiledObject: best
   BuildTools: ocamlbuild
   MainIs: bench_vonkoch.ml
-  BuildDepends: lilis, lilis.sequence, benchmark
+  BuildDepends: lilis, lilis.sequence, lilis.gen, benchmark
 
 Executable bench_quick
   Path: test
-  Build$: flag(tests) && flag(sequence)
+  Build$: flag(tests) && flag(sequence) && flag(gen)
   Install: false
   CompiledObject: best
   BuildTools: ocamlbuild
   MainIs: bench_quick.ml
-  BuildDepends: lilis, lilis.sequence, benchmark
+  BuildDepends: lilis, lilis.sequence, lilis.gen, benchmark
 
 
 ### Misc ###

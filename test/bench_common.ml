@@ -3,6 +3,7 @@ open Lilis
 open Stream
 
 module BeSequence = Make(LisSequence)
+module BeGen = Make(LisGen)
 module BeSeq = Make(LisBatteries.Seq)
 module BeEnum = Make(LisBatteries.Enum)
 module BeStream = Make(LisBatteries.Stream)
@@ -10,6 +11,9 @@ module BeLazyList = Make(LisBatteries.LazyList)
 
 let sequence i lsys =
   "Sequence", (fun lsys -> LisSequence.force @@ BeSequence.eval_lsys i lsys), lsys
+
+let gen i lsys =
+  "Gen", (fun lsys -> LisGen.force @@ BeGen.eval_lsys i lsys), lsys
 
 let seq i lsys =
   "Seq", (fun lsys -> LisBatteries.Seq.force @@ BeSeq.eval_lsys i lsys), lsys
@@ -25,6 +29,7 @@ let stream i lsys =
 
 let all_streams = [
   sequence ;
+  gen ;
   seq ;
   enum ;
   lazy_list ;
