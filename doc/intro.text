@@ -28,7 +28,7 @@ Here are the results for generation one to five :
   </div>
 %}
 
-Symbols have associated graphical meanings, as in the {{: http://en.wikipedia.org/wiki/Turtle_graphics}Turtle language}. [ F(l) ] is a segment of length [l], [f(l)] is an invisible segment of length [l] and [ +(a) ] and [ -(a) ] are clockwise and counter-clockwise rotations of angle [a] in radians.
+Symbols have associated graphical meanings, as in the {{: http://en.wikipedia.org/wiki/Turtle_graphics}Turtle language}. [ F(l) ] is a segment of length [l], [f(l)] is an invisible segment of length [l] and [ +(a) ] and [ -(a) ] are clockwise and counter-clockwise rotations of angle [a] in degrees.
 
 {3 Sudo, make me a picture}
 
