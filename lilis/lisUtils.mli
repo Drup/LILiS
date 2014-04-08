@@ -35,7 +35,7 @@ val check_stream : int SMap.t -> (string * 'a list) list -> unit
 (** Check a stream against an environment. This environment is a mapping name -> arity.
     @raise ArityError, VarDefError, TokenDefError *)
 
-val check_rule : int SMap.t -> ?arit_env:Mini_calc.arit_env -> string Lilis.rule -> unit
+val check_rule : int SMap.t -> ?arit_env:Mini_calc.Env.t -> string Lilis.rule -> unit
 (** As [ check_stream ] for a rule. Need also an arithmetic environment, will use {! Mini_calc.Env.usual } if none is provided.
     @raise ArityError, VarDefError, TokenDefError *)
 

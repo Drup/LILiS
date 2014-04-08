@@ -10,7 +10,7 @@ type axiom = (string * (float list)) list
 type 'a rule = {
   lhs : string ;
   vars : string list ;
-  rhs : ('a * (string Mini_calc.arit_tree list)) list ;
+  rhs : ('a * (string Mini_calc.t list)) list ;
 }
 (** A Lsystem rule. A rule is composed of a left-hand side with a single symbol, potentially some variables and a right-hand side which is a list of symbols where arithmetic expressions can contains those variables. The right hand side can be composed of non-string tokens. *)
 

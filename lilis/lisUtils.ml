@@ -23,7 +23,7 @@ let check_expr env arit_env vars tok e =
     if not (Mini_calc.Env.mem variable arit_env || List.mem variable vars) then
       raise (VarDefError ( token, variable ))
   in
-  let l = Mini_calc.get_vars e in
+  let l = Mini_calc.vars e in
   List.iter (is_def tok) l
 
 
@@ -106,7 +106,7 @@ let replace_in_post_rules env {Lilis. name ; axiom ; rules ; post_rules } =
 let eval_expr l =
   let f (name,l) =
     let open Mini_calc in
-    name, List.map (fun t -> eval_tree Env.empty t) l
+    name, List.map (fun t -> eval Env.empty t) l
   in List.map f l
 
 let foldAccum f l zero =

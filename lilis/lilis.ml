@@ -8,7 +8,7 @@ type axiom = (string * (float list)) list
 type 'a rule = {
   lhs : string ;
   vars : string list ;
-  rhs : ('a * (string Mini_calc.arit_tree list)) list ;
+  rhs : ('a * (string Mini_calc.t list)) list ;
 }
 (** A Lsystem rule. *)
 
@@ -32,13 +32,13 @@ type arit_fun = float array -> float
 (* [vars] provides the string -> int mapping for variables.
    Will crash horribly if the mapping is imcomplete, which shouldn't happen if the compression functions are used.
 *)
-let arit_closure vars t : arit_fun =
+let arit_closure v t : arit_fun =
   let open Mini_calc in
-  let t = compress_tree Env.usual t in
-  let f x = BatArray.findi ( BatString.equal x) vars in
-  let t = map_tree f t in
+  let t = compress Env.usual t in
+  let f x = BatArray.findi ( BatString.equal x) v in
+  let t = map f t in
   let aclosure env =
-    eval_tree_custom (Array.unsafe_get env) t
+    eval_custom (Array.unsafe_get env) t
   in aclosure
 
 

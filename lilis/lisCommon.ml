@@ -3,7 +3,7 @@
 (** The AST for a Lsystem. *)
 module AST = struct
 
-  type arit = string Mini_calc.arit_tree
+  type arit = string Mini_calc.t
 
   type 'a token = string * 'a list
 
@@ -16,7 +16,7 @@ module AST = struct
   type rule = {
     lhs : string ;
     vars : string list ;
-    rhs : (string * (string Mini_calc.arit_tree list)) list ;
+    rhs : (string * (arit list)) list ;
   }
 
   type lsystem = {

@@ -15,8 +15,8 @@ open Calc_type
 %nonassoc UMINUS        /* highest precedence */
 
 %start entry_arit            /* the entry point */
-%type <string Calc_type.arit_tree> entry_arit
-%type <string Calc_type.arit_tree> arit
+%type <string Calc_type.t> entry_arit
+%type <string Calc_type.t> arit
 
 %%
 

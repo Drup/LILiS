@@ -26,19 +26,19 @@ let func_list =
   ]
 
 (** Type of tree which represent an arithmetic expression *)
-type 'a arit_tree =
+type 'a t =
   | Float of float
-  | Op2 of ('a arit_tree) * op2 * ('a arit_tree)
-  | Op1 of op1 * ('a arit_tree)
+  | Op2 of ('a t) * op2 * ('a t)
+  | Op1 of op1 * ('a t)
   | Id of 'a
 
 (** Print a tree, can be usefull sometimes .. *)
-let rec tree_to_string t = match t with
+let rec to_string t = match t with
     Float x -> Printf.sprintf "%f" x
   | Op2 (t1,o,t2) ->
-      Printf.sprintf "( %s %s %s )" (tree_to_string t1) (op2_to_string o) (tree_to_string t2)
+      Printf.sprintf "( %s %s %s )" (to_string t1) (op2_to_string o) (to_string t2)
   | Op1 (o,t) ->
-      Printf.sprintf "( %s %s )" (op1_to_string o) (tree_to_string t)
+      Printf.sprintf "( %s %s )" (op1_to_string o) (to_string t)
   | Id s -> s
 
 
@@ -46,15 +46,21 @@ exception Unknown_variable of string
 
 (** The environment for variables *)
 module Env = struct
-  include BatMap.Make(BatString)
+  module M = BatMap.Make(BatString)
 
-  let find_arit x env = match Exceptionless.find x env with
+  type t = float M.t
+
+  let empty = M.empty
+  let add = M.add
+  let mem = M.mem
+
+  let find_arit x env = match M.Exceptionless.find x env with
     | None -> raise (Unknown_variable x)
     | Some f -> f
 
-  let union env1 env2 = fold add env1 env2
+  let union env1 env2 = M.fold M.add env1 env2
 
-  let of_list = List.fold_left (fun env (k,x) -> add k x env) empty
+  let of_list = List.fold_left (fun env (k,x) -> M.add k x env) M.empty
 
   (** Define the usual env with some usefull constants *)
   let usual =
@@ -63,5 +69,3 @@ module Env = struct
 	("e", exp 1.) ;
       ]
 end
-
-type arit_env = float Env.t
