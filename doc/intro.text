@@ -1,11 +1,11 @@
 {{:https://github.com/Drup/LILiS}LILiS} is a {b Library to Interpret Lindenmayer Systems}. It allows to evaluate and draw them.
 
-{{: http://en.wikipedia.org/wiki/L-system} L-systems} are a kind of formal grammar defined by Lindermayer. In LILiS, an lsystem is composed of a name, a list of definitions, an axiom and some rules. The axiom will be rewritten using the rules.
+{{: http://en.wikipedia.org/wiki/L-system} L-systems} are a kind of formal grammar defined by Lindermayer. In LILiS, an L-system is composed of a name, a list of definitions, an axiom and some rules. The axiom will be rewritten using the rules.
 
 
 {2 A guided tour in LILiS}
 
-Let us start by drawing the well known {{: http://en.wikipedia.org/wiki/Koch_snowflake}Von Koch curve}. This curve is a simple segment and each iteration is replaced by four smaller segments, as expressed in this lsystem:
+Let us start by drawing the well known {{: http://en.wikipedia.org/wiki/Koch_snowflake}Von Koch curve}. This curve is a simple segment and each iteration is replaced by four smaller segments, as expressed in this L-system:
 {v
 Von_koch_simple \{
 axiom = -(90) f(0.5) +(90) F(1)
@@ -13,7 +13,7 @@ rule F(l) = F(l/3) +(60) F(l/3) -(120) F(l/3) +(60) F(l/3)
 \}
 v}
 
-Let's put this lsystem in a file [bank_lsystem]. Using the [glilis] executable, you can use the following command line to draw a beautiful Von koch curve and show it in a gtk window.
+Let's put this L-system in a file [bank_lsystem]. Using the [glilis] executable, you can use the following command line to draw a beautiful Von koch curve and show it in a gtk window.
 {v glilis -n 6 bank_lsystem Von_koch_simple --gtk v}
 
 Here are the results for generation one to five :
@@ -32,7 +32,7 @@ Symbols have associated graphical meanings, as in the {{: http://en.wikipedia.or
 
 {3 Sudo, make me a picture}
 
-Instead of showing the lsystem in a gtk window, we could also save it in a png
+Instead of showing the L-system in a gtk window, we could also save it in a png
 {v glilis -n 6 bank_lsystem Von_koch_simple --png von_koch.png v}
 
 or, if LILiS was compiled with tyxml, in a (obviously prettier, but quite bigger) svg:
@@ -57,7 +57,7 @@ The [\[] and [\]] symbols allows branching in the (normally linear) path of the 
 
 {3 We want more symbols!}
 
-A bunch of predefined symbols is not enough to express complex drawings comfortably, hence it is possible to define symbols as needed. For example if we want to draw a fern, we need a placeholder symbol that will emit the various branches at each iterations. Here is a lsystem to draw it:
+A bunch of predefined symbols is not enough to express complex drawings comfortably, hence it is possible to define symbols as needed. For example if we want to draw a fern, we need a placeholder symbol that will emit the various branches at each iterations. Here is a L-system to draw it:
 
 {v
 fern \{
@@ -126,7 +126,7 @@ You may notice that the commands in the definition of [Square] are not the same 
 - [ Restore ]
 - [ Color(r,g,b,a) ]
 
-The usual symbols are defined by default for each lsystem. Here are those definitions:
+The usual symbols are defined by default for each L-system. Here are those definitions:
 {v
 def F(d?1) = Forward(d)
 def f(d?1) = forward(d)
@@ -141,7 +141,7 @@ We see here one last feature in LILiS: a default value can be defined for an arg
 
 {3 Wibbly ... Wobbly ... Graphy ... Colory ... Stuff }
 
-The dear reader is welcome to consider this very nice lsystem, as a finishing master piece for this tutorial.
+The dear reader is welcome to consider this very nice L-system, as a finishing master piece for this tutorial.
 {v
 Von_koch_color \{
 def C(d) = Color(0,d,0.1,1)
@@ -155,18 +155,18 @@ rule F(l,d,k) =
 \}
 v}
 
-If this is not enough, more lsystems are available in the sources, in the [bank_lsystem] file.
+If this is not enough, more L-systems are available in the sources, in the [bank_lsystem] file.
 
 {%html: <a href="vonkoch.svg"><img style="margin : 0 auto; display: block" src="vonkoch.svg" /></a> %}
 
 {2 LILiS, the library}
 
-LILiS is also an OCaml library designed to answer all your lsystem needs. This library is divided in 3 packages
+LILiS is also an OCaml library designed to answer all your L-system needs. This library is divided in 3 packages
 
 {3 lilis}
 
-lilis is the library for parsing, checking and evaluating lsystems.
-The module {! Lilis} contains a functorized engine that allows to evaluate lsystems on any stream-like data-structure.
+lilis is the library for parsing, checking and evaluating L-systems.
+The module {! Lilis} contains a functorized engine that allows to evaluate L-systems on any stream-like data-structure.
 
 A stream-like data-structure is any kind of structure that respect {! Lilis.S}. Several of them are implemented :
  - {! LisSequence} in the lilis.sequence package, using {{:https://github.com/c-cube/sequence}sequence}. This is the most efficient stream implementation.

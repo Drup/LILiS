@@ -1,18 +1,18 @@
 (** Library to Interpret Lindenmayer Systems. *)
 
-(** {2 Lsystem representation} *)
+(** {2 L-system representation} *)
 
 (** A L-system is described by a name, an axiom and a bunch of rules. Each symbols can have some arithmetic expressions as arguments. *)
 
 type axiom = (string * (float list)) list
-(** A simple Lsystem axiom. An axiom is a list of symbols. *)
+(** A simple L-system axiom. An axiom is a list of symbols. *)
 
 type 'a rule = {
   lhs : string ;
   vars : string list ;
   rhs : ('a * (string Mini_calc.t list)) list ;
 }
-(** A Lsystem rule. A rule is composed of a left-hand side with a single symbol, potentially some variables and a right-hand side which is a list of symbols where arithmetic expressions can contains those variables. The right hand side can be composed of non-string tokens. *)
+(** A L-system rule. A rule is composed of a left-hand side with a single symbol, potentially some variables and a right-hand side which is a list of symbols where arithmetic expressions can contains those variables. The right hand side can be composed of non-string tokens. *)
 
 type 'a lsystem = {
   name : string ;
@@ -20,7 +20,7 @@ type 'a lsystem = {
   rules : string rule list ;
   post_rules : 'a rule list ;
 }
-(** A complete Lsystem. ['a] is the output type of the lsystem. For example, we can have a set of rules that will transform tokens to graphical orders. *)
+(** A complete L-system. ['a] is the output type of the L-system. For example, we can have a set of rules that will transform tokens to graphical orders. *)
 
 
 (** {2 Functorized Engine} *)
@@ -70,7 +70,7 @@ module type S = sig
 end
 
 (**
-   A functor to build your own little Lsystem engine given a stream-like data structure. Can be lazy or not, functional or not.
+   A functor to build your own little L-system engine given a stream-like data structure. Can be lazy or not, functional or not.
 
    The important operations from the performance point of view are [expand] and [map].
    Concatenation (as used in [expand]) must absolutely be in O(1) amortized time. Laziness is better for memory occupation but is not necessary.
@@ -80,11 +80,11 @@ module Make (Lstream : S) : sig
 
   val eval_lsys :
     int -> 'a lsystem -> ('a * float array) Lstream.t
-  (** Evaluate a Lsystem at the n-th generation. *)
+  (** Evaluate a L-system at the n-th generation. *)
 
   (** {2 Compression functions} *)
 
-  (** A lsystem is first compressed before being iterated on.
+  (** A L-system is first compressed before being iterated on.
       This compression allows far better performances.
 
       One of the steps of compression is to transform string symbols into int.

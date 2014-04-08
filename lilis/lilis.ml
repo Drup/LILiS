@@ -3,14 +3,14 @@ open LisCommon
 (** {2 Types} *)
 
 type axiom = (string * (float list)) list
-(** A simple Lsystem axiom. *)
+(** A simple L-system axiom. *)
 
 type 'a rule = {
   lhs : string ;
   vars : string list ;
   rhs : ('a * (string Mini_calc.t list)) list ;
 }
-(** A Lsystem rule. *)
+(** A L-system rule. *)
 
 type 'a lsystem = {
   name : string ;
@@ -18,7 +18,7 @@ type 'a lsystem = {
   rules : string rule list ;
   post_rules : 'a rule list ;
 }
-(** A complete Lsystem. *)
+(** A complete L-system. *)
 
 
 
@@ -42,7 +42,7 @@ let arit_closure v t : arit_fun =
   in aclosure
 
 
-(** The symbol environment contains the association int <-> string for Lsystem symbols. *)
+(** The symbol environment contains the association int <-> string for L-system symbols. *)
 module SymbEnv = struct
   type t = { n : int ; env : int SMap.t }
 
@@ -72,8 +72,8 @@ module SymbEnv = struct
   let add_post_rule senv r =
     add r.lhs senv
 
-  (** Extract the symbol environment from an Lsystem. *)
-  (* It's basically a big multi-fold along lsystem rules. *)
+  (** Extract the symbol environment from an L-system. *)
+  (* It's basically a big multi-fold along L-system rules. *)
   let extract axiom rules post_rules =
     let senv = add_axiom empty axiom in
     let senv = List.fold_left add_rule senv rules in
@@ -103,7 +103,7 @@ module Make (Ls : S) = struct
 
   (** {1 Compression} *)
 
-  (** We are going to compress The lsystem representation as much as possible.
+  (** We are going to compress The L-system representation as much as possible.
     This means the following :
     - Replace every string by an int.
     - Replace every list by an array.
@@ -130,8 +130,8 @@ module Make (Ls : S) = struct
     let ful (i,l) = v.(i), l in
     Ls.map ful
 
-  (** {3 Lsystem Transformation}
-      Transform an Lsystem to a compressed form using a string <-> int mapping. *)
+  (** {3 L-system Transformation}
+      Transform an L-system to a compressed form using a string <-> int mapping. *)
 
   let transform_rule_rhs symbf vars r : 'a crule =
     let transform_symb (symb,args) =
@@ -169,7 +169,7 @@ module Make (Ls : S) = struct
     let cprules = compress_post_rules senv lsys.post_rules in
     senv, caxiom, crules, cprules
 
-  (** {1 Lsystem evaluation engine} *)
+  (** {1 L-system evaluation engine} *)
 
   (** Evaluate a stream of arithmetic expressions in the given environment. *)
   (* PERF There is an Array.map here, we can probably avoid it. *)
@@ -178,7 +178,7 @@ module Make (Ls : S) = struct
       ordre, Array.map (fun f -> f args) ordre_args
     in Ls.map f_eval_rule (Ls.gennew lstream)
 
-  (** Get the transformation function from a Lsystem. *)
+  (** Get the transformation function from a L-system. *)
   let get_transformation rules =
     let transf ((symbol,args) as tok) = match rules.(symbol) with
         Some x -> eval_rule args x
@@ -221,7 +221,7 @@ module Make (Ls : S) = struct
     let lstream = apply ~n rules (Ls.gennew axiom) in
     uncompress_lstream senv lstream
 
-  (** Generate the n-th generation of the given Lsystem. *)
+  (** Generate the n-th generation of the given L-system. *)
   let eval_lsys n lsys =
     let senv, axiom, rules, prules = compress_lsys lsys in
     let lstream = apply ~n rules (Ls.gennew axiom) in

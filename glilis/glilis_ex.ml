@@ -84,15 +84,15 @@ let add_output cmdopt cmdfun =
 (** {3 First, arguments.} *)
 
 let bank =
-  let doc = "Charge the $(docv) file as a Lsystem library" in
+  let doc = "Charge the $(docv) file as a L-system library" in
   Arg.(required & pos 0 (some non_dir_file) None & info [] ~docv:"BANK" ~doc)
 
 let lname =
-  let doc = "Draw the $(docv) Lsystem from the selected library" in
+  let doc = "Draw the $(docv) L-system from the selected library" in
   Arg.(value & pos 1 (some string) None & info [] ~docv:"NAME" ~doc)
 
 let generation =
-  let doc = "Generate the Lsystem at the n-th generation" in
+  let doc = "Generate the L-system at the n-th generation" in
   Arg.(required & opt (some int) None & info ["n"] ~docv:"GEN" ~doc)
 
 let size =
@@ -108,7 +108,7 @@ let verbose =
   Arg.(value & flag & info ["v"] ~doc)
 
 let gtk =
-  let doc = "Open a GTK window and draw the lsystem." in
+  let doc = "Open a GTK window and draw the L-system." in
   Arg.(value & flag & info ["gtk"] ~doc)
 
 let png =

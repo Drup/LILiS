@@ -100,7 +100,7 @@ let replace_in_post_rules env {Lilis. name ; axiom ; rules ; post_rules } =
 
 
 
-(** {2 Transformation from ast to lsystem representation} *)
+(** {2 Transformation from ast to L-system representation} *)
 
 (** Evaluate the axiom *)
 let eval_expr l =
@@ -186,7 +186,7 @@ let parse_lex lexbuf =
       let tok = Lexing.lexeme lexbuf in
       raise @@ ParseError (line, cnum, tok)
 
-(** {3 Exposed Parsing functions, with lsystem transformation} *)
+(** {3 Exposed Parsing functions, with L-system transformation} *)
 
 let parse_convert lexbuf =
   List.map
