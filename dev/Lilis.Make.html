@@ -34,7 +34,7 @@
 <h1>Functor <a href="type_Lilis.Make.html">Lilis.Make</a></h1>
 
 <pre><span class="keyword">module</span> Make <code class="code">(</code><code class="code"><span class="constructor">Lstream</span></code><code class="code"> : </code><code class="type"><a href="Lilis.S.html">S</a></code><code class="code">) </code>: <code class="code"><span class="keyword">sig</span></code> <a href="Lilis.Make.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><div class="info module top">
-A functor to build your own little Lsystem engine given a stream-like data structure. Can be lazy or not, functional or not.
+A functor to build your own little L-system engine given a stream-like data structure. Can be lazy or not, functional or not.
 <p>
 
    The important operations from the performance point of view are <code class="code">expand</code> and <code class="code">map</code>.
@@ -57,12 +57,12 @@ A functor to build your own little Lsystem engine given a stream-like data struc
 <hr width="100%">
 
 <pre><span id="VALeval_lsys"><span class="keyword">val</span> eval_lsys</span> : <code class="type">int -> 'a <a href="Lilis.html#TYPElsystem">Lilis.lsystem</a> -> ('a * float array) Lstream.t</code></pre><div class="info ">
-Evaluate a Lsystem at the n-th generation.<br>
+Evaluate a L-system at the n-th generation.<br>
 </div>
 <br>
 <h2 id="2_Compressionfunctions">Compression functions</h2><br>
 <br>
-A lsystem is first compressed before being iterated on.
+A L-system is first compressed before being iterated on.
       This compression allows far better performances.
 <p>
 

@@ -24,7 +24,7 @@
 <link title="LisCFStream" rel="Chapter" href="LisCFStream.html">
 <link title="Glilis" rel="Chapter" href="Glilis.html">
 <link title="LisCairo" rel="Chapter" href="LisCairo.html">
-<link title="LisTyxml" rel="Chapter" href="LisTyxml.html"><link title="Lsystem representation" rel="Section" href="#2_Lsystemrepresentation">
+<link title="LisTyxml" rel="Chapter" href="LisTyxml.html"><link title="L-system representation" rel="Section" href="#2_Lsystemrepresentation">
 <link title="Functorized Engine" rel="Section" href="#2_FunctorizedEngine">
 <title>LILiS user guide : Lilis</title>
 </head>
@@ -40,13 +40,13 @@ Library to Interpret Lindenmayer Systems.<br>
 </div>
 <hr width="100%">
 <br>
-<h2 id="2_Lsystemrepresentation">Lsystem representation</h2><br>
+<h2 id="2_Lsystemrepresentation">L-system representation</h2><br>
 <br>
 A L-system is described by a name, an axiom and a bunch of rules. Each symbols can have some arithmetic expressions as arguments.<br>
 
 <pre><span id="TYPEaxiom"><span class="keyword">type</span> <code class="type"></code>axiom</span> = <code class="type">(string * float list) list</code> </pre>
 <div class="info ">
-A simple Lsystem axiom. An axiom is a list of symbols.<br>
+A simple L-system axiom. An axiom is a list of symbols.<br>
 </div>
 
 
@@ -75,7 +75,7 @@ A simple Lsystem axiom. An axiom is a list of symbols.<br>
 }
 
 <div class="info ">
-A Lsystem rule. A rule is composed of a left-hand side with a single symbol, potentially some variables and a right-hand side which is a list of symbols where arithmetic expressions can contains those variables. The right hand side can be composed of non-string tokens.<br>
+A L-system rule. A rule is composed of a left-hand side with a single symbol, potentially some variables and a right-hand side which is a list of symbols where arithmetic expressions can contains those variables. The right hand side can be composed of non-string tokens.<br>
 </div>
 
 
@@ -111,7 +111,7 @@ A Lsystem rule. A rule is composed of a left-hand side with a single symbol, pot
 }
 
 <div class="info ">
-A complete Lsystem. <code class="code"><span class="keywordsign">'</span>a</code> is the output type of the lsystem. For example, we can have a set of rules that will transform tokens to graphical orders.<br>
+A complete L-system. <code class="code"><span class="keywordsign">'</span>a</code> is the output type of the L-system. For example, we can have a set of rules that will transform tokens to graphical orders.<br>
 </div>
 
 <br>
@@ -126,6 +126,6 @@ A stream-like data structure should be lazy and support O(1) concatenation.
 </div>
 
 <pre><span class="keyword">module</span> <a href="Lilis.Make.html">Make</a> <code class="code">(</code><code class="code"><span class="constructor">Lstream</span></code><code class="code"> : </code><code class="type"><a href="Lilis.S.html">S</a></code><code class="code">) </code>: <code class="code"><span class="keyword">sig</span></code> <a href="Lilis.Make.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><div class="info">
-A functor to build your own little Lsystem engine given a stream-like data structure.
+A functor to build your own little L-system engine given a stream-like data structure.
 </div>
 </body></html>

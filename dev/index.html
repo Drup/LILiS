@@ -28,20 +28,20 @@
 <a href="https://github.com/Drup/LILiS">LILiS</a> is a <b>Library to Interpret Lindenmayer Systems</b>. It allows to evaluate and draw them.
 <p>
 
-<a href=" http://en.wikipedia.org/wiki/L-system"> L-systems</a> are a kind of formal grammar defined by Lindermayer. In LILiS, an lsystem is composed of a name, a list of definitions, an axiom and some rules. The axiom will be rewritten using the rules.
+<a href=" http://en.wikipedia.org/wiki/L-system"> L-systems</a> are a kind of formal grammar defined by Lindermayer. In LILiS, an L-system is composed of a name, a list of definitions, an axiom and some rules. The axiom will be rewritten using the rules.
 <p>
 
 <h2 id="2_AguidedtourinLILiS">A guided tour in LILiS</h2>
 <p>
 
-Let us start by drawing the well known <a href=" http://en.wikipedia.org/wiki/Koch_snowflake">Von Koch curve</a>. This curve is a simple segment and each iteration is replaced by four smaller segments, as expressed in this lsystem:
+Let us start by drawing the well known <a href=" http://en.wikipedia.org/wiki/Koch_snowflake">Von Koch curve</a>. This curve is a simple segment and each iteration is replaced by four smaller segments, as expressed in this L-system:
 <pre class="verbatim">Von_koch_simple {
 axiom = -(90) f(0.5) +(90) F(1)
 rule F(l) = F(l/3) +(60) F(l/3) -(120) F(l/3) +(60) F(l/3)
 }</pre>
 <p>
 
-Let's put this lsystem in a file <code class="code">bank_lsystem</code>. Using the <code class="code">glilis</code> executable, you can use the following command line to draw a beautiful Von koch curve and show it in a gtk window.
+Let's put this L-system in a file <code class="code">bank_lsystem</code>. Using the <code class="code">glilis</code> executable, you can use the following command line to draw a beautiful Von koch curve and show it in a gtk window.
 <pre class="verbatim">glilis -n 6 bank_lsystem Von_koch_simple --gtk</pre>
 <p>
 
@@ -64,7 +64,7 @@ Symbols have associated graphical meanings, as in the <a href=" http://en.wikipe
 <h3 id="3_Sudomakemeapicture">Sudo, make me a picture</h3>
 <p>
 
-Instead of showing the lsystem in a gtk window, we could also save it in a png
+Instead of showing the L-system in a gtk window, we could also save it in a png
 <pre class="verbatim">glilis -n 6 bank_lsystem Von_koch_simple --png von_koch.png</pre>
 <p>
 
@@ -95,7 +95,7 @@ The <code class="code">[</code> and <code class="code">]</code> symbols allows b
 <h3 id="3_Wewantmoresymbols">We want more symbols!</h3>
 <p>
 
-A bunch of predefined symbols is not enough to express complex drawings comfortably, hence it is possible to define symbols as needed. For example if we want to draw a fern, we need a placeholder symbol that will emit the various branches at each iterations. Here is a lsystem to draw it:
+A bunch of predefined symbols is not enough to express complex drawings comfortably, hence it is possible to define symbols as needed. For example if we want to draw a fern, we need a placeholder symbol that will emit the various branches at each iterations. Here is a L-system to draw it:
 <p>
 
 <pre class="verbatim">fern {
@@ -167,7 +167,7 @@ You may notice that the commands in the definition of <code class="code"><span c
 <li><code class="code"> <span class="constructor">Color</span>(r,g,b,a) </code></li>
 </ul>
 
-The usual symbols are defined by default for each lsystem. Here are those definitions:
+The usual symbols are defined by default for each L-system. Here are those definitions:
 <pre class="verbatim">def F(d?1) = Forward(d)
 def f(d?1) = forward(d)
 def +(x?90) = Turn(x)
@@ -183,7 +183,7 @@ We see here one last feature in LILiS: a default value can be defined for an arg
 <h3 id="3_Wibbly">Wibbly ... Wobbly ... Graphy ... Colory ... Stuff </h3>
 <p>
 
-The dear reader is welcome to consider this very nice lsystem, as a finishing master piece for this tutorial.
+The dear reader is welcome to consider this very nice L-system, as a finishing master piece for this tutorial.
 <pre class="verbatim">Von_koch_color {
 def C(d) = Color(0,d,0.1,1)
 def F(l,d,k) = Forward(l)
@@ -196,7 +196,7 @@ rule F(l,d,k) =
 }</pre>
 <p>
 
-If this is not enough, more lsystems are available in the sources, in the <code class="code">bank_lsystem</code> file.
+If this is not enough, more L-systems are available in the sources, in the <code class="code">bank_lsystem</code> file.
 <p>
 
 <a href="vonkoch.svg"><img style="margin : 0 auto; display: block" src="vonkoch.svg" /></a> 
@@ -205,14 +205,14 @@ If this is not enough, more lsystems are available in the sources, in the <code 
 <h2 id="2_LILiSthelibrary">LILiS, the library</h2>
 <p>
 
-LILiS is also an OCaml library designed to answer all your lsystem needs. This library is divided in 3 packages
+LILiS is also an OCaml library designed to answer all your L-system needs. This library is divided in 3 packages
 <p>
 
 <h3 id="3_lilis">lilis</h3>
 <p>
 
-lilis is the library for parsing, checking and evaluating lsystems.
-The module <a href="Lilis.html"><code class="code"><span class="constructor">Lilis</span></code></a> contains a functorized engine that allows to evaluate lsystems on any stream-like data-structure.
+lilis is the library for parsing, checking and evaluating L-systems.
+The module <a href="Lilis.html"><code class="code"><span class="constructor">Lilis</span></code></a> contains a functorized engine that allows to evaluate L-systems on any stream-like data-structure.
 <p>
 
 A stream-like data-structure is any kind of structure that respect <a href="Lilis.S.html"><code class="code"><span class="constructor">Lilis</span>.<span class="constructor">S</span></code></a>. Several of them are implemented :<ul>
@@ -256,7 +256,7 @@ Library to Interpret Lindenmayer Systems.
 </div>
 </td></tr>
 <tr><td class="module"><a href="LisUtils.html">LisUtils</a></td><td><div class="info">
-Utilies for Lilis such as parsing and verification on lsystems.
+Utilies for Lilis such as parsing and verification on L-systems.
 </div>
 </td></tr>
 <tr><td class="module"><a href="LisSequence.html">LisSequence</a></td><td><div class="info">
