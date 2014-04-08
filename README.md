@@ -32,7 +32,7 @@ Computing L-systems happens to be a very nice way to stress the flatMap operatio
 - The parser depends on `menhir`.
 - [cppo](https://github.com/mjambon/cppo) is a building dependency.
 - The engine implementation depends on [Batteries Included](https://github.com/ocaml-batteries-team/batteries-included) and [Sequence](https://github.com/c-cube/sequence) for super-fast streams.
-- There is currently two graphical backends :
+- There are currently two graphical backends :
   - The png and gtk one depends on [Cairo's Ocaml binding](https://forge.ocamlcore.org/projects/cairo/).
   - The SVG one depends on [tyxml](http://ocsigen.org/tyxml/) (version >= 3.0.0).
 - `Cmdliner` is used by the executable `glilis_ex`.
@@ -67,7 +67,7 @@ You can also install the various libraries with :
 
 If you used `configure` with the flag `--enable-executable` and both graphical backends, it will produce an executable `glilis_ex.native`. See `glilis_ex.native --help` for more information.
 
-You can also enable benchmarks and tests with the flag `--enable-tests`. The benckmarks will be build if the relevant libraries are available.
+You can also enable benchmarks and tests with the flag `--enable-tests`. The benchmarks will be built if the relevant libraries are available.
 
 ## Architecture of the project
 
@@ -114,6 +114,6 @@ Current potential goals:
 - Implement a better error handling for the parser.
 
 - Work on the combinator approach for the front end.
-- Currently, the definition environment disappear after the front end and only post rules remains. On one hand, we can't let the environment, as we can't trust it when it's given independently by the user, on an other hand, this prevent completing optional arguments from the library side. A solution (maybe with some abstract types), may be interesting. Beware of leaking abstractions.
+- Currently, the definition environment disappears after the front end and only post rules remain. On one hand, we can't let the environment, as we can't trust it when it's given independently by the user, on the other hand, this prevents completing optional arguments from the library side. A solution (maybe with some abstract types), may be interesting. Beware of leaking abstractions.
 
 ![Dragon](http://drup.github.io/LILiS/dev/dragon.svg)

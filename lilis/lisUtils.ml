@@ -193,8 +193,8 @@ let parse_convert lexbuf =
     (fun x -> lsystem (add_defs default_defs x))
     (parse_lex lexbuf)
 
-let from_chanel chanel =
-  let lexbuf = Lexing.from_channel chanel in
+let from_channel channel =
+  let lexbuf = Lexing.from_channel channel in
   parse_convert lexbuf
 
 let from_string s =

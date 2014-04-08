@@ -25,7 +25,7 @@ type 'a lsystem = {
 
 (** {2 Functorized Engine} *)
 
-(** The symbolic environment is the dictionnary to compress and decompress streams. *)
+(** The symbolic environment is the dictionary to compress and decompress streams. *)
 module SymbEnv : sig
   type t
   (** A string <-> int mapping, used by the compression functions. *)
@@ -73,7 +73,7 @@ end
    A functor to build your own little Lsystem engine given a stream-like data structure. Can be lazy or not, functional or not.
 
    The important operations from the performance point of view are [expand] and [map].
-   Concatenation (as used in [expand]) must absolutely be in O(1) amortized time. Lazyness is better for memory occupation but is not necessary.
+   Concatenation (as used in [expand]) must absolutely be in O(1) amortized time. Laziness is better for memory occupation but is not necessary.
 
 *)
 module Make (Lstream : S) : sig
@@ -85,11 +85,11 @@ module Make (Lstream : S) : sig
   (** {2 Compression functions} *)
 
   (** A lsystem is first compressed before being iterated on.
-      This compression allow far better performances.
+      This compression allows far better performances.
 
-      One of the step of compression is to transform string symbols into int.
-      To be allowed to transform back and forth a lstream, the {! compress_lstream } function provide an environment from string symbols to int.
-      This environment can be used by {! compress_lstream} and {! uncompress_lstream} for O(n) compression/uncompression. The lazyness of {! Lstream} is respected.
+      One of the steps of compression is to transform string symbols into int.
+      To be allowed to transform back and forth a lstream, the {! compress_lstream } function provides an environment from string symbols to int.
+      This environment can be used by {! compress_lstream} and {! uncompress_lstream} for O(n) compression/uncompression. The laziness of {! Lstream} is respected.
   *)
 
   type 'a lstream = ('a * float array) Lstream.t
@@ -111,7 +111,7 @@ module Make (Lstream : S) : sig
   (** [ apply rules lstream ] will apply rules once to [lstream]. The optional argument [n] can be used to apply more than once. *)
 
   val apply_complete : 'a crules -> int lstream -> 'a lstream
-  (** As [ apply ] but with a complete maping. Symbols without rules are supressed. *)
+  (** As [ apply ] but with a complete mapping. Symbols without rules are supressed. *)
 
   val eval_lsys_uncompress :
     int -> 'a lsystem -> (string * float array) Lstream.t

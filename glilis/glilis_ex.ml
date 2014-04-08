@@ -12,7 +12,7 @@ let eval_lsys = LsEn.eval_lsys
 
 let get_lsystem file name =
   let c = open_in file in
-  let bank_ls = LisUtils.from_chanel c in
+  let bank_ls = LisUtils.from_channel c in
   close_in c;
   match name with
     | None   -> begin

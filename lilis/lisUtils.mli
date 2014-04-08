@@ -13,11 +13,11 @@ exception ParseError of (int * int * string)
 val string_of_ParseError : (int * int * string) -> string
 (** Output "Parse error on line %line, colunm %col, token %token" *)
 
-val from_chanel : in_channel -> string Lilis.lsystem list
-(** @raise ParseError foo *)
+val from_channel : in_channel -> string Lilis.lsystem list
+(** @raise ParseError on parse errors. *)
 
 val from_string : string -> string Lilis.lsystem list
-(** @raise ParseError foo *)
+(** @raise ParseError on parse errors. *)
 
 
 (** {2 Verifications} *)

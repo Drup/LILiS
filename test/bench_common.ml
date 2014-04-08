@@ -43,7 +43,7 @@ let all_streams = [
 
 let get_bank_ls s =
   let c = open_in s in
-  let r = LisUtils.from_chanel c in
+  let r = LisUtils.from_channel c in
   close_in c; r
 
 let find bank s =

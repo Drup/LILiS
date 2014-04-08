@@ -12,18 +12,18 @@ class ['a] cairo_turtle : float -> float -> Cairo.context ->
 
   end
 
-(** A turtle that write to a png file. *)
+(** A turtle that writes to a png file. *)
 class ['a] png_turtle : int -> int ->
   object inherit ['a] cairo_turtle
     (** Draw to a png *)
     method finish : string -> unit
   end
 
-(** A turtle that write to a svg file. Buggy for now. *)
+(** A turtle that writes to a svg file. Buggy for now. *)
 class ['a] svg_turtle : string -> int -> int ->
   object inherit ['a] cairo_turtle
     method finish : unit -> unit
   end
 
-(** A turtle that write on a gtk surface. *)
+(** A turtle that writes on a gtk surface. *)
 class ['a] gtk_turtle : GMisc.drawing_area -> ['a] cairo_turtle

@@ -24,16 +24,16 @@ class type ['a] turtle = object
   constraint 'a = [< orders ]
 
   method get_pos : pos
-  (** Get the curent position of the turtle. *)
+  (** Get the current position of the turtle. *)
 
   method get_color : color
-  (** Get the curent color of the turtle. *)
+  (** Get the current color of the turtle. *)
 
   method turn : float -> unit
   (** [turn a] turn the turtle by [a] degrees. *)
 
   method move : ?trace:bool -> float -> unit
-  (** [move ~trace d] will move the turtle by [d] unit.
+  (** [move ~trace d] will move the turtle by [d] units.
       A line should be traced only if [trace] is true.
       It's up to the graphical implementation to respect this. *)
 

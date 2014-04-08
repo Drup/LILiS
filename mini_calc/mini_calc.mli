@@ -3,7 +3,7 @@
 (**
    This library evaluates simple arithmetic expression over floats.
    Regular operators (+,-,*,/,^) and some regular functions (sin, cos, tan, asin, acos, atan, log, log10, exp, sqrt) are implemented.
-   Arithmetic expressions can contains variables.
+   Arithmetic expressions can contain variables.
 
    Here is an example of expression : [ 3*x+sin(2) ].
 
@@ -38,7 +38,7 @@ exception Unknown_variable of string
 
 val eval_tree : arit_env ->  string arit_tree -> float
 (** Evaluate a tree in the given environment.
-    @raise Unkown_variable if a variable is not define in the environment.
+    @raise Unkown_variable if a variable is not defined in the environment.
  *)
 
 val compress_tree : arit_env ->  string arit_tree -> string arit_tree
@@ -60,10 +60,10 @@ val compress_tree_custom : ('a -> float option) -> 'a arit_tree -> 'a arit_tree
 *)
 
 val map_tree : ('a -> 'b) -> 'a arit_tree -> 'b arit_tree
-(** Change variables representations using the given function. *)
+(** Change variables representation using the given function. *)
 
 val get_vars : 'a arit_tree -> 'a list
-(** Get the list of variable in the given tree. *)
+(** Get the list of variables in the given tree. *)
 
 val closure :
   ?env:arit_env ->
