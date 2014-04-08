@@ -19,6 +19,8 @@
 <link title="LisUtils" rel="Chapter" href="LisUtils.html">
 <link title="LisSequence" rel="Chapter" href="LisSequence.html">
 <link title="LisBatteries" rel="Chapter" href="LisBatteries.html">
+<link title="LisGen" rel="Chapter" href="LisGen.html">
+<link title="LisCFStream" rel="Chapter" href="LisCFStream.html">
 <link title="Glilis" rel="Chapter" href="Glilis.html">
 <link title="LisCairo" rel="Chapter" href="LisCairo.html">
 <link title="LisTyxml" rel="Chapter" href="LisTyxml.html"><link title="Compression functions" rel="Section" href="#2_Compressionfunctions">
@@ -36,7 +38,7 @@ A functor to build your own little Lsystem engine given a stream-like data struc
 <p>
 
    The important operations from the performance point of view are <code class="code">expand</code> and <code class="code">map</code>.
-   Concatenation (as used in <code class="code">expand</code>) must absolutely be in O(1) amortized time. Lazyness is better for memory occupation but is not necessary.<br>
+   Concatenation (as used in <code class="code">expand</code>) must absolutely be in O(1) amortized time. Laziness is better for memory occupation but is not necessary.<br>
 </div>
 <table border="0" cellpadding="3" width="100%">
 <tr>
@@ -61,12 +63,12 @@ Evaluate a Lsystem at the n-th generation.<br>
 <h2 id="2_Compressionfunctions">Compression functions</h2><br>
 <br>
 A lsystem is first compressed before being iterated on.
-      This compression allow far better performances.
+      This compression allows far better performances.
 <p>
 
-      One of the step of compression is to transform string symbols into int.
-      To be allowed to transform back and forth a lstream, the <code class="code">compress_lstream</code> function provide an environment from string symbols to int.
-      This environment can be used by <code class="code">compress_lstream</code> and <code class="code">uncompress_lstream</code> for O(n) compression/uncompression. The lazyness of <code class="code"><span class="constructor">Lstream</span></code> is respected.<br>
+      One of the steps of compression is to transform string symbols into int.
+      To be allowed to transform back and forth a lstream, the <code class="code">compress_lstream</code> function provides an environment from string symbols to int.
+      This environment can be used by <code class="code">compress_lstream</code> and <code class="code">uncompress_lstream</code> for O(n) compression/uncompression. The laziness of <code class="code"><span class="constructor">Lstream</span></code> is respected.<br>
 
 <pre><span id="TYPElstream"><span class="keyword">type</span> <code class="type">'a</code> lstream</span> = <code class="type">('a * float array) Lstream.t</code> </pre>
 
@@ -86,7 +88,7 @@ A lsystem is first compressed before being iterated on.
 </div>
 
 <pre><span id="VALapply_complete"><span class="keyword">val</span> apply_complete</span> : <code class="type">'a <a href="Lilis.Make.html#TYPEcrules">crules</a> -> int <a href="Lilis.Make.html#TYPElstream">lstream</a> -> 'a <a href="Lilis.Make.html#TYPElstream">lstream</a></code></pre><div class="info ">
-As <code class="code"> apply </code> but with a complete maping. Symbols without rules are supressed.<br>
+As <code class="code"> apply </code> but with a complete mapping. Symbols without rules are supressed.<br>
 </div>
 
 <pre><span id="VALeval_lsys_uncompress"><span class="keyword">val</span> eval_lsys_uncompress</span> : <code class="type">int -> 'a <a href="Lilis.html#TYPElsystem">Lilis.lsystem</a> -> (string * float array) Lstream.t</code></pre><div class="info ">

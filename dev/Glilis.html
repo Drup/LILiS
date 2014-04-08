@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="style.css" type="text/css">
 <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
 <link rel="Start" href="index.html">
-<link rel="previous" href="LisBatteries.html">
+<link rel="previous" href="LisCFStream.html">
 <link rel="next" href="LisCairo.html">
 <link rel="Up" href="index.html">
 <link title="Index of types" rel=Appendix href="index_types.html">
@@ -20,12 +20,14 @@
 <link title="LisUtils" rel="Chapter" href="LisUtils.html">
 <link title="LisSequence" rel="Chapter" href="LisSequence.html">
 <link title="LisBatteries" rel="Chapter" href="LisBatteries.html">
+<link title="LisGen" rel="Chapter" href="LisGen.html">
+<link title="LisCFStream" rel="Chapter" href="LisCFStream.html">
 <link title="Glilis" rel="Chapter" href="Glilis.html">
 <link title="LisCairo" rel="Chapter" href="LisCairo.html">
 <link title="LisTyxml" rel="Chapter" href="LisTyxml.html"><title>LILiS user guide : Glilis</title>
 </head>
 <body>
-<div class="navbar"><a class="pre" href="LisBatteries.html" title="LisBatteries">Previous</a>
+<div class="navbar"><a class="pre" href="LisCFStream.html" title="LisCFStream">Previous</a>
 &nbsp;<a class="up" href="index.html" title="Index">Up</a>
 &nbsp;<a class="post" href="LisCairo.html" title="LisCairo">Next</a>
 </div>
@@ -103,7 +105,10 @@ The type of orders always accepted by a turtle.<br>
 </div>
 
 
-<pre><span id="VALorders"><span class="keyword">val</span> orders</span> : <code class="type">(string * (<a href="Glilis.html#TYPEorders">orders</a> * int)) list</code></pre>
+<pre><span id="VALorders"><span class="keyword">val</span> orders</span> : <code class="type">(string * (<a href="Glilis.html#TYPEorders">orders</a> * int)) list</code></pre><div class="info ">
+Mapping from string tokens to orders. Also contains the arity of the orders.<br>
+</div>
+
 <pre><span id="TYPEturtle"><span class="keyword">class type</span> <code class="type">[[< <a href="Glilis.html#TYPEorders">orders</a> ]]</code> <a href="Glilis.turtle-c.html">turtle</a></span> = <code class="code"><span class="keyword">object</span></code> <a href="Glilis.turtle-c.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><div class="info">
 Class representing a turtle.
 </div>

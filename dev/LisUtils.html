@@ -20,6 +20,8 @@
 <link title="LisUtils" rel="Chapter" href="LisUtils.html">
 <link title="LisSequence" rel="Chapter" href="LisSequence.html">
 <link title="LisBatteries" rel="Chapter" href="LisBatteries.html">
+<link title="LisGen" rel="Chapter" href="LisGen.html">
+<link title="LisCFStream" rel="Chapter" href="LisCFStream.html">
 <link title="Glilis" rel="Chapter" href="Glilis.html">
 <link title="LisCairo" rel="Chapter" href="LisCairo.html">
 <link title="LisTyxml" rel="Chapter" href="LisTyxml.html"><link title="Parsing" rel="Section" href="#2_Parsing">
@@ -55,12 +57,12 @@ Utilies for Lilis such as parsing and verification on lsystems.<br>
 Output "Parse error on line %line, colunm %col, token %token"<br>
 </div>
 
-<pre><span id="VALfrom_chanel"><span class="keyword">val</span> from_chanel</span> : <code class="type">Pervasives.in_channel -> string <a href="Lilis.html#TYPElsystem">Lilis.lsystem</a> list</code></pre><div class="info ">
-<b>Raises</b> <code>ParseError</code> foo<br>
+<pre><span id="VALfrom_channel"><span class="keyword">val</span> from_channel</span> : <code class="type">Pervasives.in_channel -> string <a href="Lilis.html#TYPElsystem">Lilis.lsystem</a> list</code></pre><div class="info ">
+<b>Raises</b> <code>ParseError</code> on parse errors.<br>
 </div>
 
 <pre><span id="VALfrom_string"><span class="keyword">val</span> from_string</span> : <code class="type">string -> string <a href="Lilis.html#TYPElsystem">Lilis.lsystem</a> list</code></pre><div class="info ">
-<b>Raises</b> <code>ParseError</code> foo<br>
+<b>Raises</b> <code>ParseError</code> on parse errors.<br>
 </div>
 <br>
 <h2 id="2_Verifications">Verifications</h2><br>
@@ -85,9 +87,9 @@ Check a stream against an environment. This environment is a mapping name -&gt; 
 <b>Raises</b> <code>ArityError,</code> VarDefError, TokenDefError<br>
 </div>
 
-<pre><span id="VALcheck_rule"><span class="keyword">val</span> check_rule</span> : <code class="type">int SMap.t -><br>       ?arit_env:<a href="Mini_calc.html#TYPEarit_env">Mini_calc.arit_env</a> -> string <a href="Lilis.html#TYPErule">Lilis.rule</a> -> unit</code></pre><div class="info ">
+<pre><span id="VALcheck_rule"><span class="keyword">val</span> check_rule</span> : <code class="type">int SMap.t -> ?arit_env:<a href="Mini_calc.Env.html#TYPEt">Mini_calc.Env.t</a> -> string <a href="Lilis.html#TYPErule">Lilis.rule</a> -> unit</code></pre><div class="info ">
 As <code class="code"> check_stream </code> for a rule. Need also an arithmetic environment, will use <a href="Mini_calc.Env.html#VALusual"><code class="code"><span class="constructor">Mini_calc</span>.<span class="constructor">Env</span>.usual</code></a> if none is provided.<br>
 <b>Raises</b> <code>ArityError,</code> VarDefError, TokenDefError<br>
 </div>
 
-<pre><span id="VALreplace_defs"><span class="keyword">val</span> replace_defs</span> : <code class="type">('a * ('b * int)) list -> 'a <a href="Lilis.html#TYPElsystem">Lilis.lsystem</a> -> 'b <a href="Lilis.html#TYPElsystem">Lilis.lsystem</a></code></pre></body></html>
+<pre><span id="VALreplace_in_post_rules"><span class="keyword">val</span> replace_in_post_rules</span> : <code class="type">(string * ('b * int)) list -> string <a href="Lilis.html#TYPElsystem">Lilis.lsystem</a> -> 'b <a href="Lilis.html#TYPElsystem">Lilis.lsystem</a></code></pre></body></html>

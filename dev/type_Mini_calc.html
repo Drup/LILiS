@@ -15,39 +15,37 @@
 <link title="LisUtils" rel="Chapter" href="LisUtils.html">
 <link title="LisSequence" rel="Chapter" href="LisSequence.html">
 <link title="LisBatteries" rel="Chapter" href="LisBatteries.html">
+<link title="LisGen" rel="Chapter" href="LisGen.html">
+<link title="LisCFStream" rel="Chapter" href="LisCFStream.html">
 <link title="Glilis" rel="Chapter" href="Glilis.html">
 <link title="LisCairo" rel="Chapter" href="LisCairo.html">
 <link title="LisTyxml" rel="Chapter" href="LisTyxml.html"><title>LILiS user guide : Mini_calc</title>
 </head>
 <body>
 <code class="code"><span class="keyword">sig</span><br>
-&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;<span class="keywordsign">'</span>a&nbsp;arit_tree&nbsp;=&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="constructor">Calc_type</span>.arit_tree<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;tree_to_string&nbsp;:&nbsp;string&nbsp;<span class="constructor">Mini_calc</span>.arit_tree&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;string_to_tree&nbsp;:&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="constructor">Mini_calc</span>.arit_tree<br>
-&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;arit_env<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;<span class="keywordsign">'</span>a&nbsp;t&nbsp;=&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="constructor">Calc_type</span>.t<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;to_string&nbsp;:&nbsp;string&nbsp;<span class="constructor">Mini_calc</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;of_string&nbsp;:&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="constructor">Mini_calc</span>.t<br>
 &nbsp;&nbsp;<span class="keyword">module</span>&nbsp;<span class="constructor">Env</span>&nbsp;:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">sig</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;add&nbsp;:&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;float&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Mini_calc</span>.arit_env&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Mini_calc</span>.arit_env<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;mem&nbsp;:&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Mini_calc</span>.arit_env&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;bool<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;union&nbsp;:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Mini_calc</span>.arit_env&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Mini_calc</span>.arit_env&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Mini_calc</span>.arit_env<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;of_list&nbsp;:&nbsp;(string&nbsp;*&nbsp;float)&nbsp;list&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Mini_calc</span>.arit_env<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;empty&nbsp;:&nbsp;<span class="constructor">Mini_calc</span>.arit_env<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;usual&nbsp;:&nbsp;<span class="constructor">Mini_calc</span>.arit_env<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;t<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;add&nbsp;:&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;float&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Mini_calc</span>.<span class="constructor">Env</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Mini_calc</span>.<span class="constructor">Env</span>.t<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;mem&nbsp;:&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Mini_calc</span>.<span class="constructor">Env</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;bool<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;union&nbsp;:&nbsp;<span class="constructor">Mini_calc</span>.<span class="constructor">Env</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Mini_calc</span>.<span class="constructor">Env</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Mini_calc</span>.<span class="constructor">Env</span>.t<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;of_list&nbsp;:&nbsp;(string&nbsp;*&nbsp;float)&nbsp;list&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Mini_calc</span>.<span class="constructor">Env</span>.t<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;empty&nbsp;:&nbsp;<span class="constructor">Mini_calc</span>.<span class="constructor">Env</span>.t<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;usual&nbsp;:&nbsp;<span class="constructor">Mini_calc</span>.<span class="constructor">Env</span>.t<br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">end</span><br>
 &nbsp;&nbsp;<span class="keyword">exception</span>&nbsp;<span class="constructor">Unknown_variable</span>&nbsp;<span class="keyword">of</span>&nbsp;string<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;eval_tree&nbsp;:&nbsp;<span class="constructor">Mini_calc</span>.arit_env&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="constructor">Mini_calc</span>.arit_tree&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;float<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;compress_tree&nbsp;:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Mini_calc</span>.arit_env&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="constructor">Mini_calc</span>.arit_tree&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="constructor">Mini_calc</span>.arit_tree<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;eval&nbsp;:&nbsp;<span class="constructor">Mini_calc</span>.arit_env&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;float<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;eval_tree_custom&nbsp;:&nbsp;(<span class="keywordsign">'</span>a&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;float)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="constructor">Mini_calc</span>.arit_tree&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;float<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;compress_tree_custom&nbsp;:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>a&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;float&nbsp;option)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="constructor">Mini_calc</span>.arit_tree&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="constructor">Mini_calc</span>.arit_tree<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;map_tree&nbsp;:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>a&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>b)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="constructor">Mini_calc</span>.arit_tree&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>b&nbsp;<span class="constructor">Mini_calc</span>.arit_tree<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;get_vars&nbsp;:&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="constructor">Mini_calc</span>.arit_tree&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a&nbsp;list<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;eval&nbsp;:&nbsp;<span class="constructor">Mini_calc</span>.<span class="constructor">Env</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="constructor">Mini_calc</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;float<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;compress&nbsp;:&nbsp;<span class="constructor">Mini_calc</span>.<span class="constructor">Env</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="constructor">Mini_calc</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="constructor">Mini_calc</span>.t<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;eval_string&nbsp;:&nbsp;<span class="constructor">Mini_calc</span>.<span class="constructor">Env</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;float<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;eval_custom&nbsp;:&nbsp;(<span class="keywordsign">'</span>a&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;float)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="constructor">Mini_calc</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;float<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;compress_custom&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>a&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;float&nbsp;option)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="constructor">Mini_calc</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="constructor">Mini_calc</span>.t<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;map&nbsp;:&nbsp;(<span class="keywordsign">'</span>a&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>b)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="constructor">Mini_calc</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>b&nbsp;<span class="constructor">Mini_calc</span>.t<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;vars&nbsp;:&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="constructor">Mini_calc</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a&nbsp;list<br>
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;closure&nbsp;:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;?env:<span class="constructor">Mini_calc</span>.arit_env&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?env:<span class="constructor">Mini_calc</span>.<span class="constructor">Env</span>.t&nbsp;<span class="keywordsign">-&gt;</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(string&nbsp;*&nbsp;<span class="keywordsign">'</span>a)&nbsp;list&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="keywordsign">'</span>a&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;float)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;float<br>
 <span class="keyword">end</span></code></body></html>
