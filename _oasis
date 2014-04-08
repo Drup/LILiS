@@ -182,7 +182,7 @@ Document lilis
   XOCamlbuildPath:	.
   XOCamlbuildLibraries:
     minicalc,
-    lilis, lilis.sequence, lilis.batteries,
+    lilis, lilis.sequence, lilis.batteries, lilis.gen, lilis.cfstream,
     glilis, glilis.cairo, glilis.tyxml
 
 SourceRepository master

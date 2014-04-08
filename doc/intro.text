@@ -189,7 +189,7 @@ Two backend are currently implemented :
 
 {2 Index}
 {!modules: Mini_calc}
-{!modules: Lilis LisUtils LisSequence LisBatteries}
+{!modules: Lilis LisUtils LisSequence LisBatteries LisGen LisCFStream}
 {!modules: Glilis LisCairo LisTyxml}
 {!indexlist}
 
