@@ -36,7 +36,7 @@ Instead of showing the L-system in a gtk window, we could also save it in a png
 {v glilis -n 6 bank_lsystem Von_koch_simple --png von_koch.png v}
 
 or, if LILiS was compiled with tyxml, in a (obviously prettier, but quite bigger) svg:
-{v glilis -n 6 bank_lsystem Von_koch_simple --svg von_koch.png v}
+{v glilis -n 6 bank_lsystem Von_koch_simple --svg von_koch.svg v}
 
 You can discover the rest of the command with the help included:
 {v ./glilis_ex.native --help v}
@@ -52,12 +52,12 @@ A few symbols are predefined, with graphical meanings :
 - [ \[ ] : Save the current position on the stack.
 - [ \] ] : Restore the last saved position.
 
-The [\[] and [\]] symbols allows branching in the (normally linear) path of the turtle. We will how to use it in the next example.
+The [\[] and [\]] symbols allows branching in the (normally linear) path of the turtle. We will see how to use it in the next example.
 
 
 {3 We want more symbols!}
 
-A bunch of predefined symbols is not enough to express complex drawings comfortably, hence it is possible to define symbols as needed. For example if we want to draw a fern, we need a placeholder symbol that will emit the various branches at each iterations. Here is a L-system to draw it:
+A bunch of predefined symbols is not enough to express complex drawings comfortably, hence it is possible to define symbols as needed. For example if we want to draw a fern, we need a placeholder symbol that will emit the various branches at each iterations but will not draw anything. Here is a L-system to draw it:
 
 {v
 fern \{
@@ -118,7 +118,7 @@ rule X(l) = Square(l) +(2) X(l + 0.01)
 v}
 {%html: <a href="spin_it.svg"><img style="width : 20% ; margin : 0 auto; display: block" src="spin_it.svg" /></a> %}
 
-You may notice that the commands in the definition of [Square] are not the same that we have used before. It's because those are {b graphical} commands that are handled directly by the drawing backend. Each backend can implement is own set of commands. For now, those commands are implemented:
+You may notice that the commands in the definition of [Square] are not the same that we have used before. It's because those are {b graphical} commands that are handled directly by the drawing backend. Each backend can implement its own set of commands. For now, these commands are implemented:
 - [ Forward(l) ]
 - [ forward(l) ]
 - [ Turn(a) ]
@@ -137,7 +137,7 @@ def \] = Restore
 def color(r,g,b,a?1) = Color(r,g,b,a)
 v}
 
-We see here one last feature in LILiS: a default value can be defined for an argument, making it optional. Hence, instead of writing [-(90)] it is possible to write just [-]. Optional arguments can only appear at the right most part of the arguments in a function and will be resolved from left to right.
+We see here one last feature in LILiS: a default value can be defined for an argument, making it optional. Hence, instead of writing [-(90)] it is possible to write just [-]. Optional arguments can only appear at the right most part of the arguments in a function and will be resolved from right to left.
 
 {3 Wibbly ... Wobbly ... Graphy ... Colory ... Stuff }
 
