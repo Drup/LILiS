@@ -69,7 +69,7 @@ Instead of showing the L-system in a gtk window, we could also save it in a png
 <p>
 
 or, if LILiS was compiled with tyxml, in a (obviously prettier, but quite bigger) svg:
-<pre class="verbatim">glilis -n 6 bank_lsystem Von_koch_simple --svg von_koch.png</pre>
+<pre class="verbatim">glilis -n 6 bank_lsystem Von_koch_simple --svg von_koch.svg</pre>
 <p>
 
 You can discover the rest of the command with the help included:
@@ -89,13 +89,13 @@ A few symbols are predefined, with graphical meanings :<ul>
 <li><code class="code"> ] </code> : Restore the last saved position.</li>
 </ul>
 
-The <code class="code">[</code> and <code class="code">]</code> symbols allows branching in the (normally linear) path of the turtle. We will how to use it in the next example.
+The <code class="code">[</code> and <code class="code">]</code> symbols allows branching in the (normally linear) path of the turtle. We will see how to use it in the next example.
 <p>
 
 <h3 id="3_Wewantmoresymbols">We want more symbols!</h3>
 <p>
 
-A bunch of predefined symbols is not enough to express complex drawings comfortably, hence it is possible to define symbols as needed. For example if we want to draw a fern, we need a placeholder symbol that will emit the various branches at each iterations. Here is a L-system to draw it:
+A bunch of predefined symbols is not enough to express complex drawings comfortably, hence it is possible to define symbols as needed. For example if we want to draw a fern, we need a placeholder symbol that will emit the various branches at each iterations but will not draw anything. Here is a L-system to draw it:
 <p>
 
 <pre class="verbatim">fern {
@@ -158,7 +158,7 @@ rule X(l) = Square(l) +(2) X(l + 0.01)
 <a href="spin_it.svg"><img style="width : 20% ; margin : 0 auto; display: block" src="spin_it.svg" /></a> 
 <p>
 
-You may notice that the commands in the definition of <code class="code"><span class="constructor">Square</span></code> are not the same that we have used before. It's because those are <b>graphical</b> commands that are handled directly by the drawing backend. Each backend can implement is own set of commands. For now, those commands are implemented:<ul>
+You may notice that the commands in the definition of <code class="code"><span class="constructor">Square</span></code> are not the same that we have used before. It's because those are <b>graphical</b> commands that are handled directly by the drawing backend. Each backend can implement its own set of commands. For now, these commands are implemented:<ul>
 <li><code class="code"> <span class="constructor">Forward</span>(l) </code></li>
 <li><code class="code"> forward(l) </code></li>
 <li><code class="code"> <span class="constructor">Turn</span>(a) </code></li>
@@ -177,7 +177,7 @@ def ] = Restore
 def color(r,g,b,a?1) = Color(r,g,b,a)</pre>
 <p>
 
-We see here one last feature in LILiS: a default value can be defined for an argument, making it optional. Hence, instead of writing <code class="code">-(90)</code> it is possible to write just <code class="code">-</code>. Optional arguments can only appear at the right most part of the arguments in a function and will be resolved from left to right.
+We see here one last feature in LILiS: a default value can be defined for an argument, making it optional. Hence, instead of writing <code class="code">-(90)</code> it is possible to write just <code class="code">-</code>. Optional arguments can only appear at the right most part of the arguments in a function and will be resolved from right to left.
 <p>
 
 <h3 id="3_Wibbly">Wibbly ... Wobbly ... Graphy ... Colory ... Stuff </h3>
