@@ -1,9 +1,6 @@
 open LisCommon
 open LisParser
 
-let (@@) = BatPervasives.(@@)
-let (|>) = BatPervasives.(|>)
-
 module SMap = SMap
 
 (** {2 Verifications} *)
@@ -108,11 +105,6 @@ let eval_expr l =
     let open Mini_calc in
     name, List.map (fun t -> eval Env.empty t) l
   in List.map f l
-
-let foldAccum f l zero =
-  let f' y (x,t) = let (x',h) = f y x in (x',h::t) in
-  BatList.fold_right f' l (zero,[])
-
 
 (** Extract definitions *)
 let definitions (dl : AST.def list)  =

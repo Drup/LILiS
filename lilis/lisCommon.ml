@@ -31,3 +31,10 @@ module AST = struct
 end
 
 module SMap = BatMap.Make(BatString)
+
+let (@@) = BatPervasives.(@@)
+let (|>) = BatPervasives.(|>)
+
+let foldAccum f l zero =
+  let f' y (x,t) = let (x',h) = f y x in (x',h::t) in
+  BatList.fold_right f' l (zero,[])

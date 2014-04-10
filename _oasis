@@ -61,7 +61,7 @@ Library lilis
   Path: lilis
   BuildDepends: batteries, minicalc
   Modules:
-    Lilis, LisUtils
+    Lilis, LisUtils, LisOpti
   InternalModules:
     LisCommon, LisLexer, LisParser
 

@@ -160,6 +160,10 @@ let parsing_t bank lname =
         symb arg )
 
 
+let optim_t lsys =
+  lsys
+  |> LisOpti.constant_folding
+
 let processing_t bench n lsys =
   let lsys = LisUtils.replace_in_post_rules Glilis.orders lsys in
   if bench then init_time () ;
@@ -179,7 +183,7 @@ let draw_t bench size outputs gtk lstream =
 
 let main_t =
   let open Term in
-  let lsys = ret (pure parsing_t $ bank $ lname) in
+  let lsys = pure optim_t $ ret (pure parsing_t $ bank $ lname) in
   let lstream = pure processing_t $ bench $ generation $ lsys in
   pure draw_t $ bench $ size $ !outputs $ gtk $ lstream
 
