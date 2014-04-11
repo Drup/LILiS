@@ -27,19 +27,28 @@ let eval env t =
   let f x = Env.find_arit x env in
   eval_custom f t
 
-let rec map f t = match t with
-  | Float a -> Float a
-  | Op1 (op,t) -> Op1 (op,map f t)
-  | Op2 (t1,op,t2) -> Op2 (map f t1,op,map f t2)
-  | Id x -> Id (f x)
+(* Left to right depth first traversal. *)
+let rec fold f t z = match t with
+  | Float _ -> z
+  | Op1 (_, t) -> fold f t z
+  | Op2 (t1, _, t2) -> fold f t2 (fold f t1 z)
+  | Id x -> f x z
 
-let vars t =
-  let rec aux acc = function
-    | Float _ -> acc
-    | Op1 (_ , t) -> aux acc t
-    | Op2 (t1 , _ , t2) -> let acc = aux acc t1 in aux acc t2
-    | Id x -> x :: acc
-  in aux [] t
+let rec bind f t = match t with
+  | Float a -> Float a
+  | Op1 (op,t) -> Op1 (op,bind f t)
+  | Op2 (t1,op,t2) -> Op2 (bind f t1,op,bind f t2)
+  | Id x -> f x
+
+let bind_opt f t =
+  let f' x = match f x with
+    | None -> Id x
+    | Some y -> y
+  in bind f' t
+
+let map f t = bind (fun x -> Id (f x)) t
+
+let vars t = fold ( fun x l -> x :: l) t []
 
 (** Compress a tree (aka eval part than can be evaluated) in the given env *)
 let rec compress_custom f t = match t with
@@ -60,3 +69,5 @@ let rec compress_custom f t = match t with
 let compress env t =
   let f x = Env.M.Exceptionless.find x env in
   compress_custom f t
+
+let var x = Id x

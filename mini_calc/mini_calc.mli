@@ -58,6 +58,15 @@ val compress_custom : ('a -> float option) -> 'a t -> 'a t
     A variable is untouched if the function returns [ None ].
 *)
 
+val bind : ('a -> 'b t) -> 'a t -> 'b t
+(** Replace each variables by a subtree. *)
+
+val bind_opt : ('a -> 'a t option) -> 'a t -> 'a t
+(** Replace some variables by a subtree. *)
+
+val fold : ('a -> 'b -> 'b) -> 'a t -> 'b -> 'b
+(** Depth first left to right traversal of the tree. *)
+
 val map : ('a -> 'b) -> 'a t -> 'b t
 (** Change variables representation using the given function. *)
 
@@ -68,3 +77,5 @@ val closure :
   ?env:Env.t ->
   string -> (string * 'a) list -> (('a -> float) -> float)
 (** Compress the string in the optional env and return the resulting closure. *)
+
+val var : string -> string t
