@@ -2,6 +2,9 @@ open Glilis
 open Lilis
 open Cmdliner
 
+let (@@) = BatPervasives.(@@)
+let (|>) = BatPervasives.(|>)
+
 exception NoLsys of string
 exception NoLsysName of string * string
 
