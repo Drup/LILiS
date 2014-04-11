@@ -39,7 +39,7 @@ Computing L-systems happens to be a very nice way to stress the flatMap operatio
 
 You can install most of it with :
 
-	$ opam install cppo batteries sequence cairo lablgtk tyxml cmdliner menhir
+	$ opam install cppo batteries sequence cairo2 lablgtk tyxml cmdliner menhir
 
 ### Optional dependencies
 
