@@ -99,13 +99,6 @@ let replace_in_post_rules env {Lilis. name ; axiom ; rules ; post_rules } =
 
 (** {2 Transformation from ast to L-system representation} *)
 
-(** Evaluate the axiom *)
-let eval_expr l =
-  let f (name,l) =
-    let open Mini_calc in
-    name, List.map (fun t -> eval Env.empty t) l
-  in List.map f l
-
 (** Extract definitions *)
 let definitions (dl : AST.def list)  =
   let distribute (l,e) = List.map (fun k -> (k,e)) l in
@@ -147,7 +140,7 @@ let lsystem lsystem =
   let name = lsystem.AST.name in
   let env, post_rules = definitions lsystem.AST.definitions in
   let post_rules = List.map rule post_rules in
-  let axiom = eval_expr @@ fill_axiom env lsystem.AST.axiom in
+  let axiom = fill_axiom env lsystem.AST.axiom in
   let rules = List.map (fill_rule env) lsystem.AST.rules in
   let env = SMap.map List.length env in
   let () = check_stream env axiom in
@@ -210,7 +203,7 @@ let rule_to_string {Lilis. lhs ; vars ; rhs } =
 
 let to_string {Lilis. name ; axiom ; rules ; post_rules } =
   name ^ " {\n" ^
-    "axiom = " ^ stream_to_string string_of_float axiom ^
+    "axiom = " ^ stream_to_string Mini_calc.to_string axiom ^
     "\nrules {\n" ^
     String.concat "\n" (List.map rule_to_string rules) ^
     "\n}\n" ^

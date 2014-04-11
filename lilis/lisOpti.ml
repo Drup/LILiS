@@ -121,10 +121,15 @@ let constant_folding lsys =
     (nameset, ({rule with rhs}, new_post_rules))
   in
   let used_names = get_used_symbols lsys in
-  let names = get_symbols lsys in
-  let ( _ , l) = foldAccum (f used_names) lsys.rules names in
-  let rules' , post_rules' = List.split l in
+  let nameset = get_symbols lsys in
+
+  let (axiom', post_rules', nameset) =
+    fusion_symbols used_names nameset lsys.axiom in
+
+  let ( _ , l) = foldAccum (f used_names) lsys.rules nameset in
+  let rules' , post_rules'' = List.split l in
   { lsys with
-      rules = rules';
-      post_rules = List.concat (lsys.post_rules :: post_rules')
+      axiom = axiom' ;
+      rules = rules' ;
+      post_rules = List.concat (lsys.post_rules :: post_rules' :: post_rules'' )
   }

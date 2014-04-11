@@ -26,7 +26,7 @@ module Seq = struct
     fold_right (fun h t -> h :: t) l []
   let singleton x = cons x nil
   let empty = nil
-  let store = id
+  let store x = force x ; x
   let gennew = id
 end
 
@@ -52,7 +52,7 @@ module LazyList = struct
   let singleton x = cons x nil
   let empty = nil
   let of_list l = of_list l
-  let store = id
+  let store x = force x ; x
   let gennew = id
 end
 

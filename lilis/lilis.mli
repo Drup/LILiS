@@ -4,7 +4,7 @@
 
 (** A L-system is described by a name, an axiom and a bunch of rules. Each symbols can have some arithmetic expressions as arguments. *)
 
-type axiom = (string * (float list)) list
+type 'a stream = ('a * (float list)) list
 (** A simple L-system axiom. An axiom is a list of symbols. *)
 
 type 'a rule = {
@@ -16,7 +16,7 @@ type 'a rule = {
 
 type 'a lsystem = {
   name : string ;
-  axiom : axiom ;
+  axiom : (string * (string Mini_calc.t list)) list ;
   rules : string rule list ;
   post_rules : 'a rule list ;
 }
@@ -30,7 +30,7 @@ module SymbEnv : sig
   type t
   (** A string <-> int mapping, used by the compression functions. *)
 
-  val extract : axiom -> string rule list -> 'a rule list-> t
+  val extract : string stream -> string rule list -> 'a rule list-> t
   (** Create a symbol environment from an axiom and a bunch of rules. *)
 
   val add_rule : t -> string rule -> t
@@ -39,7 +39,7 @@ module SymbEnv : sig
   val add_post_rule : t -> 'a rule -> t
   (** Like [ add_rule ] but allow polymorphic rules. Ignore the right-hand side of the rule. *)
 
-  val add_axiom : t -> axiom -> t
+  val add_axiom : t -> string stream -> t
   (** Add symbols from an axiom to symbolic environment. *)
 
 end
@@ -99,7 +99,7 @@ module Make (Lstream : S) : sig
 
   val compress_post_rules : SymbEnv.t -> 'a rule list -> 'a crules
 
-  val compress_lslist : SymbEnv.t -> axiom -> (int * float array) Lstream.stored
+  val compress_lslist : SymbEnv.t -> string stream -> (int * float array) Lstream.stored
 
   val compress_lstream : SymbEnv.t -> string lstream -> int lstream
 

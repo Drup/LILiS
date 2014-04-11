@@ -2,8 +2,7 @@ open LisCommon
 
 (** {2 Types} *)
 
-type axiom = (string * (float list)) list
-(** A simple L-system axiom. *)
+type 'a stream = ('a * float list) list
 
 type 'a rule = {
   lhs : string ;
@@ -14,7 +13,7 @@ type 'a rule = {
 
 type 'a lsystem = {
   name : string ;
-  axiom : axiom ;
+  axiom : (string * (string Mini_calc.t list)) list ;
   rules : string rule list ;
   post_rules : 'a rule list ;
 }
@@ -215,15 +214,29 @@ module Make (Ls : S) = struct
       (get_transformation rules)
       lstream
 
+
+  (** Evaluate the axiom *)
+  let eval_expr l =
+    let f (name,l) =
+      let open Mini_calc in
+      name, Array.map (fun t -> eval Env.empty t) l
+    in Ls.map f l
+
   (** Like eval_lsys, but will ignore post rules and uncompress the stream instead. *)
   let eval_lsys_uncompress n lsys =
     let senv, axiom, rules, _ = compress_lsys lsys in
+    let axiom =
+      Ls.store @@ eval_expr @@ Ls.gennew axiom
+    in
     let lstream = apply ~n rules (Ls.gennew axiom) in
     uncompress_lstream senv lstream
 
   (** Generate the n-th generation of the given L-system. *)
   let eval_lsys n lsys =
     let senv, axiom, rules, prules = compress_lsys lsys in
+    let axiom =
+      Ls.store @@ eval_expr @@ Ls.gennew axiom
+    in
     let lstream = apply ~n rules (Ls.gennew axiom) in
     apply_complete prules lstream
 end
