@@ -17,8 +17,13 @@ rule FF(l,d,k) =
 Von_koch_bench {
 def tplus = Turn(60)
 def tmoins = Turn(- 120)
-axiom = - f(0.28) + f(0.05) F(0.9)
+axiom = - f(0.5) + F(1)
 rule F(l) = F(l/3) tplus F(l/3) tmoins F(l/3) tplus F(l/3)
+}
+
+Von_koch_simple {
+axiom = - f(0.5) + F(1)
+rule F(l) = F(l/3) +(60) F(l/3) -(120) F(l/3) +(60) F(l/3)
 }
 
 dragon {
@@ -45,11 +50,6 @@ rule X(x) =
   F(x/2) -(25) [ [ X(x/2) ] +(25) X(x/2) ]
   +(25) F(x/2) [ +(25) F(x/2) X(x/2) ] -(25) X(x/2)
 
-}
-
-Von_koch_simple {
-axiom = - f(0.5) + F(1)
-rule F(l) = F(l/3) +(60) F(l/3) -(120) F(l/3) +(60) F(l/3)
 }
 
 Spin_it {

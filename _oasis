@@ -171,6 +171,16 @@ Executable bench_quick
   MainIs: bench_quick.ml
   BuildDepends: lilis, lilis.sequence, lilis.gen, lilis.cfstream, benchmark
 
+Executable bench_optims
+  Path: test
+  Build$: flag(tests) && flag(sequence) && flag(gen) && flag(cfstream)
+  Install: false
+  CompiledObject: best
+  BuildTools: ocamlbuild
+  MainIs: bench_optims.ml
+  BuildDepends: lilis, lilis.sequence, lilis.gen, lilis.cfstream, benchmark
+
+
 
 ### Misc ###
 

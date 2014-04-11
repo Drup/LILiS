@@ -12,4 +12,4 @@ let lsystems = [
 ]
 
 let _ =
-  execute "bank_lsystem" lsystems [sequence]
+  execute "bank_lsystem" lsystems all_optims [sequence]

@@ -10,4 +10,4 @@ let lsystems = [
 ]
 
 let _ =
-  execute "bank_lsystem" lsystems all_streams
+  execute "bank_lsystem" lsystems all_optims all_streams
