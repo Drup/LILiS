@@ -41,7 +41,7 @@ let all_streams = [
   stream ;
 ]
 
-let all_optims = [ "", LisOpti.constant_folding ]
+let all_optims = [ "", LisOptim.constant_folding ]
 
 let get_bank_ls s =
   let c = open_in s in

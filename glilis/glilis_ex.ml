@@ -162,7 +162,7 @@ let parsing_t bank lname =
 
 let optim_t lsys =
   lsys
-  |> LisOpti.constant_folding
+  |> LisOptim.constant_folding
 
 let processing_t bench n lsys =
   let lsys = LisUtils.replace_in_post_rules Glilis.orders lsys in

@@ -13,7 +13,7 @@ let lsystems = [
 
 let optims = [
   "", (fun x -> x) ;
-  "const fold", LisOpti.constant_folding ;
+  "const fold", LisOptim.constant_folding ;
 ]
 
 let _ =

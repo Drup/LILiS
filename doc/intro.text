@@ -175,6 +175,7 @@ A stream-like data-structure is any kind of structure that respect {! Lilis.S}. 
  - {! LisCFStream} in the lilis.cfstream package, using {{:https://github.com/biocaml/cfstream}CFStream}.
 
 {! LisUtils} contains all the parsing and verification functions.
+{! LisOptim} contains optimization passes on L-systems.
 
 {3 minicalc}
 
@@ -189,7 +190,7 @@ Two backend are currently implemented :
 
 {2 Index}
 {!modules: Mini_calc}
-{!modules: Lilis LisUtils LisSequence LisBatteries LisGen LisCFStream}
+{!modules: Lilis LisUtils LisOptim LisSequence LisBatteries LisGen LisCFStream}
 {!modules: Glilis LisCairo LisTyxml}
 {!indexlist}
 
