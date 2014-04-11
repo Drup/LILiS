@@ -17,6 +17,7 @@
 <link title="Mini_calc" rel="Chapter" href="Mini_calc.html">
 <link title="Lilis" rel="Chapter" href="Lilis.html">
 <link title="LisUtils" rel="Chapter" href="LisUtils.html">
+<link title="LisOptim" rel="Chapter" href="LisOptim.html">
 <link title="LisSequence" rel="Chapter" href="LisSequence.html">
 <link title="LisBatteries" rel="Chapter" href="LisBatteries.html">
 <link title="LisGen" rel="Chapter" href="LisGen.html">
@@ -89,6 +90,18 @@ Compress a tree using the given function, ie. evaluate everything that can be ev
     A variable is untouched if the function returns <code class="code"> <span class="constructor">None</span> </code>.<br>
 </div>
 
+<pre><span id="VALbind"><span class="keyword">val</span> bind</span> : <code class="type">('a -> 'b <a href="Mini_calc.html#TYPEt">t</a>) -> 'a <a href="Mini_calc.html#TYPEt">t</a> -> 'b <a href="Mini_calc.html#TYPEt">t</a></code></pre><div class="info ">
+Replace each variables by a subtree.<br>
+</div>
+
+<pre><span id="VALbind_opt"><span class="keyword">val</span> bind_opt</span> : <code class="type">('a -> 'a <a href="Mini_calc.html#TYPEt">t</a> option) -> 'a <a href="Mini_calc.html#TYPEt">t</a> -> 'a <a href="Mini_calc.html#TYPEt">t</a></code></pre><div class="info ">
+Replace some variables by a subtree.<br>
+</div>
+
+<pre><span id="VALfold"><span class="keyword">val</span> fold</span> : <code class="type">('a -> 'b -> 'b) -> 'a <a href="Mini_calc.html#TYPEt">t</a> -> 'b -> 'b</code></pre><div class="info ">
+Depth first left to right traversal of the tree.<br>
+</div>
+
 <pre><span id="VALmap"><span class="keyword">val</span> map</span> : <code class="type">('a -> 'b) -> 'a <a href="Mini_calc.html#TYPEt">t</a> -> 'b <a href="Mini_calc.html#TYPEt">t</a></code></pre><div class="info ">
 Change variables representation using the given function.<br>
 </div>
@@ -100,4 +113,5 @@ Get the list of variables in the given tree.<br>
 <pre><span id="VALclosure"><span class="keyword">val</span> closure</span> : <code class="type">?env:<a href="Mini_calc.Env.html#TYPEt">Env.t</a> -><br>       string -> (string * 'a) list -> ('a -> float) -> float</code></pre><div class="info ">
 Compress the string in the optional env and return the resulting closure.<br>
 </div>
-</body></html>
+
+<pre><span id="VALvar"><span class="keyword">val</span> var</span> : <code class="type">string -> string <a href="Mini_calc.html#TYPEt">t</a></code></pre></body></html>

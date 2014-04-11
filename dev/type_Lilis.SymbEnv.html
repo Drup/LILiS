@@ -13,6 +13,7 @@
 <link title="Mini_calc" rel="Chapter" href="Mini_calc.html">
 <link title="Lilis" rel="Chapter" href="Lilis.html">
 <link title="LisUtils" rel="Chapter" href="LisUtils.html">
+<link title="LisOptim" rel="Chapter" href="LisOptim.html">
 <link title="LisSequence" rel="Chapter" href="LisSequence.html">
 <link title="LisBatteries" rel="Chapter" href="LisBatteries.html">
 <link title="LisGen" rel="Chapter" href="LisGen.html">
@@ -25,9 +26,9 @@
 <code class="code"><span class="keyword">sig</span><br>
 &nbsp;&nbsp;<span class="keyword">type</span>&nbsp;t<br>
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;extract&nbsp;:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Lilis</span>.axiom&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="constructor">Lilis</span>.stream&nbsp;<span class="keywordsign">-&gt;</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="constructor">Lilis</span>.rule&nbsp;list&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="constructor">Lilis</span>.rule&nbsp;list&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lilis</span>.<span class="constructor">SymbEnv</span>.t<br>
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;add_rule&nbsp;:&nbsp;<span class="constructor">Lilis</span>.<span class="constructor">SymbEnv</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="constructor">Lilis</span>.rule&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lilis</span>.<span class="constructor">SymbEnv</span>.t<br>
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;add_post_rule&nbsp;:&nbsp;<span class="constructor">Lilis</span>.<span class="constructor">SymbEnv</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="constructor">Lilis</span>.rule&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lilis</span>.<span class="constructor">SymbEnv</span>.t<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;add_axiom&nbsp;:&nbsp;<span class="constructor">Lilis</span>.<span class="constructor">SymbEnv</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lilis</span>.axiom&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lilis</span>.<span class="constructor">SymbEnv</span>.t<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;add_axiom&nbsp;:&nbsp;<span class="constructor">Lilis</span>.<span class="constructor">SymbEnv</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="constructor">Lilis</span>.stream&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lilis</span>.<span class="constructor">SymbEnv</span>.t<br>
 <span class="keyword">end</span></code></body></html>

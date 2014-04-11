@@ -1,0 +1,67 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="LisUtils.html">
+<link rel="next" href="LisSequence.html">
+<link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of class methods" rel=Appendix href="index_methods.html">
+<link title="Index of classes" rel=Appendix href="index_classes.html">
+<link title="Index of class types" rel=Appendix href="index_class_types.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="Mini_calc" rel="Chapter" href="Mini_calc.html">
+<link title="Lilis" rel="Chapter" href="Lilis.html">
+<link title="LisUtils" rel="Chapter" href="LisUtils.html">
+<link title="LisOptim" rel="Chapter" href="LisOptim.html">
+<link title="LisSequence" rel="Chapter" href="LisSequence.html">
+<link title="LisBatteries" rel="Chapter" href="LisBatteries.html">
+<link title="LisGen" rel="Chapter" href="LisGen.html">
+<link title="LisCFStream" rel="Chapter" href="LisCFStream.html">
+<link title="Glilis" rel="Chapter" href="Glilis.html">
+<link title="LisCairo" rel="Chapter" href="LisCairo.html">
+<link title="LisTyxml" rel="Chapter" href="LisTyxml.html"><title>LILiS user guide : LisOptim</title>
+</head>
+<body>
+<div class="navbar"><a class="pre" href="LisUtils.html" title="LisUtils">Previous</a>
+&nbsp;<a class="up" href="index.html" title="Index">Up</a>
+&nbsp;<a class="post" href="LisSequence.html" title="LisSequence">Next</a>
+</div>
+<h1>Module <a href="type_LisOptim.html">LisOptim</a></h1>
+
+<pre><span class="keyword">module</span> LisOptim: <code class="code"><span class="keyword">sig</span></code> <a href="LisOptim.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><div class="info module top">
+Optimization passes on L-systems.<br>
+</div>
+<hr width="100%">
+
+<pre><span id="VALconstant_folding"><span class="keyword">val</span> constant_folding</span> : <code class="type">'a <a href="Lilis.html#TYPElsystem">Lilis.lsystem</a> -> 'a <a href="Lilis.html#TYPElsystem">Lilis.lsystem</a></code></pre><div class="info ">
+A symbol is considered a constant when it's not used in any of the main rules of a L-system.
+    This pass merges consecutive constant symbols into a unique symbol and add post rules for each of these new symbols.
+    The new post rule is created by merging the post rules of the folded symbols. The rules of the folded symbols are pre-applied to their arguments and only free variables are kept.
+<p>
+
+    For exemple, let's consider the L-system featuring the following rules:
+    <pre class="verbatim">rule A(x) = X Y(3*x, 2*x) A(x-1) F(2) Z
+post rule X = Turn(60)
+post rule Y(x,y) = Forward (x+y)
+post rule F(l) = Forward(l)
+   </pre>
+<p>
+
+    We will create two new rules for <code class="code"><span class="constructor">X</span>+<span class="constructor">Y</span></code> and <code class="code"><span class="constructor">X</span>+<span class="constructor">Z</span></code>. <code class="code"><span class="constructor">Z</span></code> doesn't have any post rules so it doesn't contribute to the new post rule. Since only <code class="code">x</code> appears in <code class="code"><span class="constructor">X</span> <span class="constructor">Y</span>(3*x, 2*x)</code>, the new post rule will only have one argument. Here is the resulting L-system:
+<p>
+
+    <pre class="verbatim">rule A(x) = X+Y(x) A(x-1) F+Z
+post rule X = Turn(60)
+post rule Y(x,y) = Forward (x+y)
+post rule F(l) = Forward(l)
+post rule X+Y(x) = Turn(60) Forward (3*x+2*x)
+post rule F+Z = Forward(2)
+   </pre><br>
+</div>
+</body></html>

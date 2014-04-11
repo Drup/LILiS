@@ -18,6 +18,7 @@
 <link title="Mini_calc" rel="Chapter" href="Mini_calc.html">
 <link title="Lilis" rel="Chapter" href="Lilis.html">
 <link title="LisUtils" rel="Chapter" href="LisUtils.html">
+<link title="LisOptim" rel="Chapter" href="LisOptim.html">
 <link title="LisSequence" rel="Chapter" href="LisSequence.html">
 <link title="LisBatteries" rel="Chapter" href="LisBatteries.html">
 <link title="LisGen" rel="Chapter" href="LisGen.html">
@@ -44,7 +45,7 @@ Library to Interpret Lindenmayer Systems.<br>
 <br>
 A L-system is described by a name, an axiom and a bunch of rules. Each symbols can have some arithmetic expressions as arguments.<br>
 
-<pre><span id="TYPEaxiom"><span class="keyword">type</span> <code class="type"></code>axiom</span> = <code class="type">(string * float list) list</code> </pre>
+<pre><span id="TYPEstream"><span class="keyword">type</span> <code class="type">'a</code> stream</span> = <code class="type">('a * float list) list</code> </pre>
 <div class="info ">
 A simple L-system axiom. An axiom is a list of symbols.<br>
 </div>
@@ -91,7 +92,7 @@ A L-system rule. A rule is composed of a left-hand side with a single symbol, po
 <td align="left" valign="top" >
 <code>&nbsp;&nbsp;</code></td>
 <td align="left" valign="top" >
-<code><span id="TYPEELTlsystem.axiom">axiom</span>&nbsp;: <code class="type"><a href="Lilis.html#TYPEaxiom">axiom</a></code>;</code></td>
+<code><span id="TYPEELTlsystem.axiom">axiom</span>&nbsp;: <code class="type">(string * string <a href="Mini_calc.html#TYPEt">Mini_calc.t</a> list) list</code>;</code></td>
 
 </tr>
 <tr>

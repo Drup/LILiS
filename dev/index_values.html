@@ -14,6 +14,7 @@
 <link title="Mini_calc" rel="Chapter" href="Mini_calc.html">
 <link title="Lilis" rel="Chapter" href="Lilis.html">
 <link title="LisUtils" rel="Chapter" href="LisUtils.html">
+<link title="LisOptim" rel="Chapter" href="LisOptim.html">
 <link title="LisSequence" rel="Chapter" href="LisSequence.html">
 <link title="LisBatteries" rel="Chapter" href="LisBatteries.html">
 <link title="LisGen" rel="Chapter" href="LisGen.html">
@@ -55,6 +56,17 @@ Add symbols from a rule to a symbolic environment.
 As <code class="code"> apply </code> but with a complete mapping.
 </div>
 </td></tr>
+<tr><td align="left"><br>B</td></tr>
+<tr><td><a href="Mini_calc.html#VALbind">bind</a> [<a href="Mini_calc.html">Mini_calc</a>]</td>
+<td><div class="info">
+Replace each variables by a subtree.
+</div>
+</td></tr>
+<tr><td><a href="Mini_calc.html#VALbind_opt">bind_opt</a> [<a href="Mini_calc.html">Mini_calc</a>]</td>
+<td><div class="info">
+Replace some variables by a subtree.
+</div>
+</td></tr>
 <tr><td align="left"><br>C</td></tr>
 <tr><td><a href="LisUtils.html#VALcheck_rule">check_rule</a> [<a href="LisUtils.html">LisUtils</a>]</td>
 <td><div class="info">
@@ -89,6 +101,11 @@ Compress a tree using the given function, ie.
 <td></td></tr>
 <tr><td><a href="Lilis.Make.html#VALcompress_rules">compress_rules</a> [<a href="Lilis.Make.html">Lilis.Make</a>]</td>
 <td></td></tr>
+<tr><td><a href="LisOptim.html#VALconstant_folding">constant_folding</a> [<a href="LisOptim.html">LisOptim</a>]</td>
+<td><div class="info">
+A symbol is considered a constant when it's not used in any of the main rules of a L-system.
+</div>
+</td></tr>
 <tr><td align="left"><br>E</td></tr>
 <tr><td><a href="Lilis.S.html#VALempty">empty</a> [<a href="Lilis.S.html">Lilis.S</a>]</td>
 <td></td></tr>
@@ -129,6 +146,11 @@ Create a symbol environment from an axiom and a bunch of rules.
 <tr><td align="left"><br>F</td></tr>
 <tr><td><a href="Lilis.S.html#VALfold">fold</a> [<a href="Lilis.S.html">Lilis.S</a>]</td>
 <td></td></tr>
+<tr><td><a href="Mini_calc.html#VALfold">fold</a> [<a href="Mini_calc.html">Mini_calc</a>]</td>
+<td><div class="info">
+Depth first left to right traversal of the tree.
+</div>
+</td></tr>
 <tr><td><a href="Lilis.S.html#VALforce">force</a> [<a href="Lilis.S.html">Lilis.S</a>]</td>
 <td></td></tr>
 <tr><td><a href="LisUtils.html#VALfrom_channel">from_channel</a> [<a href="LisUtils.html">LisUtils</a>]</td>
@@ -173,6 +195,8 @@ Mapping from string tokens to orders.
 <tr><td align="left"><br>R</td></tr>
 <tr><td><a href="LisUtils.html#VALreplace_in_post_rules">replace_in_post_rules</a> [<a href="LisUtils.html">LisUtils</a>]</td>
 <td></td></tr>
+<tr><td><a href="LisUtils.html#VALrule_to_string">rule_to_string</a> [<a href="LisUtils.html">LisUtils</a>]</td>
+<td></td></tr>
 <tr><td align="left"><br>S</td></tr>
 <tr><td><a href="Lilis.S.html#VALsingleton">singleton</a> [<a href="Lilis.S.html">Lilis.S</a>]</td>
 <td></td></tr>
@@ -191,6 +215,8 @@ Output "Parse error on line %line, colunm %col, token %token"
 </td></tr>
 <tr><td><a href="Lilis.S.html#VALto_list">to_list</a> [<a href="Lilis.S.html">Lilis.S</a>]</td>
 <td></td></tr>
+<tr><td><a href="LisUtils.html#VALto_string">to_string</a> [<a href="LisUtils.html">LisUtils</a>]</td>
+<td></td></tr>
 <tr><td><a href="Mini_calc.html#VALto_string">to_string</a> [<a href="Mini_calc.html">Mini_calc</a>]</td>
 <td><div class="info">
 Print an arithmetic tree.
@@ -204,6 +230,8 @@ Print an arithmetic tree.
 <tr><td><a href="Mini_calc.Env.html#VALusual">usual</a> [<a href="Mini_calc.Env.html">Mini_calc.Env</a>]</td>
 <td></td></tr>
 <tr><td align="left"><br>V</td></tr>
+<tr><td><a href="Mini_calc.html#VALvar">var</a> [<a href="Mini_calc.html">Mini_calc</a>]</td>
+<td></td></tr>
 <tr><td><a href="Mini_calc.html#VALvars">vars</a> [<a href="Mini_calc.html">Mini_calc</a>]</td>
 <td><div class="info">
 Get the list of variables in the given tree.

@@ -17,6 +17,7 @@
 <link title="Mini_calc" rel="Chapter" href="Mini_calc.html">
 <link title="Lilis" rel="Chapter" href="Lilis.html">
 <link title="LisUtils" rel="Chapter" href="LisUtils.html">
+<link title="LisOptim" rel="Chapter" href="LisOptim.html">
 <link title="LisSequence" rel="Chapter" href="LisSequence.html">
 <link title="LisBatteries" rel="Chapter" href="LisBatteries.html">
 <link title="LisGen" rel="Chapter" href="LisGen.html">
@@ -78,7 +79,7 @@ A L-system is first compressed before being iterated on.
 
 <pre><span id="VALcompress_rules"><span class="keyword">val</span> compress_rules</span> : <code class="type"><a href="Lilis.SymbEnv.html#TYPEt">Lilis.SymbEnv.t</a> -> string <a href="Lilis.html#TYPErule">Lilis.rule</a> list -> int <a href="Lilis.Make.html#TYPEcrules">crules</a></code></pre>
 <pre><span id="VALcompress_post_rules"><span class="keyword">val</span> compress_post_rules</span> : <code class="type"><a href="Lilis.SymbEnv.html#TYPEt">Lilis.SymbEnv.t</a> -> 'a <a href="Lilis.html#TYPErule">Lilis.rule</a> list -> 'a <a href="Lilis.Make.html#TYPEcrules">crules</a></code></pre>
-<pre><span id="VALcompress_lslist"><span class="keyword">val</span> compress_lslist</span> : <code class="type"><a href="Lilis.SymbEnv.html#TYPEt">Lilis.SymbEnv.t</a> -> <a href="Lilis.html#TYPEaxiom">Lilis.axiom</a> -> (int * float array) Lstream.stored</code></pre>
+<pre><span id="VALcompress_lslist"><span class="keyword">val</span> compress_lslist</span> : <code class="type"><a href="Lilis.SymbEnv.html#TYPEt">Lilis.SymbEnv.t</a> -> string <a href="Lilis.html#TYPEstream">Lilis.stream</a> -> (int * float array) Lstream.stored</code></pre>
 <pre><span id="VALcompress_lstream"><span class="keyword">val</span> compress_lstream</span> : <code class="type"><a href="Lilis.SymbEnv.html#TYPEt">Lilis.SymbEnv.t</a> -> string <a href="Lilis.Make.html#TYPElstream">lstream</a> -> int <a href="Lilis.Make.html#TYPElstream">lstream</a></code></pre>
 <pre><span id="VALuncompress_lstream"><span class="keyword">val</span> uncompress_lstream</span> : <code class="type"><a href="Lilis.SymbEnv.html#TYPEt">Lilis.SymbEnv.t</a> -> int <a href="Lilis.Make.html#TYPElstream">lstream</a> -> string <a href="Lilis.Make.html#TYPElstream">lstream</a></code></pre><br>
 <h2 id="2_Engine">Engine</h2><br>
