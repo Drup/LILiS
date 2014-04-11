@@ -19,6 +19,11 @@ val from_channel : in_channel -> string Lilis.lsystem list
 val from_string : string -> string Lilis.lsystem list
 (** @raise ParseError on parse errors. *)
 
+(** {2 Printing} *)
+
+val to_string : string Lilis.lsystem -> string
+val rule_to_string : string Lilis.rule -> string
+
 
 (** {2 Verifications} *)
 

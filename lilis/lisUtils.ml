@@ -200,3 +200,28 @@ let from_channel channel =
 let from_string s =
   let lexbuf = Lexing.from_string s in
   parse_convert lexbuf
+
+
+(** {2 Printing} *)
+
+let tok_to_string f (symb,vars) =
+  Printf.sprintf "%s(%s)"
+    symb
+  @@ String.concat ", " @@ List.map f vars
+
+let stream_to_string f stream =
+  String.concat " " @@ List.map (tok_to_string f) stream
+
+let rule_to_string {Lilis. lhs ; vars ; rhs } =
+  tok_to_string Mini_calc.to_string (lhs, List.map Mini_calc.var vars) ^
+    " = " ^ stream_to_string Mini_calc.to_string rhs
+
+let to_string {Lilis. name ; axiom ; rules ; post_rules } =
+  name ^ " {\n" ^
+    "axiom = " ^ stream_to_string string_of_float axiom ^
+    "\nrules {\n" ^
+    String.concat "\n" (List.map rule_to_string rules) ^
+    "\n}\n" ^
+    "\npost rules {\n" ^
+    String.concat "\n" (List.map rule_to_string post_rules) ^
+    "\n}\n"
