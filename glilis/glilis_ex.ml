@@ -27,12 +27,6 @@ let get_lsystem file name =
         with Not_found -> raise (NoLsysName (file, s))
       end
 
-let init_time, print_time =
-  let time = ref (Unix.gettimeofday ()) in
-  let init () = time := Unix.gettimeofday () in
-  let print () = Printf.printf "Time elapsed : %f\n%!" (Unix.gettimeofday () -. !time) in
-  init, print
-
 let to_gtk (width, height) lstream =
   let lstream = Lstream.to_list lstream in
 
@@ -102,10 +96,6 @@ let size =
   let doc = "The size of the image, in pixels" in
   Arg.(value & opt (pair int int) (700,700) & info ["s"; "size"] ~docv:"SIZE" ~doc)
 
-let bench =
-  let doc = "Print the time of execution" in
-  Arg.(value & flag & info ["b";"bench"] ~docv:"BENCH" ~doc)
-
 let verbose =
   let doc = "Be verbose" in
   Arg.(value & flag & info ["v"] ~doc)
@@ -128,7 +118,7 @@ let () = add_output svg to_svg
 
 let svg_cairo =
   let doc = "Write a svg to $(docv) with the cairo backend." in
-  Arg.(value & opt (some string) None & info ["svg-cairo"] ~docv:"FILE" ~doc)
+  Arg.(value & opt (some string) None & info ["cairo-svg"] ~docv:"FILE" ~doc)
 let () = add_output svg_cairo to_svg_cairo
 
 (** {3 Then, terms.} *)
@@ -167,28 +157,23 @@ let optim_t lsys =
   lsys
   |> LisOptim.constant_folding
 
-let processing_t bench n lsys =
+let processing_t n lsys =
   let lsys = LisUtils.replace_in_post_rules Glilis.orders lsys in
-  if bench then init_time () ;
   let lstream = eval_lsys n lsys in
   lstream
 
-let draw_t bench size outputs gtk lstream =
+let draw_t size outputs gtk lstream =
   let fstream = Lstream.store lstream in
   List.iter
     (fun (x,f) -> BatOption.may (f size (Lstream.gennew fstream)) x)
     outputs ;
   if gtk then to_gtk size (Lstream.gennew fstream)
-  (* This is kinda hacky, we force the evaluation of the stream to be able to benchmark the engine part alone. *)
-  else Lstream.force lstream ;
-  if bench then print_time () ;
-  ()
 
 let main_t =
   let open Term in
   let lsys = pure optim_t $ ret (pure parsing_t $ bank $ lname) in
-  let lstream = pure processing_t $ bench $ generation $ lsys in
-  pure draw_t $ bench $ size $ !outputs $ gtk $ lstream
+  let lstream = pure processing_t $ generation $ lsys in
+  pure draw_t $ size $ !outputs $ gtk $ lstream
 
 let () =
   match Term.eval (main_t, Term.info "glilis") with
