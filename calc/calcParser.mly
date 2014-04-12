@@ -1,10 +1,10 @@
 %{
-open Calc_type
+open Calc
 %}
 
 %token <float> FLOAT
 %token <string> IDENT
-%token <string> FUNC
+%token <float -> float> FUNC
 %token PLUS MINUS TIMES DIV POW
 %token LPAREN RPAREN
 %token END
@@ -15,8 +15,8 @@ open Calc_type
 %nonassoc UMINUS        /* highest precedence */
 
 %start entry_arit            /* the entry point */
-%type <string Calc_type.t> entry_arit
-%type <string Calc_type.t> arit
+%type <string Calc.t> entry_arit
+%type <string Calc.t> arit
 
 %%
 
@@ -24,7 +24,7 @@ entry_arit: arit END { $1 }
 
 %public arit :
   | FLOAT			{ Float $1 }
-  | IDENT		        { Id $1 }
+  | IDENT		        { Var $1 }
   | LPAREN arit RPAREN		{ $2 }
   | arit PLUS arit		{ Op2 ($1,Plus,$3) }
   | arit MINUS arit		{ Op2 ($1,Minus,$3) }

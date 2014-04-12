@@ -10,13 +10,13 @@ type 'a stream = ('a * (float list)) list
 type 'a rule = {
   lhs : string ;
   vars : string list ;
-  rhs : ('a * (string Mini_calc.t list)) list ;
+  rhs : ('a * (string Calc.t list)) list ;
 }
 (** A L-system rule. A rule is composed of a left-hand side with a single symbol, potentially some variables and a right-hand side which is a list of symbols where arithmetic expressions can contains those variables. The right hand side can be composed of non-string tokens. *)
 
 type 'a lsystem = {
   name : string ;
-  axiom : (string * (string Mini_calc.t list)) list ;
+  axiom : (string * (string Calc.t list)) list ;
   rules : string rule list ;
   post_rules : 'a rule list ;
 }

@@ -26,8 +26,8 @@ let subst_var_in_token (symb, vars) substs =
     List.map
       (fun x ->
          x
-         |> Mini_calc.bind_opt (fun s -> BatList.Exceptionless.assoc s substs)
-         |> Mini_calc.compress_custom (fun _ -> None)
+         |> Calc.bind_opt (fun s -> BatList.Exceptionless.assoc s substs)
+         |> Calc.compress_custom (fun _ -> None)
       )
       vars
   in (symb, vars')
@@ -40,7 +40,7 @@ let apply_rule rule args =
       rule.rhs
   in
   let vars =
-    BatList.unique @@ BatList.concat @@ List.map Mini_calc.vars args
+    BatList.unique @@ BatList.concat @@ List.map Calc.vars args
   in { rule with rhs ; vars }
 
 
@@ -94,7 +94,7 @@ let constant_folding lsys =
           if buffer = [] then ([], new_rules, nameset)
           else (* Don't forget to collapse the rules if the buffer is not empty. *)
             let (new_rule, nameset) = synth_rule lsys nameset (List.rev buffer) in
-            let vars = List.map Mini_calc.var new_rule.vars in
+            let vars = List.map (fun x -> Calc.Var x) new_rule.vars in
             ([(new_rule.lhs , vars)], new_rule :: new_rules, nameset)
         end
       | ((sym,vars) as tok) :: t -> begin
@@ -104,7 +104,7 @@ let constant_folding lsys =
               (tok :: t, rules, nameset)
             else (* Or we do have rules to collapse, then let's go ! *)
               let (new_rule, nameset) = synth_rule lsys nameset (List.rev buffer) in
-              let vars = List.map Mini_calc.var new_rule.vars in
+              let vars = List.map (fun x -> Calc.Var x) new_rule.vars in
               let (t, new_rules, nameset) = aux nameset [] new_rules t in
               ((new_rule.lhs , vars) :: tok :: t , new_rule :: new_rules, nameset)
           else (* Just add to the buffer. *)

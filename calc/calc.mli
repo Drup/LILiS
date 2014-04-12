@@ -9,15 +9,18 @@
 
 *)
 
+(** Type of binary operators *)
+type op2 = Plus | Minus | Times | Div | Pow
 
-type 'a t = 'a Calc_type.t
-(** Type of arithmetic trees with unknow variables of type 'a. *)
+(** Type of unary operators *)
+type op1 = Func of (float -> float) | MinusUn ;;
 
-val to_string : string t -> string
-(** Print an arithmetic tree. *)
-
-val of_string : string -> string t
-  (** Parse an arithmetic expression. *)
+(** Type of tree which represent an arithmetic expression *)
+type 'a t =
+  | Float of float
+  | Op2 of ('a t) * op2 * ('a t)
+  | Op1 of op1 * ('a t)
+  | Var of 'a
 
 module Env : sig
   type t
@@ -42,11 +45,6 @@ val eval : Env.t -> string t -> float
 
 val compress : Env.t -> string t -> string t
 (** Compress a tree in the given environment, ie. evaluate everything that can be evaluated. *)
-
-val eval_string : Env.t -> string -> float
-(** Evaluate the arithmetic expression in the given environment and the usual environment.
-    @raise Unkown_variable if a variable is not define in the environment.
- *)
 
 (** {3 Some other functions} *)
 
@@ -75,7 +73,5 @@ val vars : 'a t -> 'a list
 
 val closure :
   ?env:Env.t ->
-  string -> (string * 'a) list -> (('a -> float) -> float)
+  string t -> (string * 'a) list -> (('a -> float) -> float)
 (** Compress the string in the optional env and return the resulting closure. *)
-
-val var : string -> string t

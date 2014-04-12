@@ -179,7 +179,7 @@ A stream-like data-structure is any kind of structure that respect {! Lilis.S}. 
 
 {3 minicalc}
 
-{! Mini_calc} is a small library to evaluate arithmetic expressions. It's a helper for {! Lilis}.
+{! Calc} is a small library to evaluate arithmetic expressions. It's a helper for {! Lilis}.
 
 {3 glilis}
 
@@ -189,7 +189,7 @@ Two backend are currently implemented :
 - {! LisTyxml} can produce svg file or svg elements using {{: http://ocsigen.org/tyxml/} tyxml}.
 
 {2 Index}
-{!modules: Mini_calc}
+{!modules: Calc CalcUtils}
 {!modules: Lilis LisUtils LisOptim LisSequence LisBatteries LisGen LisCFStream}
 {!modules: Glilis LisCairo LisTyxml}
 {!indexlist}

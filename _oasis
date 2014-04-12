@@ -42,13 +42,13 @@ Flag executable
 ### Minicalc ###
 # A small library to build and compute arithmetic expression trees.
 
-Library minicalc
-  Path: mini_calc
+Library calc
+  Path: calc
   BuildTools: ocamlbuild
   Modules:
-    Mini_calc
+    Calc, CalcUtils
   InternalModules:
-    Calc_type, Calc_eval, Calc_lexer, Calc_parser
+    CalcLexer, CalcParser
   BuildDepends:
     batteries
 
@@ -59,7 +59,7 @@ Library minicalc
 
 Library lilis
   Path: lilis
-  BuildDepends: batteries, minicalc
+  BuildDepends: batteries, calc
   Modules:
     Lilis, LisUtils, LisOptim
   InternalModules:
@@ -191,7 +191,7 @@ Document lilis
   BuildTools:		ocamldoc, ocamlbuild
   XOCamlbuildPath:	.
   XOCamlbuildLibraries:
-    minicalc,
+    calc,
     lilis, lilis.sequence, lilis.batteries, lilis.gen, lilis.cfstream,
     glilis, glilis.cairo, glilis.tyxml
 

@@ -1,11 +1,11 @@
-S mini_calc
+S calc
 S lilis
 S lilis/streams
 S glilis
 S test
 
 B _build
-B _build/mini_calc
+B _build/calc
 B _build/lilis
 B _build/lilis/streams
 B _build/glilis

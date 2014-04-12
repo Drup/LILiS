@@ -72,7 +72,7 @@ You can also enable benchmarks and tests with the flag `--enable-tests`. The ben
 ## Architecture of the project
 
 This project has three parts :
-- `mini_calc`, a very small library to evaluate arithmetic expression;
+- `calc`, a very small library to evaluate arithmetic expression;
 - `lilis`, the core engine;
 - `glilis`, the graphical stuff.
 - `test`, some benchmarks

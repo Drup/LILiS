@@ -3,7 +3,7 @@
 (** The AST for a Lsystem. *)
 module AST = struct
 
-  type arit = string Mini_calc.t
+  type arit = string Calc.t
 
   type 'a token = string * 'a list
 

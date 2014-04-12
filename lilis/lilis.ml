@@ -7,13 +7,13 @@ type 'a stream = ('a * float list) list
 type 'a rule = {
   lhs : string ;
   vars : string list ;
-  rhs : ('a * (string Mini_calc.t list)) list ;
+  rhs : ('a * (string Calc.t list)) list ;
 }
 (** A L-system rule. *)
 
 type 'a lsystem = {
   name : string ;
-  axiom : (string * (string Mini_calc.t list)) list ;
+  axiom : (string * (string Calc.t list)) list ;
   rules : string rule list ;
   post_rules : 'a rule list ;
 }
@@ -32,7 +32,7 @@ type arit_fun = float array -> float
    Will crash horribly if the mapping is imcomplete, which shouldn't happen if the compression functions are used.
 *)
 let arit_closure v t : arit_fun =
-  let open Mini_calc in
+  let open Calc in
   let t = compress Env.usual t in
   let f x = BatArray.findi ( BatString.equal x) v in
   let t = map f t in
@@ -218,7 +218,7 @@ module Make (Ls : S) = struct
   (** Evaluate the axiom *)
   let eval_expr l =
     let f (name,l) =
-      let open Mini_calc in
+      let open Calc in
       name, Array.map (fun t -> eval Env.empty t) l
     in Ls.map f l
 

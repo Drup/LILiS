@@ -17,10 +17,10 @@ exception OptionalArgument of ( string * string ) (* tok, arg *)
 
 let check_expr env arit_env vars tok e =
   let is_def token variable =
-    if not (Mini_calc.Env.mem variable arit_env || List.mem variable vars) then
+    if not (Calc.Env.mem variable arit_env || List.mem variable vars) then
       raise (VarDefError ( token, variable ))
   in
-  let l = Mini_calc.vars e in
+  let l = Calc.vars e in
   List.iter (is_def tok) l
 
 
@@ -52,7 +52,7 @@ let check_stream env axiom =
     env []
     (fun _ _ -> ()) axiom
 
-let check_rule env ?(arit_env=Mini_calc.Env.usual) r =
+let check_rule env ?(arit_env=Calc.Env.usual) r =
   is_def_tok env r.Lilis.lhs ;
   check_arity env r.Lilis.lhs r.Lilis.vars ;
   let check_inside t l =
@@ -198,12 +198,12 @@ let stream_to_string f stream =
   String.concat " " @@ List.map (tok_to_string f) stream
 
 let rule_to_string {Lilis. lhs ; vars ; rhs } =
-  tok_to_string Mini_calc.to_string (lhs, List.map Mini_calc.var vars) ^
-    " = " ^ stream_to_string Mini_calc.to_string rhs
+  tok_to_string CalcUtils.to_string (lhs, List.map (fun x -> Calc.Var x) vars) ^
+    " = " ^ stream_to_string CalcUtils.to_string rhs
 
 let to_string {Lilis. name ; axiom ; rules ; post_rules } =
   name ^ " {\n" ^
-    "axiom = " ^ stream_to_string Mini_calc.to_string axiom ^
+    "axiom = " ^ stream_to_string CalcUtils.to_string axiom ^
     "\nrules {\n" ^
     String.concat "\n" (List.map rule_to_string rules) ^
     "\n}\n" ^

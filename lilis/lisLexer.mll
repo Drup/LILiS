@@ -1,13 +1,12 @@
 {
 open LisParser
 
-(* TOFIX I have to paste Calc_type.func_list here, this is bad. *)
-let func_list =
-  [ ("sqrt",sqrt) ;
-    ("sin",sin) ; ("cos",cos) ; ("tan",tan) ;
-    ("log",log) ; ("log10",log10) ; ("exp",exp) ;
-    ("asin",asin) ; ("acos",acos) ; ("atan",atan) ;
-  ]
+let func_list = [
+  ("sqrt",sqrt) ;
+  ("sin",sin) ; ("cos",cos) ; ("tan",tan) ;
+  ("log",log) ; ("log10",log10) ; ("exp",exp) ;
+  ("asin",asin) ; ("acos",acos) ; ("atan",atan) ;
+]
 
 }
 
@@ -38,7 +37,7 @@ rule token = parse
   | [ '0'-'9' ]+('.'[ '0'-'9']*)? as x	{FLOAT (float_of_string x)}
   | alpha+ as s
       { if List.mem_assoc s func_list
-	then FUNC s
+	then FUNC (List.assoc s func_list)
         else IDENT s
       }
   | ls_name as s { NAME s}
