@@ -124,11 +124,11 @@ module Make (Lstream : S) : sig
   (** {2 Not really safe} *)
 
   val eval_iter_lsys :
-    int -> ('a * string Calc.t list) lsystem ->
+    int -> ('a * string Calc.t list) lsystem -> store:bool ->
     ('a -> (float array -> float) array -> float array -> unit) -> unit -> unit
 
   val eval_fold_lsys :
-    int -> ('a * string Calc.t list) lsystem ->
+    int -> ('a * string Calc.t list) lsystem -> store:bool ->
     ('a -> (float array -> float) array -> 'b -> float array -> 'b) -> 'b -> 'b
 
 end

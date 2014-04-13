@@ -157,7 +157,7 @@ module Make (Ls : S) = struct
   let compress_post_rules senv rules =
     compress_gen_rules senv (fun x -> x) rules
 
-  let compress_rules senv rules=
+  let compress_rules senv rules =
     let get x = SMap.find x senv.env in
     compress_gen_rules senv get rules
 
@@ -174,6 +174,10 @@ module Make (Ls : S) = struct
 
   (** {1 L-system evaluation engine} *)
 
+  (* Starting here, we need to be really carefull with boxing, specialisation and clotures.
+     In particular *all* functions that take float array should be specialized to ensure it.
+  *)
+
   (** Evaluate a stream of arithmetic expressions in the given environment. *)
   (* PERF There is an Array.map here, we can probably avoid it. *)
   let eval_rule args lstream =
@@ -181,12 +185,12 @@ module Make (Ls : S) = struct
       ordre, Array.map (fun f -> f args) ordre_args
     in Ls.map f_eval_rule (Ls.gennew lstream)
 
-  let iter_rule args lstream =
+  let iter_rule (args : float array) lstream =
     let f_iter_rule (order, (ordre_args : arit_fun array)) =
       order ordre_args args
     in Ls.iter f_iter_rule (Ls.gennew lstream)
 
-  let fold_rule args lstream z =
+  let fold_rule (args : float array) lstream z =
     let f_iter_rule z (order, (ordre_args : arit_fun array)) =
       order ordre_args z args
     in Ls.fold f_iter_rule z (Ls.gennew lstream)
@@ -206,7 +210,7 @@ module Make (Ls : S) = struct
       | None -> Ls.empty
     in
     let r = Array.map f rules in
-    let transf (symbol,args) = eval args r.(symbol) in
+    let transf (symbol,args) = eval (args : float array) r.(symbol) in
     transf
 
   (** Generate a lstream at the n-th generation,
@@ -225,8 +229,9 @@ module Make (Ls : S) = struct
       lstream
 
   let fold_complete rules z lstream =
-    let f z x = get_complete_transformation fold_rule rules x z in
-    Ls.fold f z lstream
+    Ls.fold
+      (fun z x -> get_complete_transformation fold_rule rules x z)
+      z lstream
 
   let apply_complete rules lstream =
     Ls.expand
@@ -251,21 +256,37 @@ module Make (Ls : S) = struct
     let axiom =
       Ls.store @@ eval_expr @@ Ls.gennew axiom
     in
-    let lstream = Ls.store @@ apply ~n rules @@ Ls.gennew axiom in
-    (fun f -> f senv prules @@ Ls.gennew lstream)
+    let lstream = apply ~n rules @@ Ls.gennew axiom in
+    fun f -> f senv prules lstream
 
   (** Like eval_lsys, but will ignore post rules and uncompress the stream instead. *)
   let eval_lsys_uncompress n lsys =
-    eval_general n lsys (fun env _ l -> uncompress_lstream env l)
+    eval_general n lsys
+      (fun env _ l -> uncompress_lstream env l)
 
   (** Generate the n-th generation of the given L-system. *)
   let eval_lsys n lsys =
-    eval_general n lsys (fun _ prules l -> apply_complete prules l)
+    eval_general n lsys
+      (fun _ prules l -> apply_complete prules l)
 
   let eval_iter_lsys n lsys =
-    eval_general n lsys (fun _ prules l spec () -> iter_complete (map_crules spec prules) l)
+    eval_general n lsys
+      (fun _ prules l ~store spec ->
+         if store then
+           let l = Ls.store l in
+           fun () -> iter_complete (map_crules spec prules) @@ Ls.gennew l
+         else
+           fun () -> iter_complete (map_crules spec prules) l
+      )
 
   let eval_fold_lsys n lsys =
-    eval_general n lsys (fun _ prules l spec z -> fold_complete (map_crules spec prules) z l)
+    eval_general n lsys
+      (fun _ prules l ~store spec ->
+         if store then
+           let l = Ls.store l in
+           fun z -> fold_complete (map_crules spec prules) z @@ Ls.gennew l
+         else
+           fun z -> fold_complete (map_crules spec prules) z l
+      )
 
 end

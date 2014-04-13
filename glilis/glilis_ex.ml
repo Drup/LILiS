@@ -36,7 +36,7 @@ let to_gtk (width, height) lstream =
 
   let expose ev =
     let turtle = LisCairo.gtk_turtle area in
-    turtle.handle_lsys @@ lstream @@ Glilis.transform_rhs turtle;
+    turtle.handle_lsys @@ lstream ~store:true @@ Glilis.transform_rhs turtle;
     true
   in
   ignore(area#event#connect#expose expose);
@@ -45,19 +45,19 @@ let to_gtk (width, height) lstream =
 
 let to_png (width, height) lstream file =
   let turtle = LisCairo.png_turtle width height in
-  let lstream = lstream @@ Glilis.transform_rhs turtle in
+  let lstream = lstream ~store:false @@ Glilis.transform_rhs turtle in
   turtle.handle_lsys lstream file
 
 let to_svg_cairo (width, height) lstream file =
   let turtle = LisCairo.svg_turtle file width height in
-  let lstream = lstream @@ Glilis.transform_rhs turtle in
+  let lstream = lstream ~store:false @@ Glilis.transform_rhs turtle in
   turtle.handle_lsys lstream
 
 
 #ifdef Tyxml
 let to_svg size lstream file =
   let turtle = LisTyxml.svg_turtle () in
-  let lstream = lstream @@ Glilis.transform_rhs turtle in
+  let lstream = lstream ~store:false @@ Glilis.transform_rhs turtle in
   let s = turtle.handle_lsys lstream in
   let lsvg = LisTyxml.template size s in
   let buffer = open_out file in
