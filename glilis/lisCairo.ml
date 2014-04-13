@@ -1,4 +1,7 @@
 
+(* For @@ operator on ocaml <= 4.01 *)
+open LisCommon
+
 let real_pos size x =
   (floor (size *. x)) +. 0.5
 

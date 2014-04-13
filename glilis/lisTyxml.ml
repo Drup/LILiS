@@ -1,4 +1,7 @@
 
+(* For @@ operator on ocaml <= 4.01 *)
+open LisCommon
+
 type path_inst =
   | M of Glilis.pos
   | Mr of Glilis.pos

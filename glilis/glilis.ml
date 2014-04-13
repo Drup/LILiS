@@ -1,4 +1,7 @@
 
+(* For @@ operator on ocaml <= 4.01 *)
+open LisCommon
+
 let pi = 4. *. atan 1.
 
 type pos = { mutable x : float ; mutable y : float ; mutable d : float }

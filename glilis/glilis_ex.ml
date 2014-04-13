@@ -2,8 +2,8 @@ open Glilis
 open Lilis
 open Cmdliner
 
-let (@@) = BatPervasives.(@@)
-let (|>) = BatPervasives.(|>)
+(* For @@ operator on ocaml <= 4.01 *)
+open LisCommon
 
 exception NoLsys of string
 exception NoLsysName of string * string
