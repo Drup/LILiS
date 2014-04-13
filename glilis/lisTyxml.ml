@@ -17,38 +17,40 @@ let push_inst buf =
     | L  { x ; y } -> foo buf " L " x y
     | Lr { x ; y } -> foo buf " l " x y
 
-class ['a] svg_turtle =
+let svg_turtle () =
+  let open Glilis in
 
-  object inherit ['a] Glilis.vturtle as super
+  let super = turtle () in
 
-    val acc =
-      (* Whatever the initial size, we're going to blow it up anyway.
-         Experimentally, the initial size doesn't affect performances. *)
-      let buf = Buffer.create 10 in
-      Buffer.add_string buf "M 0 0" ;
-      buf
+  (* Whatever the initial size, we're going to blow it up anyway.
+     Experimentally, the initial size doesn't affect performances. *)
+  let acc = Buffer.create 10 in
+  let buf_init () = Buffer.clear acc ; Buffer.add_string acc "M 0 0" in
 
-    method move ?(trace=true) f =
-      super#move ~trace f ;
-      let open Glilis in
-      let pos = super#get_pos in
-      if trace
-      then push_inst acc (L pos)
-      else push_inst acc (M pos)
+  let move ?(trace=true) f =
+    super.move ~trace f ;
+    let pos = super.get_pos () in
+    if trace
+    then push_inst acc (L pos)
+    else push_inst acc (M pos)
+  in
+  let restore_position () =
+    super.restore_position () ;
+    let pos = super.get_pos () in
+    push_inst acc (M pos)
+  in
 
-    method restore_position () =
-      super#restore_position () ;
-      let open Glilis in
-      let pos = super#get_pos in
-      push_inst acc (M pos)
+  (* We don't handle colors for now. *)
+  let color c = () in
 
-    method color c = ()
+  let handle_lsys f =
+    buf_init () ;
+    super.handle_lsys f ;
+    Buffer.contents acc
+  in
 
-    (** Export the path as a string. *)
-    method to_string () =
-      Buffer.contents acc
+  {super with move ; color; restore_position ; handle_lsys }
 
-  end
 
 let template (w,h) s =
   let open Svg.M in

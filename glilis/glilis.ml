@@ -9,77 +9,85 @@ type color = { r : float ; g : float ; b : float ; a : float }
 
 let copy_color { r ; g ; b ; a } = { r ; g ; b ; a }
 
-type orders = [
-  | `Forward
-  | `forward
-  | `Turn
-  | `Save
-  | `Restore
-  | `Color
-]
+type orders =
+  | Forward
+  | Forward'
+  | Turn
+  | Save
+  | Restore
+  | Color
+
 
 let orders = [
-  "Forward", (`Forward,1) ;
-  "forward", (`forward,1) ;
-  "Turn"   , (`Turn,   1) ;
-  "Save"   , (`Save,   0) ;
-  "Restore", (`Restore,0) ;
-  "Color"  , (`Color,  4) ;
+  "Forward", (Forward, 1) ;
+  "forward", (Forward',1) ;
+  "Turn"   , (Turn,    1) ;
+  "Save"   , (Save,    0) ;
+  "Restore", (Restore, 0) ;
+  "Color"  , (Color,   4) ;
 ]
 
 
-class type ['a] turtle = object
-  constraint 'a = [< orders ]
-  method get_pos : pos
-  method get_color : color
-  method turn : float -> unit
-  method move : ?trace:bool -> float -> unit
-  method save_position : unit -> unit
-  method restore_position : unit -> unit
-  method color : color -> unit
-  method draw : 'a * float array -> unit
-end
+type 'a turtle = {
+  get_pos : unit -> pos ;
+  get_color : unit -> color ;
+  turn : float -> unit ;
+  move : ?trace:bool -> float -> unit ;
+  save_position : unit -> unit ;
+  restore_position : unit -> unit ;
+  color : color -> unit ;
+  handle_lsys : (unit -> unit) -> 'a  ;
+}
 
-class virtual ['a] vturtle =
-  object(t)
 
-    (** Position of the turtle *)
-    (* We pack the position in a float record because it's (very slightly) more efficient. *)
-    val mutable pos = { x = 0. ; y = 0. ; d = 0. }
+let transform_rhs t =
+  let f order arits args = match fst @@ List.assoc order orders with
+      | Forward  -> t.move ~trace:true @@ arits.(0) args
+      | Turn     -> t.turn @@ -. (arits.(0) args)
+      | Forward' -> t.move ~trace:false @@ arits.(0) args
+      | Save     -> t.save_position ()
+      | Restore  -> t.restore_position ()
+      | Color    ->
+          t.color { r = arits.(0) args ; g = arits.(0) args ;
+                    b = arits.(0) args ; a = arits.(0) args } ;
+  in f
 
-    val mutable color = { r = 0. ; g = 0. ; b = 0. ; a = 1. }
+let transform_lsys turtle lsys =
+  let open Lilis in
+  let transform_rule turtle rule =
+    {rule with rhs = List.map ((fun (a,_) -> (transform_rhs turtle a))) rule.rhs}
+  in
+  { lsys with post_rules = List.map (transform_rule turtle) lsys.post_rules }
 
-    method get_pos = pos
+let turtle () =
+  let pos = { x = 0. ; y = 0. ; d = 0. } in
+  let color = ref { r = 0. ; g = 0. ; b = 0. ; a = 1. } in
+  let stack = Stack.create () in
 
-    method get_color = color
+  let get_pos () = pos in
+  let get_color () = !color in
+  let turn angle = pos.d <- pos.d +. angle *. pi /. 180. in
+  let move ?(trace=true) f =
+    let d' = pos.d in
+    pos.x <- pos.x +. (f *. cos d') ;
+    pos.y <- pos.y +. (f *. sin d') in
+  let save_position () = Stack.push (copy_pos pos, !color) stack in
+  let restore_position () =
+    let p, c = Stack.pop stack in
+    pos.x <- p.x ; pos.y <- p.y ; pos.d <- p.d ; color := c in
 
-    (** Positions remenbered by the turtle *)
-    val stack = Stack.create ()
+  let handle_lsys f =
+    color := { r = 0. ; g = 0. ; b = 0. ; a = 1. } ;
+    pos.x <- 0. ; pos.y <- 0. ; pos.d <- 0. ;
+    Stack.clear stack ;
+    f ()
+  in
 
-    method turn angle =
-      pos.d <- pos.d +. angle *. pi /. 180.
+  let color c = color := c in
 
-    method move ?(trace=true) f =
-      let d' = pos.d in
-      pos.x <- pos.x +. (f *. cos d') ;
-      pos.y <- pos.y +. (f *. sin d')
-
-    method save_position () =
-      Stack.push (copy_pos pos, copy_color color) stack
-
-    method restore_position () =
-      let p, c = Stack.pop stack in
-      pos <- p ; color <- c
-
-    method color c =
-      color <- c
-
-    method draw (order : 'a * float array) = match order with
-      | `Forward, l -> t#move ~trace:true l.(0)
-      | `Turn   , l -> t#turn ( -. l.(0))
-      | `forward, l -> t#move ~trace:false l.(0)
-      | `Save   , _ -> t#save_position ()
-      | `Restore, _ -> t#restore_position ()
-      | `Color  , l -> t#color { r =l.(0) ; g = l.(1) ; b = l.(2) ; a = l.(3) }
-
-  end
+  { get_pos ; get_color ;
+    turn ; move ;
+    save_position ; restore_position ;
+    color ;
+    handle_lsys ;
+  }

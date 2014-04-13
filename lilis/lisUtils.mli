@@ -13,16 +13,16 @@ exception ParseError of (int * int * string)
 val string_of_ParseError : (int * int * string) -> string
 (** Output "Parse error on line %line, colunm %col, token %token" *)
 
-val from_channel : in_channel -> string Lilis.lsystem list
+val from_channel : in_channel -> (string * string Calc.t list) Lilis.lsystem list
 (** @raise ParseError on parse errors. *)
 
-val from_string : string -> string Lilis.lsystem list
+val from_string : string -> (string * string Calc.t list) Lilis.lsystem list
 (** @raise ParseError on parse errors. *)
 
 (** {2 Printing} *)
 
-val to_string : string Lilis.lsystem -> string
-val rule_to_string : string Lilis.rule -> string
+val to_string : (string * string Calc.t list) Lilis.lsystem -> string
+val rule_to_string : (string * string Calc.t list) Lilis.rule -> string
 
 
 (** {2 Verifications} *)
@@ -40,8 +40,10 @@ val check_stream : int SMap.t -> (string * 'a list) list -> unit
 (** Check a stream against an environment. This environment is a mapping name -> arity.
     @raise ArityError, VarDefError, TokenDefError *)
 
-val check_rule : int SMap.t -> ?arit_env:Calc.Env.t -> string Lilis.rule -> unit
+val check_rule :
+  int SMap.t -> ?arit_env:Calc.Env.t -> (string * string Calc.t list)  Lilis.rule -> unit
 (** As [ check_stream ] for a rule. Need also an arithmetic environment, will use {! Calc.Env.usual } if none is provided.
     @raise ArityError, VarDefError, TokenDefError *)
 
-val replace_in_post_rules : (string * ('b * int)) list -> string Lilis.lsystem -> 'b Lilis.lsystem
+val replace_in_post_rules :
+  (string * ('a * int)) list -> (string * 'b list) Lilis.lsystem -> ('a * 'b list) Lilis.lsystem

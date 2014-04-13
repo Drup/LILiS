@@ -7,14 +7,14 @@ type 'a stream = ('a * float list) list
 type 'a rule = {
   lhs : string ;
   vars : string list ;
-  rhs : ('a * (string Calc.t list)) list ;
+  rhs : 'a list ;
 }
 (** A L-system rule. *)
 
 type 'a lsystem = {
   name : string ;
-  axiom : (string * (string Calc.t list)) list ;
-  rules : string rule list ;
+  axiom : (string * string Calc.t list) list ;
+  rules : (string * string Calc.t list) rule list ;
   post_rules : 'a rule list ;
 }
 (** A complete L-system. *)
@@ -132,7 +132,7 @@ module Make (Ls : S) = struct
   (** {3 L-system Transformation}
       Transform an L-system to a compressed form using a string <-> int mapping. *)
 
-  let transform_rule_rhs symbf vars r : 'a crule =
+  let transform_rule_rhs symbf vars r =
     let transform_symb (symb,args) =
       let new_symb = symbf symb in
       let new_args = Array.of_list (List.map (arit_closure vars) args) in
@@ -145,7 +145,7 @@ module Make (Ls : S) = struct
     let new_rhs = transform_rule_rhs f new_vars r.rhs in
     (new_lhs, new_rhs)
 
-  let compress_gen_rules senv f rules : 'a crules =
+  let compress_gen_rules senv f rules =
     let crules = BatArray.create senv.n None in
     let add_rule r =
       let i, rhs = transform_rule senv f r in
@@ -154,10 +154,10 @@ module Make (Ls : S) = struct
     List.iter add_rule rules ;
     crules
 
-  let compress_post_rules senv rules : 'a crules =
+  let compress_post_rules senv rules =
     compress_gen_rules senv (fun x -> x) rules
 
-  let compress_rules senv rules : 'a crules =
+  let compress_rules senv rules=
     let get x = SMap.find x senv.env in
     compress_gen_rules senv get rules
 
@@ -168,14 +168,29 @@ module Make (Ls : S) = struct
     let cprules = compress_post_rules senv lsys.post_rules in
     senv, caxiom, crules, cprules
 
+  let map_crules f x  =
+    let f' x = Ls.store @@ Ls.map (fun (a,b) -> (f a,b)) @@ Ls.gennew x in
+    Array.map (BatOption.map f') x
+
   (** {1 L-system evaluation engine} *)
 
   (** Evaluate a stream of arithmetic expressions in the given environment. *)
   (* PERF There is an Array.map here, we can probably avoid it. *)
-  let eval_rule args (lstream : 'a crule) : 'a lstream =
+  let eval_rule args lstream =
     let f_eval_rule (ordre, (ordre_args : arit_fun array) ) =
       ordre, Array.map (fun f -> f args) ordre_args
     in Ls.map f_eval_rule (Ls.gennew lstream)
+
+  let iter_rule args lstream =
+    let f_iter_rule (order, (ordre_args : arit_fun array)) =
+      order ordre_args args
+    in Ls.iter f_iter_rule (Ls.gennew lstream)
+
+  let fold_rule args lstream z =
+    let f_iter_rule z (order, (ordre_args : arit_fun array)) =
+      order ordre_args z args
+    in Ls.fold f_iter_rule z (Ls.gennew lstream)
+
 
   (** Get the transformation function from a L-system. *)
   let get_transformation rules =
@@ -185,13 +200,13 @@ module Make (Ls : S) = struct
     in transf
 
   (** Verify that a rule is complete and obtain the transformation. *)
-  let get_complete_transformation rules =
+  let get_complete_transformation eval rules =
     let f = function
       | Some x -> x
       | None -> Ls.empty
     in
     let r = Array.map f rules in
-    let transf (symbol,args) = eval_rule args r.(symbol) in
+    let transf (symbol,args) = eval args r.(symbol) in
     transf
 
   (** Generate a lstream at the n-th generation,
@@ -204,9 +219,18 @@ module Make (Ls : S) = struct
     in
     generation m axiom
 
+  let iter_complete rules lstream =
+    Ls.iter
+      (get_complete_transformation iter_rule rules)
+      lstream
+
+  let fold_complete rules z lstream =
+    let f z x = get_complete_transformation fold_rule rules x z in
+    Ls.fold f z lstream
+
   let apply_complete rules lstream =
     Ls.expand
-      (get_complete_transformation rules)
+      (get_complete_transformation eval_rule rules)
       lstream
 
   let apply ?(n=1) rules lstream =
@@ -222,21 +246,26 @@ module Make (Ls : S) = struct
       name, Array.map (fun t -> eval Env.empty t) l
     in Ls.map f l
 
-  (** Like eval_lsys, but will ignore post rules and uncompress the stream instead. *)
-  let eval_lsys_uncompress n lsys =
-    let senv, axiom, rules, _ = compress_lsys lsys in
-    let axiom =
-      Ls.store @@ eval_expr @@ Ls.gennew axiom
-    in
-    let lstream = apply ~n rules (Ls.gennew axiom) in
-    uncompress_lstream senv lstream
-
-  (** Generate the n-th generation of the given L-system. *)
-  let eval_lsys n lsys =
+  let eval_general n lsys =
     let senv, axiom, rules, prules = compress_lsys lsys in
     let axiom =
       Ls.store @@ eval_expr @@ Ls.gennew axiom
     in
-    let lstream = apply ~n rules (Ls.gennew axiom) in
-    apply_complete prules lstream
+    let lstream = Ls.store @@ apply ~n rules @@ Ls.gennew axiom in
+    (fun f -> f senv prules @@ Ls.gennew lstream)
+
+  (** Like eval_lsys, but will ignore post rules and uncompress the stream instead. *)
+  let eval_lsys_uncompress n lsys =
+    eval_general n lsys (fun env _ l -> uncompress_lstream env l)
+
+  (** Generate the n-th generation of the given L-system. *)
+  let eval_lsys n lsys =
+    eval_general n lsys (fun _ prules l -> apply_complete prules l)
+
+  let eval_iter_lsys n lsys =
+    eval_general n lsys (fun _ prules l spec () -> iter_complete (map_crules spec prules) l)
+
+  let eval_fold_lsys n lsys =
+    eval_general n lsys (fun _ prules l spec z -> fold_complete (map_crules spec prules) z l)
+
 end

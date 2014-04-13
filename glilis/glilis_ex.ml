@@ -11,7 +11,6 @@ exception NoLsysName of string * string
 (* This allow to change easily the stream used. *)
 module Lstream = LisSequence
 module LsEn = Make(Lstream)
-let eval_lsys = LsEn.eval_lsys
 
 let get_lsystem file name =
   let c = open_in file in
@@ -28,43 +27,39 @@ let get_lsystem file name =
       end
 
 let to_gtk (width, height) lstream =
-  let lstream = Lstream.to_list lstream in
-
-  let expose area ev =
-    let turtle = new LisCairo.gtk_turtle area in
-    turtle#fill () ;
-    List.iter turtle#draw lstream ;
-    turtle#apply () ;
-    true
-  in
   ignore(GMain.init());
   let window = GWindow.window ~width ~height ~title:"gLILiS" () in
   ignore (window#connect#destroy GMain.quit);
 
   let area = GMisc.drawing_area ~packing:window#add () in
   area#misc#set_double_buffered true;
-  ignore(area#event#connect#expose (expose area));
+
+  let expose ev =
+    let turtle = LisCairo.gtk_turtle area in
+    turtle.handle_lsys @@ lstream @@ Glilis.transform_rhs turtle;
+    true
+  in
+  ignore(area#event#connect#expose expose);
   window#show ();
   GMain.main ()
 
 let to_png (width, height) lstream file =
-  let turtle = new LisCairo.png_turtle width height in
-  turtle#fill () ;
-  Lstream.iter turtle#draw lstream ;
-  turtle#finish file
+  let turtle = LisCairo.png_turtle width height in
+  let lstream = lstream @@ Glilis.transform_rhs turtle in
+  turtle.handle_lsys lstream file
 
 let to_svg_cairo (width, height) lstream file =
-  let turtle = new LisCairo.svg_turtle file width height in
-  turtle#fill () ;
-  Lstream.iter turtle#draw lstream ;
-  turtle#finish ()
+  let turtle = LisCairo.svg_turtle file width height in
+  let lstream = lstream @@ Glilis.transform_rhs turtle in
+  turtle.handle_lsys lstream
 
 
 #ifdef Tyxml
 let to_svg size lstream file =
-  let turtle = new LisTyxml.svg_turtle in
-  Lstream.iter turtle#draw lstream ;
-  let lsvg = LisTyxml.template size (turtle#to_string ()) in
+  let turtle = LisTyxml.svg_turtle () in
+  let lstream = lstream @@ Glilis.transform_rhs turtle in
+  let s = turtle.handle_lsys lstream in
+  let lsvg = LisTyxml.template size s in
   let buffer = open_out file in
   Svg.P.print ~output:(output_string buffer) lsvg ;
   close_out buffer
@@ -158,16 +153,14 @@ let optim_t lsys =
   |> LisOptim.constant_folding
 
 let processing_t n lsys =
-  let lsys = LisUtils.replace_in_post_rules Glilis.orders lsys in
-  let lstream = eval_lsys n lsys in
+  let lstream = LsEn.eval_iter_lsys n lsys in
   lstream
 
 let draw_t size outputs gtk lstream =
-  let fstream = Lstream.store lstream in
   List.iter
-    (fun (x,f) -> BatOption.may (f size (Lstream.gennew fstream)) x)
+    (fun (x,f) -> BatOption.may (f size lstream) x)
     outputs ;
-  if gtk then to_gtk size (Lstream.gennew fstream)
+  if gtk then to_gtk size lstream
 
 let main_t =
   let open Term in

@@ -1,6 +1,7 @@
 (** Optimization passes on L-systems. *)
 
-val constant_folding : 'a Lilis.lsystem -> 'a Lilis.lsystem
+val constant_folding :
+  ('a * string Calc.t list) Lilis.lsystem -> ('a * string Calc.t list) Lilis.lsystem
 (** A symbol is considered a constant when it's not used in any of the main rules of a L-system.
     This pass merges consecutive constant symbols into a unique symbol and add post rules for each of these new symbols.
     The new post rule is created by merging the post rules of the folded symbols. The rules of the folded symbols are pre-applied to their arguments and only free variables are kept.
