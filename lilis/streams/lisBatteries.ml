@@ -1,6 +1,6 @@
 (** Batteries streams implementations. *)
 
-let id = BatPervasives.identity
+let id = BatFun.identity
 
 (** Seq from batteries. Functionnal (allow sharing). *)
 module Seq = struct
@@ -29,17 +29,17 @@ module Seq = struct
   let gennew = id
 end
 
-(** Enum from batteries. Destructive reading, imperative. *)
-module Enum = struct
-  include BatEnum
-  type 'a stored = unit -> 'a t
-  let expand f l = concat (map f l)
-  let of_list l () = BatList.enum l
-  let to_list = BatList.of_enum
-  let store l () = clone l
-  let gennew l = l ()
+(** Gen from batteries, imperative. *)
+module Gen = struct
+  include BatGen
+  type 'a stored = 'a Restart.t
+  let force l = iter (fun _ -> ()) l
+  let expand = flat_map
+  let of_list l = Restart.of_list l
+  let empty = Restart.empty
+  let store = persistent
+  let gennew = start
 end
-
 
 (** Regular lazy list from batteries. Functionnal. *)
 module LazyList = struct

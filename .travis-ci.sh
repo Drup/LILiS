@@ -1,5 +1,5 @@
 # Edit this for your own project dependencies
-OPAM_DEPENDS="ocamlfind oasis batteries menhir cppo cmdliner lablgtk cairo2 tyxml sequence js_of_ocaml"
+OPAM_DEPENDS="ocamlfind oasis batteries-light menhir cppo cmdliner lablgtk cairo2 tyxml sequence js_of_ocaml"
 
 case "$OCAML_VERSION,$OPAM_VERSION" in
 3.12.1,1.0.0) ppa=avsm/ocaml312+opam10 ;;
@@ -23,6 +23,7 @@ opam --version
 opam --git-version
 
 opam init
+opam remote add yolopam https://github.com/c-cube/yolopam-repository.git
 opam install ${OPAM_DEPENDS}
 eval `opam config env`
 ./configure \

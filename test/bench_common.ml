@@ -3,12 +3,11 @@ open Lilis
 open Stream
 
 module BeSequence = Make(LisSequence)
-module BeCCGen = Make(LisCC.Gen)
 module BeCCKList = Make(LisCC.KList)
 module BeCFStream = Make(LisCFStream)
 module BeCore = Make(LisCore)
 module BeSeq = Make(LisBatteries.Seq)
-module BeEnum = Make(LisBatteries.Enum)
+module BeGen = Make(LisBatteries.Gen)
 module BeStream = Make(LisBatteries.Stream)
 module BeLazyList = Make(LisBatteries.LazyList)
 
@@ -16,9 +15,9 @@ let sequence i =
   "Sequence",
   fun lsys -> LisSequence.iter ignore @@ BeSequence.eval_lsys i lsys
 
-let ccgen i =
-  "CCGen",
-  fun lsys -> LisCC.Gen.iter ignore @@ BeCCGen.eval_lsys i lsys
+let gen i =
+  "Gen",
+  fun lsys -> LisBatteries.Gen.iter ignore @@ BeGen.eval_lsys i lsys
 
 let ccklist i =
   "CCKList",
@@ -36,10 +35,6 @@ let seq i =
   "Seq",
   fun lsys -> BatSeq.iter ignore @@ BeSeq.eval_lsys i lsys
 
-let enum i =
-  "Enum",
-  fun lsys -> BatEnum.iter ignore @@ BeEnum.eval_lsys i lsys
-
 let lazy_list i =
   "LazyList",
   fun lsys -> BatLazyList.iter ignore @@ BeLazyList.eval_lsys i lsys
@@ -50,12 +45,11 @@ let stream i =
 
 let all_streams = [
   sequence ;
-  ccgen ;
+  gen ;
   ccklist ;
   cfstream ;
   core ;
   seq ;
-  enum ;
   lazy_list ;
   stream ;
 ]
