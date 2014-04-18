@@ -34,6 +34,10 @@ Flag tyxml
   Description: Enable the tyxml backend for svg output
   Default: true
 
+Flag js_of_ocaml
+  Description: Enable the Dom backend for js_of_ocaml
+  Default: false
+
 Flag executable
   Description: Build the executable glilis_ex.native
   Default: false
@@ -118,6 +122,12 @@ Library tyxml
   Modules: LisTyxml
   BuildDepends: glilis, tyxml
 
+Library jsoo
+  FindlibParent: glilis
+  Build$: flag(tyxml)
+  Path: glilis
+  Modules: LisGraphics_js
+  BuildDepends: glilis, js_of_ocaml
 
 ### Executable ###
 
