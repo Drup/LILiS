@@ -9,6 +9,9 @@
 %start main
 %type <LisCommon.AST.lsystem list> main
 
+%start lsystem
+%type <LisCommon.AST.lsystem> lsystem
+
 %start defs
 %type <LisCommon.AST.def list> defs
 

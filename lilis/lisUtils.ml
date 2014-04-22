@@ -161,9 +161,9 @@ let default_defs =
   try LisParser.defs LisLexer.token lexbuf
   with _ -> assert false
 
-let parse_lex lexbuf =
+let parse_lex f lexbuf =
   try
-    LisParser.main LisLexer.token lexbuf
+    f LisLexer.token lexbuf
   with _ ->
       let curr = lexbuf.Lexing.lex_curr_p in
       let line = curr.Lexing.pos_lnum in
@@ -176,15 +176,19 @@ let parse_lex lexbuf =
 let parse_convert lexbuf =
   List.map
     (fun x -> lsystem (add_defs default_defs x))
-    (parse_lex lexbuf)
+    (parse_lex LisParser.main lexbuf)
+
+let lsystem_from_string s =
+  Lexing.from_string s
+  |> parse_lex LisParser.lsystem
+  |> add_defs default_defs
+  |> lsystem
 
 let from_channel channel =
-  let lexbuf = Lexing.from_channel channel in
-  parse_convert lexbuf
+  parse_convert @@ Lexing.from_channel channel
 
 let from_string s =
-  let lexbuf = Lexing.from_string s in
-  parse_convert lexbuf
+  parse_convert @@ Lexing.from_string s
 
 
 (** {2 Printing} *)

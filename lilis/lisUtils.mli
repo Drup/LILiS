@@ -19,6 +19,10 @@ val from_channel : in_channel -> (string * string Calc.t list) Lilis.lsystem lis
 val from_string : string -> (string * string Calc.t list) Lilis.lsystem list
 (** @raise ParseError on parse errors. *)
 
+val lsystem_from_string : string -> (string * string Calc.t list) Lilis.lsystem
+(** Parse only one lsystem.
+    @raise ParseError on parse errors. *)
+
 (** {2 Printing} *)
 
 val to_string : (string * string Calc.t list) Lilis.lsystem -> string
