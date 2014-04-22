@@ -25,3 +25,7 @@ post rule X+Y(x) = Turn(60) Forward (3*x+2*x)
 post rule F+Z = Forward(2)
     v}
 *)
+
+val compress_calcs : ?env:Calc.Env.t ->
+  ('a * string Calc.t list) Lilis.lsystem -> ('a * string Calc.t list) Lilis.lsystem
+(** Apply {! Calc.compress } to every arithmetic expressions. *)

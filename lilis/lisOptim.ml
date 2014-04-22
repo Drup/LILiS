@@ -133,3 +133,22 @@ let constant_folding lsys =
       rules = rules' ;
       post_rules = List.concat (lsys.post_rules :: post_rules' :: post_rules'' )
   }
+
+let compress_calcs ?(env=Calc.Env.empty) ({ axiom ; rules ; post_rules } as lsys) =
+
+  let compress l =
+    let f (name,l) =
+      name, List.map Calc.(compress env) l
+    in List.map f l
+  in
+
+  let compress_rule rule =
+    let rhs = compress rule.rhs in
+    { rule with rhs }
+  in
+
+  let axiom = compress axiom in
+  let rules = List.map compress_rule rules in
+  let post_rules = List.map compress_rule post_rules in
+
+  { lsys with axiom ; rules ; post_rules }

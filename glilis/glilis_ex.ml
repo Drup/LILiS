@@ -151,6 +151,7 @@ let parsing_t bank lname =
 let optim_t lsys =
   lsys
   |> LisOptim.constant_folding
+  |> LisOptim.compress_calcs
 
 let processing_t n lsys =
   let lstream = LsEn.eval_iter_lsys n lsys in
