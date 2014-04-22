@@ -120,7 +120,7 @@ int crules *
   (** [ apply rules lstream ] will apply rules once to [lstream]. The optional argument [n] can be used to apply more than once. *)
 
   val apply_complete : 'a crules -> int lstream -> 'a lstream
-  (** As [ apply ] but with a complete mapping. Symbols without rules are supressed. *)
+  (** As [ apply ] but with a complete mapping. Symbols without rules are suppressed. *)
 
   val eval_lsys_uncompress :
     int -> ('a * string Calc.t list) lsystem -> (string * float array) Lstream.t

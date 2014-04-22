@@ -1,4 +1,4 @@
-(** Utilies for Lilis such as parsing and verification on L-systems. *)
+(** Utilities for Lilis such as parsing and verification on L-systems. *)
 
 module SMap : Map.S with type key = string
 
