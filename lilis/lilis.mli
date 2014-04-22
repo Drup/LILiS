@@ -103,6 +103,11 @@ module Make (Lstream : S) : sig
 
   val compress_lslist : SymbEnv.t -> string stream -> (int * float array) Lstream.stored
 
+  val compress_lsys : ('a * string Calc.t list) lsystem ->
+SymbEnv.t * (int * float array) Lstream.stored *
+int crules *
+'a crules
+
   val compress_lstream : SymbEnv.t -> string lstream -> int lstream
 
   val uncompress_lstream : SymbEnv.t -> int lstream -> string lstream
@@ -122,6 +127,11 @@ module Make (Lstream : S) : sig
   (** Like [ eval_lsys ], but will ignore post rules and uncompress the stream instead. *)
 
   (** {2 Not really safe} *)
+
+  val iter_complete :
+    ((float array -> float) array -> float array -> unit) crules -> int lstream -> unit
+  (** Take a rule composed of unit functions and apply it to the stream. *)
+
 
   val eval_iter_lsys :
     int -> ('a * string Calc.t list) lsystem -> store:bool ->

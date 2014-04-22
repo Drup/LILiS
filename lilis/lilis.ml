@@ -161,9 +161,15 @@ module Make (Ls : S) = struct
     let get x = SMap.find x senv.env in
     compress_gen_rules senv get rules
 
+  (** Evaluate the axiom *)
+  let eval_expr l =
+    let f (name,l) =
+      name, List.map Calc.(eval Env.empty) l
+    in List.map f l
+
   let compress_lsys lsys =
     let senv = extract lsys.axiom lsys.rules lsys.post_rules in
-    let caxiom = compress_lslist senv lsys.axiom in
+    let caxiom = compress_lslist senv (eval_expr lsys.axiom) in
     let crules = compress_rules senv lsys.rules in
     let cprules = compress_post_rules senv lsys.post_rules in
     senv, caxiom, crules, cprules
@@ -243,19 +249,8 @@ module Make (Ls : S) = struct
       (get_transformation rules)
       lstream
 
-
-  (** Evaluate the axiom *)
-  let eval_expr l =
-    let f (name,l) =
-      let open Calc in
-      name, Array.map (fun t -> eval Env.empty t) l
-    in Ls.map f l
-
   let eval_general n lsys =
     let senv, axiom, rules, prules = compress_lsys lsys in
-    let axiom =
-      Ls.store @@ eval_expr @@ Ls.gennew axiom
-    in
     let lstream = apply ~n rules @@ Ls.gennew axiom in
     fun f -> f senv prules lstream
 
