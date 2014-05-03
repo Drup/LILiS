@@ -194,12 +194,16 @@ Executable bench_optims
 
 ### Misc ###
 
+AlphaFeatures: ocamlbuild_more_args
 Document lilis
-  Install:		false
-  Title:		API reference for LILiS
-  Type:			ocamlbuild (0.3)
-  BuildTools:		ocamldoc, ocamlbuild
-  XOCamlbuildPath:	.
+  Install: false
+  Type: ocamlbuild (0.3)
+  BuildTools: ocamldoc
+
+  Title: API reference for LILiS
+  XOCamlbuildPath: .
+  XOCamlbuildExtraArgs:
+    "-docflags '-colorize-code -short-functors -charset utf-8'"
   XOCamlbuildLibraries:
     calc,
     lilis, lilis.sequence, lilis.batteries, lilis.gen, lilis.cfstream,

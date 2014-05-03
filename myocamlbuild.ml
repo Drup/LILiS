@@ -14,9 +14,6 @@ dispatch
             flag ["ocaml"; "doc"; "extension:html"] &
             (S[A"-t"; A"LILiS user guide";
                A"-intro"; P doc_intro;
-               A"-colorize-code";
-               A"-short-functors";
-               A"-charset"; P "utf-8"
               ]);
         | _ -> ()
   )
