@@ -135,7 +135,7 @@ Library tyxml
 
 Library jsoo
   FindlibParent: glilis
-  Build$: flag(tyxml)
+  Build$: flag(js_of_ocaml)
   Path: glilis
   Modules: LisGraphics_js
   BuildDepends: glilis, js_of_ocaml

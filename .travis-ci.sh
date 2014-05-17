@@ -25,7 +25,6 @@ opam --git-version
 opam init
 opam install ${OPAM_DEPENDS}
 eval `opam config env`
-./configure --enable-executable
-./configure --enable-tyxml
-./configure --enable-cairo
+./configure \
+   --enable-executable
 make
