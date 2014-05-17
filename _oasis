@@ -26,6 +26,10 @@ Flag cfstream
   Description: Build the CFStream interface
   Default: false
 
+Flag core
+  Description: Build the Core.Sequence interface
+  Default: false
+
 Flag cairo
   Description: Enable the cairo backend for png and gtk output
   Default: true
@@ -92,6 +96,13 @@ Library cfstream
   BuildDepends: threads, cfstream, lilis
   Modules: LisCFStream
 
+Library core
+  Build$: flag(core)
+  FindLibParent: lilis
+  Path: lilis/streams
+  BuildDepends: core_kernel, lilis
+  Modules: LisCore
+
 Library batteries
   FindLibParent: lilis
   Path: lilis/streams
@@ -156,7 +167,7 @@ Executable glilis_no_tyxml
 
 Executable bench_streams
   Path: test
-  Build$: flag(tests) && flag(sequence) && flag(gen) && flag(cfstream)
+  Build$: flag(tests) && flag(sequence) && flag(gen) && flag(cfstream) && flag(core)
   Install: false
   CompiledObject: best
   BuildTools: ocamlbuild
@@ -165,7 +176,7 @@ Executable bench_streams
 
 Executable bench_vonkoch
   Path: test
-  Build$: flag(tests) && flag(sequence) && flag(gen) && flag(cfstream)
+  Build$: flag(tests) && flag(sequence) && flag(gen) && flag(cfstream) && flag(core)
   Install: false
   CompiledObject: best
   BuildTools: ocamlbuild
@@ -174,7 +185,7 @@ Executable bench_vonkoch
 
 Executable bench_quick
   Path: test
-  Build$: flag(tests) && flag(sequence) && flag(gen) && flag(cfstream)
+  Build$: flag(tests) && flag(sequence) && flag(gen) && flag(cfstream) && flag(core)
   Install: false
   CompiledObject: best
   BuildTools: ocamlbuild
@@ -183,7 +194,7 @@ Executable bench_quick
 
 Executable bench_optims
   Path: test
-  Build$: flag(tests) && flag(sequence) && flag(gen) && flag(cfstream)
+  Build$: flag(tests) && flag(sequence) && flag(gen) && flag(cfstream) && flag(core)
   Install: false
   CompiledObject: best
   BuildTools: ocamlbuild
