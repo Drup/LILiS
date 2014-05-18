@@ -6,7 +6,6 @@ let map f l = map ~f l
 let iter f l = iter ~f l
 let fold f init l = fold ~f ~init l
 let expand f x = concat_map x ~f
-let force l = iter (fun x -> ()) l
 let of_list x = x
 let store s = to_list s
 let empty = []

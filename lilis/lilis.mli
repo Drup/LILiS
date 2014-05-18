@@ -63,7 +63,6 @@ module type S = sig
   val fold : ('b -> 'a -> 'b) -> 'b -> 'a t -> 'b
   val of_list : 'a list -> 'a stored
   val to_list : 'a t -> 'a list
-  val force : 'a t -> unit
   val empty : 'a stored
   val store : 'a t -> 'a stored
   val gennew : 'a stored -> 'a t

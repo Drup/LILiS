@@ -12,28 +12,36 @@ module BeStream = Make(LisBatteries.Stream)
 module BeLazyList = Make(LisBatteries.LazyList)
 
 let sequence i =
-  "Sequence", (fun lsys -> LisSequence.force @@ BeSequence.eval_lsys i lsys)
+  "Sequence",
+  fun lsys -> LisSequence.iter ignore @@ BeSequence.eval_lsys i lsys
 
 let gen i =
-  "Gen", (fun lsys -> LisGen.force @@ BeGen.eval_lsys i lsys)
+  "Gen",
+  fun lsys -> LisGen.iter ignore @@ BeGen.eval_lsys i lsys
 
 let cfstream i =
-  "CFStream", (fun lsys -> LisCFStream.force @@ BeCFStream.eval_lsys i lsys)
+  "CFStream",
+  fun lsys -> LisCFStream.iter ignore @@ BeCFStream.eval_lsys i lsys
 
 let core i =
-  "Core", (fun lsys -> LisCore.force @@ BeCore.eval_lsys i lsys)
+  "Core",
+  fun lsys -> LisCore.iter ignore @@ BeCore.eval_lsys i lsys
 
 let seq i =
-  "Seq", (fun lsys -> LisBatteries.Seq.force @@ BeSeq.eval_lsys i lsys)
+  "Seq",
+  fun lsys -> BatSeq.iter ignore @@ BeSeq.eval_lsys i lsys
 
 let enum i =
-  "Enum", (fun lsys -> LisBatteries.Enum.force @@ BeEnum.eval_lsys i lsys)
+  "Enum",
+  fun lsys -> BatEnum.iter ignore @@ BeEnum.eval_lsys i lsys
 
 let lazy_list i =
-  "LazyList", (fun lsys -> LisBatteries.LazyList.force @@ BeLazyList.eval_lsys i lsys)
+  "LazyList",
+  fun lsys -> BatLazyList.iter ignore @@ BeLazyList.eval_lsys i lsys
 
 let stream i =
-  "Stream", (fun lsys -> LisBatteries.Stream.force @@ BeStream.eval_lsys i lsys)
+  "Stream",
+  fun lsys -> BatStream.iter ignore @@ BeStream.eval_lsys i lsys
 
 let all_streams = [
   sequence ;

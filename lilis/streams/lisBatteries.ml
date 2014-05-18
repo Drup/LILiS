@@ -20,13 +20,12 @@ module Seq = struct
     in
     aux nil s
   let fold = fold_left
-  let force l = iter (fun x -> ()) l
   let of_list l = List.fold_right cons l nil
   let to_list l =
     fold_right (fun h t -> h :: t) l []
   let singleton x = cons x nil
   let empty = nil
-  let store x = force x ; x
+  let store x = iter ignore x ; x
   let gennew = id
 end
 
@@ -48,11 +47,10 @@ module LazyList = struct
   type 'a stored = 'a t
   let expand f l = concat (map f l)
   let fold = fold_left
-  let force l = iter (fun x -> ()) l
   let singleton x = cons x nil
   let empty = nil
   let of_list l = of_list l
-  let store x = force x ; x
+  let store x = iter ignore x ; x
   let gennew = id
 end
 
@@ -70,7 +68,6 @@ module Stream = struct
                Stream.iapp p' (Stream.slazy (fun () -> expand f l))
            | None -> Stream.sempty)
   let fold f z l = foldl (fun x y -> (f x y, None)) z l
-  let force l = iter (fun x -> ()) l
   let of_list = id
   let singleton x = cons x (BatStream.of_list [])
   let store s = to_list s
