@@ -3,7 +3,8 @@ open Lilis
 open Stream
 
 module BeSequence = Make(LisSequence)
-module BeGen = Make(LisGen)
+module BeCCGen = Make(LisCC.Gen)
+module BeCCKList = Make(LisCC.KList)
 module BeCFStream = Make(LisCFStream)
 module BeCore = Make(LisCore)
 module BeSeq = Make(LisBatteries.Seq)
@@ -15,9 +16,13 @@ let sequence i =
   "Sequence",
   fun lsys -> LisSequence.iter ignore @@ BeSequence.eval_lsys i lsys
 
-let gen i =
-  "Gen",
-  fun lsys -> LisGen.iter ignore @@ BeGen.eval_lsys i lsys
+let ccgen i =
+  "CCGen",
+  fun lsys -> LisCC.Gen.iter ignore @@ BeCCGen.eval_lsys i lsys
+
+let ccklist i =
+  "CCKList",
+  fun lsys -> LisCC.KList.iter ignore @@ BeCCKList.eval_lsys i lsys
 
 let cfstream i =
   "CFStream",
@@ -45,7 +50,8 @@ let stream i =
 
 let all_streams = [
   sequence ;
-  gen ;
+  ccgen ;
+  ccklist ;
   cfstream ;
   core ;
   seq ;

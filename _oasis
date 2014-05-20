@@ -87,7 +87,7 @@ Library gen
   FindLibParent: lilis
   Path: lilis/streams
   BuildDepends: containers, lilis
-  Modules: LisGen
+  Modules: LisCC
 
 Library cfstream
   Build$: flag(cfstream)
