@@ -143,20 +143,8 @@ Library jsoo
 ### Executable ###
 
 Executable glilis
-  Build$: flag(cairo) && flag(executable) && flag(sequence) && flag(tyxml)
-  BuildDepends: cmdliner, cairo2.lablgtk2, glilis, glilis.cairo, glilis.tyxml, lilis.sequence
-  ByteOpt:    -pp 'cppo -D Tyxml Tyxml'
-  NativeOpt:  -pp 'cppo -D Tyxml Tyxml'
-  Install: false
-  Path: glilis
-  MainIs: glilis_ex.ml
-  CompiledObject: best
-
-Executable glilis_no_tyxml
-  Build$: flag(cairo) && flag(executable) && flag(sequence) && ! flag(tyxml)
+  Build$: flag(cairo) && flag(executable) && flag(sequence)
   BuildDepends: cmdliner, cairo2.lablgtk2, glilis, glilis.cairo, lilis.sequence
-  ByteOpt: -pp 'cppo -U Tyxml'
-  NativeOpt: -pp 'cppo -U Tyxml'
   Install: false
   Path: glilis
   MainIs: glilis_ex.ml
