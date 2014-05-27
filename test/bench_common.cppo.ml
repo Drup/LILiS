@@ -2,63 +2,76 @@ open Benchmark
 open Lilis
 open Stream
 
-module BeSequence = Make(LisSequence)
-module BeCCGen = Make(LisCC.Gen)
-module BeCCKList = Make(LisCC.KList)
-module BeCFStream = Make(LisCFStream)
-module BeCore = Make(LisCore)
-module BeSeq = Make(LisBatteries.Seq)
-module BeEnum = Make(LisBatteries.Enum)
-module BeStream = Make(LisBatteries.Stream)
-module BeLazyList = Make(LisBatteries.LazyList)
+let all_streams : (int -> string * ((string * string Calc.t list) Lilis.lsystem -> unit)) list ref = ref []
+let add_stream x = all_streams := x :: !all_streams
 
+#ifdef def_sequence
+module BeSequence = Make(LisSequence)
 let sequence i =
   "Sequence",
   fun lsys -> LisSequence.iter ignore @@ BeSequence.eval_lsys i lsys
+let () = add_stream sequence
+#endif
 
+
+#ifdef def_containers
+module BeCCGen = Make(LisCC.Gen)
 let ccgen i =
   "CCGen",
   fun lsys -> LisCC.Gen.iter ignore @@ BeCCGen.eval_lsys i lsys
+let () = add_stream ccgen
 
+module BeCCKList = Make(LisCC.KList)
 let ccklist i =
   "CCKList",
   fun lsys -> LisCC.KList.iter ignore @@ BeCCKList.eval_lsys i lsys
+let () = add_stream ccklist
+#endif
 
+
+#ifdef def_cfstream
+module BeCFStream = Make(LisCFStream)
 let cfstream i =
   "CFStream",
   fun lsys -> LisCFStream.iter ignore @@ BeCFStream.eval_lsys i lsys
+let () = add_stream cfstream
+#endif
 
+
+#ifdef def_core
+module BeCore = Make(LisCore)
 let core i =
   "Core",
   fun lsys -> LisCore.iter ignore @@ BeCore.eval_lsys i lsys
+let () = add_stream core
+#endif
 
+
+module BeSeq = Make(LisBatteries.Seq)
 let seq i =
   "Seq",
   fun lsys -> BatSeq.iter ignore @@ BeSeq.eval_lsys i lsys
+let () = add_stream seq
 
+module BeEnum = Make(LisBatteries.Enum)
 let enum i =
   "Enum",
   fun lsys -> BatEnum.iter ignore @@ BeEnum.eval_lsys i lsys
+let () = add_stream enum
 
+module BeLazyList = Make(LisBatteries.LazyList)
 let lazy_list i =
   "LazyList",
   fun lsys -> BatLazyList.iter ignore @@ BeLazyList.eval_lsys i lsys
+let () = add_stream lazy_list
 
+module BeStream = Make(LisBatteries.Stream)
 let stream i =
   "Stream",
   fun lsys -> BatStream.iter ignore @@ BeStream.eval_lsys i lsys
+let () = add_stream stream
 
-let all_streams = [
-  sequence ;
-  ccgen ;
-  ccklist ;
-  cfstream ;
-  core ;
-  seq ;
-  enum ;
-  lazy_list ;
-  stream ;
-]
+
 
 let all_optims = [ "", LisOptim.constant_folding ]
 

@@ -54,7 +54,7 @@ let to_svg_cairo (width, height) lstream file =
   turtle.handle_lsys lstream
 
 
-#ifdef Tyxml
+#ifdef def_tyxml
 let to_svg size lstream file =
   let turtle = LisTyxml.svg_turtle () in
   let lstream = lstream ~store:false @@ Glilis.transform_rhs turtle in
@@ -104,7 +104,7 @@ let png =
   Arg.(value & opt (some string) None & info ["png"] ~docv:"FILE" ~doc)
 let () = add_output png to_png
 
-#ifdef Tyxml
+#ifdef def_tyxml
 let svg =
   let doc = "Write a svg to $(docv)." in
   Arg.(value & opt (some string) None & info ["svg"] ~docv:"FILE" ~doc)

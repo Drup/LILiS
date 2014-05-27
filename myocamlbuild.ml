@@ -4,29 +4,61 @@
 
 open Ocamlbuild_plugin
 
-let () =
-  let prod = "%.ml" in
-  let dep = "%.ml.cpp" in
-  let f env _build =
-    let dep = env dep in
-    let prod = env prod in
-    let tags = tags_of_pathname prod ++ "cppo" in
-    Cmd (S[A "cppo"; A "-n"; T tags; S [A "-o"; P prod]; P dep ])
-  in
-  rule "cppo" ~dep ~prod f ;
-  pflag ["cppo"] "define" (fun s -> S [A "-D"; A s]) ;
-  pflag ["cppo"] "undef" (fun s -> S [A "-U"; A s]) ;
-  pflag ["cppo"] "include" (fun s -> S [A "-I"; A s]) ;
-  flag ["cppo"; "preserve_quotation"] (A "-q")
-
+(** The introduction for the documentation, must be added as a dependency. *)
 let doc_intro = "doc/intro.text"
 
-let executable = "glilis/glilis_ex"
+
+(** Various utility function for conditional stuff through oasis. *)
+let define s = Printf.sprintf "cppo_D(def_%s)" s
+let use s = Printf.sprintf "use_%s" s
+let pkg s = Printf.sprintf "package(%s)" s
+let oasis_flag env flag = BaseEnvLight.var_get flag env = "true"
+
+
+(** If the tyxml flag is set, compile with [-D def_tyxml] and link against tyxml. *)
+let tyxml_cond env =
+  if oasis_flag env "tyxml" then
+    let executable = "glilis/glilis_ex" in
+    let dep = "tyxml" in
+    tag_file (executable-.-"ml")     [ define dep ] ;
+    tag_file (executable-.-"native") [ use dep; pkg dep ] ;
+    tag_file (executable-.-"byte")   [ use dep; pkg dep ]
+
+
+(** All the benchmark sources. *)
+let bench_common = "test/bench_common"
+let bench_targets =
+  List.map ((^) "test/bench_") ["streams" ; "vonkoch" ; "quick" ; "optims" ]
+
+(** Optional dependencies for the benchmarks. *)
+let bench_opt_dep =
+  ["sequence" ; "containers" ; "core" ; "cfstream" ]
+
+(** For each flags in {!bench_opt_dep}, if it's enable,
+    apply cppo on {!bench_common} and add the link on {!bench_targets}.
+*)
+let bench_cond env =
+  List.iter (fun flag ->
+    if oasis_flag env flag then
+      tag_file (bench_common-.-"ml") [ define flag ; use flag; pkg flag])
+    bench_opt_dep ;
+
+  List.iter (fun flag ->
+    List.iter (fun file ->
+      if oasis_flag env flag then begin
+        tag_file (file-.-"native") [ use flag; pkg flag ] ;
+        tag_file (file-.-"byte")   [ use flag; pkg flag ]
+      end)
+      bench_targets)
+    bench_opt_dep
 
 let () =
   dispatch
     (function hook ->
       dispatch_default hook ;
+      Ocamlbuild_cppo.dispatcher hook ;
+
+      (** Get the env, once again. *)
       let env_filename = Pathname.basename BaseEnvLight.default_filename in
       let env =
         BaseEnvLight.load
@@ -34,13 +66,11 @@ let () =
           ~allow_empty:true
           ()
       in
-      if BaseEnvLight.var_get "tyxml" env = "true" then
-        begin
-          tag_file (executable-.-"ml") [ "define(Tyxml)" ] ;
-          tag_file (executable-.-"native") [ "use_tyxml"; "pkg_tyxml" ] ;
-          tag_file (executable-.-"byte") [ "use_tyxml"; "pkg_tyxml" ] ;
-        end
-      ;
+
+      (** Conditional stuff *)
+      tyxml_cond env ;
+      bench_cond env ;
+
       match hook with
         | After_rules ->
             dep ["ocaml"; "doc"; "extension:html"] & [doc_intro] ;
