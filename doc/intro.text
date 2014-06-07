@@ -171,8 +171,9 @@ The module {! Lilis} contains a functorized engine that allows to evaluate L-sys
 A stream-like data-structure is any kind of structure that respect {! Lilis.S}. Several of them are implemented :
  - {! LisSequence} in the lilis.sequence package, using {{:https://github.com/c-cube/sequence}sequence}. This is the most efficient stream implementation.
  - {! LisBatteries} in the lilis.batteries package, using {{:http://batteries.forge.ocamlcore.org/}Batteries}.
- - {! LisGen} in the lilis.gen package, using {{:https://github.com/c-cube/ocaml-containers}companion_cube's containers}.
+ - {! LisCC} in the lilis.containers package, using {{:https://github.com/c-cube/ocaml-containers}companion_cube's containers}.
  - {! LisCFStream} in the lilis.cfstream package, using {{:https://github.com/biocaml/cfstream}CFStream}.
+ - {! LisCore} in the lilis.core package, using {{:https://github.com/janestreet/core}Core}.
 
 {! LisUtils} contains all the parsing and verification functions.
 {! LisOptim} contains optimization passes on L-systems.
@@ -187,11 +188,12 @@ A stream-like data-structure is any kind of structure that respect {! Lilis.S}. 
 Two backend are currently implemented :
 - {! LisCairo} draw to png and gtk using {{: https://forge.ocamlcore.org/projects/cairo} cairo}. A {b rasterizing} svg backed is also contained.
 - {! LisTyxml} can produce svg file or svg elements using {{: http://ocsigen.org/tyxml/} tyxml}.
+- {! LisJsoo} is a {{: http://ocsigen.org/js_of_ocaml/} js_of_ocaml} backend, using js_of_ocaml.graphics.
 
 {2 Index}
 {!modules: Calc CalcUtils}
-{!modules: Lilis LisUtils LisOptim LisSequence LisBatteries LisGen LisCFStream}
-{!modules: Glilis LisCairo LisTyxml}
+{!modules: Lilis LisUtils LisOptim LisSequence LisBatteries LisCC LisCFStream LisCore}
+{!modules: Glilis LisCairo LisTyxml LisJsoo}
 {!indexlist}
 
 {%html: <a href="dragon.svg"><img style="margin : 0 auto; display: block" src="dragon.svg" /></a> %}
