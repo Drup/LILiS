@@ -79,6 +79,12 @@ Library lilis
 
 # Various streams implementation for lilis.
 
+Library cat
+  FindLibParent: lilis
+  Path: streams/cat
+  BuildDepends: lilis, batteries, sequence
+  Modules: LisCat
+
 Library sequence
   Build$: flag(sequence)
   FindLibParent: lilis
@@ -163,7 +169,7 @@ Library bench_common
   Install: false
   CompiledObject: best
   Modules: Bench_common
-  BuildDepends: threads, lilis, lilis.batteries, benchmark
+  BuildDepends: threads, lilis, lilis.cat, lilis.batteries, benchmark
 
 Executable bench_streams
   Path: test

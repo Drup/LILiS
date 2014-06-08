@@ -72,6 +72,18 @@ let stream i =
 let () = add_stream stream
 
 
+module BeCatSequence = Make(LisCat.Sequence)
+let catsequence i =
+  "CatSequence",
+  fun lsys -> LisCat.Sequence.iter ignore @@ BeCatSequence.eval_lsys i lsys
+let () = add_stream catsequence
+
+module BeCatList = Make(LisCat.List)
+let catlist i =
+  "CatList",
+  fun lsys -> ignore @@ BeCatList.eval_lsys i lsys
+let () = add_stream catlist
+
 
 let all_optims = [ "", LisOptim.constant_folding ]
 
