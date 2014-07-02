@@ -10,22 +10,22 @@
 <link title="Index of types" rel=Appendix href="index_types.html">
 <link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
 <link title="Index of values" rel=Appendix href="index_values.html">
-<link title="Index of class methods" rel=Appendix href="index_methods.html">
-<link title="Index of classes" rel=Appendix href="index_classes.html">
-<link title="Index of class types" rel=Appendix href="index_class_types.html">
 <link title="Index of modules" rel=Appendix href="index_modules.html">
 <link title="Index of module types" rel=Appendix href="index_module_types.html">
-<link title="Mini_calc" rel="Chapter" href="Mini_calc.html">
+<link title="Calc" rel="Chapter" href="Calc.html">
+<link title="CalcUtils" rel="Chapter" href="CalcUtils.html">
 <link title="Lilis" rel="Chapter" href="Lilis.html">
 <link title="LisUtils" rel="Chapter" href="LisUtils.html">
 <link title="LisOptim" rel="Chapter" href="LisOptim.html">
 <link title="LisSequence" rel="Chapter" href="LisSequence.html">
 <link title="LisBatteries" rel="Chapter" href="LisBatteries.html">
-<link title="LisGen" rel="Chapter" href="LisGen.html">
+<link title="LisCC" rel="Chapter" href="LisCC.html">
 <link title="LisCFStream" rel="Chapter" href="LisCFStream.html">
+<link title="LisCore" rel="Chapter" href="LisCore.html">
 <link title="Glilis" rel="Chapter" href="Glilis.html">
 <link title="LisCairo" rel="Chapter" href="LisCairo.html">
-<link title="LisTyxml" rel="Chapter" href="LisTyxml.html"><link title="Parsing" rel="Section" href="#2_Parsing">
+<link title="LisTyxml" rel="Chapter" href="LisTyxml.html">
+<link title="LisJsoo" rel="Chapter" href="LisJsoo.html"><link title="Parsing" rel="Section" href="#2_Parsing">
 <link title="Printing" rel="Section" href="#2_Printing">
 <link title="Verifications" rel="Section" href="#2_Verifications">
 <title>LILiS user guide : LisUtils</title>
@@ -38,7 +38,7 @@
 <h1>Module <a href="type_LisUtils.html">LisUtils</a></h1>
 
 <pre><span class="keyword">module</span> LisUtils: <code class="code"><span class="keyword">sig</span></code> <a href="LisUtils.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><div class="info module top">
-Utilies for Lilis such as parsing and verification on L-systems.<br>
+Utilities for Lilis such as parsing and verification on L-systems.<br>
 </div>
 <hr width="100%">
 
@@ -59,18 +59,23 @@ Utilies for Lilis such as parsing and verification on L-systems.<br>
 Output "Parse error on line %line, colunm %col, token %token"<br>
 </div>
 
-<pre><span id="VALfrom_channel"><span class="keyword">val</span> from_channel</span> : <code class="type">Pervasives.in_channel -> string <a href="Lilis.html#TYPElsystem">Lilis.lsystem</a> list</code></pre><div class="info ">
+<pre><span id="VALfrom_channel"><span class="keyword">val</span> from_channel</span> : <code class="type">Pervasives.in_channel -> (string * string <a href="Calc.html#TYPEt">Calc.t</a> list) <a href="Lilis.html#TYPElsystem">Lilis.lsystem</a> list</code></pre><div class="info ">
 <b>Raises</b> <code>ParseError</code> on parse errors.<br>
 </div>
 
-<pre><span id="VALfrom_string"><span class="keyword">val</span> from_string</span> : <code class="type">string -> string <a href="Lilis.html#TYPElsystem">Lilis.lsystem</a> list</code></pre><div class="info ">
+<pre><span id="VALfrom_string"><span class="keyword">val</span> from_string</span> : <code class="type">string -> (string * string <a href="Calc.html#TYPEt">Calc.t</a> list) <a href="Lilis.html#TYPElsystem">Lilis.lsystem</a> list</code></pre><div class="info ">
+<b>Raises</b> <code>ParseError</code> on parse errors.<br>
+</div>
+
+<pre><span id="VALlsystem_from_string"><span class="keyword">val</span> lsystem_from_string</span> : <code class="type">string -> (string * string <a href="Calc.html#TYPEt">Calc.t</a> list) <a href="Lilis.html#TYPElsystem">Lilis.lsystem</a></code></pre><div class="info ">
+Parse only one lsystem.<br>
 <b>Raises</b> <code>ParseError</code> on parse errors.<br>
 </div>
 <br>
 <h2 id="2_Printing">Printing</h2><br>
 
-<pre><span id="VALto_string"><span class="keyword">val</span> to_string</span> : <code class="type">string <a href="Lilis.html#TYPElsystem">Lilis.lsystem</a> -> string</code></pre>
-<pre><span id="VALrule_to_string"><span class="keyword">val</span> rule_to_string</span> : <code class="type">string <a href="Lilis.html#TYPErule">Lilis.rule</a> -> string</code></pre><br>
+<pre><span id="VALto_string"><span class="keyword">val</span> to_string</span> : <code class="type">(string * string <a href="Calc.html#TYPEt">Calc.t</a> list) <a href="Lilis.html#TYPElsystem">Lilis.lsystem</a> -> string</code></pre>
+<pre><span id="VALrule_to_string"><span class="keyword">val</span> rule_to_string</span> : <code class="type">(string * string <a href="Calc.html#TYPEt">Calc.t</a> list) <a href="Lilis.html#TYPErule">Lilis.rule</a> -> string</code></pre><br>
 <h2 id="2_Verifications">Verifications</h2><br>
 
 <pre><span id="EXCEPTIONArityError"><span class="keyword">exception</span> ArityError</span> <span class="keyword">of</span> <code class="type">(string * int * int)</code></pre>
@@ -93,9 +98,9 @@ Check a stream against an environment. This environment is a mapping name -&gt; 
 <b>Raises</b> <code>ArityError,</code> VarDefError, TokenDefError<br>
 </div>
 
-<pre><span id="VALcheck_rule"><span class="keyword">val</span> check_rule</span> : <code class="type">int SMap.t -> ?arit_env:<a href="Mini_calc.Env.html#TYPEt">Mini_calc.Env.t</a> -> string <a href="Lilis.html#TYPErule">Lilis.rule</a> -> unit</code></pre><div class="info ">
-As <code class="code"> check_stream </code> for a rule. Need also an arithmetic environment, will use <a href="Mini_calc.Env.html#VALusual"><code class="code"><span class="constructor">Mini_calc</span>.<span class="constructor">Env</span>.usual</code></a> if none is provided.<br>
+<pre><span id="VALcheck_rule"><span class="keyword">val</span> check_rule</span> : <code class="type">int SMap.t -><br>       ?arit_env:<a href="Calc.Env.html#TYPEt">Calc.Env.t</a> -> (string * string <a href="Calc.html#TYPEt">Calc.t</a> list) <a href="Lilis.html#TYPErule">Lilis.rule</a> -> unit</code></pre><div class="info ">
+As <code class="code"> check_stream </code> for a rule. Need also an arithmetic environment, will use <a href="Calc.Env.html#VALusual"><code class="code"><span class="constructor">Calc</span>.<span class="constructor">Env</span>.usual</code></a> if none is provided.<br>
 <b>Raises</b> <code>ArityError,</code> VarDefError, TokenDefError<br>
 </div>
 
-<pre><span id="VALreplace_in_post_rules"><span class="keyword">val</span> replace_in_post_rules</span> : <code class="type">(string * ('b * int)) list -> string <a href="Lilis.html#TYPElsystem">Lilis.lsystem</a> -> 'b <a href="Lilis.html#TYPElsystem">Lilis.lsystem</a></code></pre></body></html>
+<pre><span id="VALreplace_in_post_rules"><span class="keyword">val</span> replace_in_post_rules</span> : <code class="type">(string * ('a * int)) list -><br>       (string * 'b list) <a href="Lilis.html#TYPElsystem">Lilis.lsystem</a> -> ('a * 'b list) <a href="Lilis.html#TYPElsystem">Lilis.lsystem</a></code></pre></body></html>

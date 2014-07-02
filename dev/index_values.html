@@ -6,22 +6,22 @@
 <link title="Index of types" rel=Appendix href="index_types.html">
 <link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
 <link title="Index of values" rel=Appendix href="index_values.html">
-<link title="Index of class methods" rel=Appendix href="index_methods.html">
-<link title="Index of classes" rel=Appendix href="index_classes.html">
-<link title="Index of class types" rel=Appendix href="index_class_types.html">
 <link title="Index of modules" rel=Appendix href="index_modules.html">
 <link title="Index of module types" rel=Appendix href="index_module_types.html">
-<link title="Mini_calc" rel="Chapter" href="Mini_calc.html">
+<link title="Calc" rel="Chapter" href="Calc.html">
+<link title="CalcUtils" rel="Chapter" href="CalcUtils.html">
 <link title="Lilis" rel="Chapter" href="Lilis.html">
 <link title="LisUtils" rel="Chapter" href="LisUtils.html">
 <link title="LisOptim" rel="Chapter" href="LisOptim.html">
 <link title="LisSequence" rel="Chapter" href="LisSequence.html">
 <link title="LisBatteries" rel="Chapter" href="LisBatteries.html">
-<link title="LisGen" rel="Chapter" href="LisGen.html">
+<link title="LisCC" rel="Chapter" href="LisCC.html">
 <link title="LisCFStream" rel="Chapter" href="LisCFStream.html">
+<link title="LisCore" rel="Chapter" href="LisCore.html">
 <link title="Glilis" rel="Chapter" href="Glilis.html">
 <link title="LisCairo" rel="Chapter" href="LisCairo.html">
-<link title="LisTyxml" rel="Chapter" href="LisTyxml.html"><title>LILiS user guide : Index of values</title>
+<link title="LisTyxml" rel="Chapter" href="LisTyxml.html">
+<link title="LisJsoo" rel="Chapter" href="LisJsoo.html"><title>LILiS user guide : Index of values</title>
 </head>
 <body>
 <div class="navbar">&nbsp;<a class="up" href="index.html" title="Index">Up</a>
@@ -29,7 +29,7 @@
 <h1>Index of values</h1>
 <table>
 <tr><td align="left"><br>A</td></tr>
-<tr><td><a href="Mini_calc.Env.html#VALadd">add</a> [<a href="Mini_calc.Env.html">Mini_calc.Env</a>]</td>
+<tr><td><a href="Calc.Env.html#VALadd">add</a> [<a href="Calc.Env.html">Calc.Env</a>]</td>
 <td></td></tr>
 <tr><td><a href="Lilis.SymbEnv.html#VALadd_axiom">add_axiom</a> [<a href="Lilis.SymbEnv.html">Lilis.SymbEnv</a>]</td>
 <td><div class="info">
@@ -57,17 +57,22 @@ As <code class="code"> apply </code> but with a complete mapping.
 </div>
 </td></tr>
 <tr><td align="left"><br>B</td></tr>
-<tr><td><a href="Mini_calc.html#VALbind">bind</a> [<a href="Mini_calc.html">Mini_calc</a>]</td>
+<tr><td><a href="Calc.html#VALbind">bind</a> [<a href="Calc.html">Calc</a>]</td>
 <td><div class="info">
 Replace each variables by a subtree.
 </div>
 </td></tr>
-<tr><td><a href="Mini_calc.html#VALbind_opt">bind_opt</a> [<a href="Mini_calc.html">Mini_calc</a>]</td>
+<tr><td><a href="Calc.html#VALbind_opt">bind_opt</a> [<a href="Calc.html">Calc</a>]</td>
 <td><div class="info">
 Replace some variables by a subtree.
 </div>
 </td></tr>
 <tr><td align="left"><br>C</td></tr>
+<tr><td><a href="LisCairo.html#VALcairo_turtle">cairo_turtle</a> [<a href="LisCairo.html">LisCairo</a>]</td>
+<td><div class="info">
+A turtle that can draw on any Cairo surface.
+</div>
+</td></tr>
 <tr><td><a href="LisUtils.html#VALcheck_rule">check_rule</a> [<a href="LisUtils.html">LisUtils</a>]</td>
 <td><div class="info">
 As <code class="code"> check_stream </code> for a rule.
@@ -78,17 +83,22 @@ As <code class="code"> check_stream </code> for a rule.
 Check a stream against an environment.
 </div>
 </td></tr>
-<tr><td><a href="Mini_calc.html#VALclosure">closure</a> [<a href="Mini_calc.html">Mini_calc</a>]</td>
+<tr><td><a href="Calc.html#VALclosure">closure</a> [<a href="Calc.html">Calc</a>]</td>
 <td><div class="info">
 Compress the string in the optional env and return the resulting closure.
 </div>
 </td></tr>
-<tr><td><a href="Mini_calc.html#VALcompress">compress</a> [<a href="Mini_calc.html">Mini_calc</a>]</td>
+<tr><td><a href="Calc.html#VALcompress">compress</a> [<a href="Calc.html">Calc</a>]</td>
 <td><div class="info">
 Compress a tree in the given environment, ie.
 </div>
 </td></tr>
-<tr><td><a href="Mini_calc.html#VALcompress_custom">compress_custom</a> [<a href="Mini_calc.html">Mini_calc</a>]</td>
+<tr><td><a href="LisOptim.html#VALcompress_calcs">compress_calcs</a> [<a href="LisOptim.html">LisOptim</a>]</td>
+<td><div class="info">
+Apply <a href="Calc.html#VALcompress"><code class="code"><span class="constructor">Calc</span>.compress</code></a> to every arithmetic expressions.
+</div>
+</td></tr>
+<tr><td><a href="Calc.html#VALcompress_custom">compress_custom</a> [<a href="Calc.html">Calc</a>]</td>
 <td><div class="info">
 Compress a tree using the given function, ie.
 </div>
@@ -96,6 +106,8 @@ Compress a tree using the given function, ie.
 <tr><td><a href="Lilis.Make.html#VALcompress_lslist">compress_lslist</a> [<a href="Lilis.Make.html">Lilis.Make</a>]</td>
 <td></td></tr>
 <tr><td><a href="Lilis.Make.html#VALcompress_lstream">compress_lstream</a> [<a href="Lilis.Make.html">Lilis.Make</a>]</td>
+<td></td></tr>
+<tr><td><a href="Lilis.Make.html#VALcompress_lsys">compress_lsys</a> [<a href="Lilis.Make.html">Lilis.Make</a>]</td>
 <td></td></tr>
 <tr><td><a href="Lilis.Make.html#VALcompress_post_rules">compress_post_rules</a> [<a href="Lilis.Make.html">Lilis.Make</a>]</td>
 <td></td></tr>
@@ -109,18 +121,22 @@ A symbol is considered a constant when it's not used in any of the main rules of
 <tr><td align="left"><br>E</td></tr>
 <tr><td><a href="Lilis.S.html#VALempty">empty</a> [<a href="Lilis.S.html">Lilis.S</a>]</td>
 <td></td></tr>
-<tr><td><a href="Mini_calc.Env.html#VALempty">empty</a> [<a href="Mini_calc.Env.html">Mini_calc.Env</a>]</td>
+<tr><td><a href="Calc.Env.html#VALempty">empty</a> [<a href="Calc.Env.html">Calc.Env</a>]</td>
 <td></td></tr>
-<tr><td><a href="Mini_calc.html#VALeval">eval</a> [<a href="Mini_calc.html">Mini_calc</a>]</td>
+<tr><td><a href="Calc.html#VALeval">eval</a> [<a href="Calc.html">Calc</a>]</td>
 <td><div class="info">
 Evaluate a tree in the given environment.
 </div>
 </td></tr>
-<tr><td><a href="Mini_calc.html#VALeval_custom">eval_custom</a> [<a href="Mini_calc.html">Mini_calc</a>]</td>
+<tr><td><a href="Calc.html#VALeval_custom">eval_custom</a> [<a href="Calc.html">Calc</a>]</td>
 <td><div class="info">
 Evaluate a tree, the given function is used to evaluate variables.
 </div>
 </td></tr>
+<tr><td><a href="Lilis.Make.html#VALeval_fold_lsys">eval_fold_lsys</a> [<a href="Lilis.Make.html">Lilis.Make</a>]</td>
+<td></td></tr>
+<tr><td><a href="Lilis.Make.html#VALeval_iter_lsys">eval_iter_lsys</a> [<a href="Lilis.Make.html">Lilis.Make</a>]</td>
+<td></td></tr>
 <tr><td><a href="Lilis.Make.html#VALeval_lsys">eval_lsys</a> [<a href="Lilis.Make.html">Lilis.Make</a>]</td>
 <td><div class="info">
 Evaluate a L-system at the n-th generation.
@@ -129,11 +145,6 @@ Evaluate a L-system at the n-th generation.
 <tr><td><a href="Lilis.Make.html#VALeval_lsys_uncompress">eval_lsys_uncompress</a> [<a href="Lilis.Make.html">Lilis.Make</a>]</td>
 <td><div class="info">
 Like <code class="code"> eval_lsys </code>, but will ignore post rules and uncompress the stream instead.
-</div>
-</td></tr>
-<tr><td><a href="Mini_calc.html#VALeval_string">eval_string</a> [<a href="Mini_calc.html">Mini_calc</a>]</td>
-<td><div class="info">
-Evaluate the arithmetic expression in the given environment and the usual environment.
 </div>
 </td></tr>
 <tr><td><a href="Lilis.S.html#VALexpand">expand</a> [<a href="Lilis.S.html">Lilis.S</a>]</td>
@@ -146,13 +157,11 @@ Create a symbol environment from an axiom and a bunch of rules.
 <tr><td align="left"><br>F</td></tr>
 <tr><td><a href="Lilis.S.html#VALfold">fold</a> [<a href="Lilis.S.html">Lilis.S</a>]</td>
 <td></td></tr>
-<tr><td><a href="Mini_calc.html#VALfold">fold</a> [<a href="Mini_calc.html">Mini_calc</a>]</td>
+<tr><td><a href="Calc.html#VALfold">fold</a> [<a href="Calc.html">Calc</a>]</td>
 <td><div class="info">
 Depth first left to right traversal of the tree.
 </div>
 </td></tr>
-<tr><td><a href="Lilis.S.html#VALforce">force</a> [<a href="Lilis.S.html">Lilis.S</a>]</td>
-<td></td></tr>
 <tr><td><a href="LisUtils.html#VALfrom_channel">from_channel</a> [<a href="LisUtils.html">LisUtils</a>]</td>
 <td><div class="info">
 </div>
@@ -164,25 +173,46 @@ Depth first left to right traversal of the tree.
 <tr><td align="left"><br>G</td></tr>
 <tr><td><a href="Lilis.S.html#VALgennew">gennew</a> [<a href="Lilis.S.html">Lilis.S</a>]</td>
 <td></td></tr>
+<tr><td><a href="LisCairo.html#VALgtk_turtle">gtk_turtle</a> [<a href="LisCairo.html">LisCairo</a>]</td>
+<td><div class="info">
+A turtle that write on a gtk surface.
+</div>
+</td></tr>
 <tr><td align="left"><br>I</td></tr>
 <tr><td><a href="Lilis.S.html#VALiter">iter</a> [<a href="Lilis.S.html">Lilis.S</a>]</td>
 <td></td></tr>
+<tr><td><a href="Lilis.Make.html#VALiter_complete">iter_complete</a> [<a href="Lilis.Make.html">Lilis.Make</a>]</td>
+<td><div class="info">
+Take a rule composed of unit functions and apply it to the stream.
+</div>
+</td></tr>
+<tr><td align="left"><br>J</td></tr>
+<tr><td><a href="LisJsoo.html#VALjsturtle">jsturtle</a> [<a href="LisJsoo.html">LisJsoo</a>]</td>
+<td></td></tr>
+<tr><td align="left"><br>L</td></tr>
+<tr><td><a href="LisUtils.html#VALlsystem_from_string">lsystem_from_string</a> [<a href="LisUtils.html">LisUtils</a>]</td>
+<td><div class="info">
+Parse only one lsystem.
+</div>
+</td></tr>
 <tr><td align="left"><br>M</td></tr>
 <tr><td><a href="Lilis.S.html#VALmap">map</a> [<a href="Lilis.S.html">Lilis.S</a>]</td>
 <td></td></tr>
-<tr><td><a href="Mini_calc.html#VALmap">map</a> [<a href="Mini_calc.html">Mini_calc</a>]</td>
+<tr><td><a href="Calc.html#VALmap">map</a> [<a href="Calc.html">Calc</a>]</td>
 <td><div class="info">
 Change variables representation using the given function.
 </div>
 </td></tr>
-<tr><td><a href="Mini_calc.Env.html#VALmem">mem</a> [<a href="Mini_calc.Env.html">Mini_calc.Env</a>]</td>
+<tr><td><a href="Lilis.Make.html#VALmap_crules">map_crules</a> [<a href="Lilis.Make.html">Lilis.Make</a>]</td>
+<td></td></tr>
+<tr><td><a href="Calc.Env.html#VALmem">mem</a> [<a href="Calc.Env.html">Calc.Env</a>]</td>
 <td></td></tr>
 <tr><td align="left"><br>O</td></tr>
 <tr><td><a href="Lilis.S.html#VALof_list">of_list</a> [<a href="Lilis.S.html">Lilis.S</a>]</td>
 <td></td></tr>
-<tr><td><a href="Mini_calc.Env.html#VALof_list">of_list</a> [<a href="Mini_calc.Env.html">Mini_calc.Env</a>]</td>
+<tr><td><a href="Calc.Env.html#VALof_list">of_list</a> [<a href="Calc.Env.html">Calc.Env</a>]</td>
 <td></td></tr>
-<tr><td><a href="Mini_calc.html#VALof_string">of_string</a> [<a href="Mini_calc.html">Mini_calc</a>]</td>
+<tr><td><a href="CalcUtils.html#VALof_string">of_string</a> [<a href="CalcUtils.html">CalcUtils</a>]</td>
 <td><div class="info">
 Parse an arithmetic expression.
 </div>
@@ -190,6 +220,12 @@ Parse an arithmetic expression.
 <tr><td><a href="Glilis.html#VALorders">orders</a> [<a href="Glilis.html">Glilis</a>]</td>
 <td><div class="info">
 Mapping from string tokens to orders.
+</div>
+</td></tr>
+<tr><td align="left"><br>P</td></tr>
+<tr><td><a href="LisCairo.html#VALpng_turtle">png_turtle</a> [<a href="LisCairo.html">LisCairo</a>]</td>
+<td><div class="info">
+A turtle that write to a png file.
 </div>
 </td></tr>
 <tr><td align="left"><br>R</td></tr>
@@ -207,6 +243,16 @@ Mapping from string tokens to orders.
 Output "Parse error on line %line, colunm %col, token %token"
 </div>
 </td></tr>
+<tr><td><a href="LisTyxml.html#VALsvg_turtle">svg_turtle</a> [<a href="LisTyxml.html">LisTyxml</a>]</td>
+<td><div class="info">
+A turtle that draw to svg.
+</div>
+</td></tr>
+<tr><td><a href="LisCairo.html#VALsvg_turtle">svg_turtle</a> [<a href="LisCairo.html">LisCairo</a>]</td>
+<td><div class="info">
+A turtle that write to a svg file.
+</div>
+</td></tr>
 <tr><td align="left"><br>T</td></tr>
 <tr><td><a href="LisTyxml.html#VALtemplate">template</a> [<a href="LisTyxml.html">LisTyxml</a>]</td>
 <td><div class="info">
@@ -217,22 +263,35 @@ Output "Parse error on line %line, colunm %col, token %token"
 <td></td></tr>
 <tr><td><a href="LisUtils.html#VALto_string">to_string</a> [<a href="LisUtils.html">LisUtils</a>]</td>
 <td></td></tr>
-<tr><td><a href="Mini_calc.html#VALto_string">to_string</a> [<a href="Mini_calc.html">Mini_calc</a>]</td>
+<tr><td><a href="CalcUtils.html#VALto_string">to_string</a> [<a href="CalcUtils.html">CalcUtils</a>]</td>
 <td><div class="info">
-Print an arithmetic tree.
+Print an arithmetic expressions.
+</div>
+</td></tr>
+<tr><td><a href="Glilis.html#VALtransform_lsys">transform_lsys</a> [<a href="Glilis.html">Glilis</a>]</td>
+<td><div class="info">
+Can be feeded directly to <code class="code"><span class="constructor">Lilis</span>.<span class="constructor">Engine</span>.eval_iter_lsys</code>.
+</div>
+</td></tr>
+<tr><td><a href="Glilis.html#VALtransform_rhs">transform_rhs</a> [<a href="Glilis.html">Glilis</a>]</td>
+<td><div class="info">
+Can be combined with <code class="code"><span class="constructor">Lilis</span>.<span class="constructor">Engine</span>.map_crules</code> to use <code class="code"><span class="constructor">Lilis</span>.<span class="constructor">Engine</span>.eval_iter_lsys</code>.
+</div>
+</td></tr>
+<tr><td><a href="Glilis.html#VALturtle">turtle</a> [<a href="Glilis.html">Glilis</a>]</td>
+<td><div class="info">
+This turtle implements most movement calculations, without any actual drawing.
 </div>
 </td></tr>
 <tr><td align="left"><br>U</td></tr>
 <tr><td><a href="Lilis.Make.html#VALuncompress_lstream">uncompress_lstream</a> [<a href="Lilis.Make.html">Lilis.Make</a>]</td>
 <td></td></tr>
-<tr><td><a href="Mini_calc.Env.html#VALunion">union</a> [<a href="Mini_calc.Env.html">Mini_calc.Env</a>]</td>
+<tr><td><a href="Calc.Env.html#VALunion">union</a> [<a href="Calc.Env.html">Calc.Env</a>]</td>
 <td></td></tr>
-<tr><td><a href="Mini_calc.Env.html#VALusual">usual</a> [<a href="Mini_calc.Env.html">Mini_calc.Env</a>]</td>
+<tr><td><a href="Calc.Env.html#VALusual">usual</a> [<a href="Calc.Env.html">Calc.Env</a>]</td>
 <td></td></tr>
 <tr><td align="left"><br>V</td></tr>
-<tr><td><a href="Mini_calc.html#VALvar">var</a> [<a href="Mini_calc.html">Mini_calc</a>]</td>
-<td></td></tr>
-<tr><td><a href="Mini_calc.html#VALvars">vars</a> [<a href="Mini_calc.html">Mini_calc</a>]</td>
+<tr><td><a href="Calc.html#VALvars">vars</a> [<a href="Calc.html">Calc</a>]</td>
 <td><div class="info">
 Get the list of variables in the given tree.
 </div>

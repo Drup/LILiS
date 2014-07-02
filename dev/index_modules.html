@@ -6,43 +6,65 @@
 <link title="Index of types" rel=Appendix href="index_types.html">
 <link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
 <link title="Index of values" rel=Appendix href="index_values.html">
-<link title="Index of class methods" rel=Appendix href="index_methods.html">
-<link title="Index of classes" rel=Appendix href="index_classes.html">
-<link title="Index of class types" rel=Appendix href="index_class_types.html">
 <link title="Index of modules" rel=Appendix href="index_modules.html">
 <link title="Index of module types" rel=Appendix href="index_module_types.html">
-<link title="Mini_calc" rel="Chapter" href="Mini_calc.html">
+<link title="Calc" rel="Chapter" href="Calc.html">
+<link title="CalcUtils" rel="Chapter" href="CalcUtils.html">
 <link title="Lilis" rel="Chapter" href="Lilis.html">
 <link title="LisUtils" rel="Chapter" href="LisUtils.html">
 <link title="LisOptim" rel="Chapter" href="LisOptim.html">
 <link title="LisSequence" rel="Chapter" href="LisSequence.html">
 <link title="LisBatteries" rel="Chapter" href="LisBatteries.html">
-<link title="LisGen" rel="Chapter" href="LisGen.html">
+<link title="LisCC" rel="Chapter" href="LisCC.html">
 <link title="LisCFStream" rel="Chapter" href="LisCFStream.html">
+<link title="LisCore" rel="Chapter" href="LisCore.html">
 <link title="Glilis" rel="Chapter" href="Glilis.html">
 <link title="LisCairo" rel="Chapter" href="LisCairo.html">
-<link title="LisTyxml" rel="Chapter" href="LisTyxml.html"><title>LILiS user guide : Index of modules</title>
+<link title="LisTyxml" rel="Chapter" href="LisTyxml.html">
+<link title="LisJsoo" rel="Chapter" href="LisJsoo.html"><title>LILiS user guide : Index of modules</title>
 </head>
 <body>
 <div class="navbar">&nbsp;<a class="up" href="index.html" title="Index">Up</a>
 &nbsp;</div>
 <h1>Index of modules</h1>
 <table>
+<tr><td align="left"><br>C</td></tr>
+<tr><td><a href="Calc.html">Calc</a> </td>
+<td><div class="info">
+Small library to evaluate simple arithmetic expressions.
+</div>
+</td></tr>
+<tr><td><a href="CalcUtils.html">CalcUtils</a> </td>
+<td><div class="info">
+Input/Output utilities for arithmetic expressions.
+</div>
+</td></tr>
 <tr><td align="left"><br>E</td></tr>
 <tr><td><a href="LisBatteries.Enum.html">Enum</a> [<a href="LisBatteries.html">LisBatteries</a>]</td>
 <td><div class="info">
 BatEnum from batteries.
 </div>
 </td></tr>
-<tr><td><a href="Mini_calc.Env.html">Env</a> [<a href="Mini_calc.html">Mini_calc</a>]</td>
+<tr><td><a href="Calc.Env.html">Env</a> [<a href="Calc.html">Calc</a>]</td>
 <td><div class="info">
 Variable environment.
 </div>
 </td></tr>
 <tr><td align="left"><br>G</td></tr>
+<tr><td><a href="LisCC.Gen.html">Gen</a> [<a href="LisCC.html">LisCC</a>]</td>
+<td><div class="info">
+Gen, Imperative.
+</div>
+</td></tr>
 <tr><td><a href="Glilis.html">Glilis</a> </td>
 <td><div class="info">
 Graphical primitives for drawing L-systems.
+</div>
+</td></tr>
+<tr><td align="left"><br>K</td></tr>
+<tr><td><a href="LisCC.KList.html">KList</a> [<a href="LisCC.html">LisCC</a>]</td>
+<td><div class="info">
+CCKList, Persistent.
 </div>
 </td></tr>
 <tr><td align="left"><br>L</td></tr>
@@ -61,6 +83,11 @@ Library to Interpret Lindenmayer Systems.
 Streams implementations from <a href="http://batteries.forge.ocamlcore.org/">Batteries</a>.
 </div>
 </td></tr>
+<tr><td><a href="LisCC.html">LisCC</a> </td>
+<td><div class="info">
+<a href="https://github.com/c-cube/ocaml-containers">companion_cube's containers</a>
+</div>
+</td></tr>
 <tr><td><a href="LisCFStream.html">LisCFStream</a> </td>
 <td><div class="info">
 <a href="https://github.com/biocaml/cfstream">CFStream</a> library, a stream extension in core's style.
@@ -71,9 +98,14 @@ Streams implementations from <a href="http://batteries.forge.ocamlcore.org/">Bat
 Draw with <a href=" https://forge.ocamlcore.org/projects/cairo"> cairo</a>.
 </div>
 </td></tr>
-<tr><td><a href="LisGen.html">LisGen</a> </td>
+<tr><td><a href="LisCore.html">LisCore</a> </td>
 <td><div class="info">
-Gen, from <a href="https://github.com/c-cube/ocaml-containers">companion_cube's containers</a>.
+Core's Sequence.
+</div>
+</td></tr>
+<tr><td><a href="LisJsoo.html">LisJsoo</a> </td>
+<td><div class="info">
+A js turtle.
 </div>
 </td></tr>
 <tr><td><a href="LisOptim.html">LisOptim</a> </td>
@@ -93,18 +125,13 @@ Draw to a svg using <a href=" http://ocsigen.org/tyxml/"> tyxml</a>.
 </td></tr>
 <tr><td><a href="LisUtils.html">LisUtils</a> </td>
 <td><div class="info">
-Utilies for Lilis such as parsing and verification on L-systems.
+Utilities for Lilis such as parsing and verification on L-systems.
 </div>
 </td></tr>
 <tr><td align="left"><br>M</td></tr>
 <tr><td><a href="Lilis.Make.html">Make</a> [<a href="Lilis.html">Lilis</a>]</td>
 <td><div class="info">
 A functor to build your own little L-system engine given a stream-like data structure.
-</div>
-</td></tr>
-<tr><td><a href="Mini_calc.html">Mini_calc</a> </td>
-<td><div class="info">
-Small library to evaluate simple arithmetic expressions.
 </div>
 </td></tr>
 <tr><td align="left"><br>S</td></tr>

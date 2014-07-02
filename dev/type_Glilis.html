@@ -5,51 +5,44 @@
 <link title="Index of types" rel=Appendix href="index_types.html">
 <link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
 <link title="Index of values" rel=Appendix href="index_values.html">
-<link title="Index of class methods" rel=Appendix href="index_methods.html">
-<link title="Index of classes" rel=Appendix href="index_classes.html">
-<link title="Index of class types" rel=Appendix href="index_class_types.html">
 <link title="Index of modules" rel=Appendix href="index_modules.html">
 <link title="Index of module types" rel=Appendix href="index_module_types.html">
-<link title="Mini_calc" rel="Chapter" href="Mini_calc.html">
+<link title="Calc" rel="Chapter" href="Calc.html">
+<link title="CalcUtils" rel="Chapter" href="CalcUtils.html">
 <link title="Lilis" rel="Chapter" href="Lilis.html">
 <link title="LisUtils" rel="Chapter" href="LisUtils.html">
 <link title="LisOptim" rel="Chapter" href="LisOptim.html">
 <link title="LisSequence" rel="Chapter" href="LisSequence.html">
 <link title="LisBatteries" rel="Chapter" href="LisBatteries.html">
-<link title="LisGen" rel="Chapter" href="LisGen.html">
+<link title="LisCC" rel="Chapter" href="LisCC.html">
 <link title="LisCFStream" rel="Chapter" href="LisCFStream.html">
+<link title="LisCore" rel="Chapter" href="LisCore.html">
 <link title="Glilis" rel="Chapter" href="Glilis.html">
 <link title="LisCairo" rel="Chapter" href="LisCairo.html">
-<link title="LisTyxml" rel="Chapter" href="LisTyxml.html"><title>LILiS user guide : Glilis</title>
+<link title="LisTyxml" rel="Chapter" href="LisTyxml.html">
+<link title="LisJsoo" rel="Chapter" href="LisJsoo.html"><title>LILiS user guide : Glilis</title>
 </head>
 <body>
 <code class="code"><span class="keyword">sig</span><br>
 &nbsp;&nbsp;<span class="keyword">type</span>&nbsp;pos&nbsp;=&nbsp;{&nbsp;<span class="keyword">mutable</span>&nbsp;x&nbsp;:&nbsp;float;&nbsp;<span class="keyword">mutable</span>&nbsp;y&nbsp;:&nbsp;float;&nbsp;<span class="keyword">mutable</span>&nbsp;d&nbsp;:&nbsp;float;&nbsp;}<br>
 &nbsp;&nbsp;<span class="keyword">type</span>&nbsp;color&nbsp;=&nbsp;{&nbsp;r&nbsp;:&nbsp;float;&nbsp;g&nbsp;:&nbsp;float;&nbsp;b&nbsp;:&nbsp;float;&nbsp;a&nbsp;:&nbsp;float;&nbsp;}<br>
-&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;orders&nbsp;=&nbsp;[&nbsp;<span class="keywordsign">`</span><span class="constructor">Color</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Forward</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Restore</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Save</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Turn</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span>forward&nbsp;]<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;orders&nbsp;=&nbsp;<span class="constructor">Forward</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Forward'</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Turn</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Save</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Restore</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Color</span><br>
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;orders&nbsp;:&nbsp;(string&nbsp;*&nbsp;(<span class="constructor">Glilis</span>.orders&nbsp;*&nbsp;int))&nbsp;list<br>
-&nbsp;&nbsp;<span class="keyword">class</span>&nbsp;<span class="keyword">type</span>&nbsp;[<span class="keywordsign">'</span>a]&nbsp;turtle&nbsp;=<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">object</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">constraint</span>&nbsp;<span class="keywordsign">'</span>a&nbsp;=&nbsp;[&lt;&nbsp;<span class="constructor">Glilis</span>.orders&nbsp;]<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">method</span>&nbsp;color&nbsp;:&nbsp;<span class="constructor">Glilis</span>.color&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">method</span>&nbsp;draw&nbsp;:&nbsp;<span class="keywordsign">'</span>a&nbsp;*&nbsp;float&nbsp;array&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">method</span>&nbsp;get_color&nbsp;:&nbsp;<span class="constructor">Glilis</span>.color<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">method</span>&nbsp;get_pos&nbsp;:&nbsp;<span class="constructor">Glilis</span>.pos<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">method</span>&nbsp;move&nbsp;:&nbsp;?trace:bool&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;float&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">method</span>&nbsp;restore_position&nbsp;:&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">method</span>&nbsp;save_position&nbsp;:&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">method</span>&nbsp;turn&nbsp;:&nbsp;float&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">end</span><br>
-&nbsp;&nbsp;<span class="keyword">class</span>&nbsp;<span class="keyword">virtual</span>&nbsp;[<span class="keywordsign">'</span>a]&nbsp;vturtle&nbsp;:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">object</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">constraint</span>&nbsp;<span class="keywordsign">'</span>a&nbsp;=&nbsp;[&lt;&nbsp;<span class="constructor">Glilis</span>.orders&nbsp;]<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">method</span>&nbsp;color&nbsp;:&nbsp;<span class="constructor">Glilis</span>.color&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">method</span>&nbsp;draw&nbsp;:&nbsp;<span class="keywordsign">'</span>a&nbsp;*&nbsp;float&nbsp;array&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">method</span>&nbsp;get_color&nbsp;:&nbsp;<span class="constructor">Glilis</span>.color<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">method</span>&nbsp;get_pos&nbsp;:&nbsp;<span class="constructor">Glilis</span>.pos<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">method</span>&nbsp;move&nbsp;:&nbsp;?trace:bool&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;float&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">method</span>&nbsp;restore_position&nbsp;:&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">method</span>&nbsp;save_position&nbsp;:&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">method</span>&nbsp;turn&nbsp;:&nbsp;float&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">end</span><br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;<span class="keywordsign">'</span>a&nbsp;turtle&nbsp;=&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;get_pos&nbsp;:&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Glilis</span>.pos;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;get_color&nbsp;:&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Glilis</span>.color;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;turn&nbsp;:&nbsp;float&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;move&nbsp;:&nbsp;?trace:bool&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;float&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;save_position&nbsp;:&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;restore_position&nbsp;:&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;color&nbsp;:&nbsp;<span class="constructor">Glilis</span>.color&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;handle_lsys&nbsp;:&nbsp;(unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a;<br>
+&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;turtle&nbsp;:&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit&nbsp;<span class="constructor">Glilis</span>.turtle<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;transform_rhs&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="constructor">Glilis</span>.turtle&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="keywordsign">'</span>c&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;float)&nbsp;array&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>c&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;transform_lsys&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="constructor">Glilis</span>.turtle&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(string&nbsp;*&nbsp;<span class="keywordsign">'</span>b)&nbsp;<span class="constructor">Lilis</span>.lsystem&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;((<span class="keywordsign">'</span>c&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;float)&nbsp;array&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>c&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit)&nbsp;<span class="constructor">Lilis</span>.lsystem<br>
 <span class="keyword">end</span></code></body></html>

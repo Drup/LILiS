@@ -10,22 +10,22 @@
 <link title="Index of types" rel=Appendix href="index_types.html">
 <link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
 <link title="Index of values" rel=Appendix href="index_values.html">
-<link title="Index of class methods" rel=Appendix href="index_methods.html">
-<link title="Index of classes" rel=Appendix href="index_classes.html">
-<link title="Index of class types" rel=Appendix href="index_class_types.html">
 <link title="Index of modules" rel=Appendix href="index_modules.html">
 <link title="Index of module types" rel=Appendix href="index_module_types.html">
-<link title="Mini_calc" rel="Chapter" href="Mini_calc.html">
+<link title="Calc" rel="Chapter" href="Calc.html">
+<link title="CalcUtils" rel="Chapter" href="CalcUtils.html">
 <link title="Lilis" rel="Chapter" href="Lilis.html">
 <link title="LisUtils" rel="Chapter" href="LisUtils.html">
 <link title="LisOptim" rel="Chapter" href="LisOptim.html">
 <link title="LisSequence" rel="Chapter" href="LisSequence.html">
 <link title="LisBatteries" rel="Chapter" href="LisBatteries.html">
-<link title="LisGen" rel="Chapter" href="LisGen.html">
+<link title="LisCC" rel="Chapter" href="LisCC.html">
 <link title="LisCFStream" rel="Chapter" href="LisCFStream.html">
+<link title="LisCore" rel="Chapter" href="LisCore.html">
 <link title="Glilis" rel="Chapter" href="Glilis.html">
 <link title="LisCairo" rel="Chapter" href="LisCairo.html">
-<link title="LisTyxml" rel="Chapter" href="LisTyxml.html"><title>LILiS user guide : LisOptim</title>
+<link title="LisTyxml" rel="Chapter" href="LisTyxml.html">
+<link title="LisJsoo" rel="Chapter" href="LisJsoo.html"><title>LILiS user guide : LisOptim</title>
 </head>
 <body>
 <div class="navbar"><a class="pre" href="LisUtils.html" title="LisUtils">Previous</a>
@@ -39,7 +39,7 @@ Optimization passes on L-systems.<br>
 </div>
 <hr width="100%">
 
-<pre><span id="VALconstant_folding"><span class="keyword">val</span> constant_folding</span> : <code class="type">'a <a href="Lilis.html#TYPElsystem">Lilis.lsystem</a> -> 'a <a href="Lilis.html#TYPElsystem">Lilis.lsystem</a></code></pre><div class="info ">
+<pre><span id="VALconstant_folding"><span class="keyword">val</span> constant_folding</span> : <code class="type">('a * string <a href="Calc.html#TYPEt">Calc.t</a> list) <a href="Lilis.html#TYPElsystem">Lilis.lsystem</a> -><br>       ('a * string <a href="Calc.html#TYPEt">Calc.t</a> list) <a href="Lilis.html#TYPElsystem">Lilis.lsystem</a></code></pre><div class="info ">
 A symbol is considered a constant when it's not used in any of the main rules of a L-system.
     This pass merges consecutive constant symbols into a unique symbol and add post rules for each of these new symbols.
     The new post rule is created by merging the post rules of the folded symbols. The rules of the folded symbols are pre-applied to their arguments and only free variables are kept.
@@ -63,5 +63,9 @@ post rule F(l) = Forward(l)
 post rule X+Y(x) = Turn(60) Forward (3*x+2*x)
 post rule F+Z = Forward(2)
    </pre><br>
+</div>
+
+<pre><span id="VALcompress_calcs"><span class="keyword">val</span> compress_calcs</span> : <code class="type">?env:<a href="Calc.Env.html#TYPEt">Calc.Env.t</a> -><br>       ('a * string <a href="Calc.html#TYPEt">Calc.t</a> list) <a href="Lilis.html#TYPElsystem">Lilis.lsystem</a> -><br>       ('a * string <a href="Calc.html#TYPEt">Calc.t</a> list) <a href="Lilis.html#TYPElsystem">Lilis.lsystem</a></code></pre><div class="info ">
+Apply <a href="Calc.html#VALcompress"><code class="code"><span class="constructor">Calc</span>.compress</code></a> to every arithmetic expressions.<br>
 </div>
 </body></html>
