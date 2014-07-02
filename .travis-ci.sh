@@ -26,9 +26,14 @@ opam pin --verbose ${PACKAGE} .
 
 #opam install --deps-only ${PACKAGE}
 #Doesn't work with opam 1.1 for some reasons
-
 opam install ocamlfind batteries menhir sequence cppo oasis
 
-[ ${EXTRA_DEPENDS} ] && opam install ${EXTRA_DEPENDS}
-opam install --verbose ${PACKAGE}
+if [ "${TEST}" != "" ] ; then
+    TEST="-t"
+    EXTRA_DEPENDS="${EXTRA_DEPENDS} benchmark" ;
+fi
+
+[ "${EXTRA_DEPENDS}" != "" ] && opam install ${EXTRA_DEPENDS}
+
+opam install ${TEST} --verbose ${PACKAGE}
 opam remove --verbose ${PACKAGE}

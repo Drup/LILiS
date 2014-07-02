@@ -19,6 +19,10 @@ build: [
   [make "install"]
 ]
 build-doc: [[make "docs"]]
+build-test: [
+  ["./configure" "--enable-tests"]
+  [make "test"]
+]
 remove: [
   ["ocamlfind" "remove" "calc"]
   ["ocamlfind" "remove" "lilis"]
