@@ -6,7 +6,7 @@ Description: A Library to interpret, evaluate and draw L-systems.
 Authors:     Gabriel Radanne <drupyog@zoho.com>
 License:     MIT
 Plugins:     META (0.3), DevFiles (0.3)
-Homepage:    http://drup.github.io/LILiS/
+Homepage:    https://github.com/Drup/LILiS
 
 AlphaFeatures: pure_interface, compiled_setup_ml
 BuildTools: ocamlbuild

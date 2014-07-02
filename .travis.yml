@@ -1,6 +1,8 @@
 language: c
 script: bash -ex .travis-ci.sh
 env:
-  - OCAML_VERSION=4.01.0 OPAM_VERSION=1.1.0
-  - OCAML_VERSION=4.00.1 OPAM_VERSION=1.1.0
-  - OCAML_VERSION=3.12.1 OPAM_VERSION=1.1.0
+  - OCAML_VERSION=4.01.0
+  - OCAML_VERSION=4.01.0 EXTRA_DEPENDS="cmdliner lablgtk cairo2"
+  - OCAML_VERSION=4.01.0 EXTRA_DEPENDS="cmdliner lablgtk cairo2 tyxml"
+  - OCAML_VERSION=4.01.0 EXTRA_DEPENDS="tyxml js_of_ocaml"
+  - OCAML_VERSION=4.01.0 EXTRA_DEPENDS="cfstream core_kernel"
