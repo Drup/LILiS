@@ -1,5 +1,5 @@
 
-<**/*.ml> : -bin-annot, -short-paths
+<**/*.ml> : bin_annot, short_paths
 
 true : use_menhir, explain
 
