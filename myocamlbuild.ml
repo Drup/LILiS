@@ -17,12 +17,16 @@ let oasis_flag env flag = BaseEnvLight.var_get flag env = "true"
 
 (** If the tyxml flag is set, compile with [-D def_tyxml] and link against tyxml. *)
 let tyxml_cond env =
-  if oasis_flag env "tyxml" then
-    let executable = "glilis/glilis_ex" in
+  if oasis_flag env "tyxml" then begin
+    let path_exec = "glilis/executable" in
+    let executable = path_exec / "glilis_ex" in
     let dep = "tyxml" in
-    tag_file (executable-.-"ml")     [ define dep ] ;
+    tag_file (executable-.-"ml")     [ use dep; pkg dep; define dep ] ;
     tag_file (executable-.-"native") [ use dep; pkg dep ] ;
-    tag_file (executable-.-"byte")   [ use dep; pkg dep ]
+    tag_file (executable-.-"byte")   [ use dep; pkg dep ] ;
+    (* Insert magic here. I don't really know either. *)
+    Pathname.define_context path_exec ["glilis/tyxml"]
+  end
 
 
 (** All the benchmark sources. *)
