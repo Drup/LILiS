@@ -26,7 +26,9 @@ val lsystem_from_string : string -> (string * string Calc.t list) Lilis.lsystem
 (** {2 Printing} *)
 
 val to_string : (string * string Calc.t list) Lilis.lsystem -> string
-val rule_to_string : (string * string Calc.t list) Lilis.rule -> string
+
+val fprint : Format.formatter -> (string * string Calc.t list) Lilis.lsystem -> unit
+val fprint_rule : Format.formatter -> (string * string Calc.t list) Lilis.rule -> unit
 
 
 (** {2 Verifications} *)

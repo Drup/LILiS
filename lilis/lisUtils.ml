@@ -193,24 +193,50 @@ let from_string s =
 
 (** {2 Printing} *)
 
-let tok_to_string f (symb,vars) =
-  Printf.sprintf "%s(%s)"
+(** Copied from ocaml 4.02 *)
+let rec pp_print_list ?(pp_sep = Format.pp_print_cut) pp_v ppf = function
+  | [] -> ()
+  | [v] -> pp_v ppf v
+  | v :: vs ->
+    pp_v ppf v;
+    pp_sep ppf ();
+    pp_print_list ~pp_sep pp_v ppf vs
+
+let fprint_tok f pp (symb,vars) =
+  Format.fprintf pp "%s(%a)"
     symb
-  @@ String.concat ", " @@ List.map f vars
+    (pp_print_list
+       ~pp_sep:(fun pp () -> Format.fprintf pp ", ")
+       (fun pp x -> Format.pp_print_string pp (f x)))
+    vars
 
-let stream_to_string f stream =
-  String.concat " " @@ List.map (tok_to_string f) stream
+let fprint_stream f =
+  pp_print_list
+    ~pp_sep:(fun pp () -> Format.fprintf pp "@ ")
+    (fprint_tok f)
 
-let rule_to_string {Lilis. lhs ; vars ; rhs } =
-  tok_to_string CalcUtils.to_string (lhs, List.map (fun x -> Calc.Var x) vars) ^
-    " = " ^ stream_to_string CalcUtils.to_string rhs
+let fprint_rule pp {Lilis. lhs ; vars ; rhs } =
+  Format.fprintf pp "%a =@[<hov 2>@ %a@]"
+    (fprint_tok CalcUtils.to_string) (lhs, List.map (fun x -> Calc.Var x) vars)
+    (fprint_stream CalcUtils.to_string) rhs
 
-let to_string {Lilis. name ; axiom ; rules ; post_rules } =
-  name ^ " {\n" ^
-    "axiom = " ^ stream_to_string CalcUtils.to_string axiom ^
-    "\nrules {\n" ^
-    String.concat "\n" (List.map rule_to_string rules) ^
-    "\n}\n" ^
-    "\npost rules {\n" ^
-    String.concat "\n" (List.map rule_to_string post_rules) ^
-    "\n}\n"
+let fprint pp {Lilis. name ; axiom ; rules ; post_rules } =
+  Format.fprintf pp
+    "%s {@\n  @[<v>axiom =@[<hov 2>@ %a@]@,rules {@\n@[<v 2>  %a@,@]}@,post rules {@\n@[<v 2>  %a@,@]}@]@\n}@\n"
+    name
+    (fprint_stream CalcUtils.to_string)
+    axiom
+
+    (pp_print_list
+       ~pp_sep:(fun pp () -> Format.fprintf pp "@;")
+       fprint_rule)
+    rules
+
+    (pp_print_list
+       ~pp_sep:(fun pp () -> Format.fprintf pp "@;")
+       fprint_rule)
+    post_rules
+
+let to_string l =
+  fprint Format.str_formatter l ;
+  Format.flush_str_formatter ()
