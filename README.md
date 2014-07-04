@@ -74,23 +74,18 @@ You can also enable benchmarks and tests with the flag `--enable-tests`. The ben
 This project has three parts :
 - `calc`, a very small library to evaluate arithmetic expression;
 - `lilis`, the core engine;
-- `glilis`, the graphical stuff.
-- `test`, some benchmarks
+- `glilis`, the graphical stuff;
+- `test`, some benchmarks.
 
 ## TODO
 
 Current potential goals:
 
-- Big priority : add a preprocessor to do conditional compilation. This is the only way to handle all those optional dependencies nicely.
-
 - Performance related :
-  - Constants folding for symbols : replace `+(60)` by `+'` (with `def +' = Turn(60)`)
-  - Constants folding for symbols, bis : replace `A B` with some other symbol if neither `A` nor `B` are left hand side of a rule.
   - Find a way to group arithmetic expressions. First in a given symbol `F(x*2,x*2)` and, more interesting : `rule F(x) = F(x/2) + F(x/2)`.
-  - Symbol grouping : `F(x) F(y)` → `F(x+y)`. Be **very** careful as this is not always true.
+  - Symbol grouping : `F(x) F(y)` → `F(x+y)`. Be **very** careful as this is not always true. Already done for "constant" symbols.
   - Allow simple expressions to be pre-computed :
-	  `rule S(n) = S(n+1)`. This may be super hard in general.
-  - Allow to plug a (drawing) function in the last derivation, to avoid a useless flattening.
+	  `rule S(n) = S(n+1)`. This may be very hard in general.
   - Work on the trigo stuff in the drawing part of the library.
   - Investigate the idea "Compute the size of the result in advance, allocate a huge array, copy the result of each rule, ???, profit." It may be a good way to parallelize lilis.
   - Play with Parmap a bit more, use the fact that the last operation is an iter (like for drawing) since we don't have to do the last (and very costly) concat in this case.
@@ -104,10 +99,9 @@ Current potential goals:
 
 - Drawing :
   - New drawing engines!
-  - In particular, Vg. <http://erratique.ch/software/vg>
   - Allow new drawing constructs. All the typing and modularity parts are in places, just need to implement.
 
-- Make a pretty GUI, maybe a web one. See vg stuff.
+- Make a pretty GUI, maybe a web one.
 
 - Add some benchmarks for drawing backends.
 

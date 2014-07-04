@@ -39,7 +39,7 @@ or, if LILiS was compiled with tyxml, in a (obviously prettier, but quite bigger
 {v glilis -n 6 bank_lsystem Von_koch_simple --svg von_koch.svg v}
 
 You can discover the rest of the command with the help included:
-{v ./glilis_ex.native --help v}
+{v glilis --help v}
 
 {3 There can be only one turtle in this drawing}
 
