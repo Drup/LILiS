@@ -18,7 +18,7 @@ exception Unknown_variable of string
 
 (** The environment for variables *)
 module Env = struct
-  module M = BatMap.Make(BatString)
+  module M = Map.Make(String)
 
   type t = float M.t
 
@@ -26,9 +26,9 @@ module Env = struct
   let add = M.add
   let mem = M.mem
 
-  let find_arit x env = match M.Exceptionless.find x env with
-    | None -> raise (Unknown_variable x)
-    | Some f -> f
+  let find_arit x env =
+    try M.find x env
+    with Not_found -> raise (Unknown_variable x)
 
   let union env1 env2 = M.fold M.add env1 env2
 
@@ -109,7 +109,7 @@ let rec compress_custom f t = match t with
     end
 
 let compress env t =
-  let f x = Env.M.Exceptionless.find x env in
+  let f x = try Some (Env.M.find x env) with Not_found -> None in
   compress_custom f t
 
 (** Return the closure of a compressed arithmetic expression. *)

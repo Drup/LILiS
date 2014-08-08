@@ -61,9 +61,6 @@ Library calc
     Calc, CalcUtils
   InternalModules:
     CalcLexer, CalcParser
-  BuildDepends:
-    batteries
-
 
 
 ### Lilis ###
