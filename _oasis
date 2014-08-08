@@ -36,7 +36,7 @@ Flag core
 
 Flag cairo
   Description: Enable the cairo backend for png and gtk output
-  Default: true
+  Default: false
 
 Flag tyxml
   Description: Enable the tyxml backend for svg output
