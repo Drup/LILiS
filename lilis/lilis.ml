@@ -34,7 +34,7 @@ type arit_fun = float array -> float
 let arit_closure v t : arit_fun =
   let open Calc in
   let t = compress Env.usual t in
-  let f x = BatArray.findi ( BatString.equal x) v in
+  let f x = fst @@ CCOpt.get_exn @@ CCArray.find_idx (CCString.equal x) v in
   let t = map f t in
   let aclosure env =
     eval_custom (Array.unsafe_get env) t
@@ -145,7 +145,7 @@ module Make (Ls : S) = struct
     (new_lhs, new_rhs)
 
   let compress_gen_rules senv f rules =
-    let crules = BatArray.create senv.n None in
+    let crules = Array.create senv.n None in
     let add_rule r =
       let i, rhs = transform_rule senv f r in
       crules.(i) <- Some rhs
@@ -175,7 +175,7 @@ module Make (Ls : S) = struct
 
   let map_crules f x  =
     let f' x = Ls.store @@ Ls.map (fun (a,b) -> (f a,b)) @@ Ls.gennew x in
-    Array.map (BatOption.map f') x
+    Array.map (CCOpt.map f') x
 
   (** {1 L-system evaluation engine} *)
 

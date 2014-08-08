@@ -30,11 +30,15 @@ module AST = struct
 
 end
 
-module SMap = BatMap.Make(BatString)
-
-let (@@) = BatPervasives.(@@)
-let (|>) = BatPervasives.(|>)
+module SMap = Map.Make(String)
 
 let foldAccum f l zero =
   let f' y (x,t) = let (x',h) = f y x in (x',h::t) in
-  BatList.fold_right f' l (zero,[])
+  List.fold_right f' l (zero,[])
+
+let wrap f =
+  try Some (f ()) with _ -> None
+
+let (@@-) f l = CCSequence.(to_list @@ f @@ of_list l)
+
+include CCFun

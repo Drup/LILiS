@@ -24,6 +24,10 @@ Flag sequence
 
 Flag containers
   Description: Build the Containers interface
+  Default: true
+
+Flag batteries
+  Description: Build the Batteries interface
   Default: false
 
 Flag cfstream
@@ -68,7 +72,7 @@ Library calc
 
 Library lilis
   Path: lilis
-  BuildDepends: batteries, calc
+  BuildDepends: containers, calc
   Modules:
     Lilis, LisUtils, LisOptim
   InternalModules:
@@ -105,6 +109,7 @@ Library core
   Modules: LisCore
 
 Library batteries
+  Build$: flag(batteries)
   FindLibParent: lilis
   Path: streams/batteries
   BuildDepends: batteries, lilis
@@ -160,7 +165,7 @@ Library bench_common
   Install: false
   CompiledObject: best
   Modules: Bench_common
-  BuildDepends: threads, lilis, lilis.batteries, benchmark
+  BuildDepends: threads, lilis, benchmark
 
 Executable bench_streams
   Path: test

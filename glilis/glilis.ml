@@ -1,5 +1,3 @@
-
-(* For @@ operator on ocaml <= 4.01 *)
 open LisCommon
 
 let pi = 4. *. atan 1.

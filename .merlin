@@ -1,19 +1,18 @@
 S calc
 S lilis
-S lilis/streams
+S streams
 S glilis
 S test
 
 B _build
 B _build/calc
 B _build/lilis
-B _build/lilis/streams
+B _build/streams
 B _build/glilis
 B _build/test
 
-PKG batteries
 PKG cairo2
 PKG cairo2.lablgtk2
 PKG tyxml
 PKG cmdliner
-PKG sequence
+PKG containers

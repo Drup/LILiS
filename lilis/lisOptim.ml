@@ -1,7 +1,7 @@
 open LisCommon
 open Lilis
 
-module SSet = BatSet.Make(BatString)
+module SSet = Set.Make(String)
 
 let empty_rule s = { lhs = s ; vars = [] ; rhs = [] }
 
@@ -23,24 +23,21 @@ let get_symbols lsys =
 
 let subst_var_in_token (symb, vars) substs =
   let vars' =
-    List.map
-      (fun x ->
-         x
-         |> Calc.bind_opt (fun s -> BatList.Exceptionless.assoc s substs)
-         |> Calc.compress_custom (fun _ -> None)
-      )
-      vars
+    vars |> List.map (
+      Calc.bind_opt
+        (fun s -> wrap @@ fun () -> List.assoc s substs)
+      %> Calc.compress_custom (fun _ -> None)
+    )
   in (symb, vars')
 
 let apply_rule rule args =
-  let substs = BatList.combine rule.vars args in
+  let substs = List.combine rule.vars args in
   let rhs =
     List.map
       (fun tok -> subst_var_in_token tok substs)
       rule.rhs
   in
-  let vars =
-    BatList.unique @@ BatList.concat @@ List.map Calc.vars args
+  let vars = CCSequence.(uniq % flatMap Calc.vars) @@- args
   in { rule with rhs ; vars }
 
 
@@ -62,9 +59,8 @@ let constant_folding lsys =
   let get_rules lsys symbs =
     (* A symbol might not have a rule, we just use an empty rule in this case. *)
     let get_rule lsys (symb, _) =
-      BatOption.default
-        (empty_rule symb)
-        @@ BatList.Exceptionless.find (fun x -> x.lhs = symb) lsys.post_rules
+      try List.find (fun x -> x.lhs = symb) lsys.post_rules
+      with Not_found -> empty_rule symb
     in
     List.map (get_rule lsys) symbs
   in
@@ -73,8 +69,8 @@ let constant_folding lsys =
      In practice, it's just a concatenation of vars and rhs. *)
   let fusion_rules name rules = {
     lhs = name ;
-    vars = BatList.unique @@ List.concat @@ List.map (fun x -> x.vars) rules ;
-    rhs = List.concat @@ List.map (fun x -> x.rhs) rules ;
+    vars = CCSequence.(uniq % flatMap (fun x -> of_list x.vars)) @@- rules ;
+    rhs = CCList.flat_map (fun x -> x.rhs) rules ;
   } in
 
   let synth_rule lsys nameset toks =

@@ -47,6 +47,7 @@ let () = add_stream core
 #endif
 
 
+#ifdef def_batteries
 module BeSeq = Make(LisBatteries.Seq)
 let seq i =
   "Seq",
@@ -70,6 +71,7 @@ let stream i =
   "Stream",
   fun lsys -> BatStream.iter ignore @@ BeStream.eval_lsys i lsys
 let () = add_stream stream
+#endif
 
 
 

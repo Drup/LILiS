@@ -28,9 +28,9 @@ let is_def_tok env token =
     raise (TokenDefError token)
 
 let check_arity env tok vars =
-  let defined_arity = match SMap.Exceptionless.find tok env with
-    | Some x -> x
-    | None -> raise @@ TokenDefError tok
+  let defined_arity = try
+      SMap.find tok env
+    with Not_found -> raise @@ TokenDefError tok
   in
   let arity = List.length vars in
   if defined_arity <> arity then
@@ -78,9 +78,9 @@ let add_defs new_def lsys =
 
 let replace_in_post_rules env {Lilis. name ; axiom ; rules ; post_rules } =
   let replace_def (tok,vars) =
-    let (tok',arity) = match BatList.Exceptionless.assoc tok env with
-      | Some x -> x
-      | None -> raise (TokenDefError tok)
+    let (tok',arity) = try
+        List.assoc tok env
+      with Not_found -> raise @@ TokenDefError tok
     in
     let used_arity = List.length vars in
     if arity <> used_arity then raise (ArityError (tok, arity, used_arity)) ;
@@ -101,7 +101,7 @@ let replace_in_post_rules env {Lilis. name ; axiom ; rules ; post_rules } =
 (** Extract definitions *)
 let definitions (dl : AST.def list)  =
   let distribute (l,e) = List.map (fun k -> (k,e)) l in
-  let dl = List.map distribute dl |> BatList.concat in
+  let dl = CCList.flat_map distribute dl in
   let aux ((lhs,vars),rhs) env =
     let env' = SMap.add lhs vars env in
     (env', ((lhs,List.map fst vars),rhs))
@@ -111,9 +111,9 @@ let definitions (dl : AST.def list)  =
 
 (** Fill optional arguments according to a definition. *)
 let fill_args defs (tok,vars) =
-  let def = match SMap.Exceptionless.find tok defs with
-    | Some x -> x
-    | None -> raise @@ TokenDefError tok
+  let def = try
+      SMap.find tok defs
+    with Not_found -> raise @@ TokenDefError tok
   in
   let get (var,opt) = match opt with
     | Some x -> x

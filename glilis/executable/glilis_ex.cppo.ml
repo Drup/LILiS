@@ -17,13 +17,13 @@ let get_lsystem file name =
   let bank_ls = LisUtils.from_channel c in
   close_in c;
   match name with
-    | None   -> begin
-        try List.hd bank_ls
-        with Failure "hd" -> raise (NoLsys file)
+    | None   -> begin match bank_ls with
+        | h :: _ -> h
+        | _ -> raise @@ NoLsys file
       end
     | Some s -> begin
         try List.find (fun l -> l.name = s) bank_ls
-        with Not_found -> raise (NoLsysName (file, s))
+        with Not_found -> raise @@ NoLsysName (file, s)
       end
 
 let to_gtk (width, height) lstream =
@@ -159,7 +159,7 @@ let processing_t n lsys =
 
 let draw_t size outputs gtk lstream =
   List.iter
-    (fun (x,f) -> BatOption.may (f size lstream) x)
+    (fun (x,f) -> CCOpt.iter (f size lstream) x)
     outputs ;
   if gtk then to_gtk size lstream
 
