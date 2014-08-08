@@ -31,7 +31,7 @@ Computing L-systems happens to be a very nice way to stress the flatMap operatio
 
 - The parser depends on `menhir`.
 - [cppo](https://github.com/mjambon/cppo) is a building dependency.
-- The engine implementation depends on [Batteries Included](https://github.com/ocaml-batteries-team/batteries-included) and [Sequence](https://github.com/c-cube/sequence) for super-fast streams.
+- The engine implementation depends on [Containers](https://github.com/c-cube/ocaml-containers).
 - There are currently two graphical backends :
   - The png and gtk one depends on [Cairo's Ocaml binding](https://forge.ocamlcore.org/projects/cairo/).
   - The SVG one depends on [tyxml](http://ocsigen.org/tyxml/) (version >= 3.0.0).
@@ -39,13 +39,14 @@ Computing L-systems happens to be a very nice way to stress the flatMap operatio
 
 You can install most of it with :
 
-	$ opam install cppo batteries sequence cairo2 lablgtk tyxml cmdliner menhir
+	$ opam install cppo containers cairo2 lablgtk cmdliner menhir
 
 ### Optional dependencies
 
 Some stream library are used if they are available :
 - [CFStream](https://github.com/biocaml/cfstream)
-- [Gen](https://github.com/c-cube/ocaml-containers)
+- [Core.Sequence](https://github.com/janestreet/core_kernel)
+- The various stream-like data structure in [Batteries](https://github.com/ocaml-batteries-team/batteries-included).
 
 For the benchmarks, the [Benchmark](http://ocaml-benchmark.sourceforge.net/) package is needed.
 

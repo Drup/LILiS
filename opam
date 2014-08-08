@@ -8,10 +8,10 @@ tags: [ "lsystem" "grammar" "graphics" "logo" ]
 
 build: [
   ["./configure" "--prefix" prefix
-	   "--%{sequence:enable}%-sequence"
+	   "--enable-containers"
 	   "--%{cfstream:enable}%-cfstream"
 	   "--%{core_kernel:enable}%-core"
-	   "--%{cairo2:enable}%-cairo"
+	   "--%{cairo2:enable}%-cairo" {"%{lablgtk:installed}%"}
 	   "--%{tyxml:enable}%-tyxml"
 	   "--%{js_of_ocaml:enable}%-js-of-ocaml"
 	   "--%{cmdliner:enable}%-executable"]
@@ -31,17 +31,18 @@ remove: [
 available: [ocaml-version >= "4.01.0"]
 depends: [
   "ocamlfind"
-  "batteries"
   "menhir"
-  "sequence"
+  "containers"
   "cppo" {>= "0.9.4"}
   # Remove oasis for the package
   "oasis"
 ]
 depopts: [
+  "batteries"
   "cfstream"
   "core_kernel"
   "cairo2"
+  "lablgtk"
   "tyxml"
   "js_of_ocaml"
   "cmdliner"
