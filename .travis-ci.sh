@@ -1,10 +1,7 @@
-# Edit this for your own project dependencies
 PACKAGE=lilis
 
 OPAM_VERSION=1.1.0
 case "$OCAML_VERSION,$OPAM_VERSION" in
-3.12.1,1.1.0) ppa=avsm/ocaml312+opam11 ;;
-4.00.1,1.1.0) ppa=avsm/ocaml40+opam11 ;;
 4.01.0,1.1.0) ppa=avsm/ocaml41+opam11 ;;
 *) echo Unknown $OCAML_VERSION,$OPAM_VERSION; exit 1 ;;
 esac
@@ -24,8 +21,6 @@ eval `opam config env`
 
 opam pin --verbose ${PACKAGE} .
 
-#opam install --deps-only ${PACKAGE}
-#Doesn't work with opam 1.1 for some reasons
 opam install ocamlfind containers menhir cppo oasis
 
 if [ "${TEST}" != "" ] ; then
@@ -37,3 +32,35 @@ fi
 
 opam install ${TEST} --verbose ${PACKAGE}
 opam remove --verbose ${PACKAGE}
+
+
+# If appropriate, build and push the documentation
+if [ "$TRAVIS_REPO_SLUG" == "Drup/LILiS" ] \
+    && [ "$TRAVIS_PULL_REQUEST" == "false" ] \
+    && [ "$TRAVIS_BRANCH" == "master" ] \
+    && [ "${TEST}" != "" ] ; then
+
+    echo -e "Publishing ocamldoc...\n"
+    git config --global user.email "travis@travis-ci.org"
+    git config --global user.name "travis-ci"
+    git clone https://${GH_TOKEN}@github.com/Drup/LILiS .documentation
+    cd .documentation
+    git fetch
+    ./configure \
+        --enable-cairo       \
+        --enable-cfstream    \
+        --enable-containers  \
+        --enable-core        \
+        --enable-debug       \
+        --enable-docs        \
+        --enable-executable  \
+        --enable-js-of-ocaml \
+        --enable-profile     \
+        --enable-sequence    \
+        --enable-tests       \
+        --enable-tyxml
+    make upload-docs
+    git commit -m "Update documentation $TRAVIS_BUILD_NUMBER"
+    git push origin gh-pages
+    echo -e "Published ocamldoc to gh-pages.\n"
+fi

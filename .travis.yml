@@ -1,8 +1,12 @@
+env:
+  global:
+    secure: EQmnswrK+fb4T6qjUPWA5K49QMGiB7MrRD5dRnb2AhbkKfb1Orfdm9fA/aXJKmAriR1iRt/Ycp+peFvhv9UTkMb3KYHnnBoCrndfCEQYLIarblZeGTZrqjBq29De3gszRImjMnu6EQmeS5XvPKW7RdnluAicuExA5UAanVSMQPM=
+
 language: c
 script: bash -ex .travis-ci.sh
 env:
   - OCAML_VERSION=4.01.0
   - OCAML_VERSION=4.01.0 EXTRA_DEPENDS="cmdliner lablgtk cairo2"
-  - OCAML_VERSION=4.01.0 EXTRA_DEPENDS="cmdliner lablgtk cairo2 tyxml"
   - OCAML_VERSION=4.01.0 EXTRA_DEPENDS="tyxml js_of_ocaml"
   - OCAML_VERSION=4.01.0 EXTRA_DEPENDS="cfstream batteries core_kernel" TEST="-t"
+  - OCAML_VERSION=4.01.0 EXTRA_DEPENDS="cmdliner lablgtk cairo2 tyxml js_of_ocaml cfstream batteries core_kernel" DOC="true"

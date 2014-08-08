@@ -50,4 +50,4 @@ docs: doc
 
 upload-docs: docs
 	git checkout gh-pages && rm -rf dev/* && cp _build/lilis.docdir/* dev && \
-	git add --all dev && git commit
+	git add --all dev

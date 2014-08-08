@@ -10,7 +10,7 @@ build: [
   ["./configure" "--prefix" prefix
 	   "--enable-containers"
 	   "--%{cfstream:enable}%-cfstream"
-	   "--%{core_kernel:enable}%-core"
+	   "--%{core_kernel:enable}%-core-kernel"
 	   "--%{cairo2:enable}%-cairo" {"%{lablgtk:installed}%"}
 	   "--%{tyxml:enable}%-tyxml"
 	   "--%{js_of_ocaml:enable}%-js-of-ocaml"
