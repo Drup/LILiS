@@ -19,3 +19,12 @@ module KList = struct
   external store : 'a stored -> 'a t = "%identity"
   external gennew : 'a stored -> 'a t = "%identity"
 end
+
+(** CCSequence, Persistent. *)
+module Sequence = struct
+  include CCSequence
+  type 'a stored = 'a t
+  let expand = flatMap
+  let store x = of_array (to_array x)
+  external gennew : 'a stored -> 'a t = "%identity"
+end

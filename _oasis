@@ -18,10 +18,6 @@ XOCamlbuildPluginTags: package(cppo_ocamlbuild)
 
 ### Various flags ###
 
-Flag sequence
-  Description: Build the Sequence interface and use it for glilis.exe
-  Default: true
-
 Flag containers
   Description: Build the Containers interface
   Default: true
@@ -79,13 +75,6 @@ Library lilis
     LisCommon, LisLexer, LisParser
 
 # Various streams implementation for lilis.
-
-Library sequence
-  Build$: flag(sequence)
-  FindLibParent: lilis
-  Path: streams/sequence
-  BuildDepends: sequence, lilis
-  Modules: LisSequence
 
 Library containers
   Build$: flag(containers)
@@ -149,8 +138,8 @@ Library jsoo
 ### Executable ###
 
 Executable glilis
-  Build$: flag(cairo) && flag(executable) && flag(sequence)
-  BuildDepends: cmdliner, cairo2.lablgtk2, glilis, glilis.cairo, lilis.sequence
+  Build$: flag(cairo) && flag(executable) && flag(containers)
+  BuildDepends: cmdliner, cairo2.lablgtk2, glilis, glilis.cairo, lilis.containers
   Install: false
   Path: glilis/executable
   MainIs: glilis_ex.ml
@@ -177,32 +166,32 @@ Executable bench_streams
 
 Executable bench_vonkoch
   Path: test
-  Build$: flag(tests) && flag(sequence)
+  Build$: flag(tests) && flag(containers)
   Install: false
   CompiledObject: best
   MainIs: bench_vonkoch.ml
-  BuildDepends: bench_common, lilis.sequence
+  BuildDepends: bench_common, lilis.containers
 
 Executable bench_quick
   Path: test
-  Build$: flag(tests) && flag(sequence)
+  Build$: flag(tests) && flag(containers)
   Install: false
   CompiledObject: best
   MainIs: bench_quick.ml
-  BuildDepends: bench_common, lilis.sequence
+  BuildDepends: bench_common, lilis.containers
 
 Executable bench_optims
   Path: test
-  Build$: flag(tests) && flag(sequence)
+  Build$: flag(tests) && flag(containers)
   Install: false
   CompiledObject: best
   BuildTools: ocamlbuild
   MainIs: bench_optims.ml
-  BuildDepends: bench_common, lilis.sequence
+  BuildDepends: bench_common, lilis.containers
 
 
 Test bench_quick
-  Run$: flag(tests) && flag(sequence)
+  Run$: flag(tests) && flag(containers)
   TestTools: bench_quick
   Command: $bench_quick
   WorkingDirectory: .
@@ -223,7 +212,7 @@ Document lilis
   XOCamlbuildLibraries:
     calc,
     lilis,
-    lilis.sequence, lilis.batteries, lilis.containers, lilis.cfstream, lilis.core,
+    lilis.batteries, lilis.containers, lilis.cfstream, lilis.core,
     glilis, glilis.cairo, glilis.tyxml, glilis.jsoo
 
 SourceRepository master

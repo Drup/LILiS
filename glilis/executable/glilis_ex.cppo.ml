@@ -9,7 +9,7 @@ exception NoLsys of string
 exception NoLsysName of string * string
 
 (* This allow to change easily the stream used. *)
-module Lstream = LisSequence
+module Lstream = LisCC.Sequence
 module LsEn = Make(Lstream)
 
 let get_lsystem file name =

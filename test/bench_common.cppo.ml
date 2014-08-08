@@ -5,15 +5,6 @@ open Stream
 let all_streams : (int -> string * ((string * string Calc.t list) Lilis.lsystem -> unit)) list ref = ref []
 let add_stream x = all_streams := x :: !all_streams
 
-#ifdef def_sequence
-module BeSequence = Make(LisSequence)
-let sequence i =
-  "Sequence",
-  fun lsys -> LisSequence.iter ignore @@ BeSequence.eval_lsys i lsys
-let () = add_stream sequence
-#endif
-
-
 #ifdef def_containers
 module BeCCGen = Make(LisCC.Gen)
 let ccgen i =
@@ -26,6 +17,12 @@ let ccklist i =
   "CCKList",
   fun lsys -> LisCC.KList.iter ignore @@ BeCCKList.eval_lsys i lsys
 let () = add_stream ccklist
+
+module BeSequence = Make(LisCC.Sequence)
+let ccsequence i =
+  "CCSequence",
+  fun lsys -> LisCC.Sequence.iter ignore @@ BeSequence.eval_lsys i lsys
+let () = add_stream ccsequence
 #endif
 
 
@@ -109,7 +106,7 @@ let execute ?(bench=Throughput (3,10)) ?(tabulate=true) ?(style=Nil) bank lsyste
   in
   let optims =
     if optims = [] then ["", fun x -> x]
-    else List.map (fun (n,f) -> ("+"^n,f)) optims
+    else List.map (fun (n,f) -> if n = "" then ("",f) else ("+"^n,f)) optims
   in
   let lsystems =
     List.map (fun (i,lsys) -> (i, List.map (fun (v,f) -> (v, f lsys)) optims)) lsystems in

@@ -11,4 +11,4 @@ let _ =
     ~bench:(Throughput (1,20))
     ~tabulate:true
     ~style:Benchmark.All
-    "bank_lsystem" lsystems all_optims [sequence]
+    "bank_lsystem" lsystems all_optims [ccsequence; ccgen]
