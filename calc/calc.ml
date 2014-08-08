@@ -82,6 +82,15 @@ let rec bind f t = match t with
   | Op2 (t1,op,t2) -> Op2 (bind f t1,op,bind f t2)
   | Var x -> f x
 
+let rec iter ?(var=ignore) ?(float=ignore) ?(op1=ignore) ?(op2=ignore) = function
+  | Float f -> float f
+  | Var x -> var x
+  | Op1 (op, t) -> op1 op ; iter ~var ~float ~op1 ~op2 t
+  | Op2 (t1, op, t2) ->
+      op2 op ;
+      iter ~var ~float ~op1 ~op2 t1 ;
+      iter ~var ~float ~op1 ~op2 t2
+
 let bind_opt f t =
   let f' x = match f x with
     | None -> Var x
@@ -90,7 +99,7 @@ let bind_opt f t =
 
 let map f t = bind (fun x -> Var (f x)) t
 
-let vars t = fold (fun x l -> x :: l) t []
+let vars t f = iter ~var:f t
 
 (** Compress a tree (aka eval part than can be evaluated) in the given env *)
 let rec compress_custom f t = match t with

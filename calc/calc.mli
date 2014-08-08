@@ -68,8 +68,15 @@ val fold : ('a -> 'b -> 'b) -> 'a t -> 'b -> 'b
 val map : ('a -> 'b) -> 'a t -> 'b t
 (** Change variables representation using the given function. *)
 
-val vars : 'a t -> 'a list
-(** Get the list of variables in the given tree. *)
+val iter :
+  ?var:('a -> unit) -> ?float:(float -> unit) ->
+  ?op1:(op1 -> unit) -> ?op2:(op2 -> unit) -> 'a t -> unit
+(** Iteration on everything. *)
+
+val vars : 'a t -> (('a -> unit) -> unit)
+(** Get the sequence of variables in the given tree.
+    Use with sequence or containers.
+*)
 
 val closure :
   ?env:Env.t ->

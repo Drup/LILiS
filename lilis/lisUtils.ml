@@ -20,8 +20,7 @@ let check_expr env arit_env vars tok e =
     if not (Calc.Env.mem variable arit_env || List.mem variable vars) then
       raise (VarDefError ( token, variable ))
   in
-  let l = Calc.vars e in
-  List.iter (is_def tok) l
+  Calc.vars e (is_def tok)
 
 
 let is_def_tok env token =
