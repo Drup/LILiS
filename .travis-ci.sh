@@ -26,7 +26,7 @@ opam pin --verbose ${PACKAGE} .
 
 #opam install --deps-only ${PACKAGE}
 #Doesn't work with opam 1.1 for some reasons
-opam install ocamlfind batteries menhir sequence cppo oasis
+opam install ocamlfind containers menhir cppo oasis
 
 if [ "${TEST}" != "" ] ; then
     TEST="-t"
