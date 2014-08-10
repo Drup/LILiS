@@ -51,13 +51,10 @@ if [ "$TRAVIS_REPO_SLUG" == "Drup/LILiS" ] \
         --enable-cfstream    \
         --enable-containers  \
         --enable-core-kernel \
-        --enable-debug       \
         --enable-docs        \
         --enable-executable  \
         --enable-js-of-ocaml \
         --enable-profile     \
-        --enable-sequence    \
-        --enable-tests       \
         --enable-tyxml
     make upload-docs
     git commit -m "Update documentation $TRAVIS_BUILD_NUMBER"
