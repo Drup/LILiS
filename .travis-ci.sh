@@ -58,6 +58,6 @@ if [ "$TRAVIS_REPO_SLUG" == "Drup/LILiS" ] \
         --enable-tyxml
     make upload-docs
     git commit -m "Update documentation $TRAVIS_BUILD_NUMBER"
-    git push origin gh-pages
+    git push -q origin gh-pages
     echo -e "Published ocamldoc to gh-pages.\n"
 fi
