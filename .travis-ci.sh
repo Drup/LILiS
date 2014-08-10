@@ -38,7 +38,7 @@ opam remove --verbose ${PACKAGE}
 if [ "$TRAVIS_REPO_SLUG" == "Drup/LILiS" ] \
     && [ "$TRAVIS_PULL_REQUEST" == "false" ] \
     && [ "$TRAVIS_BRANCH" == "master" ] \
-    && [ "${TEST}" != "" ] ; then
+    && [ "${DOC}" != "" ] ; then
 
     echo -e "Publishing ocamldoc...\n"
     git config --global user.email "travis@travis-ci.org"
@@ -50,7 +50,7 @@ if [ "$TRAVIS_REPO_SLUG" == "Drup/LILiS" ] \
         --enable-cairo       \
         --enable-cfstream    \
         --enable-containers  \
-        --enable-core        \
+        --enable-core-kernel \
         --enable-debug       \
         --enable-docs        \
         --enable-executable  \
