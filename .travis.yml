@@ -2,7 +2,7 @@ language: c
 script: bash -e .travis-ci.sh
 env:
   global:
-    secure: EQmnswrK+fb4T6qjUPWA5K49QMGiB7MrRD5dRnb2AhbkKfb1Orfdm9fA/aXJKmAriR1iRt/Ycp+peFvhv9UTkMb3KYHnnBoCrndfCEQYLIarblZeGTZrqjBq29De3gszRImjMnu6EQmeS5XvPKW7RdnluAicuExA5UAanVSMQPM=*
+    secure: VxIqnPGObq63Rbd+ld5LyyHY+UOIdwlQ1y8HZufvO3QaIhEng5L3K2DBUj+gsxeXpRaIYiaW8zSSDEDxp5l41lIoqVDR4p5I25CSgChOTH8wSd8ZAiph5b2H4KE7AuhXivac9QPI4SVX9B702GPzFfBLcm6q18w4q4/NVv1VRQA="
   matrix:
     - OCAML_VERSION=4.01.0
     - OCAML_VERSION=4.01.0 EXTRA_DEPENDS="cmdliner lablgtk cairo2"
