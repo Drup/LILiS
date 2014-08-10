@@ -57,7 +57,11 @@ if [ "$TRAVIS_REPO_SLUG" == "Drup/LILiS" ] \
         --enable-profile     \
         --enable-tyxml
     make upload-docs
-    git commit -m "Update documentation $TRAVIS_BUILD_NUMBER"
-    git push -q origin gh-pages
-    echo -e "Published ocamldoc to gh-pages.\n"
+
+    if [ -n "$(git status --untracked-files=no --porcelain)" ]; then
+        git commit -m "Update documentation $TRAVIS_BUILD_NUMBER"
+        git push -q origin gh-pages
+        echo -e "Published ocamldoc to gh-pages.\n"
+    fi
+
 fi
