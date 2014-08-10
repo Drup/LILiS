@@ -12,7 +12,6 @@
 <link title="Lilis" rel="Chapter" href="Lilis.html">
 <link title="LisUtils" rel="Chapter" href="LisUtils.html">
 <link title="LisOptim" rel="Chapter" href="LisOptim.html">
-<link title="LisSequence" rel="Chapter" href="LisSequence.html">
 <link title="LisBatteries" rel="Chapter" href="LisBatteries.html">
 <link title="LisCC" rel="Chapter" href="LisCC.html">
 <link title="LisCFStream" rel="Chapter" href="LisCFStream.html">
@@ -64,7 +63,10 @@
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;lsystem_from_string&nbsp;:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(string&nbsp;*&nbsp;string&nbsp;<span class="constructor">Calc</span>.t&nbsp;list)&nbsp;<span class="constructor">Lilis</span>.lsystem<br>
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;to_string&nbsp;:&nbsp;(string&nbsp;*&nbsp;string&nbsp;<span class="constructor">Calc</span>.t&nbsp;list)&nbsp;<span class="constructor">Lilis</span>.lsystem&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;rule_to_string&nbsp;:&nbsp;(string&nbsp;*&nbsp;string&nbsp;<span class="constructor">Calc</span>.t&nbsp;list)&nbsp;<span class="constructor">Lilis</span>.rule&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;fprint&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Format</span>.formatter&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(string&nbsp;*&nbsp;string&nbsp;<span class="constructor">Calc</span>.t&nbsp;list)&nbsp;<span class="constructor">Lilis</span>.lsystem&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;fprint_rule&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Format</span>.formatter&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(string&nbsp;*&nbsp;string&nbsp;<span class="constructor">Calc</span>.t&nbsp;list)&nbsp;<span class="constructor">Lilis</span>.rule&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
 &nbsp;&nbsp;<span class="keyword">exception</span>&nbsp;<span class="constructor">ArityError</span>&nbsp;<span class="keyword">of</span>&nbsp;(string&nbsp;*&nbsp;int&nbsp;*&nbsp;int)<br>
 &nbsp;&nbsp;<span class="keyword">exception</span>&nbsp;<span class="constructor">VarDefError</span>&nbsp;<span class="keyword">of</span>&nbsp;(string&nbsp;*&nbsp;string)<br>
 &nbsp;&nbsp;<span class="keyword">exception</span>&nbsp;<span class="constructor">TokenDefError</span>&nbsp;<span class="keyword">of</span>&nbsp;string<br>

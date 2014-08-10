@@ -17,7 +17,6 @@
 <link title="Lilis" rel="Chapter" href="Lilis.html">
 <link title="LisUtils" rel="Chapter" href="LisUtils.html">
 <link title="LisOptim" rel="Chapter" href="LisOptim.html">
-<link title="LisSequence" rel="Chapter" href="LisSequence.html">
 <link title="LisBatteries" rel="Chapter" href="LisBatteries.html">
 <link title="LisCC" rel="Chapter" href="LisCC.html">
 <link title="LisCFStream" rel="Chapter" href="LisCFStream.html">
@@ -42,12 +41,18 @@
 <pre><span class="keyword">module</span> <a href="LisCC.Gen.html">Gen</a>: <code class="type"><a href="Lilis.S.html">Lilis.S</a></code><code class="type"> 
   with type 'a t      = 'a CCGen.t
    and type 'a stored = 'a CCGen.Restart.t</code></pre><div class="info">
-Gen, Imperative.
+CCGen, Imperative, also available in the standalone package gen.
 </div>
 
 <pre><span class="keyword">module</span> <a href="LisCC.KList.html">KList</a>: <code class="type"><a href="Lilis.S.html">Lilis.S</a></code><code class="type"> 
   with type 'a t      = 'a CCKList.t
    and type 'a stored = 'a CCKList.t</code></pre><div class="info">
 CCKList, Persistent.
+</div>
+
+<pre><span class="keyword">module</span> <a href="LisCC.Sequence.html">Sequence</a>: <code class="type"><a href="Lilis.S.html">Lilis.S</a></code><code class="type"> 
+  with type 'a t      = 'a CCSequence.t
+   and type 'a stored = 'a CCSequence.t</code></pre><div class="info">
+CCSequence, Persistent.
 </div>
 </body></html>

@@ -16,7 +16,6 @@
 <link title="Lilis" rel="Chapter" href="Lilis.html">
 <link title="LisUtils" rel="Chapter" href="LisUtils.html">
 <link title="LisOptim" rel="Chapter" href="LisOptim.html">
-<link title="LisSequence" rel="Chapter" href="LisSequence.html">
 <link title="LisBatteries" rel="Chapter" href="LisBatteries.html">
 <link title="LisCC" rel="Chapter" href="LisCC.html">
 <link title="LisCFStream" rel="Chapter" href="LisCFStream.html">
@@ -185,8 +184,13 @@ Depth first left to right traversal of the tree.<br>
 Change variables representation using the given function.<br>
 </div>
 
-<pre><span id="VALvars"><span class="keyword">val</span> vars</span> : <code class="type">'a <a href="Calc.html#TYPEt">t</a> -> 'a list</code></pre><div class="info ">
-Get the list of variables in the given tree.<br>
+<pre><span id="VALiter"><span class="keyword">val</span> iter</span> : <code class="type">?var:('a -> unit) -><br>       ?float:(float -> unit) -><br>       ?op1:(<a href="Calc.html#TYPEop1">op1</a> -> unit) -> ?op2:(<a href="Calc.html#TYPEop2">op2</a> -> unit) -> 'a <a href="Calc.html#TYPEt">t</a> -> unit</code></pre><div class="info ">
+Iteration on everything.<br>
+</div>
+
+<pre><span id="VALvars"><span class="keyword">val</span> vars</span> : <code class="type">'a <a href="Calc.html#TYPEt">t</a> -> ('a -> unit) -> unit</code></pre><div class="info ">
+Get the sequence of variables in the given tree.
+    Use with sequence or containers.<br>
 </div>
 
 <pre><span id="VALclosure"><span class="keyword">val</span> closure</span> : <code class="type">?env:<a href="Calc.Env.html#TYPEt">Env.t</a> -><br>       string <a href="Calc.html#TYPEt">t</a> -> (string * 'a) list -> ('a -> float) -> float</code></pre><div class="info ">

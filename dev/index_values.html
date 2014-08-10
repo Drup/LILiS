@@ -13,7 +13,6 @@
 <link title="Lilis" rel="Chapter" href="Lilis.html">
 <link title="LisUtils" rel="Chapter" href="LisUtils.html">
 <link title="LisOptim" rel="Chapter" href="LisOptim.html">
-<link title="LisSequence" rel="Chapter" href="LisSequence.html">
 <link title="LisBatteries" rel="Chapter" href="LisBatteries.html">
 <link title="LisCC" rel="Chapter" href="LisCC.html">
 <link title="LisCFStream" rel="Chapter" href="LisCFStream.html">
@@ -162,6 +161,10 @@ Create a symbol environment from an axiom and a bunch of rules.
 Depth first left to right traversal of the tree.
 </div>
 </td></tr>
+<tr><td><a href="LisUtils.html#VALfprint">fprint</a> [<a href="LisUtils.html">LisUtils</a>]</td>
+<td></td></tr>
+<tr><td><a href="LisUtils.html#VALfprint_rule">fprint_rule</a> [<a href="LisUtils.html">LisUtils</a>]</td>
+<td></td></tr>
 <tr><td><a href="LisUtils.html#VALfrom_channel">from_channel</a> [<a href="LisUtils.html">LisUtils</a>]</td>
 <td><div class="info">
 </div>
@@ -181,6 +184,11 @@ A turtle that write on a gtk surface.
 <tr><td align="left"><br>I</td></tr>
 <tr><td><a href="Lilis.S.html#VALiter">iter</a> [<a href="Lilis.S.html">Lilis.S</a>]</td>
 <td></td></tr>
+<tr><td><a href="Calc.html#VALiter">iter</a> [<a href="Calc.html">Calc</a>]</td>
+<td><div class="info">
+Iteration on everything.
+</div>
+</td></tr>
 <tr><td><a href="Lilis.Make.html#VALiter_complete">iter_complete</a> [<a href="Lilis.Make.html">Lilis.Make</a>]</td>
 <td><div class="info">
 Take a rule composed of unit functions and apply it to the stream.
@@ -230,8 +238,6 @@ A turtle that write to a png file.
 </td></tr>
 <tr><td align="left"><br>R</td></tr>
 <tr><td><a href="LisUtils.html#VALreplace_in_post_rules">replace_in_post_rules</a> [<a href="LisUtils.html">LisUtils</a>]</td>
-<td></td></tr>
-<tr><td><a href="LisUtils.html#VALrule_to_string">rule_to_string</a> [<a href="LisUtils.html">LisUtils</a>]</td>
 <td></td></tr>
 <tr><td align="left"><br>S</td></tr>
 <tr><td><a href="Lilis.S.html#VALsingleton">singleton</a> [<a href="Lilis.S.html">Lilis.S</a>]</td>
@@ -293,7 +299,7 @@ This turtle implements most movement calculations, without any actual drawing.
 <tr><td align="left"><br>V</td></tr>
 <tr><td><a href="Calc.html#VALvars">vars</a> [<a href="Calc.html">Calc</a>]</td>
 <td><div class="info">
-Get the list of variables in the given tree.
+Get the sequence of variables in the given tree.
 </div>
 </td></tr>
 </table>

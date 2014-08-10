@@ -14,7 +14,6 @@
 <link title="Lilis" rel="Chapter" href="Lilis.html">
 <link title="LisUtils" rel="Chapter" href="LisUtils.html">
 <link title="LisOptim" rel="Chapter" href="LisOptim.html">
-<link title="LisSequence" rel="Chapter" href="LisSequence.html">
 <link title="LisBatteries" rel="Chapter" href="LisBatteries.html">
 <link title="LisCC" rel="Chapter" href="LisCC.html">
 <link title="LisCFStream" rel="Chapter" href="LisCFStream.html">
@@ -74,7 +73,7 @@ or, if LILiS was compiled with tyxml, in a (obviously prettier, but quite bigger
 <p>
 
 You can discover the rest of the command with the help included:
-<pre class="verbatim">./glilis_ex.native --help</pre>
+<pre class="verbatim">glilis --help</pre>
 <p>
 
 <h3 id="3_Therecanbeonlyoneturtleinthisdrawing">There can be only one turtle in this drawing</h3>
@@ -217,9 +216,8 @@ The module <a href="Lilis.html"><code class="code"><span class="constructor">Lil
 <p>
 
 A stream-like data-structure is any kind of structure that respect <a href="Lilis.S.html"><code class="code"><span class="constructor">Lilis</span>.<span class="constructor">S</span></code></a>. Several of them are implemented :<ul>
-<li><a href="LisSequence.html"><code class="code"><span class="constructor">LisSequence</span></code></a> in the lilis.sequence package, using <a href="https://github.com/c-cube/sequence">sequence</a>. This is the most efficient stream implementation.</li>
+<li><a href="LisCC.html"><code class="code"><span class="constructor">LisCC</span></code></a> in the lilis.containers package, using <a href="https://github.com/c-cube/ocaml-containers">companion_cube's containers</a>. It contains <a href="LisCC.Sequence.html"><code class="code"><span class="constructor">LisCC</span>.<span class="constructor">Sequence</span></code></a> which is the most efficient stream implementation.</li>
 <li><a href="LisBatteries.html"><code class="code"><span class="constructor">LisBatteries</span></code></a> in the lilis.batteries package, using <a href="http://batteries.forge.ocamlcore.org/">Batteries</a>.</li>
-<li><a href="LisCC.html"><code class="code"><span class="constructor">LisCC</span></code></a> in the lilis.containers package, using <a href="https://github.com/c-cube/ocaml-containers">companion_cube's containers</a>.</li>
 <li><a href="LisCFStream.html"><code class="code"><span class="constructor">LisCFStream</span></code></a> in the lilis.cfstream package, using <a href="https://github.com/biocaml/cfstream">CFStream</a>.</li>
 <li><a href="LisCore.html"><code class="code"><span class="constructor">LisCore</span></code></a> in the lilis.core package, using <a href="https://github.com/janestreet/core">Core</a>.</li>
 </ul>
@@ -271,16 +269,12 @@ Utilities for Lilis such as parsing and verification on L-systems.
 Optimization passes on L-systems.
 </div>
 </td></tr>
-<tr><td class="module"><a href="LisSequence.html">LisSequence</a></td><td><div class="info">
-Sequence, from the sequence package, by companion_cube.
+<tr><td class="module"><a href="LisCC.html">LisCC</a></td><td><div class="info">
+<a href="https://github.com/c-cube/ocaml-containers">companion_cube's containers</a>
 </div>
 </td></tr>
 <tr><td class="module"><a href="LisBatteries.html">LisBatteries</a></td><td><div class="info">
 Streams implementations from <a href="http://batteries.forge.ocamlcore.org/">Batteries</a>.
-</div>
-</td></tr>
-<tr><td class="module"><a href="LisCC.html">LisCC</a></td><td><div class="info">
-<a href="https://github.com/c-cube/ocaml-containers">companion_cube's containers</a>
 </div>
 </td></tr>
 <tr><td class="module"><a href="LisCFStream.html">LisCFStream</a></td><td><div class="info">

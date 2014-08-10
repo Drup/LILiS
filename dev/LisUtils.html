@@ -17,7 +17,6 @@
 <link title="Lilis" rel="Chapter" href="Lilis.html">
 <link title="LisUtils" rel="Chapter" href="LisUtils.html">
 <link title="LisOptim" rel="Chapter" href="LisOptim.html">
-<link title="LisSequence" rel="Chapter" href="LisSequence.html">
 <link title="LisBatteries" rel="Chapter" href="LisBatteries.html">
 <link title="LisCC" rel="Chapter" href="LisCC.html">
 <link title="LisCFStream" rel="Chapter" href="LisCFStream.html">
@@ -75,7 +74,8 @@ Parse only one lsystem.<br>
 <h2 id="2_Printing">Printing</h2><br>
 
 <pre><span id="VALto_string"><span class="keyword">val</span> to_string</span> : <code class="type">(string * string <a href="Calc.html#TYPEt">Calc.t</a> list) <a href="Lilis.html#TYPElsystem">Lilis.lsystem</a> -> string</code></pre>
-<pre><span id="VALrule_to_string"><span class="keyword">val</span> rule_to_string</span> : <code class="type">(string * string <a href="Calc.html#TYPEt">Calc.t</a> list) <a href="Lilis.html#TYPErule">Lilis.rule</a> -> string</code></pre><br>
+<pre><span id="VALfprint"><span class="keyword">val</span> fprint</span> : <code class="type">Format.formatter -> (string * string <a href="Calc.html#TYPEt">Calc.t</a> list) <a href="Lilis.html#TYPElsystem">Lilis.lsystem</a> -> unit</code></pre>
+<pre><span id="VALfprint_rule"><span class="keyword">val</span> fprint_rule</span> : <code class="type">Format.formatter -> (string * string <a href="Calc.html#TYPEt">Calc.t</a> list) <a href="Lilis.html#TYPErule">Lilis.rule</a> -> unit</code></pre><br>
 <h2 id="2_Verifications">Verifications</h2><br>
 
 <pre><span id="EXCEPTIONArityError"><span class="keyword">exception</span> ArityError</span> <span class="keyword">of</span> <code class="type">(string * int * int)</code></pre>
