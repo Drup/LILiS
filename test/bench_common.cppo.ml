@@ -35,7 +35,7 @@ let () = add_stream cfstream
 #endif
 
 
-#ifdef def_core
+#ifdef def_core_kernel
 module BeCore = Make(LisCore)
 let core i =
   "Core",

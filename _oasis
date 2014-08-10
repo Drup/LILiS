@@ -30,8 +30,8 @@ Flag cfstream
   Description: Build the CFStream interface
   Default: false
 
-Flag core
-  Description: Build the Core.Sequence interface
+Flag core_kernel
+  Description: Build the Core_kernel.Sequence interface
   Default: false
 
 Flag cairo
@@ -90,8 +90,8 @@ Library cfstream
   BuildDepends: threads, cfstream, lilis
   Modules: LisCFStream
 
-Library core
-  Build$: flag(core)
+Library core_kernel
+  Build$: flag(core_kernel)
   FindLibParent: lilis
   Path: streams/core
   BuildDepends: core_kernel, lilis
@@ -212,7 +212,7 @@ Document lilis
   XOCamlbuildLibraries:
     calc,
     lilis,
-    lilis.batteries, lilis.containers, lilis.cfstream, lilis.core,
+    lilis.batteries, lilis.containers, lilis.cfstream, lilis.core_kernel,
     glilis, glilis.cairo, glilis.tyxml, glilis.jsoo
 
 SourceRepository master
