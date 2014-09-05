@@ -145,7 +145,7 @@ module Make (Ls : S) = struct
     (new_lhs, new_rhs)
 
   let compress_gen_rules senv f rules =
-    let crules = Array.create senv.n None in
+    let crules = Array.make senv.n None in
     let add_rule r =
       let i, rhs = transform_rule senv f r in
       crules.(i) <- Some rhs
