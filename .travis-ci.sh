@@ -1,9 +1,9 @@
 PACKAGE=lilis
 
-OPAM_VERSION=1.1.0
-case "$OCAML_VERSION,$OPAM_VERSION" in
-4.01.0,1.1.0) ppa=avsm/ocaml41+opam11 ;;
-*) echo Unknown $OCAML_VERSION,$OPAM_VERSION; exit 1 ;;
+case "$OCAML_VERSION" in
+4.01.0) ppa=avsm/ocaml41+opam12 ;;
+4.02.1) ppa=avsm/ocaml42+opam12 ;;
+*) echo Unknown $OCAML_VERSION; exit 1 ;;
 esac
 
 echo "yes" | sudo add-apt-repository ppa:$ppa
@@ -19,7 +19,7 @@ opam --git-version
 opam init
 eval `opam config env`
 
-opam pin --verbose ${PACKAGE} .
+opam pin add --verbose -n ${PACKAGE} .
 
 opam install ocamlfind containers menhir cppo oasis
 

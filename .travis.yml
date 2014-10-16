@@ -8,4 +8,5 @@ env:
     - OCAML_VERSION=4.01.0 EXTRA_DEPENDS="cmdliner lablgtk cairo2"
     - OCAML_VERSION=4.01.0 EXTRA_DEPENDS="tyxml js_of_ocaml"
     - OCAML_VERSION=4.01.0 EXTRA_DEPENDS="cfstream batteries core_kernel" TEST="-t"
+#    - OCAML_VERSION=4.02.1 EXTRA_DEPENDS="cfstream batteries core_kernel" TEST="-t"
     - OCAML_VERSION=4.01.0 EXTRA_DEPENDS="cmdliner lablgtk cairo2 tyxml js_of_ocaml cfstream batteries core_kernel" DOC="true"
