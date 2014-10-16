@@ -8,7 +8,7 @@ License:     MIT
 Plugins:     META (0.3), DevFiles (0.3)
 Homepage:    https://github.com/Drup/LILiS
 
-AlphaFeatures: pure_interface, compiled_setup_ml
+AlphaFeatures: pure_interface
 BuildTools: ocamlbuild
 
 OCamlVersion: >= 4.01
