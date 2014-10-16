@@ -1,10 +1,10 @@
-# LILiS
+# LILiS [![Build Status](https://travis-ci.org/Drup/LILiS.svg?branch=master)](https://travis-ci.org/Drup/LILiS)
 
 LILiS is a *Library to Interpret Lindenmayer Systems*.
 
 ![Von Koch](http://drup.github.io/LILiS/dev/vonkoch.svg)
 
-## L-system
+## L-system
 
 [L-systems](http://en.wikipedia.org/wiki/L-system) are a kind of formal grammar defined by Lindermayer.
 
