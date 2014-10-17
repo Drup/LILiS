@@ -31,6 +31,6 @@ rm -f dist.sh opam .travis-ci.sh .travis.yml
 # Commit
 git add --all --force
 git commit
-git tag $VERSION
+git tag "v$VERSION"
 
 git checkout master
