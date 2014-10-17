@@ -140,7 +140,6 @@ Library jsoo
 Executable glilis
   Build$: flag(cairo) && flag(executable) && flag(containers)
   BuildDepends: cmdliner, cairo2.lablgtk2, glilis, glilis.cairo, lilis.containers
-  Install: false
   Path: glilis/executable
   MainIs: glilis_ex.ml
   CompiledObject: best
@@ -201,7 +200,6 @@ Test bench_quick
 
 AlphaFeatures: ocamlbuild_more_args
 Document lilis
-  Install: false
   Type: ocamlbuild (0.3)
   BuildTools: ocamldoc
 
