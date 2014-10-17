@@ -4,5 +4,136 @@
 true : use_menhir, explain
 
 # OASIS_START
-# DO NOT EDIT (digest: d41d8cd98f00b204e9800998ecf8427e)
+# DO NOT EDIT (digest: 549ae43004622aa5914abcb6dd831913)
+# Ignore VCS directories, you can use the same kind of rule outside
+# OASIS_START/STOP if you want to exclude directories that contains
+# useless stuff for the build process
+true: annot, bin_annot
+<**/.svn>: -traverse
+<**/.svn>: not_hygienic
+".bzr": -traverse
+".bzr": not_hygienic
+".hg": -traverse
+".hg": not_hygienic
+".git": -traverse
+".git": not_hygienic
+"_darcs": -traverse
+"_darcs": not_hygienic
+# Library calc
+"calc/calc.cmxs": use_calc
+# Library lilis
+"lilis/lilis.cmxs": use_lilis
+<lilis/*.ml{,i,y}>: package(containers)
+<lilis/*.ml{,i,y}>: use_calc
+# Library containers
+"streams/containers/containers.cmxs": use_containers
+<streams/containers/*.ml{,i,y}>: package(containers)
+<streams/containers/*.ml{,i,y}>: use_calc
+<streams/containers/*.ml{,i,y}>: use_lilis
+# Library cfstream
+"streams/cfstream/cfstream.cmxs": use_cfstream
+<streams/cfstream/*.ml{,i,y}>: package(cfstream)
+<streams/cfstream/*.ml{,i,y}>: package(containers)
+<streams/cfstream/*.ml{,i,y}>: package(threads)
+<streams/cfstream/*.ml{,i,y}>: use_calc
+<streams/cfstream/*.ml{,i,y}>: use_lilis
+# Library core_kernel
+"streams/core/core_kernel.cmxs": use_core_kernel
+<streams/core/*.ml{,i,y}>: package(containers)
+<streams/core/*.ml{,i,y}>: package(core_kernel)
+<streams/core/*.ml{,i,y}>: use_calc
+<streams/core/*.ml{,i,y}>: use_lilis
+# Library batteries
+"streams/batteries/batteries.cmxs": use_batteries
+<streams/batteries/*.ml{,i,y}>: package(batteries)
+<streams/batteries/*.ml{,i,y}>: package(containers)
+<streams/batteries/*.ml{,i,y}>: use_calc
+<streams/batteries/*.ml{,i,y}>: use_lilis
+# Library glilis
+"glilis/glilis.cmxs": use_glilis
+<glilis/*.ml{,i,y}>: package(containers)
+<glilis/*.ml{,i,y}>: use_calc
+<glilis/*.ml{,i,y}>: use_lilis
+# Library cairo
+"glilis/cairo/cairo.cmxs": use_cairo
+<glilis/cairo/*.ml{,i,y}>: package(cairo2)
+<glilis/cairo/*.ml{,i,y}>: package(cairo2.lablgtk2)
+<glilis/cairo/*.ml{,i,y}>: package(containers)
+<glilis/cairo/*.ml{,i,y}>: use_calc
+<glilis/cairo/*.ml{,i,y}>: use_glilis
+<glilis/cairo/*.ml{,i,y}>: use_lilis
+# Library tyxml
+"glilis/tyxml/tyxml.cmxs": use_tyxml
+<glilis/tyxml/*.ml{,i,y}>: package(containers)
+<glilis/tyxml/*.ml{,i,y}>: package(tyxml)
+<glilis/tyxml/*.ml{,i,y}>: use_calc
+<glilis/tyxml/*.ml{,i,y}>: use_glilis
+<glilis/tyxml/*.ml{,i,y}>: use_lilis
+# Library jsoo
+"glilis/jsoo/jsoo.cmxs": use_jsoo
+<glilis/jsoo/*.ml{,i,y}>: package(containers)
+<glilis/jsoo/*.ml{,i,y}>: package(js_of_ocaml)
+<glilis/jsoo/*.ml{,i,y}>: package(js_of_ocaml.graphics)
+<glilis/jsoo/*.ml{,i,y}>: use_calc
+<glilis/jsoo/*.ml{,i,y}>: use_glilis
+<glilis/jsoo/*.ml{,i,y}>: use_lilis
+# Executable glilis
+<glilis/executable/glilis_ex.{native,byte}>: package(cairo2)
+<glilis/executable/glilis_ex.{native,byte}>: package(cairo2.lablgtk2)
+<glilis/executable/glilis_ex.{native,byte}>: package(cmdliner)
+<glilis/executable/glilis_ex.{native,byte}>: package(containers)
+<glilis/executable/glilis_ex.{native,byte}>: use_cairo
+<glilis/executable/glilis_ex.{native,byte}>: use_calc
+<glilis/executable/glilis_ex.{native,byte}>: use_containers
+<glilis/executable/glilis_ex.{native,byte}>: use_glilis
+<glilis/executable/glilis_ex.{native,byte}>: use_lilis
+<glilis/executable/*.ml{,i,y}>: package(cairo2)
+<glilis/executable/*.ml{,i,y}>: package(cairo2.lablgtk2)
+<glilis/executable/*.ml{,i,y}>: package(cmdliner)
+<glilis/executable/*.ml{,i,y}>: package(containers)
+<glilis/executable/*.ml{,i,y}>: use_cairo
+<glilis/executable/*.ml{,i,y}>: use_calc
+<glilis/executable/*.ml{,i,y}>: use_containers
+<glilis/executable/*.ml{,i,y}>: use_glilis
+<glilis/executable/*.ml{,i,y}>: use_lilis
+# Library bench_common
+"test/bench_common.cmxs": use_bench_common
+# Executable bench_streams
+<test/bench_streams.{native,byte}>: package(benchmark)
+<test/bench_streams.{native,byte}>: package(containers)
+<test/bench_streams.{native,byte}>: package(threads)
+<test/bench_streams.{native,byte}>: use_bench_common
+<test/bench_streams.{native,byte}>: use_calc
+<test/bench_streams.{native,byte}>: use_lilis
+# Executable bench_vonkoch
+<test/bench_vonkoch.{native,byte}>: package(benchmark)
+<test/bench_vonkoch.{native,byte}>: package(containers)
+<test/bench_vonkoch.{native,byte}>: package(threads)
+<test/bench_vonkoch.{native,byte}>: use_bench_common
+<test/bench_vonkoch.{native,byte}>: use_calc
+<test/bench_vonkoch.{native,byte}>: use_containers
+<test/bench_vonkoch.{native,byte}>: use_lilis
+# Executable bench_quick
+<test/bench_quick.{native,byte}>: package(benchmark)
+<test/bench_quick.{native,byte}>: package(containers)
+<test/bench_quick.{native,byte}>: package(threads)
+<test/bench_quick.{native,byte}>: use_bench_common
+<test/bench_quick.{native,byte}>: use_calc
+<test/bench_quick.{native,byte}>: use_containers
+<test/bench_quick.{native,byte}>: use_lilis
+# Executable bench_optims
+<test/bench_optims.{native,byte}>: package(benchmark)
+<test/bench_optims.{native,byte}>: package(containers)
+<test/bench_optims.{native,byte}>: package(threads)
+<test/bench_optims.{native,byte}>: use_bench_common
+<test/bench_optims.{native,byte}>: use_calc
+<test/bench_optims.{native,byte}>: use_containers
+<test/bench_optims.{native,byte}>: use_lilis
+<test/*.ml{,i,y}>: package(benchmark)
+<test/*.ml{,i,y}>: package(containers)
+<test/*.ml{,i,y}>: package(threads)
+<test/*.ml{,i,y}>: use_bench_common
+<test/*.ml{,i,y}>: use_calc
+<test/*.ml{,i,y}>: use_containers
+<test/*.ml{,i,y}>: use_lilis
 # OASIS_STOP

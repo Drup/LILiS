@@ -1,0 +1,12 @@
+# OASIS_START
+# DO NOT EDIT (digest: 6608f545978bb2bff6a0680fb357a2bd)
+version = "0.2.1"
+description = "Library to Interpret Lindenmayer Systems"
+requires = "threads lilis benchmark"
+archive(byte) = "bench_common.cma"
+archive(byte, plugin) = "bench_common.cma"
+archive(native) = "bench_common.cmxa"
+archive(native, plugin) = "bench_common.cmxs"
+exists_if = "bench_common.cma"
+# OASIS_STOP
+
