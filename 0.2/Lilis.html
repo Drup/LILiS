@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="CalcUtils.html">
+<link rel="next" href="LisUtils.html">
+<link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="Calc" rel="Chapter" href="Calc.html">
+<link title="CalcUtils" rel="Chapter" href="CalcUtils.html">
+<link title="Lilis" rel="Chapter" href="Lilis.html">
+<link title="LisUtils" rel="Chapter" href="LisUtils.html">
+<link title="LisOptim" rel="Chapter" href="LisOptim.html">
+<link title="LisBatteries" rel="Chapter" href="LisBatteries.html">
+<link title="LisCC" rel="Chapter" href="LisCC.html">
+<link title="LisCFStream" rel="Chapter" href="LisCFStream.html">
+<link title="LisCore" rel="Chapter" href="LisCore.html">
+<link title="Glilis" rel="Chapter" href="Glilis.html">
+<link title="LisCairo" rel="Chapter" href="LisCairo.html">
+<link title="LisTyxml" rel="Chapter" href="LisTyxml.html">
+<link title="LisJsoo" rel="Chapter" href="LisJsoo.html"><link title="L-system representation" rel="Section" href="#2_Lsystemrepresentation">
+<link title="Functorized Engine" rel="Section" href="#2_FunctorizedEngine">
+<title>LILiS user guide : Lilis</title>
+</head>
+<body>
+<div class="navbar"><a class="pre" href="CalcUtils.html" title="CalcUtils">Previous</a>
+&nbsp;<a class="up" href="index.html" title="Index">Up</a>
+&nbsp;<a class="post" href="LisUtils.html" title="LisUtils">Next</a>
+</div>
+<h1>Module <a href="type_Lilis.html">Lilis</a></h1>
+
+<pre><span class="keyword">module</span> Lilis: <code class="code"><span class="keyword">sig</span></code> <a href="Lilis.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><div class="info module top">
+Library to Interpret Lindenmayer Systems.<br>
+</div>
+<hr width="100%">
+<br>
+<h2 id="2_Lsystemrepresentation">L-system representation</h2><br>
+<br>
+A L-system is described by a name, an axiom and a bunch of rules. Each symbols can have some arithmetic expressions as arguments.<br>
+
+<pre><span id="TYPEstream"><span class="keyword">type</span> <code class="type">'a</code> stream</span> = <code class="type">('a * float list) list</code> </pre>
+<div class="info ">
+A simple L-system axiom. An axiom is a list of symbols.<br>
+</div>
+
+
+<pre><code><span id="TYPErule"><span class="keyword">type</span> <code class="type">'a</code> rule</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTrule.lhs">lhs</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTrule.vars">vars</span>&nbsp;: <code class="type">string list</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTrule.rhs">rhs</span>&nbsp;: <code class="type">'a list</code>;</code></td>
+
+</tr></table>
+}
+
+<div class="info ">
+A L-system rule. A rule is composed of a left-hand side with a single symbol, potentially some variables and a right-hand side which is a list of symbols where arithmetic expressions can contains those variables. The right hand side can be composed of non-string tokens.<br>
+</div>
+
+
+<pre><code><span id="TYPElsystem"><span class="keyword">type</span> <code class="type">'a</code> lsystem</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTlsystem.name">name</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTlsystem.axiom">axiom</span>&nbsp;: <code class="type">(string * string <a href="Calc.html#TYPEt">Calc.t</a> list) list</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTlsystem.rules">rules</span>&nbsp;: <code class="type">(string * string <a href="Calc.html#TYPEt">Calc.t</a> list) <a href="Lilis.html#TYPErule">rule</a> list</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTlsystem.post_rules">post_rules</span>&nbsp;: <code class="type">'a <a href="Lilis.html#TYPErule">rule</a> list</code>;</code></td>
+
+</tr></table>
+}
+
+<div class="info ">
+A complete L-system. <code class="code"><span class="keywordsign">'</span>a</code> is the output type of the L-system. For example, we can have a set of rules that will transform tokens to graphical orders.<br>
+</div>
+
+<br>
+<h2 id="2_FunctorizedEngine">Functorized Engine</h2><br>
+
+<pre><span class="keyword">module</span> <a href="Lilis.SymbEnv.html">SymbEnv</a>: <code class="code"><span class="keyword">sig</span></code> <a href="Lilis.SymbEnv.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><div class="info">
+The symbolic environment is the dictionary to compress and decompress streams.
+</div>
+
+<pre><span class="keyword">module type</span> <a href="Lilis.S.html">S</a> = <code class="code"><span class="keyword">sig</span></code> <a href="Lilis.S.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><div class="info">
+A stream-like data structure should be lazy and support O(1) concatenation.
+</div>
+
+<pre><span class="keyword">module</span> <a href="Lilis.Make.html">Make</a> <code class="code">(</code><code class="code"><span class="constructor">Lstream</span></code><code class="code"> : </code><code class="type"><a href="Lilis.S.html">S</a></code><code class="code">) </code>: <code class="code"><span class="keyword">sig</span></code> <a href="Lilis.Make.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><div class="info">
+A functor to build your own little L-system engine given a stream-like data structure.
+</div>
+</body></html>

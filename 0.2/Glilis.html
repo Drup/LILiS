@@ -1,0 +1,256 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="LisCore.html">
+<link rel="next" href="LisCairo.html">
+<link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="Calc" rel="Chapter" href="Calc.html">
+<link title="CalcUtils" rel="Chapter" href="CalcUtils.html">
+<link title="Lilis" rel="Chapter" href="Lilis.html">
+<link title="LisUtils" rel="Chapter" href="LisUtils.html">
+<link title="LisOptim" rel="Chapter" href="LisOptim.html">
+<link title="LisBatteries" rel="Chapter" href="LisBatteries.html">
+<link title="LisCC" rel="Chapter" href="LisCC.html">
+<link title="LisCFStream" rel="Chapter" href="LisCFStream.html">
+<link title="LisCore" rel="Chapter" href="LisCore.html">
+<link title="Glilis" rel="Chapter" href="Glilis.html">
+<link title="LisCairo" rel="Chapter" href="LisCairo.html">
+<link title="LisTyxml" rel="Chapter" href="LisTyxml.html">
+<link title="LisJsoo" rel="Chapter" href="LisJsoo.html"><title>LILiS user guide : Glilis</title>
+</head>
+<body>
+<div class="navbar"><a class="pre" href="LisCore.html" title="LisCore">Previous</a>
+&nbsp;<a class="up" href="index.html" title="Index">Up</a>
+&nbsp;<a class="post" href="LisCairo.html" title="LisCairo">Next</a>
+</div>
+<h1>Module <a href="type_Glilis.html">Glilis</a></h1>
+
+<pre><span class="keyword">module</span> Glilis: <code class="code"><span class="keyword">sig</span></code> <a href="Glilis.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><div class="info module top">
+Graphical primitives for drawing L-systems.<br>
+</div>
+<hr width="100%">
+<br>
+We use a logo-like system to draw a L-system : a turtle is following the order in the Lstream.<br>
+
+<pre><code><span id="TYPEpos"><span class="keyword">type</span> <code class="type"></code>pos</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span><span id="TYPEELTpos.x">x</span>&nbsp;: <code class="type">float</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span><span id="TYPEELTpos.y">y</span>&nbsp;: <code class="type">float</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span><span id="TYPEELTpos.d">d</span>&nbsp;: <code class="type">float</code>;</code></td>
+
+</tr></table>
+}
+
+
+
+<pre><code><span id="TYPEcolor"><span class="keyword">type</span> <code class="type"></code>color</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcolor.r">r</span>&nbsp;: <code class="type">float</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcolor.g">g</span>&nbsp;: <code class="type">float</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcolor.b">b</span>&nbsp;: <code class="type">float</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcolor.a">a</span>&nbsp;: <code class="type">float</code>;</code></td>
+
+</tr></table>
+}
+
+
+
+<pre><code><span id="TYPEorders"><span class="keyword">type</span> <code class="type"></code>orders</span> = </code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTorders.Forward"><span class="constructor">Forward</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTorders.Forward'"><span class="constructor">Forward'</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTorders.Turn"><span class="constructor">Turn</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTorders.Save"><span class="constructor">Save</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTorders.Restore"><span class="constructor">Restore</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTorders.Color"><span class="constructor">Color</span></span></code></td>
+
+</tr></table>
+
+
+<br>
+The type of orders always accepted by a turtle.<br>
+
+<pre><span id="VALorders"><span class="keyword">val</span> orders</span> : <code class="type">(string * (<a href="Glilis.html#TYPEorders">orders</a> * int)) list</code></pre><div class="info ">
+Mapping from string tokens to orders. Also contains the arity of the orders.<br>
+</div>
+
+<pre><code><span id="TYPEturtle"><span class="keyword">type</span> <code class="type">'a</code> turtle</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTturtle.get_pos">get_pos</span>&nbsp;: <code class="type">unit -> <a href="Glilis.html#TYPEpos">pos</a></code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" ><div class="info ">
+Get the curent position of the turtle.<br>
+</div>
+</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTturtle.get_color">get_color</span>&nbsp;: <code class="type">unit -> <a href="Glilis.html#TYPEcolor">color</a></code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" ><div class="info ">
+Get the curent color of the turtle.<br>
+</div>
+</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTturtle.turn">turn</span>&nbsp;: <code class="type">float -> unit</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" ><div class="info ">
+<code class="code">turn a</code> turn the turtle by <code class="code">a</code> degrees.<br>
+</div>
+</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTturtle.move">move</span>&nbsp;: <code class="type">?trace:bool -> float -> unit</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" ><div class="info ">
+<code class="code">move ~trace d</code> will move the turtle by <code class="code">d</code> unit.
+      A line should be traced only if <code class="code">trace</code> is true.
+      It's up to the graphical implementation to respect this.<br>
+</div>
+</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTturtle.save_position">save_position</span>&nbsp;: <code class="type">unit -> unit</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" ><div class="info ">
+Save the position of the turtle in the stack.<br>
+</div>
+</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTturtle.restore_position">restore_position</span>&nbsp;: <code class="type">unit -> unit</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" ><div class="info ">
+Restore the position of the turtle from the stack.<br>
+<b>Raises</b> <code>Empty_Stack</code> if the stack is empty.<br>
+</div>
+</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTturtle.color">color</span>&nbsp;: <code class="type"><a href="Glilis.html#TYPEcolor">color</a> -> unit</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" ><div class="info ">
+Apply a color for the next drawings.<br>
+</div>
+</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTturtle.handle_lsys">handle_lsys</span>&nbsp;: <code class="type">(unit -> unit) -> 'a</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" ><div class="info ">
+Take a function with drawing side effects, handle the bureaucracy before executing it.<br>
+</div>
+</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr></table>
+}
+
+<div class="info ">
+Class representing a turtle.<br>
+</div>
+
+
+<pre><span id="VALturtle"><span class="keyword">val</span> turtle</span> : <code class="type">unit -> unit <a href="Glilis.html#TYPEturtle">turtle</a></code></pre><div class="info ">
+This turtle implements most movement calculations, without any actual drawing. See <a href="LisCairo.html"><code class="code"><span class="constructor">LisCairo</span></code></a> and <a href="LisTyxml.html"><code class="code"><span class="constructor">LisTyxml</span></code></a> for use examples. See <a href="Glilis.html#VALturtle"><code class="code"><span class="constructor">Glilis</span>.turtle</code></a> for methods documentation.<br>
+</div>
+
+<pre><span id="VALtransform_rhs"><span class="keyword">val</span> transform_rhs</span> : <code class="type">'a <a href="Glilis.html#TYPEturtle">turtle</a> -> string -> ('c -> float) array -> 'c -> unit</code></pre><div class="info ">
+Can be combined with <code class="code"><span class="constructor">Lilis</span>.<span class="constructor">Engine</span>.map_crules</code> to use <code class="code"><span class="constructor">Lilis</span>.<span class="constructor">Engine</span>.eval_iter_lsys</code>.<br>
+</div>
+
+<pre><span id="VALtransform_lsys"><span class="keyword">val</span> transform_lsys</span> : <code class="type">'a <a href="Glilis.html#TYPEturtle">turtle</a> -><br>       (string * 'b) <a href="Lilis.html#TYPElsystem">Lilis.lsystem</a> -><br>       (('c -> float) array -> 'c -> unit) <a href="Lilis.html#TYPElsystem">Lilis.lsystem</a></code></pre><div class="info ">
+Can be feeded directly to <code class="code"><span class="constructor">Lilis</span>.<span class="constructor">Engine</span>.eval_iter_lsys</code>.<br>
+</div>
+</body></html>
