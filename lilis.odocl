@@ -1,0 +1,16 @@
+# OASIS_START
+# DO NOT EDIT (digest: 1cbf0f3800178ea2c6f5fb515d3f1534)
+calc/Calc
+calc/CalcUtils
+lilis/Lilis
+lilis/LisUtils
+lilis/LisOptim
+streams/batteries/LisBatteries
+streams/containers/LisCC
+streams/cfstream/LisCFStream
+streams/core/LisCore
+glilis/Glilis
+glilis/cairo/LisCairo
+glilis/tyxml/LisTyxml
+glilis/jsoo/LisJsoo
+# OASIS_STOP

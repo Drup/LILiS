@@ -1,0 +1,55 @@
+# OASIS_START
+# DO NOT EDIT (digest: 78fc6a1c441f5681fd1d405909964bb0)
+version = "0.2"
+description = "Library to Interpret Lindenmayer Systems"
+requires = "containers calc"
+archive(byte) = "lilis.cma"
+archive(byte, plugin) = "lilis.cma"
+archive(native) = "lilis.cmxa"
+archive(native, plugin) = "lilis.cmxs"
+exists_if = "lilis.cma"
+package "core_kernel" (
+ version = "0.2"
+ description = "Library to Interpret Lindenmayer Systems"
+ requires = "core_kernel lilis"
+ archive(byte) = "core_kernel.cma"
+ archive(byte, plugin) = "core_kernel.cma"
+ archive(native) = "core_kernel.cmxa"
+ archive(native, plugin) = "core_kernel.cmxs"
+ exists_if = "core_kernel.cma"
+)
+
+package "containers" (
+ version = "0.2"
+ description = "Library to Interpret Lindenmayer Systems"
+ requires = "containers lilis"
+ archive(byte) = "containers.cma"
+ archive(byte, plugin) = "containers.cma"
+ archive(native) = "containers.cmxa"
+ archive(native, plugin) = "containers.cmxs"
+ exists_if = "containers.cma"
+)
+
+package "cfstream" (
+ version = "0.2"
+ description = "Library to Interpret Lindenmayer Systems"
+ requires = "threads cfstream lilis"
+ archive(byte) = "cfstream.cma"
+ archive(byte, plugin) = "cfstream.cma"
+ archive(native) = "cfstream.cmxa"
+ archive(native, plugin) = "cfstream.cmxs"
+ exists_if = "cfstream.cma"
+)
+
+package "batteries" (
+ version = "0.2"
+ description = "Library to Interpret Lindenmayer Systems"
+ requires = "batteries lilis"
+ archive(byte) = "batteries.cma"
+ archive(byte, plugin) = "batteries.cma"
+ archive(native) = "batteries.cmxa"
+ archive(native, plugin) = "batteries.cmxs"
+ exists_if = "batteries.cma"
+)
+# OASIS_STOP
+

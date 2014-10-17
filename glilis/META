@@ -1,0 +1,44 @@
+# OASIS_START
+# DO NOT EDIT (digest: f8d16e59d4d09da32bb5fae72447be00)
+version = "0.2"
+description = "Library to Interpret Lindenmayer Systems"
+requires = "lilis"
+archive(byte) = "glilis.cma"
+archive(byte, plugin) = "glilis.cma"
+archive(native) = "glilis.cmxa"
+archive(native, plugin) = "glilis.cmxs"
+exists_if = "glilis.cma"
+package "tyxml" (
+ version = "0.2"
+ description = "Library to Interpret Lindenmayer Systems"
+ requires = "glilis tyxml"
+ archive(byte) = "tyxml.cma"
+ archive(byte, plugin) = "tyxml.cma"
+ archive(native) = "tyxml.cmxa"
+ archive(native, plugin) = "tyxml.cmxs"
+ exists_if = "tyxml.cma"
+)
+
+package "jsoo" (
+ version = "0.2"
+ description = "Library to Interpret Lindenmayer Systems"
+ requires = "glilis js_of_ocaml js_of_ocaml.graphics"
+ archive(byte) = "jsoo.cma"
+ archive(byte, plugin) = "jsoo.cma"
+ archive(native) = "jsoo.cmxa"
+ archive(native, plugin) = "jsoo.cmxs"
+ exists_if = "jsoo.cma"
+)
+
+package "cairo" (
+ version = "0.2"
+ description = "Library to Interpret Lindenmayer Systems"
+ requires = "glilis cairo2 cairo2.lablgtk2"
+ archive(byte) = "cairo.cma"
+ archive(byte, plugin) = "cairo.cma"
+ archive(native) = "cairo.cmxa"
+ archive(native, plugin) = "cairo.cmxs"
+ exists_if = "cairo.cma"
+)
+# OASIS_STOP
+

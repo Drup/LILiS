@@ -1,0 +1,11 @@
+# OASIS_START
+# DO NOT EDIT (digest: b5d61e696fea1c6c9b36e68b834a16e4)
+version = "0.2"
+description = "Library to Interpret Lindenmayer Systems"
+archive(byte) = "calc.cma"
+archive(byte, plugin) = "calc.cma"
+archive(native) = "calc.cmxa"
+archive(native, plugin) = "calc.cmxs"
+exists_if = "calc.cma"
+# OASIS_STOP
+
