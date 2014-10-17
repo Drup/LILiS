@@ -27,6 +27,14 @@ The executable can be used to draw any L-system like those in [`bank_lsystem`](b
 
 Computing L-systems happens to be a very nice way to stress the flatMap operation on some data structures. If you have any stream library (or other data structures) you want to test, feel free to ask.
 
+## Get started!
+
+Do
+
+    $ opam install cairo2 lablgtk cmdliner lilis
+
+and head over [there](http://drup.github.io/LILiS/0.2/).
+
 ## Dependencies
 
 - The parser depends on `menhir`.
