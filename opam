@@ -56,3 +56,9 @@ conflicts: [
   "tyxml" {< "3.0.0"}
   "js_of_ocaml" {< "2.1"}
 ]
+
+messages: [
+  "To build and install the graphical front-end glilis, you should install cairo2 lablgtk and cmdliner"
+    {"cairo2" & "lablgtk" & "cmdliner"}
+  "To enable the svg output, you should install tyxml" {"tyxml"}
+]
