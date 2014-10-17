@@ -59,6 +59,6 @@ conflicts: [
 
 messages: [
   "To build and install the graphical front-end glilis, you should install cairo2 lablgtk and cmdliner"
-    {"cairo2" & "lablgtk" & "cmdliner"}
-  "To enable the svg output, you should install tyxml" {"tyxml"}
+    {!cairo2:installed | !lablgtk:installed | !cmdliner:installed}
+  "To enable the svg output, you should install tyxml" {!tyxml:installed}
 ]
