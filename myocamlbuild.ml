@@ -36,7 +36,7 @@ let bench_targets =
 
 (** Optional dependencies for the benchmarks. *)
 let bench_opt_dep =
-  ["batteries"; "containers" ; "core_kernel" ; "cfstream" ]
+  ["batteries" ; "gen" ; "core_kernel" ; "cfstream" ]
 
 (** For each flags in {!bench_opt_dep}, if it's enable,
     apply cppo on {!bench_common} and add the link on {!bench_targets}.

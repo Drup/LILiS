@@ -17,4 +17,4 @@ let optims = [
 ]
 
 let _ =
-  execute ~style:All "bank_lsystem" lsystems optims [ccsequence]
+  execute ~style:All "bank_lsystem" lsystems optims [sequence]

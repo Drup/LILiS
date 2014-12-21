@@ -39,6 +39,6 @@ let foldAccum f l zero =
 let wrap f =
   try Some (f ()) with _ -> None
 
-let (@@-) f l = CCSequence.(to_list @@ f @@ of_list l)
+let (@@-) f l = Sequence.(to_list @@ f @@ of_list l)
 
 include CCFun

@@ -169,7 +169,9 @@ lilis is the library for parsing, checking and evaluating L-systems.
 The module {! Lilis} contains a functorized engine that allows to evaluate L-systems on any stream-like data-structure.
 
 A stream-like data-structure is any kind of structure that respect {! Lilis.S}. Several of them are implemented :
- - {! LisCC} in the lilis.containers package, using {{:https://github.com/c-cube/ocaml-containers}companion_cube's containers}. It contains {!LisCC.Sequence} which is the most efficient stream implementation.
+ - {! LisSequence} in the lilis.sequence package, using {{:https://github.com/c-cube/sequence/}sequence}. It's the most efficient.
+ - {! LisGen} in the lilis.gen package, using {{:https://github.com/c-cube/gen/}gen}.
+ - {! LisCC} in the lilis.containers package, using {{:https://github.com/c-cube/ocaml-containers}companion_cube's containers}.
  - {! LisBatteries} in the lilis.batteries package, using {{:http://batteries.forge.ocamlcore.org/}Batteries}.
  - {! LisCFStream} in the lilis.cfstream package, using {{:https://github.com/biocaml/cfstream}CFStream}.
  - {! LisCore} in the lilis.core package, using {{:https://github.com/janestreet/core}Core}.
@@ -191,7 +193,8 @@ Two backend are currently implemented :
 
 {2 Index}
 {!modules: Calc CalcUtils}
-{!modules: Lilis LisUtils LisOptim LisCC LisBatteries LisCFStream LisCore}
+{!modules: Lilis LisUtils LisOptim}
+{!modules: LisSequence LisGen LisCC LisBatteries LisCFStream LisCore}
 {!modules: Glilis LisCairo LisTyxml LisJsoo}
 {!indexlist}
 

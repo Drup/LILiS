@@ -37,7 +37,7 @@ let apply_rule rule args =
       (fun tok -> subst_var_in_token tok substs)
       rule.rhs
   in
-  let vars = CCSequence.(uniq % flatMap Calc.vars) @@- args
+  let vars = Sequence.(uniq % flatMap Calc.vars) @@- args
   in { rule with rhs ; vars }
 
 
@@ -69,7 +69,7 @@ let constant_folding lsys =
      In practice, it's just a concatenation of vars and rhs. *)
   let fusion_rules name rules = {
     lhs = name ;
-    vars = CCSequence.(uniq % flatMap (fun x -> of_list x.vars)) @@- rules ;
+    vars = Sequence.(uniq % flatMap (fun x -> of_list x.vars)) @@- rules ;
     rhs = CCList.flat_map (fun x -> x.rhs) rules ;
   } in
 

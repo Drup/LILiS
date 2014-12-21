@@ -18,9 +18,9 @@ XOCamlbuildPluginTags: package(cppo_ocamlbuild)
 
 ### Various flags ###
 
-Flag containers
-  Description: Build the Containers interface
-  Default: true
+Flag gen
+  Description: Build the gen interface
+  Default: false
 
 Flag batteries
   Description: Build the Batteries interface
@@ -68,7 +68,7 @@ Library calc
 
 Library lilis
   Path: lilis
-  BuildDepends: containers, calc
+  BuildDepends: containers, sequence, calc
   Modules:
     Lilis, LisUtils, LisOptim
   InternalModules:
@@ -77,11 +77,23 @@ Library lilis
 # Various streams implementation for lilis.
 
 Library containers
-  Build$: flag(containers)
   FindLibParent: lilis
   Path: streams/containers
-  BuildDepends: containers, lilis
+  BuildDepends: containers.iter, lilis
   Modules: LisCC
+
+Library gen
+  Build$: flag(gen)
+  FindLibParent: lilis
+  Path: streams/gen
+  BuildDepends: gen, lilis
+  Modules: LisGen
+
+Library sequence
+  FindLibParent: lilis
+  Path: streams/sequence
+  BuildDepends: sequence, lilis
+  Modules: LisSequence
 
 Library cfstream
   Build$: flag(cfstream)
@@ -138,8 +150,8 @@ Library jsoo
 ### Executable ###
 
 Executable glilis
-  Build$: flag(cairo) && flag(executable) && flag(containers)
-  BuildDepends: cmdliner, cairo2.lablgtk2, glilis, glilis.cairo, lilis.containers
+  Build$: flag(cairo) && flag(executable)
+  BuildDepends: cmdliner, cairo2.lablgtk2, glilis, glilis.cairo, lilis.sequence
   Path: glilis/executable
   MainIs: glilis_ex.ml
   CompiledObject: best
@@ -153,7 +165,7 @@ Library bench_common
   Install: false
   CompiledObject: best
   Modules: Bench_common
-  BuildDepends: threads, lilis, benchmark
+  BuildDepends: threads, lilis, benchmark, lilis.containers, lilis.sequence
 
 Executable bench_streams
   Path: test
@@ -165,32 +177,32 @@ Executable bench_streams
 
 Executable bench_vonkoch
   Path: test
-  Build$: flag(tests) && flag(containers)
+  Build$: flag(tests)
   Install: false
   CompiledObject: best
   MainIs: bench_vonkoch.ml
-  BuildDepends: bench_common, lilis.containers
+  BuildDepends: bench_common, lilis.sequence
 
 Executable bench_quick
   Path: test
-  Build$: flag(tests) && flag(containers)
+  Build$: flag(tests) && flag(gen)
   Install: false
   CompiledObject: best
   MainIs: bench_quick.ml
-  BuildDepends: bench_common, lilis.containers
+  BuildDepends: bench_common, lilis.sequence
 
 Executable bench_optims
   Path: test
-  Build$: flag(tests) && flag(containers)
+  Build$: flag(tests)
   Install: false
   CompiledObject: best
   BuildTools: ocamlbuild
   MainIs: bench_optims.ml
-  BuildDepends: bench_common, lilis.containers
+  BuildDepends: bench_common, lilis.containers, lilis.sequence
 
 
 Test bench_quick
-  Run$: flag(tests) && flag(containers)
+  Run$: flag(tests) && flag(gen)
   TestTools: bench_quick
   Command: $bench_quick
   WorkingDirectory: .
@@ -210,7 +222,8 @@ Document lilis
   XOCamlbuildLibraries:
     calc,
     lilis,
-    lilis.batteries, lilis.containers, lilis.cfstream, lilis.core_kernel,
+    lilis.sequence, lilis.gen, lilis.containers,
+    lilis.batteries, lilis.cfstream, lilis.core_kernel,
     glilis, glilis.cairo, glilis.tyxml, glilis.jsoo
 
 SourceRepository master

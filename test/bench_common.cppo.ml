@@ -5,26 +5,25 @@ open Stream
 let all_streams : (int -> string * ((string * string Calc.t list) Lilis.lsystem -> unit)) list ref = ref []
 let add_stream x = all_streams := x :: !all_streams
 
-#ifdef def_containers
-module BeCCGen = Make(LisCC.Gen)
-let ccgen i =
-  "CCGen",
-  fun lsys -> LisCC.Gen.iter ignore @@ BeCCGen.eval_lsys i lsys
-let () = add_stream ccgen
-
 module BeCCKList = Make(LisCC.KList)
 let ccklist i =
   "CCKList",
   fun lsys -> LisCC.KList.iter ignore @@ BeCCKList.eval_lsys i lsys
 let () = add_stream ccklist
 
-module BeSequence = Make(LisCC.Sequence)
-let ccsequence i =
-  "CCSequence",
-  fun lsys -> LisCC.Sequence.iter ignore @@ BeSequence.eval_lsys i lsys
-let () = add_stream ccsequence
-#endif
+module BeSequence = Make(LisSequence)
+let sequence i =
+  "Sequence",
+  fun lsys -> LisSequence.iter ignore @@ BeSequence.eval_lsys i lsys
+let () = add_stream sequence
 
+#ifdef def_gen
+module BeCCGen = Make(LisGen)
+let gen i =
+  "Gen",
+  fun lsys -> LisGen.iter ignore @@ BeCCGen.eval_lsys i lsys
+let () = add_stream gen
+#endif
 
 #ifdef def_cfstream
 module BeCFStream = Make(LisCFStream)

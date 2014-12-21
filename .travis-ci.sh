@@ -49,7 +49,7 @@ if [ "$TRAVIS_REPO_SLUG" == "Drup/LILiS" ] \
     ./configure \
         --enable-cairo       \
         --enable-cfstream    \
-        --enable-containers  \
+        --enable-gen         \
         --enable-core-kernel \
         --enable-docs        \
         --enable-executable  \
