@@ -51,6 +51,8 @@ let jsturtle canvas =
     size_x := float_of_int @@ Graphics_js.size_x () ;
     size_y := float_of_int @@ Graphics_js.size_y () ;
     Graphics_js.clear_graph () ;
+    let {r;g;b;_} = super.get_color () in
+    Graphics_js.set_color @@ rgb r g b ;
     Graphics_js.set_line_width 1 ;
     super.handle_lsys f ;
   in
