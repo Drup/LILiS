@@ -1,0 +1,6 @@
+PKG cairo2
+PKG cairo2.lablgtk2
+PKG tyxml
+PKG cmdliner
+
+REC

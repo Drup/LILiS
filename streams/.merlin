@@ -1,4 +1,8 @@
-REC
-
+PKG sequence
+PKG gen
+PKG containers
 PKG batteries
 PKG cfstream
+PKG core_kernel
+
+REC

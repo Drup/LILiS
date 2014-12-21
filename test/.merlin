@@ -1,5 +1,8 @@
 PKG benchmark
+PKG sequence
+PKG gen
 PKG cfstream
 PKG containers
+PKG batteries
 
 REC

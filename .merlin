@@ -1,18 +1,10 @@
-S calc
-S lilis
-S streams
-S glilis
-S test
+S calc/**
+S lilis/**
+S streams/**
+S glilis/**
+S test/**
 
-B _build
-B _build/calc
-B _build/lilis
-B _build/streams
-B _build/glilis
-B _build/test
+B _build/**
 
-PKG cairo2
-PKG cairo2.lablgtk2
-PKG tyxml
-PKG cmdliner
 PKG containers
+PKG sequence
