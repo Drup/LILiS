@@ -2,5 +2,6 @@ PKG cairo2
 PKG cairo2.lablgtk2
 PKG tyxml
 PKG cmdliner
+PKG wall tsdl
 
 REC

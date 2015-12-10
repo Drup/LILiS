@@ -38,6 +38,10 @@ Flag cairo
   Description: Enable the cairo backend for png and gtk output
   Default: false
 
+Flag opengl
+  Description: Enable the opengl backend
+  Default: false
+
 Flag tyxml
   Description: Enable the tyxml backend for svg output
   Default: false
@@ -133,6 +137,13 @@ Library cairo
   Modules: LisCairo
   BuildDepends: glilis, cairo2, cairo2.lablgtk2
 
+Library opengl
+  FindlibParent: glilis
+  Build$: flag(opengl)
+  Path: glilis/opengl
+  Modules: LisGl
+  BuildDepends: glilis, wall
+
 Library tyxml
   FindlibParent: glilis
   Build$: flag(tyxml)
@@ -151,7 +162,7 @@ Library jsoo
 
 Executable glilis
   Build$: flag(cairo) && flag(executable)
-  BuildDepends: cmdliner, cairo2.lablgtk2, glilis, glilis.cairo, lilis.sequence
+  BuildDepends: cmdliner, cairo2.lablgtk2, glilis, glilis.cairo, lilis.sequence, glilis.opengl, tsdl
   Path: glilis/executable
   MainIs: glilis_ex.ml
   CompiledObject: best
